@@ -2,7 +2,7 @@
 
 Status: open
 Destination: Each v0.1 milestone (M0 to M4) has a plan and issues with acceptance criteria. Each spike has a verdict, and no open question blocks the first M0 issue.
-Next: Q42
+Next: Q54
 
 ## Notes
 
@@ -17,6 +17,13 @@ Next: Q42
 - The Q41 run used WebKitGTK 2.54.2 in the `rust-dev` distrobox container (Fedora 44) on the host, in a Wayland session. Source: https://github.com/daniel-kindl/diffy/blob/627236e4c92c2161e51aa06204d0705537b46f86/prototypes/s1-monaco/bench-results/q41-open-fedora.json
 - Each frontend phase duration in the Q41 result file is a whole number of milliseconds. Q41 did not measure the clock resolution. Source: https://github.com/daniel-kindl/diffy/blob/627236e4c92c2161e51aa06204d0705537b46f86/prototypes/s1-monaco/bench-results/q41-open-fedora.json
 - On the 1 MB fixture, 246 of the 250 option A presentation changes are equal to a canonical block. Q54 checks the coordinates. Source: https://github.com/daniel-kindl/diffy/blob/627236e4c92c2161e51aa06204d0705537b46f86/prototypes/s1-monaco/bench-results/q41-open-fedora.json
+- The host has no X11 session. `/usr/share/xsessions` on the Bazzite 45 host is empty. The Q42 X11 results use XWayland with `GDK_BACKEND=x11`. Source: Q42 run, 2026-11-24.
+- The Q42 Fedora runs used WebKitGTK 2.54.2 and GTK 3.24.52 in the `rust-dev` container. The Q42 Ubuntu runs used WebKitGTK 2.52.6 and GTK 3.24.41 in an Ubuntu 24.04.5 container. Each run used the DMABuf renderer with GPU threaded rendering, with no `WEBKIT_*` environment variable. Source: https://github.com/daniel-kindl/diffy/blob/37f9892/prototypes/s1-monaco/bench-results/q42-fedora-wayland-A.json and https://github.com/daniel-kindl/diffy/blob/37f9892/prototypes/s1-monaco/bench-results/q42-ubuntu-wayland-A.json
+- wry 0.57.3 turns off the preedit of the WebKitGTK input method. The page gets the committed text, but no composition updates. A bare WebKitGTK 2.54.2 view gets the composition events. When the prototype turns the preedit on again, Monaco gets the composition events in each run. Source: wry 0.57.3 `src/webkitgtk/mod.rs:429` and https://github.com/daniel-kindl/diffy/blob/37f9892/prototypes/s1-monaco/bench-results/q42-fedora-x11-A.json
+- The Q41 prototype imports the core Monaco editor. It has no find widget and no tab focus mode, so Tab does not leave an editable editor. The Q42 branch adds the two Monaco contributions. Source: https://github.com/daniel-kindl/diffy/blob/37f9892/prototypes/s1-monaco/src/q42.ts
+- The Monaco default font, Droid Sans Mono, is not installed on Fedora or Ubuntu. WebKit uses the `monospace` fallback: Adwaita Mono on Fedora and DejaVu Sans Mono on Ubuntu. Source: https://github.com/daniel-kindl/diffy/blob/37f9892/prototypes/s1-monaco/bench-results/q42-fedora-x11-A.json and https://github.com/daniel-kindl/diffy/blob/37f9892/prototypes/s1-monaco/bench-results/q42-ubuntu-x11-A.json
+- At 125% scale, the XWayland window has a device pixel ratio of 1.25. The Wayland window has a device pixel ratio of 2, because GTK 3 has no fractional scale. KWin scales the window down. Source: https://github.com/daniel-kindl/diffy/blob/37f9892/prototypes/s1-monaco/bench-results/q42-fedora125-x11-A.json and https://github.com/daniel-kindl/diffy/blob/37f9892/prototypes/s1-monaco/bench-results/q42-fedora125-wayland-A.json
+- In option B, a horizontal scroll bar on one side only adds its height to that side. In a 1,120 px window, the content heights were 2,304 px and 2,316 px with the same 128 rows. Source: https://github.com/daniel-kindl/diffy/blob/37f9892/prototypes/s1-monaco/bench-results/q42-fedora125-x11-B.json
 
 ## Decisions
 
@@ -62,31 +69,9 @@ Next: Q42
 - Q40 Spike charters: each spike S1 to S8 has one charter, with the question, the evidence and the stop conditions. The S1 charter is in Q54 and the S6 charter is in Q55. The other charters are in Q42, Q44 to Q47 and Q49. Owner words, after the PR #24 review: "Approve the revised charters". The owner record is on issue #4. Decided by: Daniel Kindl, 2026-11-24. Record: this line.
 - Q41 S1 Monaco prototype build: both options open the small and the 1 MB fixture on Fedora. The prototype, the fixture set and the benchmark harness are on the tag `prototype/diffy-v0.1-q41`. Owner words: "Accept the build phase". The owner record is on issue #5. Decided by: Daniel Kindl, 2026-11-24. Record: this line.
 - Q56 Container as the reference host: Q54 measurements in the `rust-dev` distrobox container count as the Fedora reference host of Q38. Owner words: "yes they do count". The owner record is on issue #27. Decided by: Daniel Kindl, 2026-11-24. Record: this line.
+- Q42 S2 Linux WebKitGTK behavior: both options work on WebKitGTK under Wayland and XWayland, on Fedora and on Ubuntu 24.04. No check has a blocker. The input method preedit goes to Q57, and the Monaco features and font go to Q58. Owner words: "Accept the S2 results". Decided by: Daniel Kindl, 2026-11-24. Record: this line.
 
 ## Open questions
-
-### Q42: S2 Linux WebKitGTK behavior
-
-Type: prototype
-Blocked by: Q41
-
-Check the Q41 prototype on WebKitGTK under Wayland and X11: clipboard, keyboard, GPU and rendering. The Q54 verdict uses these results.
-
-Charter question: Does the Q41 prototype work on WebKitGTK under Wayland and under X11?
-
-Evidence, for each option and each session type:
-
-- The WebKitGTK version and the session type. For X11, record if it is an X11 session or XWayland with `GDK_BACKEND=x11`.
-- Clipboard: copy and paste text in both directions between the prototype and a different application.
-- Keyboard: the editor shortcuts, the Tab focus order and an input method.
-- GPU: the compositing mode, and each environment variable that the prototype needs, for example `WEBKIT_DISABLE_DMABUF_RENDERER`.
-- Rendering: fonts, fractional scaling, and no blank or flickering area when you scroll the 10 MB fixture.
-- The same checks on Ubuntu LTS, for example in a distrobox container on the host. Specification section 17 names Ubuntu.
-
-Stop when:
-
-- Each check has a pass or fail result with the versions. Q54 uses the results.
-- A check fails and has no workaround. Record it as a blocker for that option and tell the owner.
 
 ### Q43: Diff crate with histogram parity
 
@@ -277,6 +262,7 @@ Verdict phase evidence (Q54), for each option on the Fedora reference host (Q38)
 - Large diffs: the p95 time to show the 1 MB diff and the 10 MB diff. The targets are less than 250 ms and less than 3 s.
 - The memory, the CPU use and the stalls for the 50 MB stress input.
 - The Q42 results, and one run on the Windows notebook (Q12).
+- Option B alignment when only one side has a horizontal scroll bar (Q42).
 
 Verdict phase stop when:
 
@@ -321,6 +307,20 @@ Prototype phase stop when:
 
 - Each item has a pass or fail result on both platforms. Each fail has a recovery path, or goes to the owner.
 
+### Q57: WebKitGTK input method preedit
+
+Type: owner
+Blocked by: none
+
+wry 0.57.3 turns off the WebKitGTK preedit, so the input method shows the text that is not committed in its own window. Decide if Diffy turns the preedit on again, so that the text shows in the editor. Q42 showed that this works.
+
+### Q58: Monaco features and font for M0
+
+Type: task
+Blocked by: Q54
+
+List the Monaco contributions that the M0 scaffold imports, at least the find widget and the tab focus mode. Select a font list for the editor, because the Monaco default font is not installed on Fedora or Ubuntu.
+
 ## Not yet clear
 
 - The rules that mark a file as generated (R-02).
@@ -348,6 +348,13 @@ Prototype phase stop when:
 - Options: A: the Monaco DiffEditor, with its own presentation diff. B: two Monaco editors that show the canonical hunks from the ADR 0002 oracle command.
 - Picked: none yet. Q41 is the build phase. The owner picks an eligible option in Q54.
 - Branch: `prototype/diffy-v0.1-q41` at `627236e`. Tag: `prototype/diffy-v0.1-q41`. Not merged.
+
+### Q42: S2 Linux WebKitGTK behavior
+
+- Options: A and B from Q41, each under Wayland and XWayland, on Fedora and on Ubuntu 24.04.
+- Result: each clipboard, keyboard, GPU and rendering check passes for both options. The only fail is the in-page preedit, which wry turns off. Turning it on again is the workaround.
+- Picked: none. The owner picks the option in Q54.
+- Branch: `prototype/diffy-v0.1-q42` at `37f9892`. Tag: `prototype/diffy-v0.1-q42`. Not merged.
 
 ## Hand-off
 
