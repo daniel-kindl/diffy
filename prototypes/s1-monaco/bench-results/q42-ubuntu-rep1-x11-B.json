@@ -1,0 +1,1686 @@
+{
+  "prototype": "Diffy S2, map question Q42. Checks of the Q41 prototype on WebKitGTK.",
+  "created": "2026-11-24T20:56:46.716Z",
+  "option": "B",
+  "backend": "x11",
+  "system": {
+    "build": {
+      "profile": "release",
+      "tauri": "2.12.7"
+    },
+    "hardware": {
+      "cpu": "AMD Ryzen 5 3600 6-Core Processor",
+      "gpus": [
+        {
+          "card": "card1",
+          "device": "0x7480",
+          "driver": "amdgpu",
+          "vendor": "0x1002"
+        }
+      ],
+      "logical_cpus": 12,
+      "mem_total_kb": 16263384
+    },
+    "oracle_git": "git version 2.43.0",
+    "os": {
+      "container": true,
+      "kernel": "7.3.4-ogc8.1.fc45.x86_64",
+      "name": "Ubuntu 24.04.5 LTS"
+    },
+    "session": {
+      "DISPLAY": ":0",
+      "GDK_BACKEND": "x11",
+      "WAYLAND_DISPLAY": "wayland-1",
+      "WEBKIT_DISABLE_COMPOSITING_MODE": null,
+      "WEBKIT_DISABLE_DMABUF_RENDERER": null,
+      "XDG_SESSION_TYPE": "wayland"
+    },
+    "webview": "2.52.6"
+  },
+  "user_agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/60.5 Safari/605.1.15",
+  "device_pixel_ratio": 1,
+  "window": {
+    "width": 1400,
+    "height": 900
+  },
+  "gpu_report": "Copy to clipboardPrint in stdout\nVersion Information\nWebKit version\nWebKitGTK 2.52.6 (tarball)\nOperating system\nLinux 7.3.4-ogc8.1.fc45.x86_64 #1 SMP PREEMPT_DYNAMIC Tue Nov 17 02:45:33 UTC 2026 x86_64\nDesktop\nUnknown\nGStreamer version\n1.24.2 (build) GStreamer 1.24.2 (runtime)\nGTK version\n3.24.41 (build) 3.24.41 (runtime)\nDisplay Information\nIdentifier\n1\nType\nX11\nScreen geometry\n1366,0 1920x1080\nScreen work area\n1366,0 1920x1080\nDevice scale\n1\nDepth\n24\nBits per color component\n8\nFont Scaling DPI\n96\nScreen DPI\n92.5717191421591\nVBlank type\nTimer\nVBlank refresh rate\n60Hz\nDRM Primary Node\n/dev/dri/card1\nDRM Render Node\n/dev/dri/renderD128\nView Information\nSize\n700x500\nState\nin window, visible, focused, active\nHardware Acceleration Information\nPolicy\nalways\nWebGL enabled\nYes\n2D canvas\nAccelerated\nAPI\nNot available\nRenderer\nDMABuf (Supported buffers: Hardware, Shared Memory)\nPreferred buffer formats\nFormats for mapping using device /dev/dri/card1\nXR24 (NONE_LINEAR)\nAR24 (NONE_LINEAR)\nBuffer format\nUnknown\nNative interface\nNone\nHardware Acceleration Information (Render Process)\nPlatform\nGBM\nDRM version\namdgpu (AMD GPU) 3.64.0. 0\nThreaded rendering\nGPU (2 threads)\nMSAA\n8 samples\nSupported buffers\nXR24 (AMD_GFX11,64KB_R_X,PIPE_XOR_BITS=3,PACKERS=3,DCC,DCC_MAX_COMPRESSED_BLOCK=128B,DCC_INDEPENDENT_128B,DCC_PIPE_ALIGN, AMD_GFX11,64KB_R_X,PIPE_XOR_BITS=3,PACKERS=3,DCC,DCC_MAX_COMPRESSED_BLOCK=128B,DCC_INDEPENDENT_128B,DCC_RETILE, AMD_GFX11,64KB_R_X,PIPE_XOR_BITS=3,PACKERS=3,DCC,DCC_MAX_COMPRESSED_BLOCK=64B,DCC_INDEPENDENT_64B,DCC_INDEPENDENT_128B,DCC_RETILE, AMD_GFX11,64KB_R_X,PIPE_XOR_BITS=3,PACKERS=3, AMD_GFX11,256KB_R_X,PIPE_XOR_BITS=3,PACKERS=3,DCC,DCC_MAX_COMPRESSED_BLOCK=128B,DCC_INDEPENDENT_128B,DCC_PIPE_ALIGN, AMD_GFX11,256KB_R_X,PIPE_XOR_BITS=3,PACKERS=3,DCC,DCC_MAX_COMPRESSED_BLOCK=128B,DCC_INDEPENDENT_128B,DCC_RETILE, AMD_GFX11,256KB_R_X,PIPE_XOR_BITS=3,PACKERS=3,DCC,DCC_MAX_COMPRESSED_BLOCK=64B,DCC_INDEPENDENT_64B,DCC_INDEPENDENT_128B,DCC_RETILE, AMD_GFX11,256KB_R_X,PIPE_XOR_BITS=3,PACKERS=3, AMD_GFX11,64KB_D, NONE_LINEAR)\nXB24 (AMD_GFX11,64KB_R_X,PIPE_XOR_BITS=3,PACKERS=3,DCC,DCC_MAX_COMPRESSED_BLOCK=128B,DCC_INDEPENDENT_128B,DCC_PIPE_ALIGN, AMD_GFX11,64KB_R_X,PIPE_XOR_BITS=3,PACKERS=3,DCC,DCC_MAX_COMPRESSED_BLOCK=128B,DCC_INDEPENDENT_128B,DCC_RETILE, AMD_GFX11,64KB_R_X,PIPE_XOR_BITS=3,PACKERS=3,DCC,DCC_MAX_COMPRESSED_BLOCK=64B,DCC_INDEPENDENT_64B,DCC_INDEPENDENT_128B,DCC_RETILE, AMD_GFX11,64KB_R_X,PIPE_XOR_BITS=3,PACKERS=3, AMD_GFX11,256KB_R_X,PIPE_XOR_BITS=3,PACKERS=3,DCC,DCC_MAX_COMPRESSED_BLOCK=128B,DCC_INDEPENDENT_128B,DCC_PIPE_ALIGN, AMD_GFX11,256KB_R_X,PIPE_XOR_BITS=3,PACKERS=3,DCC,DCC_MAX_COMPRESSED_BLOCK=128B,DCC_INDEPENDENT_128B,DCC_RETILE, AMD_GFX11,256KB_R_X,PIPE_XOR_BITS=3,PACKERS=3,DCC,DCC_MAX_COMPRESSED_BLOCK=64B,DCC_INDEPENDENT_64B,DCC_INDEPENDENT_128B,DCC_RETILE, AMD_GFX11,256KB_R_X,PIPE_XOR_BITS=3,PACKERS=3, AMD_GFX11,64KB_D, NONE_LINEAR)\nAR24 (AMD_GFX11,64KB_R_X,PIPE_XOR_BITS=3,PACKERS=3,DCC,DCC_MAX_COMPRESSED_BLOCK=128B,DCC_INDEPENDENT_128B,DCC_PIPE_ALIGN, AMD_GFX11,64KB_R_X,PIPE_XOR_BITS=3,PACKERS=3,DCC,DCC_MAX_COMPRESSED_BLOCK=128B,DCC_INDEPENDENT_128B,DCC_RETILE, AMD_GFX11,64KB_R_X,PIPE_XOR_BITS=3,PACKERS=3,DCC,DCC_MAX_COMPRESSED_BLOCK=64B,DCC_INDEPENDENT_64B,DCC_INDEPENDENT_128B,DCC_RETILE, AMD_GFX11,64KB_R_X,PIPE_XOR_BITS=3,PACKERS=3, AMD_GFX11,256KB_R_X,PIPE_XOR_BITS=3,PACKERS=3,DCC,DCC_MAX_COMPRESSED_BLOCK=128B,DCC_INDEPENDENT_128B,DCC_PIPE_ALIGN, AMD_GFX11,256KB_R_X,PIPE_XOR_BITS=3,PACKERS=3,DCC,DCC_MAX_COMPRESSED_BLOCK=128B,DCC_INDEPENDENT_128B,DCC_RETILE, AMD_GFX11,256KB_R_X,PIPE_XOR_BITS=3,PACKERS=3,DCC,DCC_MAX_COMPRESSED_BLOCK=64B,DCC_INDEPENDENT_64B,DCC_INDEPENDENT_128B,DCC_RETILE, AMD_GFX11,256KB_R_X,PIPE_XOR_BITS=3,PACKERS=3, AMD_GFX11,64KB_D, NONE_LINEAR)\nAB24 (AMD_GFX11,64KB_R_X,PIPE_XOR_BITS=3,PACKERS=3,DCC,DCC_MAX_COMPRESSED_BLOCK=128B,DCC_INDEPENDENT_128B,DCC_PIPE_ALIGN, AMD_GFX11,64KB_R_X,PIPE_XOR_BITS=3,PACKERS=3,DCC,DCC_MAX_COMPRESSED_BLOCK=128B,DCC_INDEPENDENT_128B,DCC_RETILE, AMD_GFX11,64KB_R_X,PIPE_XOR_BITS=3,PACKERS=3,DCC,DCC_MAX_COMPRESSED_BLOCK=64B,DCC_INDEPENDENT_64B,DCC_INDEPENDENT_128B,DCC_RETILE, AMD_GFX11,64KB_R_X,PIPE_XOR_BITS=3,PACKERS=3, AMD_GFX11,256KB_R_X,PIPE_XOR_BITS=3,PACKERS=3,DCC,DCC_MAX_COMPRESSED_BLOCK=128B,DCC_INDEPENDENT_128B,DCC_PIPE_ALIGN, AMD_GFX11,256KB_R_X,PIPE_XOR_BITS=3,PACKERS=3,DCC,DCC_MAX_COMPRESSED_BLOCK=128B,DCC_INDEPENDENT_128B,DCC_RETILE, AMD_GFX11,256KB_R_X,PIPE_XOR_BITS=3,PACKERS=3,DCC,DCC_MAX_COMPRESSED_BLOCK=64B,DCC_INDEPENDENT_64B,DCC_INDEPENDENT_128B,DCC_RETILE, AMD_GFX11,256KB_R_X,PIPE_XOR_BITS=3,PACKERS=3, AMD_GFX11,64KB_D, NONE_LINEAR)\nRG16 (AMD_GFX11,64KB_R_X,PIPE_XOR_BITS=3,PACKERS=3,DCC,DCC_MAX_COMPRESSED_BLOCK=128B,DCC_INDEPENDENT_128B,DCC_PIPE_ALIGN, AMD_GFX11,64KB_R_X,PIPE_XOR_BITS=3,PACKERS=3, AMD_GFX11,256KB_R_X,PIPE_XOR_BITS=3,PACKERS=3,DCC,DCC_MAX_COMPRESSED_BLOCK=128B,DCC_INDEPENDENT_128B,DCC_PIPE_ALIGN, AMD_GFX11,256KB_R_X,PIPE_XOR_BITS=3,PACKERS=3, AMD_GFX11,64KB_D, NONE_LINEAR)\nXR30 (AMD_GFX11,64KB_R_X,PIPE_XOR_BITS=3,PACKERS=3,DCC,DCC_MAX_COMPRESSED_BLOCK=128B,DCC_INDEPENDENT_128B,DCC_PIPE_ALIGN, AMD_GFX11,64KB_R_X,PIPE_XOR_BITS=3,PACKERS=3,DCC,DCC_MAX_COMPRESSED_BLOCK=128B,DCC_INDEPENDENT_128B,DCC_RETILE, AMD_GFX11,64KB_R_X,PIPE_XOR_BITS=3,PACKERS=3,DCC,DCC_MAX_COMPRESSED_BLOCK=64B,DCC_INDEPENDENT_64B,DCC_INDEPENDENT_128B,DCC_RETILE, AMD_GFX11,64KB_R_X,PIPE_XOR_BITS=3,PACKERS=3, AMD_GFX11,256KB_R_X,PIPE_XOR_BITS=3,PACKERS=3,DCC,DCC_MAX_COMPRESSED_BLOCK=128B,DCC_INDEPENDENT_128B,DCC_PIPE_ALIGN, AMD_GFX11,256KB_R_X,PIPE_XOR_BITS=3,PACKERS=3,DCC,DCC_MAX_COMPRESSED_BLOCK=128B,DCC_INDEPENDENT_128B,DCC_RETILE, AMD_GFX11,256KB_R_X,PIPE_XOR_BITS=3,PACKERS=3,DCC,DCC_MAX_COMPRESSED_BLOCK=64B,DCC_INDEPENDENT_64B,DCC_INDEPENDENT_128B,DCC_RETILE, AMD_GFX11,256KB_R_X,PIPE_XOR_BITS=3,PACKERS=3, AMD_GFX11,64KB_D, NONE_LINEAR)\nXB30 (AMD_GFX11,64KB_R_X,PIPE_XOR_BITS=3,PACKERS=3,DCC,DCC_MAX_COMPRESSED_BLOCK=128B,DCC_INDEPENDENT_128B,DCC_PIPE_ALIGN, AMD_GFX11,64KB_R_X,PIPE_XOR_BITS=3,PACKERS=3,DCC,DCC_MAX_COMPRESSED_BLOCK=128B,DCC_INDEPENDENT_128B,DCC_RETILE, AMD_GFX11,64KB_R_X,PIPE_XOR_BITS=3,PACKERS=3,DCC,DCC_MAX_COMPRESSED_BLOCK=64B,DCC_INDEPENDENT_64B,DCC_INDEPENDENT_128B,DCC_RETILE, AMD_GFX11,64KB_R_X,PIPE_XOR_BITS=3,PACKERS=3, AMD_GFX11,256KB_R_X,PIPE_XOR_BITS=3,PACKERS=3,DCC,DCC_MAX_COMPRESSED_BLOCK=128B,DCC_INDEPENDENT_128B,DCC_PIPE_ALIGN, AMD_GFX11,256KB_R_X,PIPE_XOR_BITS=3,PACKERS=3,DCC,DCC_MAX_COMPRESSED_BLOCK=128B,DCC_INDEPENDENT_128B,DCC_RETILE, AMD_GFX11,256KB_R_X,PIPE_XOR_BITS=3,PACKERS=3,DCC,DCC_MAX_COMPRESSED_BLOCK=64B,DCC_INDEPENDENT_64B,DCC_INDEPENDENT_128B,DCC_RETILE, AMD_GFX11,256KB_R_X,PIPE_XOR_BITS=3,PACKERS=3, AMD_GFX11,64KB_D, NONE_LINEAR)\nAR30 (AMD_GFX11,64KB_R_X,PIPE_XOR_BITS=3,PACKERS=3,DCC,DCC_MAX_COMPRESSED_BLOCK=128B,DCC_INDEPENDENT_128B,DCC_PIPE_ALIGN, AMD_GFX11,64KB_R_X,PIPE_XOR_BITS=3,PACKERS=3,DCC,DCC_MAX_COMPRESSED_BLOCK=128B,DCC_INDEPENDENT_128B,DCC_RETILE, AMD_GFX11,64KB_R_X,PIPE_XOR_BITS=3,PACKERS=3,DCC,DCC_MAX_COMPRESSED_BLOCK=64B,DCC_INDEPENDENT_64B,DCC_INDEPENDENT_128B,DCC_RETILE, AMD_GFX11,64KB_R_X,PIPE_XOR_BITS=3,PACKERS=3, AMD_GFX11,256KB_R_X,PIPE_XOR_BITS=3,PACKERS=3,DCC,DCC_MAX_COMPRESSED_BLOCK=128B,DCC_INDEPENDENT_128B,DCC_PIPE_ALIGN, AMD_GFX11,256KB_R_X,PIPE_XOR_BITS=3,PACKERS=3,DCC,DCC_MAX_COMPRESSED_BLOCK=128B,DCC_INDEPENDENT_128B,DCC_RETILE, AMD_GFX11,256KB_R_X,PIPE_XOR_BITS=3,PACKERS=3,DCC,DCC_MAX_COMPRESSED_BLOCK=64B,DCC_INDEPENDENT_64B,DCC_INDEPENDENT_128B,DCC_RETILE, AMD_GFX11,256KB_R_X,PIPE_XOR_BITS=3,PACKERS=3, AMD_GFX11,64KB_D, NONE_LINEAR)\nAB30 (AMD_GFX11,64KB_R_X,PIPE_XOR_BITS=3,PACKERS=3,DCC,DCC_MAX_COMPRESSED_BLOCK=128B,DCC_INDEPENDENT_128B,DCC_PIPE_ALIGN, AMD_GFX11,64KB_R_X,PIPE_XOR_BITS=3,PACKERS=3,DCC,DCC_MAX_COMPRESSED_BLOCK=128B,DCC_INDEPENDENT_128B,DCC_RETILE, AMD_GFX11,64KB_R_X,PIPE_XOR_BITS=3,PACKERS=3,DCC,DCC_MAX_COMPRESSED_BLOCK=64B,DCC_INDEPENDENT_64B,DCC_INDEPENDENT_128B,DCC_RETILE, AMD_GFX11,64KB_R_X,PIPE_XOR_BITS=3,PACKERS=3, AMD_GFX11,256KB_R_X,PIPE_XOR_BITS=3,PACKERS=3,DCC,DCC_MAX_COMPRESSED_BLOCK=128B,DCC_INDEPENDENT_128B,DCC_PIPE_ALIGN, AMD_GFX11,256KB_R_X,PIPE_XOR_BITS=3,PACKERS=3,DCC,DCC_MAX_COMPRESSED_BLOCK=128B,DCC_INDEPENDENT_128B,DCC_RETILE, AMD_GFX11,256KB_R_X,PIPE_XOR_BITS=3,PACKERS=3,DCC,DCC_MAX_COMPRESSED_BLOCK=64B,DCC_INDEPENDENT_64B,DCC_INDEPENDENT_128B,DCC_RETILE, AMD_GFX11,256KB_R_X,PIPE_XOR_BITS=3,PACKERS=3, AMD_GFX11,64KB_D, NONE_LINEAR)\nXB4H (AMD_GFX11,64KB_R_X,PIPE_XOR_BITS=3,PACKERS=3,DCC,DCC_MAX_COMPRESSED_BLOCK=128B,DCC_INDEPENDENT_128B,DCC_PIPE_ALIGN, AMD_GFX11,64KB_R_X,PIPE_XOR_BITS=3,PACKERS=3, AMD_GFX11,256KB_R_X,PIPE_XOR_BITS=3,PACKERS=3,DCC,DCC_MAX_COMPRESSED_BLOCK=128B,DCC_INDEPENDENT_128B,DCC_PIPE_ALIGN, AMD_GFX11,256KB_R_X,PIPE_XOR_BITS=3,PACKERS=3, AMD_GFX11,64KB_D, NONE_LINEAR)\nAB4H (AMD_GFX11,64KB_R_X,PIPE_XOR_BITS=3,PACKERS=3,DCC,DCC_MAX_COMPRESSED_BLOCK=128B,DCC_INDEPENDENT_128B,DCC_PIPE_ALIGN, AMD_GFX11,64KB_R_X,PIPE_XOR_BITS=3,PACKERS=3, AMD_GFX11,256KB_R_X,PIPE_XOR_BITS=3,PACKERS=3,DCC,DCC_MAX_COMPRESSED_BLOCK=128B,DCC_INDEPENDENT_128B,DCC_PIPE_ALIGN, AMD_GFX11,256KB_R_X,PIPE_XOR_BITS=3,PACKERS=3, AMD_GFX11,64KB_D, NONE_LINEAR)\nGL_RENDERER\nAMD Radeon RX 7600 (radeonsi, navi33, LLVM 20.1.2, DRM 3.64, 7.3.4-ogc8.1.fc45.x86_64)\nGL_VENDOR\nAMD\nGL_VERSION\nOpenGL ES 3.2 Mesa 25.2.8-0ubuntu0.24.04.5\nGL_SHADING_LANGUAGE_VERSION\nOpenGL ES GLSL ES 3.20\nGL_EXTENSIONS\nGL_EXT_blend_minmax GL_EXT_multi_draw_arrays GL_EXT_texture_filter_anisotropic GL_EXT_texture_compression_s3tc GL_EXT_texture_compression_dxt1 GL_EXT_texture_compression_rgtc GL_EXT_texture_format_BGRA8888 GL_OES_compressed_ETC1_RGB8_texture GL_OES_depth24 GL_OES_element_index_uint GL_OES_fbo_render_mipmap GL_OES_mapbuffer GL_OES_rgb8_rgba8 GL_OES_standard_derivatives GL_OES_stencil8 GL_OES_texture_3D GL_OES_texture_float GL_OES_texture_float_linear GL_OES_texture_half_float GL_OES_texture_half_float_linear GL_OES_texture_npot GL_OES_vertex_half_float GL_EXT_draw_instanced GL_EXT_texture_sRGB_decode GL_OES_EGL_image GL_OES_depth_texture GL_OES_packed_depth_stencil GL_EXT_texture_type_2_10_10_10_REV GL_NV_conditional_render GL_OES_get_program_binary GL_APPLE_texture_max_level GL_EXT_discard_framebuffer GL_EXT_read_format_bgra GL_EXT_texture_storage GL_NV_pack_subimage GL_NV_texture_barrier GL_EXT_frag_depth GL_NV_fbo_color_attachments GL_OES_EGL_image_external GL_OES_EGL_sync GL_OES_vertex_array_object GL_OES_viewport_array GL_ANGLE_pack_reverse_row_order GL_ANGLE_texture_compression_dxt3 GL_ANGLE_texture_compression_dxt5 GL_EXT_occlusion_query_boolean GL_EXT_robustness GL_EXT_texture_rg GL_EXT_unpack_subimage GL_NV_draw_buffers GL_NV_read_buffer GL_NV_read_depth GL_NV_read_depth_stencil GL_NV_read_stencil GL_APPLE_sync GL_EXT_draw_buffers GL_EXT_instanced_arrays GL_EXT_map_buffer_range GL_EXT_shadow_samplers GL_KHR_debug GL_KHR_robustness GL_KHR_texture_compression_astc_ldr GL_NV_generate_mipmap_sRGB GL_NV_pixel_buffer_object GL_OES_depth_texture_cube_map GL_OES_required_internalformat GL_OES_surfaceless_context GL_EXT_color_buffer_float GL_EXT_debug_label GL_EXT_sRGB_write_control GL_EXT_separate_shader_objects GL_EXT_shader_group_vote GL_EXT_shader_implicit_conversions GL_EXT_shader_integer_mix GL_EXT_tessellation_point_size GL_EXT_tessellation_shader GL_ANDROID_extension_pack_es31a GL_EXT_base_instance GL_EXT_compressed_ETC1_RGB8_sub_texture GL_EXT_copy_image GL_EXT_draw_buffers_indexed GL_EXT_draw_elements_base_vertex GL_EXT_gpu_shader5 GL_EXT_multi_draw_indirect GL_EXT_polygon_offset_clamp GL_EXT_primitive_bounding_box GL_EXT_render_snorm GL_EXT_shader_io_blocks GL_EXT_texture_border_clamp GL_EXT_texture_buffer GL_EXT_texture_cube_map_array GL_EXT_texture_norm16 GL_EXT_texture_view GL_KHR_blend_equation_advanced GL_KHR_context_flush_control GL_KHR_robust_buffer_access_behavior GL_NV_image_formats GL_NV_shader_noperspective_interpolation GL_OES_copy_image GL_OES_draw_buffers_indexed GL_OES_draw_elements_base_vertex GL_OES_gpu_shader5 GL_OES_primitive_bounding_box GL_OES_sample_shading GL_OES_sample_variables GL_OES_shader_io_blocks GL_OES_shader_multisample_interpolation GL_OES_tessellation_point_size GL_OES_tessellation_shader GL_OES_texture_border_clamp GL_OES_texture_buffer GL_OES_texture_cube_map_array GL_OES_texture_stencil8 GL_OES_texture_storage_multisample_2d_array GL_OES_texture_view GL_EXT_blend_func_extended GL_EXT_buffer_storage GL_EXT_float_blend GL_EXT_geometry_point_size GL_EXT_geometry_shader GL_EXT_texture_filter_minmax GL_EXT_texture_sRGB_R8 GL_EXT_texture_sRGB_RG8 GL_KHR_no_error GL_KHR_texture_compression_astc_sliced_3d GL_OES_EGL_image_external_essl3 GL_OES_geometry_point_size GL_OES_geometry_shader GL_OES_shader_image_atomic GL_EXT_clear_texture GL_EXT_clip_cull_distance GL_EXT_conservative_depth GL_EXT_disjoint_timer_query GL_EXT_texture_compression_s3tc_srgb GL_EXT_window_rectangles GL_MESA_shader_integer_functions GL_EXT_clip_control GL_EXT_color_buffer_half_float GL_EXT_memory_object GL_EXT_memory_object_fd GL_EXT_semaphore GL_EXT_semaphore_fd GL_EXT_texture_compression_bptc GL_EXT_texture_mirror_clamp_to_edge GL_KHR_parallel_shader_compile GL_NV_alpha_to_coverage_dither_control GL_EXT_EGL_image_storage GL_EXT_texture_shadow_lod GL_INTEL_blackhole_render GL_MESA_framebuffer_flip_y GL_NV_compute_shader_derivatives GL_EXT_demote_to_helper_invocation GL_EXT_depth_clamp GL_EXT_texture_query_lod GL_KHR_shader_subgroup GL_MESA_sampler_objects GL_EXT_EGL_image_storage_compression GL_EXT_texture_storage_compression GL_MESA_bgra GL_MESA_texture_const_bandwidth GL_EXT_shader_clock\nEGL_VERSION\n1.5\nEGL_VENDOR\nMesa Project\nEGL_EXTENSIONS\nEGL_EXT_device_base EGL_EXT_device_enumeration EGL_EXT_device_query EGL_EXT_platform_base EGL_KHR_client_get_all_proc_addresses EGL_EXT_client_extensions EGL_KHR_debug EGL_EXT_platform_device EGL_EXT_explicit_device EGL_EXT_platform_wayland EGL_KHR_platform_wayland EGL_EXT_platform_x11 EGL_KHR_platform_x11 EGL_EXT_platform_xcb EGL_MESA_platform_gbm EGL_KHR_platform_gbm EGL_MESA_platform_surfaceless EGL_ANDROID_blob_cache EGL_ANDROID_native_fence_sync EGL_EXT_buffer_age EGL_EXT_config_select_group EGL_EXT_create_context_robustness EGL_EXT_image_dma_buf_import EGL_EXT_image_dma_buf_import_modifiers EGL_EXT_query_reset_notification_strategy EGL_EXT_surface_compression EGL_IMG_context_priority EGL_KHR_cl_event2 EGL_KHR_config_attribs EGL_KHR_context_flush_control EGL_KHR_create_context EGL_KHR_create_context_no_error EGL_KHR_fence_sync EGL_KHR_get_all_proc_addresses EGL_KHR_gl_colorspace EGL_KHR_gl_renderbuffer_image EGL_KHR_gl_texture_2D_image EGL_KHR_gl_texture_3D_image EGL_KHR_gl_texture_cubemap_image EGL_KHR_image EGL_KHR_image_base EGL_KHR_image_pixmap EGL_KHR_no_config_context EGL_KHR_reusable_sync EGL_KHR_surfaceless_context EGL_EXT_pixel_format_float EGL_KHR_wait_sync EGL_MESA_configless_context EGL_MESA_gl_interop EGL_MESA_image_dma_buf_export EGL_MESA_query_driver EGL_MESA_x11_native_visual_id",
+  "focus": true,
+  "ime_engine_for_other_checks": "xkb:us::eng",
+  "editor_geometry": [
+    {
+      "lineHeight": 18,
+      "fontLineHeight": 18,
+      "lines": 121,
+      "contentHeight": 2304,
+      "scrollHeight": 2304,
+      "zones": [
+        "54px",
+        "0px",
+        "0px"
+      ],
+      "layoutHeight": 861,
+      "horizontalScrollbar": 12
+    },
+    {
+      "lineHeight": 18,
+      "fontLineHeight": 18,
+      "lines": 123,
+      "contentHeight": 2304,
+      "scrollHeight": 2304,
+      "zones": [
+        "0px",
+        "0px"
+      ],
+      "layoutHeight": 861,
+      "horizontalScrollbar": 12
+    }
+  ],
+  "fonts": {
+    "family": "\"Droid Sans Mono\", monospace",
+    "families": [
+      "Droid Sans Mono",
+      "monospace"
+    ],
+    "monaco_font_info": {
+      "isMonospace": true,
+      "typicalHalfwidthCharacterWidth": 7.828125,
+      "typicalFullwidthCharacterWidth": 13.00390625,
+      "lineHeight": 18,
+      "fontSize": 13
+    },
+    "fc_match": [
+      {
+        "family": "Droid Sans Mono",
+        "fc_match": "DejaVuSans.ttf: \"DejaVu Sans\" \"Book\""
+      },
+      {
+        "family": "monospace",
+        "fc_match": "DejaVuSansMono.ttf: \"DejaVu Sans Mono\" \"Book\""
+      }
+    ]
+  },
+  "passed": 36,
+  "failed": [],
+  "checks": [
+    {
+      "name": "open the small fixture",
+      "pass": true,
+      "facts": {
+        "checks": {
+          "left_model_lines": 121,
+          "right_model_lines": 123,
+          "expected_left_lines": 121,
+          "expected_right_lines": 123,
+          "rendered_view_lines_left": 45,
+          "rendered_view_lines_right": 48,
+          "canonical_blocks": 6,
+          "canonical_hunks": 6,
+          "canonical_added": 10,
+          "canonical_removed": 8,
+          "aligned_rows_left": 128,
+          "aligned_rows_right": 128,
+          "content_height_left": 2304,
+          "content_height_right": 2304,
+          "oracle_cached": false
+        }
+      }
+    },
+    {
+      "name": "option B: equal content heights with the horizontal scroll bar always visible (workaround)",
+      "pass": true,
+      "facts": {
+        "before": [
+          2304,
+          2304
+        ],
+        "after": [
+          2304,
+          2304
+        ]
+      }
+    },
+    {
+      "name": "rendering: each text line of the small fixture has ink",
+      "pass": true,
+      "facts": {
+        "longest_blank_run_lines": 3.2777777777777777,
+        "width": 1400,
+        "height": 900,
+        "scale": 1,
+        "text_lines": 75,
+        "text_lines_without_ink": 0,
+        "empty_lines_with_ink": 2,
+        "distinct_colors_sampled": 1419,
+        "saved": "/work/prototypes/s1-monaco/bench-results/q42/q42-ubuntu-rep1-x11-B-small.png"
+      }
+    },
+    {
+      "name": "clipboard: copy to another application",
+      "pass": true,
+      "facts": {
+        "shortcut": "ctrl+c",
+        "source": "read-only editor",
+        "read_by_x11": "    if token > 61283 { return Err(Error::anchor); }\n\n",
+        "ms_until_x11_read": 422,
+        "read_by_wayland": "    if token > 61283 { return Err(Error::anchor); }\n\n",
+        "ms_until_wayland_read": 441,
+        "expected": "    if token > 61283 { return Err(Error::anchor); }\n\n"
+      }
+    },
+    {
+      "name": "clipboard: paste from another application",
+      "pass": true,
+      "facts": {
+        "shortcut": "ctrl+v",
+        "target": "editable editor",
+        "writer": "xclip",
+        "paste_marker": "q42-paste-lf1th1k9",
+        "line1": "q42-paste-lf1th1k9    // finding entry entry 273",
+        "undo_restored": true
+      }
+    },
+    {
+      "name": "keyboard (read-only): ctrl+a selects all",
+      "pass": true,
+      "facts": {
+        "step": "key ctrl+a",
+        "selection": "[1,1 -> 121,1]"
+      }
+    },
+    {
+      "name": "keyboard (read-only): ctrl+End moves to the end",
+      "pass": true,
+      "facts": {
+        "step": "key ctrl+End"
+      }
+    },
+    {
+      "name": "keyboard (read-only): ctrl+Home moves to the start",
+      "pass": true,
+      "facts": {
+        "step": "key ctrl+Home"
+      }
+    },
+    {
+      "name": "keyboard (read-only): Next (PageDown) scrolls",
+      "pass": true,
+      "facts": {
+        "step": "key Next",
+        "scrollTop": 111
+      }
+    },
+    {
+      "name": "keyboard (read-only): ctrl+f opens the find widget",
+      "pass": true,
+      "facts": {
+        "step": "key ctrl+f",
+        "has_find_action": true
+      }
+    },
+    {
+      "name": "keyboard (read-only): typed query and Return select a match",
+      "pass": true,
+      "facts": {
+        "selected": "return",
+        "at": "[61,24 -> 61,30]"
+      }
+    },
+    {
+      "name": "keyboard (read-only): Escape closes the find widget",
+      "pass": true,
+      "facts": {
+        "step": "key Escape"
+      }
+    },
+    {
+      "name": "keyboard (editable): ctrl+a selects all",
+      "pass": true,
+      "facts": {
+        "step": "key ctrl+a",
+        "selection": "[1,1 -> 123,1]"
+      }
+    },
+    {
+      "name": "keyboard (editable): ctrl+End moves to the end",
+      "pass": true,
+      "facts": {
+        "step": "key ctrl+End"
+      }
+    },
+    {
+      "name": "keyboard (editable): ctrl+Home moves to the start",
+      "pass": true,
+      "facts": {
+        "step": "key ctrl+Home"
+      }
+    },
+    {
+      "name": "keyboard (editable): Next (PageDown) scrolls",
+      "pass": true,
+      "facts": {
+        "step": "key Next",
+        "scrollTop": 57
+      }
+    },
+    {
+      "name": "keyboard (editable): ctrl+f opens the find widget",
+      "pass": true,
+      "facts": {
+        "step": "key ctrl+f",
+        "has_find_action": true
+      }
+    },
+    {
+      "name": "keyboard (editable): typed query and Return select a match",
+      "pass": true,
+      "facts": {
+        "selected": "return",
+        "at": "[65,24 -> 65,30]"
+      }
+    },
+    {
+      "name": "keyboard (editable): Escape closes the find widget",
+      "pass": true,
+      "facts": {
+        "step": "key Escape"
+      }
+    },
+    {
+      "name": "keyboard: Tab focus order",
+      "pass": true,
+      "facts": {
+        "forward": [
+          "#option",
+          "#fixture",
+          "#open",
+          "#runs",
+          "#bench",
+          "editor#0:textarea",
+          "editor#1:textarea"
+        ],
+        "backward": [
+          "#runs",
+          "#open",
+          "#fixture",
+          "#option"
+        ],
+        "expected_prefix": [
+          "#option",
+          "#fixture",
+          "#open",
+          "#runs",
+          "#bench"
+        ]
+      }
+    },
+    {
+      "name": "keyboard: leave an editable editor with ctrl+m then Tab",
+      "pass": true,
+      "facts": {
+        "tab_indents": true,
+        "has_toggle_tab_focus_action": false,
+        "focus_after_ctrl_m_tab": "body"
+      }
+    },
+    {
+      "name": "input method: engine m17n:t:latn-post",
+      "pass": true,
+      "facts": {}
+    },
+    {
+      "name": "input method: ibus m17n latn-post composes é",
+      "pass": true,
+      "facts": {
+        "target": "editor",
+        "steps": [
+          "key e",
+          "key apostrophe",
+          "key space"
+        ],
+        "expect": "é",
+        "value": "é     // finding entry entry 273",
+        "composition_events": 1,
+        "composition": [
+          "compositionend:é "
+        ],
+        "beforeinput": [
+          "insertFromComposition \"é \" composing=true"
+        ]
+      }
+    },
+    {
+      "name": "input method: ctrl+shift+u e9 enters é",
+      "pass": true,
+      "facts": {
+        "target": "editor",
+        "steps": [
+          "key ctrl+shift+u",
+          "key e",
+          "key 9",
+          "key space"
+        ],
+        "expect": "é",
+        "value": "éé    // finding entry entry 273",
+        "composition_events": 1,
+        "composition": [
+          "compositionend:é"
+        ],
+        "beforeinput": [
+          "insertFromComposition \"é\" composing=true"
+        ]
+      }
+    },
+    {
+      "name": "input method: engine libpinyin",
+      "pass": true,
+      "facts": {}
+    },
+    {
+      "name": "input method: libpinyin commits 你好 (wry default)",
+      "pass": true,
+      "facts": {
+        "target": "editor",
+        "steps": [
+          "type nihao",
+          "key space"
+        ],
+        "expect": "你好",
+        "value": "你好é    // finding entry entry 273",
+        "composition_events": 1,
+        "composition": [
+          "compositionend:你好"
+        ],
+        "beforeinput": [
+          "insertFromComposition \"你好\" composing=true"
+        ]
+      }
+    },
+    {
+      "name": "input method: the editor gets composition events (wry default: preedit off)",
+      "pass": true,
+      "facts": {
+        "from": "input method: libpinyin commits 你好 (wry default)"
+      }
+    },
+    {
+      "name": "input method: libpinyin commits 你好 in a plain textarea (wry default)",
+      "pass": true,
+      "facts": {
+        "target": "textarea",
+        "steps": [
+          "type nihao",
+          "key space"
+        ],
+        "expect": "你好",
+        "value": "你好",
+        "composition_events": 1,
+        "composition": [
+          "compositionend:你好"
+        ],
+        "beforeinput": [
+          "insertFromComposition \"你好\" composing=true"
+        ]
+      }
+    },
+    {
+      "name": "input method: libpinyin commits 你好 (preedit on)",
+      "pass": true,
+      "facts": {
+        "target": "editor",
+        "steps": [
+          "type nihao",
+          "key space"
+        ],
+        "expect": "你好",
+        "value": "你好é    // finding entry entry 273",
+        "composition_events": 7,
+        "composition": [
+          "compositionstart:",
+          "compositionupdate:年",
+          "compositionupdate:你",
+          "compositionupdate:你和",
+          "compositionupdate:你哈",
+          "compositionupdate:你好",
+          "compositionend:你好"
+        ],
+        "beforeinput": [
+          "insertCompositionText \"年\" composing=true",
+          "insertCompositionText \"你\" composing=true",
+          "insertCompositionText \"你和\" composing=true",
+          "insertCompositionText \"你哈\" composing=true",
+          "insertCompositionText \"你好\" composing=true",
+          "deleteCompositionText null composing=true",
+          "insertFromComposition \"你好\" composing=true"
+        ]
+      }
+    },
+    {
+      "name": "input method: the editor gets composition events (workaround: preedit on)",
+      "pass": true,
+      "facts": {
+        "from": "input method: libpinyin commits 你好 (preedit on)"
+      }
+    },
+    {
+      "name": "input method: libpinyin commits 你好 in a plain textarea (preedit on)",
+      "pass": true,
+      "facts": {
+        "target": "textarea",
+        "steps": [
+          "type nihao",
+          "key space"
+        ],
+        "expect": "你好",
+        "value": "你好",
+        "composition_events": 7,
+        "composition": [
+          "compositionstart:",
+          "compositionupdate:年",
+          "compositionupdate:你",
+          "compositionupdate:你和",
+          "compositionupdate:你哈",
+          "compositionupdate:你好",
+          "compositionend:你好"
+        ],
+        "beforeinput": [
+          "insertCompositionText \"年\" composing=true",
+          "insertCompositionText \"你\" composing=true",
+          "insertCompositionText \"你和\" composing=true",
+          "insertCompositionText \"你哈\" composing=true",
+          "insertCompositionText \"你好\" composing=true",
+          "deleteCompositionText null composing=true",
+          "insertFromComposition \"你好\" composing=true"
+        ]
+      }
+    },
+    {
+      "name": "input method: a plain textarea gets composition events (workaround: preedit on)",
+      "pass": true,
+      "facts": {
+        "from": "input method: libpinyin commits 你好 in a plain textarea (preedit on)"
+      }
+    },
+    {
+      "name": "rendering: no blank lines 250 ms after a jump scroll (10 MB)",
+      "pass": true,
+      "facts": {
+        "jumps": 40,
+        "text_lines_checked": 3118,
+        "without_ink_after_250ms": 0,
+        "samples": []
+      }
+    },
+    {
+      "name": "rendering: no blank lines one frame after a jump scroll (10 MB)",
+      "pass": true,
+      "facts": {
+        "without_ink_one_frame_after": 0,
+        "worst_single_snapshot": 0
+      }
+    },
+    {
+      "name": "rendering: no blank area after a jump scroll, image only (10 MB)",
+      "pass": true,
+      "facts": {
+        "longest_blank_run_lines": 5.333333333333333,
+        "limit": 9
+      }
+    },
+    {
+      "name": "rendering: no blank area during 60 PageDown key events, image only (10 MB)",
+      "pass": true,
+      "facts": {
+        "snapshots": 21,
+        "longest_blank_run_lines_each": [
+          2.3,
+          2.3,
+          2.3,
+          2.3,
+          3.3,
+          1.3,
+          2.3,
+          2.3,
+          1.3,
+          1.3,
+          1.3,
+          2.3,
+          2.3,
+          2.3,
+          2.3,
+          2.3,
+          3.3,
+          2.3,
+          3.3,
+          2.3,
+          2.3
+        ],
+        "after": 3.2777777777777777,
+        "after_text_lines_without_ink": 0,
+        "limit": 9,
+        "scrollTop": 48315
+      }
+    }
+  ],
+  "events": [
+    {
+      "t": 2008,
+      "type": "focusin",
+      "detail": "editor#0:textarea"
+    },
+    {
+      "t": 3027,
+      "type": "keydown",
+      "detail": "ctrl+Control code=ControlLeft composing=false"
+    },
+    {
+      "t": 3029,
+      "type": "keydown",
+      "detail": "ctrl+c code=KeyC composing=false"
+    },
+    {
+      "t": 3032,
+      "type": "copy",
+      "detail": ""
+    },
+    {
+      "t": 3304,
+      "type": "focusin",
+      "detail": "editor#1:textarea"
+    },
+    {
+      "t": 3309,
+      "type": "keydown",
+      "detail": "ctrl+Control code=ControlLeft composing=false"
+    },
+    {
+      "t": 3329,
+      "type": "keydown",
+      "detail": "ctrl+v code=KeyV composing=false"
+    },
+    {
+      "t": 3329,
+      "type": "paste",
+      "detail": ""
+    },
+    {
+      "t": 3643,
+      "type": "keydown",
+      "detail": "ctrl+Control code=ControlLeft composing=false"
+    },
+    {
+      "t": 3663,
+      "type": "keydown",
+      "detail": "ctrl+z code=KeyZ composing=false"
+    },
+    {
+      "t": 3975,
+      "type": "focusin",
+      "detail": "editor#0:textarea"
+    },
+    {
+      "t": 3988,
+      "type": "keydown",
+      "detail": "ctrl+Control code=ControlLeft composing=false"
+    },
+    {
+      "t": 4005,
+      "type": "keydown",
+      "detail": "ctrl+a code=KeyA composing=false"
+    },
+    {
+      "t": 4470,
+      "type": "keydown",
+      "detail": "ctrl+Control code=ControlLeft composing=false"
+    },
+    {
+      "t": 4490,
+      "type": "keydown",
+      "detail": "ctrl+End code=End composing=false"
+    },
+    {
+      "t": 4954,
+      "type": "keydown",
+      "detail": "ctrl+Control code=ControlLeft composing=false"
+    },
+    {
+      "t": 4975,
+      "type": "keydown",
+      "detail": "ctrl+Home code=Home composing=false"
+    },
+    {
+      "t": 5439,
+      "type": "keydown",
+      "detail": "PageDown code=PageDown composing=false"
+    },
+    {
+      "t": 5883,
+      "type": "keydown",
+      "detail": "ctrl+Control code=ControlLeft composing=false"
+    },
+    {
+      "t": 5904,
+      "type": "keydown",
+      "detail": "ctrl+f code=KeyF composing=false"
+    },
+    {
+      "t": 5938,
+      "type": "focusin",
+      "detail": "editor#0:textarea.find"
+    },
+    {
+      "t": 6368,
+      "type": "keydown",
+      "detail": "r code=KeyR composing=false"
+    },
+    {
+      "t": 6369,
+      "type": "beforeinput",
+      "detail": "insertText \"r\" composing=false"
+    },
+    {
+      "t": 6401,
+      "type": "keydown",
+      "detail": "e code=KeyE composing=false"
+    },
+    {
+      "t": 6401,
+      "type": "beforeinput",
+      "detail": "insertText \"e\" composing=false"
+    },
+    {
+      "t": 6429,
+      "type": "keydown",
+      "detail": "t code=KeyT composing=false"
+    },
+    {
+      "t": 6429,
+      "type": "beforeinput",
+      "detail": "insertText \"t\" composing=false"
+    },
+    {
+      "t": 6459,
+      "type": "keydown",
+      "detail": "u code=KeyU composing=false"
+    },
+    {
+      "t": 6459,
+      "type": "beforeinput",
+      "detail": "insertText \"u\" composing=false"
+    },
+    {
+      "t": 6489,
+      "type": "keydown",
+      "detail": "r code=KeyR composing=false"
+    },
+    {
+      "t": 6490,
+      "type": "beforeinput",
+      "detail": "insertText \"r\" composing=false"
+    },
+    {
+      "t": 6520,
+      "type": "keydown",
+      "detail": "n code=KeyN composing=false"
+    },
+    {
+      "t": 6520,
+      "type": "beforeinput",
+      "detail": "insertText \"n\" composing=false"
+    },
+    {
+      "t": 6804,
+      "type": "keydown",
+      "detail": "Enter code=Enter composing=false"
+    },
+    {
+      "t": 7100,
+      "type": "keydown",
+      "detail": "Escape code=Escape composing=false"
+    },
+    {
+      "t": 7104,
+      "type": "focusin",
+      "detail": "editor#0:textarea"
+    },
+    {
+      "t": 7542,
+      "type": "focusin",
+      "detail": "editor#1:textarea"
+    },
+    {
+      "t": 7549,
+      "type": "keydown",
+      "detail": "ctrl+Control code=ControlLeft composing=false"
+    },
+    {
+      "t": 7567,
+      "type": "keydown",
+      "detail": "ctrl+a code=KeyA composing=false"
+    },
+    {
+      "t": 8034,
+      "type": "keydown",
+      "detail": "ctrl+Control code=ControlLeft composing=false"
+    },
+    {
+      "t": 8054,
+      "type": "keydown",
+      "detail": "ctrl+End code=End composing=false"
+    },
+    {
+      "t": 8519,
+      "type": "keydown",
+      "detail": "ctrl+Control code=ControlLeft composing=false"
+    },
+    {
+      "t": 8539,
+      "type": "keydown",
+      "detail": "ctrl+Home code=Home composing=false"
+    },
+    {
+      "t": 9003,
+      "type": "keydown",
+      "detail": "PageDown code=PageDown composing=false"
+    },
+    {
+      "t": 9448,
+      "type": "keydown",
+      "detail": "ctrl+Control code=ControlLeft composing=false"
+    },
+    {
+      "t": 9468,
+      "type": "keydown",
+      "detail": "ctrl+f code=KeyF composing=false"
+    },
+    {
+      "t": 9479,
+      "type": "focusin",
+      "detail": "editor#1:textarea.find"
+    },
+    {
+      "t": 9935,
+      "type": "keydown",
+      "detail": "r code=KeyR composing=false"
+    },
+    {
+      "t": 9935,
+      "type": "beforeinput",
+      "detail": "insertText \"r\" composing=false"
+    },
+    {
+      "t": 9966,
+      "type": "keydown",
+      "detail": "e code=KeyE composing=false"
+    },
+    {
+      "t": 9966,
+      "type": "beforeinput",
+      "detail": "insertText \"e\" composing=false"
+    },
+    {
+      "t": 9998,
+      "type": "keydown",
+      "detail": "t code=KeyT composing=false"
+    },
+    {
+      "t": 9999,
+      "type": "beforeinput",
+      "detail": "insertText \"t\" composing=false"
+    },
+    {
+      "t": 10026,
+      "type": "keydown",
+      "detail": "u code=KeyU composing=false"
+    },
+    {
+      "t": 10027,
+      "type": "beforeinput",
+      "detail": "insertText \"u\" composing=false"
+    },
+    {
+      "t": 10056,
+      "type": "keydown",
+      "detail": "r code=KeyR composing=false"
+    },
+    {
+      "t": 10057,
+      "type": "beforeinput",
+      "detail": "insertText \"r\" composing=false"
+    },
+    {
+      "t": 10087,
+      "type": "keydown",
+      "detail": "n code=KeyN composing=false"
+    },
+    {
+      "t": 10087,
+      "type": "beforeinput",
+      "detail": "insertText \"n\" composing=false"
+    },
+    {
+      "t": 10370,
+      "type": "keydown",
+      "detail": "Enter code=Enter composing=false"
+    },
+    {
+      "t": 10667,
+      "type": "keydown",
+      "detail": "Escape code=Escape composing=false"
+    },
+    {
+      "t": 10671,
+      "type": "focusin",
+      "detail": "editor#1:textarea"
+    },
+    {
+      "t": 11120,
+      "type": "focusin",
+      "detail": "#option"
+    },
+    {
+      "t": 11124,
+      "type": "keydown",
+      "detail": "Tab code=Tab composing=false"
+    },
+    {
+      "t": 11126,
+      "type": "focusin",
+      "detail": "#fixture"
+    },
+    {
+      "t": 11418,
+      "type": "keydown",
+      "detail": "Tab code=Tab composing=false"
+    },
+    {
+      "t": 11420,
+      "type": "focusin",
+      "detail": "#open"
+    },
+    {
+      "t": 11715,
+      "type": "keydown",
+      "detail": "Tab code=Tab composing=false"
+    },
+    {
+      "t": 11716,
+      "type": "focusin",
+      "detail": "#runs"
+    },
+    {
+      "t": 12007,
+      "type": "keydown",
+      "detail": "Tab code=Tab composing=false"
+    },
+    {
+      "t": 12007,
+      "type": "focusin",
+      "detail": "#bench"
+    },
+    {
+      "t": 12300,
+      "type": "keydown",
+      "detail": "Tab code=Tab composing=false"
+    },
+    {
+      "t": 12307,
+      "type": "focusin",
+      "detail": "editor#0:textarea"
+    },
+    {
+      "t": 12594,
+      "type": "keydown",
+      "detail": "Tab code=Tab composing=false"
+    },
+    {
+      "t": 12600,
+      "type": "focusin",
+      "detail": "editor#1:textarea"
+    },
+    {
+      "t": 12886,
+      "type": "focusin",
+      "detail": "#bench"
+    },
+    {
+      "t": 12889,
+      "type": "keydown",
+      "detail": "shift+Shift code=ShiftLeft composing=false"
+    },
+    {
+      "t": 12909,
+      "type": "keydown",
+      "detail": "shift+Unidentified code=Tab composing=false"
+    },
+    {
+      "t": 12910,
+      "type": "focusin",
+      "detail": "#runs"
+    },
+    {
+      "t": 13223,
+      "type": "keydown",
+      "detail": "shift+Shift code=ShiftLeft composing=false"
+    },
+    {
+      "t": 13244,
+      "type": "keydown",
+      "detail": "shift+Unidentified code=Tab composing=false"
+    },
+    {
+      "t": 13244,
+      "type": "focusin",
+      "detail": "#open"
+    },
+    {
+      "t": 13557,
+      "type": "keydown",
+      "detail": "shift+Shift code=ShiftLeft composing=false"
+    },
+    {
+      "t": 13577,
+      "type": "keydown",
+      "detail": "shift+Unidentified code=Tab composing=false"
+    },
+    {
+      "t": 13578,
+      "type": "focusin",
+      "detail": "#fixture"
+    },
+    {
+      "t": 13891,
+      "type": "keydown",
+      "detail": "shift+Shift code=ShiftLeft composing=false"
+    },
+    {
+      "t": 13911,
+      "type": "keydown",
+      "detail": "shift+Unidentified code=Tab composing=false"
+    },
+    {
+      "t": 13912,
+      "type": "focusin",
+      "detail": "#option"
+    },
+    {
+      "t": 14224,
+      "type": "focusin",
+      "detail": "editor#1:textarea"
+    },
+    {
+      "t": 14235,
+      "type": "keydown",
+      "detail": "Tab code=Tab composing=false"
+    },
+    {
+      "t": 14525,
+      "type": "keydown",
+      "detail": "ctrl+Control code=ControlLeft composing=false"
+    },
+    {
+      "t": 14546,
+      "type": "keydown",
+      "detail": "ctrl+z code=KeyZ composing=false"
+    },
+    {
+      "t": 14860,
+      "type": "keydown",
+      "detail": "ctrl+Control code=ControlLeft composing=false"
+    },
+    {
+      "t": 14881,
+      "type": "keydown",
+      "detail": "ctrl+m code=KeyM composing=false"
+    },
+    {
+      "t": 15198,
+      "type": "keydown",
+      "detail": "Tab code=Tab composing=false"
+    },
+    {
+      "t": 15486,
+      "type": "focusin",
+      "detail": "editor#1:textarea"
+    },
+    {
+      "t": 15491,
+      "type": "keydown",
+      "detail": "ctrl+Control code=ControlLeft composing=false"
+    },
+    {
+      "t": 15511,
+      "type": "keydown",
+      "detail": "ctrl+m code=KeyM composing=false"
+    },
+    {
+      "t": 16426,
+      "type": "keydown",
+      "detail": "Unidentified code=Unidentified composing=false"
+    },
+    {
+      "t": 16426,
+      "type": "beforeinput",
+      "detail": "insertFromComposition \"é \" composing=true"
+    },
+    {
+      "t": 16432,
+      "type": "compositionend",
+      "detail": "é "
+    },
+    {
+      "t": 17020,
+      "type": "keydown",
+      "detail": "ctrl+Control code=ControlLeft composing=false"
+    },
+    {
+      "t": 17040,
+      "type": "keydown",
+      "detail": "ctrl+z code=KeyZ composing=false"
+    },
+    {
+      "t": 17355,
+      "type": "keydown",
+      "detail": "ctrl+Control code=ControlLeft composing=false"
+    },
+    {
+      "t": 17375,
+      "type": "keydown",
+      "detail": "ctrl+shift+Shift code=ShiftLeft composing=false"
+    },
+    {
+      "t": 18317,
+      "type": "keydown",
+      "detail": "Unidentified code=Unidentified composing=false"
+    },
+    {
+      "t": 18317,
+      "type": "beforeinput",
+      "detail": "insertFromComposition \"é\" composing=true"
+    },
+    {
+      "t": 18319,
+      "type": "compositionend",
+      "detail": "é"
+    },
+    {
+      "t": 18911,
+      "type": "keydown",
+      "detail": "ctrl+Control code=ControlLeft composing=false"
+    },
+    {
+      "t": 18931,
+      "type": "keydown",
+      "detail": "ctrl+z code=KeyZ composing=false"
+    },
+    {
+      "t": 19961,
+      "type": "keydown",
+      "detail": "Unidentified code=Unidentified composing=false"
+    },
+    {
+      "t": 19961,
+      "type": "beforeinput",
+      "detail": "insertFromComposition \"你好\" composing=true"
+    },
+    {
+      "t": 19964,
+      "type": "compositionend",
+      "detail": "你好"
+    },
+    {
+      "t": 20555,
+      "type": "keydown",
+      "detail": "ctrl+Control code=ControlLeft composing=false"
+    },
+    {
+      "t": 20575,
+      "type": "keydown",
+      "detail": "ctrl+z code=KeyZ composing=false"
+    },
+    {
+      "t": 20886,
+      "type": "focusin",
+      "detail": "textarea"
+    },
+    {
+      "t": 21295,
+      "type": "keydown",
+      "detail": "Unidentified code=Unidentified composing=false"
+    },
+    {
+      "t": 21296,
+      "type": "beforeinput",
+      "detail": "insertFromComposition \"你好\" composing=true"
+    },
+    {
+      "t": 21296,
+      "type": "compositionend",
+      "detail": "你好"
+    },
+    {
+      "t": 22087,
+      "type": "focusin",
+      "detail": "editor#1:textarea"
+    },
+    {
+      "t": 22105,
+      "type": "keydown",
+      "detail": "Unidentified code=Unidentified composing=false"
+    },
+    {
+      "t": 22105,
+      "type": "compositionstart",
+      "detail": ""
+    },
+    {
+      "t": 22107,
+      "type": "compositionupdate",
+      "detail": "年"
+    },
+    {
+      "t": 22110,
+      "type": "beforeinput",
+      "detail": "insertCompositionText \"年\" composing=true"
+    },
+    {
+      "t": 22129,
+      "type": "keydown",
+      "detail": "Unidentified code=Unidentified composing=true"
+    },
+    {
+      "t": 22131,
+      "type": "compositionupdate",
+      "detail": "你"
+    },
+    {
+      "t": 22135,
+      "type": "beforeinput",
+      "detail": "insertCompositionText \"你\" composing=true"
+    },
+    {
+      "t": 22156,
+      "type": "keydown",
+      "detail": "Unidentified code=Unidentified composing=true"
+    },
+    {
+      "t": 22158,
+      "type": "compositionupdate",
+      "detail": "你和"
+    },
+    {
+      "t": 22161,
+      "type": "beforeinput",
+      "detail": "insertCompositionText \"你和\" composing=true"
+    },
+    {
+      "t": 22186,
+      "type": "keydown",
+      "detail": "Unidentified code=Unidentified composing=true"
+    },
+    {
+      "t": 22188,
+      "type": "compositionupdate",
+      "detail": "你哈"
+    },
+    {
+      "t": 22191,
+      "type": "beforeinput",
+      "detail": "insertCompositionText \"你哈\" composing=true"
+    },
+    {
+      "t": 22216,
+      "type": "keydown",
+      "detail": "Unidentified code=Unidentified composing=true"
+    },
+    {
+      "t": 22219,
+      "type": "compositionupdate",
+      "detail": "你好"
+    },
+    {
+      "t": 22222,
+      "type": "beforeinput",
+      "detail": "insertCompositionText \"你好\" composing=true"
+    },
+    {
+      "t": 22497,
+      "type": "keydown",
+      "detail": "Unidentified code=Unidentified composing=true"
+    },
+    {
+      "t": 22500,
+      "type": "beforeinput",
+      "detail": "deleteCompositionText null composing=true"
+    },
+    {
+      "t": 22502,
+      "type": "beforeinput",
+      "detail": "insertFromComposition \"你好\" composing=true"
+    },
+    {
+      "t": 22502,
+      "type": "compositionend",
+      "detail": "你好"
+    },
+    {
+      "t": 23091,
+      "type": "keydown",
+      "detail": "ctrl+Control code=ControlLeft composing=false"
+    },
+    {
+      "t": 23111,
+      "type": "keydown",
+      "detail": "ctrl+z code=KeyZ composing=false"
+    },
+    {
+      "t": 23422,
+      "type": "focusin",
+      "detail": "textarea"
+    },
+    {
+      "t": 23438,
+      "type": "keydown",
+      "detail": "Unidentified code=Unidentified composing=false"
+    },
+    {
+      "t": 23439,
+      "type": "compositionstart",
+      "detail": ""
+    },
+    {
+      "t": 23439,
+      "type": "compositionupdate",
+      "detail": "年"
+    },
+    {
+      "t": 23439,
+      "type": "beforeinput",
+      "detail": "insertCompositionText \"年\" composing=true"
+    },
+    {
+      "t": 23461,
+      "type": "keydown",
+      "detail": "Unidentified code=Unidentified composing=true"
+    },
+    {
+      "t": 23462,
+      "type": "compositionupdate",
+      "detail": "你"
+    },
+    {
+      "t": 23462,
+      "type": "beforeinput",
+      "detail": "insertCompositionText \"你\" composing=true"
+    },
+    {
+      "t": 23490,
+      "type": "keydown",
+      "detail": "Unidentified code=Unidentified composing=true"
+    },
+    {
+      "t": 23491,
+      "type": "compositionupdate",
+      "detail": "你和"
+    },
+    {
+      "t": 23491,
+      "type": "beforeinput",
+      "detail": "insertCompositionText \"你和\" composing=true"
+    },
+    {
+      "t": 23520,
+      "type": "keydown",
+      "detail": "Unidentified code=Unidentified composing=true"
+    },
+    {
+      "t": 23520,
+      "type": "compositionupdate",
+      "detail": "你哈"
+    },
+    {
+      "t": 23520,
+      "type": "beforeinput",
+      "detail": "insertCompositionText \"你哈\" composing=true"
+    },
+    {
+      "t": 23550,
+      "type": "keydown",
+      "detail": "Unidentified code=Unidentified composing=true"
+    },
+    {
+      "t": 23551,
+      "type": "compositionupdate",
+      "detail": "你好"
+    },
+    {
+      "t": 23551,
+      "type": "beforeinput",
+      "detail": "insertCompositionText \"你好\" composing=true"
+    },
+    {
+      "t": 23831,
+      "type": "keydown",
+      "detail": "Unidentified code=Unidentified composing=true"
+    },
+    {
+      "t": 23831,
+      "type": "beforeinput",
+      "detail": "deleteCompositionText null composing=true"
+    },
+    {
+      "t": 23832,
+      "type": "beforeinput",
+      "detail": "insertFromComposition \"你好\" composing=true"
+    },
+    {
+      "t": 23832,
+      "type": "compositionend",
+      "detail": "你好"
+    },
+    {
+      "t": 39450,
+      "type": "focusin",
+      "detail": "editor#1:textarea"
+    },
+    {
+      "t": 39497,
+      "type": "keydown",
+      "detail": "PageDown code=PageDown composing=false"
+    },
+    {
+      "t": 39521,
+      "type": "keydown",
+      "detail": "PageDown code=PageDown composing=false"
+    },
+    {
+      "t": 39558,
+      "type": "keydown",
+      "detail": "PageDown code=PageDown composing=false"
+    },
+    {
+      "t": 39596,
+      "type": "keydown",
+      "detail": "PageDown code=PageDown composing=false"
+    },
+    {
+      "t": 39630,
+      "type": "keydown",
+      "detail": "PageDown code=PageDown composing=false"
+    },
+    {
+      "t": 39689,
+      "type": "keydown",
+      "detail": "PageDown code=PageDown composing=false"
+    },
+    {
+      "t": 39719,
+      "type": "keydown",
+      "detail": "PageDown code=PageDown composing=false"
+    },
+    {
+      "t": 39755,
+      "type": "keydown",
+      "detail": "PageDown code=PageDown composing=false"
+    },
+    {
+      "t": 39793,
+      "type": "keydown",
+      "detail": "PageDown code=PageDown composing=false"
+    },
+    {
+      "t": 39846,
+      "type": "keydown",
+      "detail": "PageDown code=PageDown composing=false"
+    },
+    {
+      "t": 39849,
+      "type": "keydown",
+      "detail": "PageDown code=PageDown composing=false"
+    },
+    {
+      "t": 39878,
+      "type": "keydown",
+      "detail": "PageDown code=PageDown composing=false"
+    },
+    {
+      "t": 39906,
+      "type": "keydown",
+      "detail": "PageDown code=PageDown composing=false"
+    },
+    {
+      "t": 39943,
+      "type": "keydown",
+      "detail": "PageDown code=PageDown composing=false"
+    },
+    {
+      "t": 39946,
+      "type": "keydown",
+      "detail": "PageDown code=PageDown composing=false"
+    },
+    {
+      "t": 39981,
+      "type": "keydown",
+      "detail": "PageDown code=PageDown composing=false"
+    },
+    {
+      "t": 40015,
+      "type": "keydown",
+      "detail": "PageDown code=PageDown composing=false"
+    },
+    {
+      "t": 40017,
+      "type": "keydown",
+      "detail": "PageDown code=PageDown composing=false"
+    },
+    {
+      "t": 40052,
+      "type": "keydown",
+      "detail": "PageDown code=PageDown composing=false"
+    },
+    {
+      "t": 40087,
+      "type": "keydown",
+      "detail": "PageDown code=PageDown composing=false"
+    },
+    {
+      "t": 40090,
+      "type": "keydown",
+      "detail": "PageDown code=PageDown composing=false"
+    },
+    {
+      "t": 40126,
+      "type": "keydown",
+      "detail": "PageDown code=PageDown composing=false"
+    },
+    {
+      "t": 40159,
+      "type": "keydown",
+      "detail": "PageDown code=PageDown composing=false"
+    },
+    {
+      "t": 40162,
+      "type": "keydown",
+      "detail": "PageDown code=PageDown composing=false"
+    },
+    {
+      "t": 40203,
+      "type": "keydown",
+      "detail": "PageDown code=PageDown composing=false"
+    },
+    {
+      "t": 40246,
+      "type": "keydown",
+      "detail": "PageDown code=PageDown composing=false"
+    },
+    {
+      "t": 40260,
+      "type": "keydown",
+      "detail": "PageDown code=PageDown composing=false"
+    },
+    {
+      "t": 40288,
+      "type": "keydown",
+      "detail": "PageDown code=PageDown composing=false"
+    },
+    {
+      "t": 40324,
+      "type": "keydown",
+      "detail": "PageDown code=PageDown composing=false"
+    },
+    {
+      "t": 40327,
+      "type": "keydown",
+      "detail": "PageDown code=PageDown composing=false"
+    },
+    {
+      "t": 40361,
+      "type": "keydown",
+      "detail": "PageDown code=PageDown composing=false"
+    },
+    {
+      "t": 40394,
+      "type": "keydown",
+      "detail": "PageDown code=PageDown composing=false"
+    },
+    {
+      "t": 40397,
+      "type": "keydown",
+      "detail": "PageDown code=PageDown composing=false"
+    },
+    {
+      "t": 40432,
+      "type": "keydown",
+      "detail": "PageDown code=PageDown composing=false"
+    },
+    {
+      "t": 40434,
+      "type": "keydown",
+      "detail": "PageDown code=PageDown composing=false"
+    },
+    {
+      "t": 40435,
+      "type": "keydown",
+      "detail": "PageDown code=PageDown composing=false"
+    },
+    {
+      "t": 40435,
+      "type": "keydown",
+      "detail": "PageDown code=PageDown composing=false"
+    },
+    {
+      "t": 40436,
+      "type": "keydown",
+      "detail": "PageDown code=PageDown composing=false"
+    },
+    {
+      "t": 40437,
+      "type": "keydown",
+      "detail": "PageDown code=PageDown composing=false"
+    },
+    {
+      "t": 40461,
+      "type": "keydown",
+      "detail": "PageDown code=PageDown composing=false"
+    },
+    {
+      "t": 40462,
+      "type": "keydown",
+      "detail": "PageDown code=PageDown composing=false"
+    },
+    {
+      "t": 40463,
+      "type": "keydown",
+      "detail": "PageDown code=PageDown composing=false"
+    },
+    {
+      "t": 40464,
+      "type": "keydown",
+      "detail": "PageDown code=PageDown composing=false"
+    },
+    {
+      "t": 40465,
+      "type": "keydown",
+      "detail": "PageDown code=PageDown composing=false"
+    },
+    {
+      "t": 40466,
+      "type": "keydown",
+      "detail": "PageDown code=PageDown composing=false"
+    },
+    {
+      "t": 40490,
+      "type": "keydown",
+      "detail": "PageDown code=PageDown composing=false"
+    },
+    {
+      "t": 40491,
+      "type": "keydown",
+      "detail": "PageDown code=PageDown composing=false"
+    },
+    {
+      "t": 40493,
+      "type": "keydown",
+      "detail": "PageDown code=PageDown composing=false"
+    },
+    {
+      "t": 40494,
+      "type": "keydown",
+      "detail": "PageDown code=PageDown composing=false"
+    },
+    {
+      "t": 40495,
+      "type": "keydown",
+      "detail": "PageDown code=PageDown composing=false"
+    },
+    {
+      "t": 40497,
+      "type": "keydown",
+      "detail": "PageDown code=PageDown composing=false"
+    },
+    {
+      "t": 40523,
+      "type": "keydown",
+      "detail": "PageDown code=PageDown composing=false"
+    },
+    {
+      "t": 40525,
+      "type": "keydown",
+      "detail": "PageDown code=PageDown composing=false"
+    },
+    {
+      "t": 40526,
+      "type": "keydown",
+      "detail": "PageDown code=PageDown composing=false"
+    },
+    {
+      "t": 40527,
+      "type": "keydown",
+      "detail": "PageDown code=PageDown composing=false"
+    },
+    {
+      "t": 40528,
+      "type": "keydown",
+      "detail": "PageDown code=PageDown composing=false"
+    },
+    {
+      "t": 40555,
+      "type": "keydown",
+      "detail": "PageDown code=PageDown composing=false"
+    },
+    {
+      "t": 40557,
+      "type": "keydown",
+      "detail": "PageDown code=PageDown composing=false"
+    },
+    {
+      "t": 40558,
+      "type": "keydown",
+      "detail": "PageDown code=PageDown composing=false"
+    },
+    {
+      "t": 40559,
+      "type": "keydown",
+      "detail": "PageDown code=PageDown composing=false"
+    }
+  ]
+}

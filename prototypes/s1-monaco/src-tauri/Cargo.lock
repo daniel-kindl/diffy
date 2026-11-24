@@ -597,10 +597,14 @@ dependencies = [
 name = "diffy-s1-monaco"
 version = "0.0.0"
 dependencies = [
+ "cairo-rs",
+ "gio",
+ "javascriptcore-rs",
  "serde",
  "serde_json",
  "tauri",
  "tauri-build",
+ "webkit2gtk",
 ]
 
 [[package]]

@@ -16,6 +16,8 @@ use std::time::Instant;
 use tauri::ipc::Response;
 use tauri::{AppHandle, State};
 
+mod q42;
+
 /// The hunk options of the oracle command. Q43 pins the final options.
 const ORACLE_OPTIONS: [&str; 6] = [
     "--histogram",
@@ -405,7 +407,17 @@ pub fn run() {
             process_memory,
             save_result,
             autorun_config,
-            quit
+            quit,
+            q42::s2_config,
+            q42::input,
+            q42::ext_clipboard_write,
+            q42::ext_clipboard_read,
+            q42::focus_main,
+            q42::ime_engine,
+            q42::set_preedit,
+            q42::font_match,
+            q42::gpu_report,
+            q42::snapshot_check
         ])
         .run(tauri::generate_context!())
         .expect("error while running the prototype");
