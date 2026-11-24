@@ -16,17 +16,18 @@
 
 import { readFileSync } from "node:fs";
 import { pathToFileURL } from "node:url";
-import { readEvent } from "./event.mjs";
+import { FixedError, readEvent, safeMessage } from "./event.mjs";
 
 const KEYWORD = String.raw`\b(?:close[sd]?|fix(?:e[sd])?|resolve[sd]?):?\s+`;
 const ISSUE_URL = String.raw`https:\/\/github\.com\/[\w.-]+\/[\w.-]+\/issues\/\d+\/?`;
 const ISSUE_REF = String.raw`(?:[\w.-]+\/[\w.-]+)?#\d+`;
-// A keyword, then "#12", "owner/repo#12" or an issue URL, as plain text or
-// as a Markdown link whose destination is an issue URL.
-const ISSUE_LINK = new RegExp(
-  `${KEYWORD}(?:${ISSUE_REF}(?![\\w\\]])|${ISSUE_URL}(?![\\w/])|\\[[^\\]]+\\]\\(<?${ISSUE_URL}>?(?:\\s+"[^"]*")?\\))`,
-  "i",
-);
+// A keyword, then "#12", "owner/repo#12" or an issue URL. linkProse() turns
+// a Markdown link to an issue URL into that URL first.
+const ISSUE_LINK = new RegExp(`${KEYWORD}(?:${ISSUE_REF}(?![\\w\\]])|${ISSUE_URL}(?![\\w/]))`, "i");
+const WHOLE_ISSUE_URL = new RegExp(`^${ISSUE_URL}$`);
+// A code span ends in its paragraph, so it does not cross a blank line.
+const INLINE_CODE = /(`+)(?:(?!\n[ \t]*\n)[\s\S])*?\1/g;
+const MARKDOWN_LINK = /!?\[[^\]]*\]\(\s*<?([^\s)>]*)>?(?:\s+"[^"]*")?\s*\)/g;
 const OBSERVABILITY = /^[ \t]*(?:[-*+][ \t]+)?Observability:[ \t]*(.*)$/;
 const PLACEHOLDER = /<[^>]*>/;
 const ATX = /^ {0,3}(#{1,6})(?:[ \t]+(.*?))?(?:[ \t]+#+)?[ \t]*$/;
@@ -57,9 +58,24 @@ function stripExamples(text) {
   return out;
 }
 
+// Return the text where the closing reference can be: no inline code, and
+// each Markdown link replaced by its destination when that is an issue URL.
+// The label of a link is not a closing reference. A link to another page
+// is removed.
+export function linkProse(lines) {
+  return lines
+    .join("\n")
+    .replace(INLINE_CODE, " ")
+    .replace(MARKDOWN_LINK, (_, destination) => (WHOLE_ISSUE_URL.test(destination) ? ` ${destination} ` : " "));
+}
+
+const isParagraphLine = (line) =>
+  line.trim() !== "" && !ATX.test(line) && !SETEXT.test(line) && !LIST_ITEM.test(line) && !BLOCK_START.test(line);
+
 // Return the headings as { line, level, text }. ATX headings ("## Text") and
 // setext headings ("Text" over a line of "=" or "-") count. A "-" line after
 // a list item or a blank line is a list or a thematic break, not a heading.
+// The text of a setext heading is the whole paragraph over the underline.
 export function headings(lines) {
   const result = [];
   for (let i = 0; i < lines.length; i++) {
@@ -73,7 +89,10 @@ export function headings(lines) {
     const previous = lines[i - 1];
     if (previous.trim() === "" || LIST_ITEM.test(previous) || BLOCK_START.test(previous)) continue;
     if (/^(?: {4}|\t)/.test(previous) || SETEXT.test(previous)) continue;
-    result.push({ line: i - 1, level: setext[1][0] === "=" ? 1 : 2, text: previous.trim() });
+    let first = i - 1;
+    while (first > 0 && isParagraphLine(lines[first - 1])) first--;
+    const text = lines.slice(first, i).map((line) => line.trim()).join(" ");
+    result.push({ line: first, end: i, level: setext[1][0] === "=" ? 1 : 2, text });
   }
   return result;
 }
@@ -86,8 +105,8 @@ function evidenceLines(lines) {
   if (index === -1) return null;
   const start = all[index];
   const end = all.slice(index + 1).find((h) => h.level <= 2);
-  // A setext heading uses two lines: the text and the underline.
-  const first = start.line + (ATX.test(lines[start.line]) ? 1 : 2);
+  // A setext heading ends at its underline.
+  const first = (start.end ?? start.line) + 1;
   return lines.slice(first, end ? end.line : lines.length);
 }
 
@@ -99,7 +118,7 @@ export function checkPrBody(rawBody, author = "") {
   if (author.endsWith("[bot]")) return [];
   const lines = stripExamples(rawBody ?? "");
   const errors = [];
-  if (!ISSUE_LINK.test(lines.join("\n"))) {
+  if (!ISSUE_LINK.test(linkProse(lines))) {
     errors.push(
       'the body must link an issue with a closing keyword, for example "Closes #12". The merge then closes the issue',
     );
@@ -125,7 +144,7 @@ export function checkPrBody(rawBody, author = "") {
 export function readInput(args, env) {
   if (args.length > 0) return { body: readFileSync(args[0], "utf8"), author: "" };
   const pr = readEvent(env).pull_request;
-  if (!pr) throw new Error("the event has no pull_request");
+  if (!pr) throw new FixedError("the event has no pull_request");
   return { body: pr.body ?? "", author: pr.user?.login ?? "" };
 }
 
@@ -134,7 +153,7 @@ function main() {
   try {
     input = readInput(process.argv.slice(2), process.env);
   } catch (error) {
-    console.error(`PR body: ${error.message}`);
+    console.error(`PR body: ${safeMessage(error, "cannot read the body")}`);
     return 2;
   }
   if (input.author.endsWith("[bot]")) {

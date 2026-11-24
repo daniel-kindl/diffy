@@ -74,6 +74,25 @@ test("a heading in a code block does not end the section", () => {
   assert.deepEqual(checkPrBody(body), []);
 });
 
+test("a closing reference in inline code does not count", () => {
+  assert.match(checkPrBody(VALID.replace("Closes #19", "`Closes #19`"))[0], /link an issue/);
+  assert.match(checkPrBody(VALID.replace("Closes #19", "``Closes #19``"))[0], /link an issue/);
+});
+
+test("inline code ends at a blank line, so a later reference counts", () => {
+  assert.deepEqual(checkPrBody(VALID.replace("Closes #19", "A ` mark.\n\nCloses #19")), []);
+});
+
+test("a closing reference in the label of a link to another page does not count", () => {
+  const body = VALID.replace("Closes #19", "[Closes #19 in Diffy](README.md)");
+  assert.match(checkPrBody(body)[0], /link an issue/);
+});
+
+test("a two-line setext heading uses the whole paragraph as its text", () => {
+  const body = "Closes #19\n\nSupporting\nEvidence\n--------\n\nObservability: none, docs only\n";
+  assert.match(checkPrBody(body)[0], /Evidence/);
+});
+
 test("a body with no Evidence section fails", () => {
   assert.match(checkPrBody(VALID.replace("## Evidence", "## Checks"))[0], /Evidence/);
 });
