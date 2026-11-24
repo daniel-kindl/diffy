@@ -1,0 +1,163 @@
+{
+  "prototype": "Diffy S1, map question Q54 (verdict phase). Never merged.",
+  "created": "2026-11-24T21:29:30.532Z",
+  "option": "B",
+  "system": {
+    "build": {
+      "profile": "release",
+      "tauri": "2.12.7"
+    },
+    "hardware": {
+      "cpu": "AMD Ryzen 5 3600 6-Core Processor",
+      "gpus": [
+        {
+          "card": "card1",
+          "device": "0x7480",
+          "driver": "amdgpu",
+          "vendor": "0x1002"
+        }
+      ],
+      "logical_cpus": 12,
+      "mem_total_kb": 16263384
+    },
+    "oracle_git": "git version 2.55.0",
+    "os": {
+      "container": true,
+      "kernel": "7.3.4-ogc8.1.fc45.x86_64",
+      "name": "Fedora Linux 44 (Container Image)"
+    },
+    "session": {
+      "DISPLAY": ":0",
+      "GDK_BACKEND": null,
+      "WAYLAND_DISPLAY": "wayland-1",
+      "WEBKIT_DISABLE_COMPOSITING_MODE": null,
+      "WEBKIT_DISABLE_DMABUF_RENDERER": null,
+      "XDG_SESSION_TYPE": "wayland"
+    },
+    "webview": "2.54.2",
+    "windows_cpu": null,
+    "windows_logical_cpus": null
+  },
+  "user_agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/60.5 Safari/605.1.15",
+  "device_pixel_ratio": 1,
+  "window": {
+    "width": 1400,
+    "height": 900
+  },
+  "method": [
+    "Each part opens the fixture with the Q41 open path, then runs its checks. Times are performance.now() in the page.",
+    "coordinates: the canonical row model comes from the oracle blocks. Each unchanged pair (left line, right line) must have the same top (getTopForLineNumber) on both sides. Each block must start at the same top on both sides. The changed lines on each side must be equal to the canonical changed lines: option A uses getLineChanges, option B uses its line decorations.",
+    "dom_rows: at evenly spaced scroll positions and at the first block starts, each rendered row on both sides is hit-tested with getTargetAtClientPoint. A row passes when both sides show a canonical unchanged pair, or lines of the same canonical block, or a view zone next to a block line, or two view zones.",
+    "findings: five finding widgets, each a view zone of 3 lines, at canonical coordinates: an unchanged right line, a removed left line, an added right line, right line 1 and the last left line. Option A adds the widget to one side and Monaco aligns the other side. Option B adds the widget and a spacer of the same height on the other side. The coordinate check and the row check run again, and each widget must start at the bottom of its line (1 px tolerance).",
+    "scroll: setScrollTop on the right editor in each requestAnimationFrame callback, a fixed step each frame, so the speed follows the display refresh. This is programmatic scrolling, not wheel input. The frame interval is the time between rAF callbacks. A long frame is more than 1.5 times the median interval. Each frame checks that the two sides have the same scrollTop.",
+    "live: the Rust side changes the live copy of the right side on disk (write a temporary file, then rename). The page reads the file, applies line edits to the right model, and recomputes the diff: option A with the Monaco worker, option B with the oracle on the live file. The settled time is from before the write to two animation frames after the new diff is shown. Run 1 is a warm-up. A file watcher is not part of the prototype; the time does not include a watcher delay.",
+    "live anchor: before the edits, a tracked decoration marks the first visible line of the right editor. After the new diff is shown, the page scrolls so that this line has the same offset from the top as before. Monaco alone keeps scrollTop in pixels, so a line inserted above the viewport moves the content down.",
+    "live checks: the scroll position is kept when the same content line stays at the top of the right editor (shifted by the lines inserted above it). The selection is kept when the selected text is the same.",
+    "option B open path (Q54): when only one side shows a horizontal scroll bar, a view zone of the scroll bar height goes below the last line of the other side, so both sides have the same maximum scrollTop. Q42 found the defect, and the 10k-lines fixture has it (26 right lines of 83 characters).",
+    "hscroll: an in-memory pair of 200 lines where right line 100 has 2,000 characters, so only the right side needs a horizontal scroll bar. The check scrolls to the bottom and compares the two sides.",
+    "stress: a memory sampler thread reads the RSS of the process tree each 50 ms. CPU time is utime + stime of the process tree from /proc. A stall is a timer callback that runs more than 50 ms late, or a gap of more than 50 ms between animation frames."
+  ],
+  "passed": 0,
+  "failed": [],
+  "records": [
+    {
+      "part": "stress",
+      "fixture": "50mb-stress",
+      "facts": {
+        "open": {
+          "ok": true,
+          "phases": {
+            "load_ms": 1340,
+            "oracle_ms": 1188.304727,
+            "model_ms": 215,
+            "setup_ms": 147,
+            "paint_ms": 112,
+            "total_ms": 1814
+          },
+          "wall_ms": 1844,
+          "cpu_ms": 2620,
+          "stalls": {
+            "timer_stalls": 4,
+            "timer_stall_ms_total": 763,
+            "timer_stall_ms_max": 390,
+            "frame_gaps_over_50ms": 6,
+            "frame_gap_ms_max": 387
+          }
+        },
+        "scroll": {
+          "result": {
+            "frames": 360,
+            "step_px": 60,
+            "fps": 60.02000666888963,
+            "interval_ms_median": 17,
+            "interval_ms_p95": 18,
+            "interval_ms_p99": 21,
+            "interval_ms_max": 25,
+            "long_frames": 0,
+            "long_frames_over_33ms": 0,
+            "scroll_top_mismatch_frames": 0,
+            "pass_alignment": true
+          },
+          "cpu_ms": 6470,
+          "stalls": {
+            "timer_stalls": 0,
+            "timer_stall_ms_total": 0,
+            "timer_stall_ms_max": 0,
+            "frame_gaps_over_50ms": 0,
+            "frame_gap_ms_max": 0
+          }
+        },
+        "idle_2s": {
+          "cpu_ms": 430,
+          "stalls": {
+            "timer_stalls": 0,
+            "timer_stall_ms_total": 0,
+            "timer_stall_ms_max": 0,
+            "frame_gaps_over_50ms": 0,
+            "frame_gap_ms_max": 0
+          }
+        },
+        "rss_kb_before": 475068,
+        "rss_kb_after_open": 690388,
+        "rss_kb_end": 751728,
+        "memory_sampler": {
+          "duration_ms": 9952.947870999998,
+          "interval_ms": 50,
+          "peak_rss_kb_by_process_name": {
+            "WebKitNetworkPr": 55976,
+            "WebKitWebProces": 655192,
+            "diffy-s1-monaco": 324568,
+            "git": 244776
+          },
+          "peak_total_rss_kb": 1114340,
+          "samples": 170
+        },
+        "tree_end": {
+          "processes": [
+            {
+              "cpu_ms": 40,
+              "name": "WebKitNetworkPr",
+              "pid": 1103698,
+              "rss_kb": 55932
+            },
+            {
+              "cpu_ms": 7470,
+              "name": "WebKitWebProces",
+              "pid": 1103717,
+              "rss_kb": 532912
+            },
+            {
+              "cpu_ms": 2750,
+              "name": "diffy-s1-monaco",
+              "pid": 1103676,
+              "rss_kb": 162704
+            }
+          ],
+          "supported": true,
+          "total_cpu_ms": 10260,
+          "total_rss_kb": 751548
+        }
+      }
+    }
+  ]
+}

@@ -16,7 +16,9 @@ use std::time::Instant;
 use tauri::ipc::Response;
 use tauri::{AppHandle, State};
 
+#[cfg(target_os = "linux")]
 mod q42;
+mod q54;
 
 /// The hunk options of the oracle command. Q43 pins the final options.
 const ORACLE_OPTIONS: [&str; 6] = [
@@ -183,7 +185,7 @@ fn manifest() -> Result<serde_json::Value, String> {
 }
 
 /// Return the file of a fixture side. Only names in the manifest are valid.
-fn fixture_file(name: &str, side: &str) -> Result<PathBuf, String> {
+pub(crate) fn fixture_file(name: &str, side: &str) -> Result<PathBuf, String> {
     if side != "left" && side != "right" {
         return Err("side must be left or right".into());
     }
@@ -210,11 +212,21 @@ fn read_side(name: String, side: String) -> Result<Response, String> {
 
 #[tauri::command]
 async fn canonical_hunks(name: String, cache: State<'_, Cache>) -> Result<CanonicalDiff, String> {
-    if let Some(hit) = cache.0.lock().unwrap().get(&name) {
-        return Ok(CanonicalDiff { cached: true, ..hit.clone() });
+    // Q54: DIFFY_S1_NO_CACHE=1 runs the oracle on each call.
+    let use_cache = std::env::var_os("DIFFY_S1_NO_CACHE").is_none();
+    if use_cache {
+        if let Some(hit) = cache.0.lock().unwrap().get(&name) {
+            return Ok(CanonicalDiff { cached: true, ..hit.clone() });
+        }
     }
-    let left = fixture_file(&name, "left")?;
-    let right = fixture_file(&name, "right")?;
+    let result = run_oracle(fixture_file(&name, "left")?, fixture_file(&name, "right")?).await?;
+    if use_cache {
+        cache.0.lock().unwrap().insert(name, result.clone());
+    }
+    Ok(result)
+}
+
+pub(crate) async fn run_oracle(left: PathBuf, right: PathBuf) -> Result<CanonicalDiff, String> {
     let mut cmd = oracle_command(&left, &right);
     let command = format!(
         "GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_GLOBAL=/dev/null git diff --no-index {} -- {} {}",
@@ -233,16 +245,14 @@ async fn canonical_hunks(name: String, cache: State<'_, Cache>) -> Result<Canoni
         return Err(format!("git diff failed: {}", String::from_utf8_lossy(&output.stderr)));
     }
     let parsed = parse_unified(&String::from_utf8_lossy(&output.stdout))?;
-    let result = CanonicalDiff {
+    Ok(CanonicalDiff {
         source: "ADR 0002 oracle command (until Q43 selects a crate)".into(),
         git_version: git_version(),
         command,
         oracle_ms,
         cached: false,
         parsed,
-    };
-    cache.0.lock().unwrap().insert(name, result.clone());
-    Ok(result)
+    })
 }
 
 fn read_trim(path: &str) -> Option<String> {
@@ -321,6 +331,8 @@ fn system_info() -> serde_json::Value {
             "tauri": tauri::VERSION,
         },
         "oracle_git": git_version(),
+        "windows_cpu": env("PROCESSOR_IDENTIFIER"),
+        "windows_logical_cpus": env("NUMBER_OF_PROCESSORS"),
     })
 }
 
@@ -396,10 +408,9 @@ fn quit(app: AppHandle, code: i32) {
     app.exit(code);
 }
 
-pub fn run() {
-    tauri::Builder::default()
-        .manage(Cache::default())
-        .invoke_handler(tauri::generate_handler![
+macro_rules! handlers {
+    ($($extra:path),*) => {
+        tauri::generate_handler![
             list_fixtures,
             read_side,
             canonical_hunks,
@@ -408,19 +419,38 @@ pub fn run() {
             save_result,
             autorun_config,
             quit,
-            q42::s2_config,
-            q42::input,
-            q42::ext_clipboard_write,
-            q42::ext_clipboard_read,
-            q42::focus_main,
-            q42::ime_engine,
-            q42::set_preedit,
-            q42::font_match,
-            q42::gpu_report,
-            q42::snapshot_check
-        ])
-        .run(tauri::generate_context!())
-        .expect("error while running the prototype");
+            q54::q54_config,
+            q54::tree_stats,
+            q54::sampler_start,
+            q54::sampler_stop,
+            q54::live_write,
+            q54::live_read,
+            q54::live_reset,
+            q54::live_canonical
+            $(, $extra)*
+        ]
+    };
+}
+
+pub fn run() {
+    let builder = tauri::Builder::default().manage(Cache::default()).manage(q54::Sampler::default());
+    // The Q42 checks use WebKitGTK, so they exist on Linux only.
+    #[cfg(target_os = "linux")]
+    let builder = builder.invoke_handler(handlers![
+        q42::s2_config,
+        q42::input,
+        q42::ext_clipboard_write,
+        q42::ext_clipboard_read,
+        q42::focus_main,
+        q42::ime_engine,
+        q42::set_preedit,
+        q42::font_match,
+        q42::gpu_report,
+        q42::snapshot_check
+    ]);
+    #[cfg(not(target_os = "linux"))]
+    let builder = builder.invoke_handler(handlers![]);
+    builder.run(tauri::generate_context!()).expect("error while running the prototype");
 }
 
 #[cfg(test)]

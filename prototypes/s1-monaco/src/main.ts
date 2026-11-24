@@ -7,20 +7,29 @@ import * as monaco from "monaco-editor/editor";
 import EditorWorker from "monaco-editor/editor/editor.worker?worker";
 import { invoke } from "@tauri-apps/api/core";
 import { q42 } from "./q42";
+import { q54 } from "./q54";
 declare const __MONACO_VERSION__: string;
 
 (self as unknown as { MonacoEnvironment: monaco.Environment }).MonacoEnvironment = {
   getWorker: () => new EditorWorker(),
 };
 
-type Side = { file: string; bytes: number; lines: number; sha256: string };
-type Fixture = { name: string; note: string; seed: number; left: Side; right: Side };
-type Block = { left_start: number; left_count: number; right_start: number; right_count: number };
-type Canonical = {
+export type Side = { file: string; bytes: number; lines: number; sha256: string };
+export type Fixture = { name: string; note: string; seed: number; left: Side; right: Side };
+export type Block = { left_start: number; left_count: number; right_start: number; right_count: number };
+export type Canonical = {
   source: string; git_version: string; command: string; oracle_ms: number; cached: boolean;
   hunks: Block[]; blocks: Block[]; added: number; removed: number;
 };
-type Option = "A" | "B";
+export type Option = "A" | "B";
+
+// The open view, for the Q54 checks.
+export type Current = {
+  option: Option; fixture: Fixture; canon: Canonical;
+  orig: monaco.editor.ICodeEditor; mod: monaco.editor.ICodeEditor;
+  diff?: monaco.editor.IStandaloneDiffEditor; b?: BView;
+};
+let current: Current | null = null;
 
 type OpenResult = {
   option: Option;
@@ -48,6 +57,7 @@ let fixtures: Fixture[] = [];
 let dispose: (() => void) | null = null;
 
 function clear() {
+  current = null;
   dispose?.();
   dispose = null;
   host.replaceChildren();
@@ -64,7 +74,7 @@ const renderedLines = (el: HTMLElement) => el.querySelectorAll(".view-line").len
 // Monaco gives a model one more line than the file when the file ends with "\n".
 const modelLines = (f: Side) => f.lines + 1;
 
-const EDITOR_OPTIONS: monaco.editor.IEditorOptions = {
+export const EDITOR_OPTIONS: monaco.editor.IEditorOptions = {
   readOnly: true,
   automaticLayout: true,
   minimap: { enabled: false },
@@ -117,6 +127,7 @@ async function openA(f: Fixture): Promise<OpenResult> {
   });
   diff.setModel({ original, modified });
   await withTimeout(updated, "the presentation diff");
+  current = { option: "A", fixture: f, canon: { blocks: [] } as unknown as Canonical, orig: diff.getOriginalEditor(), mod: diff.getModifiedEditor(), diff };
   const t3 = now();
   phases.diff_ms = t3 - t2;
   await frames();
@@ -127,6 +138,7 @@ async function openA(f: Fixture): Promise<OpenResult> {
   // Checks, after the timed part.
   const changes = diff.getLineChanges() ?? [];
   const canon = await invoke<Canonical>("canonical_hunks", { name: f.name });
+  if (current) current.canon = canon;
   const canonKeys = new Set(canon.blocks.map((b) => key(blockAsLineChange(b))));
   const presentation = changes.map((c) => key({
     os: c.originalStartLineNumber, oe: c.originalEndLineNumber, ms: c.modifiedStartLineNumber, me: c.modifiedEndLineNumber,
@@ -151,26 +163,28 @@ async function openA(f: Fixture): Promise<OpenResult> {
   return { option: "A", fixture: f.name, ok, phases, checks };
 }
 
-function align(editor: monaco.editor.IStandaloneCodeEditor, zones: { after: number; lines: number }[]) {
+function align(editor: monaco.editor.ICodeEditor, zones: { after: number; lines: number }[]) {
+  const ids: string[] = [];
   editor.changeViewZones((acc) => {
     for (const z of zones) {
       const dom = document.createElement("div");
       dom.className = "pad";
-      acc.addZone({ afterLineNumber: z.after, heightInLines: z.lines, domNode: dom });
+      ids.push(acc.addZone({ afterLineNumber: z.after, heightInLines: z.lines, domNode: dom }));
     }
   });
+  return ids;
 }
 
-function decorate(editor: monaco.editor.IStandaloneCodeEditor, ranges: [number, number][], className: string) {
+function decorate(editor: monaco.editor.ICodeEditor, ranges: [number, number][], className: string) {
   return editor.createDecorationsCollection(ranges.map(([start, end]) => ({
     range: new monaco.Range(start, 1, end, 1),
     options: { isWholeLine: true, className },
   })));
 }
 
-function syncScroll(a: monaco.editor.IStandaloneCodeEditor, b: monaco.editor.IStandaloneCodeEditor) {
+export function syncScroll(a: monaco.editor.ICodeEditor, b: monaco.editor.ICodeEditor) {
   let busy = false;
-  const link = (from: monaco.editor.IStandaloneCodeEditor, to: monaco.editor.IStandaloneCodeEditor) =>
+  const link = (from: monaco.editor.ICodeEditor, to: monaco.editor.ICodeEditor) =>
     from.onDidScrollChange((e) => {
       if (busy || (!e.scrollTopChanged && !e.scrollLeftChanged)) return;
       busy = true;
@@ -178,6 +192,57 @@ function syncScroll(a: monaco.editor.IStandaloneCodeEditor, b: monaco.editor.ISt
       busy = false;
     });
   return [link(a, b), link(b, a)];
+}
+
+export type BView = { leftZones: { after: number; lines: number }[]; rightZones: { after: number; lines: number }[]; clear: () => void };
+
+// Option B: decorations for the changed lines and view zones that pad the
+// shorter side of each block. clear() removes both, for a live refresh.
+export function applyB(l: monaco.editor.ICodeEditor, r: monaco.editor.ICodeEditor, blocks: Block[]): BView {
+  const leftZones: { after: number; lines: number }[] = [];
+  const rightZones: { after: number; lines: number }[] = [];
+  const removed: [number, number][] = [];
+  const added: [number, number][] = [];
+  for (const b of blocks) {
+    if (b.left_count > 0) removed.push([b.left_start, b.left_start + b.left_count - 1]);
+    if (b.right_count > 0) added.push([b.right_start, b.right_start + b.right_count - 1]);
+    const d = b.left_count - b.right_count;
+    if (d > 0) rightZones.push({ after: b.right_start + b.right_count - 1, lines: d });
+    if (d < 0) leftZones.push({ after: b.left_start + b.left_count - 1, lines: -d });
+  }
+  const decorations = [decorate(l, removed, "line-removed"), decorate(r, added, "line-added")];
+  const ids = [align(l, leftZones), align(r, rightZones)];
+  return {
+    leftZones, rightZones,
+    clear: () => {
+      decorations.forEach((d) => d.clear());
+      l.changeViewZones((acc) => ids[0].forEach((id) => acc.removeZone(id)));
+      r.changeViewZones((acc) => ids[1].forEach((id) => acc.removeZone(id)));
+    },
+  };
+}
+
+// Option B: when only one side shows a horizontal scroll bar, that side has a
+// shorter viewport. A pad of the scroll bar height below the last line of the
+// other side gives both sides the same maximum scrollTop.
+export function padForScrollbar(l: monaco.editor.ICodeEditor, r: monaco.editor.ICodeEditor): monaco.IDisposable[] {
+  const zones = new Map<monaco.editor.ICodeEditor, string>();
+  const shows = (ed: monaco.editor.ICodeEditor) => ed.getScrollWidth() > ed.getLayoutInfo().contentWidth;
+  const update = () => {
+    const want = new Map<monaco.editor.ICodeEditor, boolean>([[l, shows(r) && !shows(l)], [r, shows(l) && !shows(r)]]);
+    for (const [ed, needed] of want) {
+      const id = zones.get(ed);
+      if (needed && !id) {
+        ed.changeViewZones((acc) => {
+          zones.set(ed, acc.addZone({ afterLineNumber: ed.getModel()!.getLineCount(), heightInPx: ed.getLayoutInfo().horizontalScrollbarHeight, ordinal: 1e9, domNode: document.createElement("div") }));
+        });
+      } else if (!needed && id) {
+        ed.changeViewZones((acc) => acc.removeZone(id));
+        zones.delete(ed);
+      }
+    }
+  };
+  return [l.onDidContentSizeChange(update), r.onDidContentSizeChange(update), l.onDidLayoutChange(update), r.onDidLayoutChange(update)];
 }
 
 async function openB(f: Fixture): Promise<OpenResult> {
@@ -197,26 +262,15 @@ async function openB(f: Fixture): Promise<OpenResult> {
   const re = document.createElement("div");
   le.className = re.className = "pane";
   host.append(le, re);
-  const l = monaco.editor.create(le, { ...EDITOR_OPTIONS, model: lm });
-  const r = monaco.editor.create(re, { ...EDITOR_OPTIONS, model: rm });
-  const leftZones: { after: number; lines: number }[] = [];
-  const rightZones: { after: number; lines: number }[] = [];
-  const removed: [number, number][] = [];
-  const added: [number, number][] = [];
-  for (const b of canon.blocks) {
-    if (b.left_count > 0) removed.push([b.left_start, b.left_start + b.left_count - 1]);
-    if (b.right_count > 0) added.push([b.right_start, b.right_start + b.right_count - 1]);
-    const d = b.left_count - b.right_count;
-    if (d > 0) rightZones.push({ after: b.right_start + b.right_count - 1, lines: d });
-    if (d < 0) leftZones.push({ after: b.left_start + b.left_count - 1, lines: -d });
-  }
-  const decorations = [decorate(l, removed, "line-removed"), decorate(r, added, "line-added")];
-  align(l, leftZones);
-  align(r, rightZones);
-  const subs = syncScroll(l, r);
+  const l = monaco.editor.create(le, { ...EDITOR_OPTIONS, ...bOptions, model: lm });
+  const r = monaco.editor.create(re, { ...EDITOR_OPTIONS, ...bOptions, model: rm });
+  const view = applyB(l, r, canon.blocks);
+  const { leftZones, rightZones } = view;
+  const subs = [...syncScroll(l, r), ...padForScrollbar(l, r)];
+  current = { option: "B", fixture: f, canon, orig: l, mod: r, b: view };
   dispose = () => {
     subs.forEach((s) => s.dispose());
-    decorations.forEach((d) => d.clear());
+    current?.b?.clear();
     l.dispose(); r.dispose(); lm.dispose(); rm.dispose();
   };
   const t3 = now();
@@ -253,7 +307,11 @@ async function openB(f: Fixture): Promise<OpenResult> {
   return { option: "B", fixture: f.name, ok, phases, checks };
 }
 
-async function open(option: Option, name: string): Promise<OpenResult> {
+// Q54: extra editor options for option B, for the horizontal scroll bar check.
+let bOptions: monaco.editor.IEditorOptions = {};
+export function setBOptions(o: monaco.editor.IEditorOptions) { bOptions = o; }
+
+export async function open(option: Option, name: string): Promise<OpenResult> {
   clear();
   await frames();
   const f = fixtures.find((x) => x.name === name);
@@ -268,7 +326,7 @@ async function open(option: Option, name: string): Promise<OpenResult> {
 }
 
 // Nearest-rank percentile.
-function percentile(values: number[], p: number) {
+export function percentile(values: number[], p: number) {
   if (values.length === 0) return null;
   const sorted = [...values].sort((a, b) => a - b);
   return sorted[Math.min(sorted.length - 1, Math.ceil((p / 100) * sorted.length) - 1)];
@@ -358,6 +416,7 @@ async function main() {
   for (const f of fixtures) select.append(new Option(`${f.name} (${(f.left.bytes / 1e6).toFixed(2)} MB)`, f.name));
   status("Select an option and a fixture.");
   if (await autorun()) return;
+  if (await q54({ open, current: () => current, applyB, syncScroll, padForScrollbar, editorOptions: EDITOR_OPTIONS, percentile })) return;
   if (await q42(open)) return;
   const option = () => $<HTMLSelectElement>("option").value as Option;
   $("open").addEventListener("click", async () => {

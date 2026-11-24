@@ -1,0 +1,1927 @@
+{
+  "prototype": "Diffy S1, map question Q41 (build phase). Q54 gives the verdict.",
+  "created": "2026-11-24T21:30:34.940Z",
+  "system": {
+    "build": {
+      "profile": "release",
+      "tauri": "2.12.7"
+    },
+    "hardware": {
+      "cpu": "AMD Ryzen 5 3600 6-Core Processor",
+      "gpus": [
+        {
+          "card": "card1",
+          "device": "0x7480",
+          "driver": "amdgpu",
+          "vendor": "0x1002"
+        }
+      ],
+      "logical_cpus": 12,
+      "mem_total_kb": 16263384
+    },
+    "oracle_git": "git version 2.55.0",
+    "os": {
+      "container": true,
+      "kernel": "7.3.4-ogc8.1.fc45.x86_64",
+      "name": "Fedora Linux 44 (Container Image)"
+    },
+    "session": {
+      "DISPLAY": ":0",
+      "GDK_BACKEND": null,
+      "WAYLAND_DISPLAY": "wayland-1",
+      "WEBKIT_DISABLE_COMPOSITING_MODE": null,
+      "WEBKIT_DISABLE_DMABUF_RENDERER": null,
+      "XDG_SESSION_TYPE": "wayland"
+    },
+    "webview": "2.54.2",
+    "windows_cpu": null,
+    "windows_logical_cpus": null
+  },
+  "user_agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/60.5 Safari/605.1.15",
+  "device_pixel_ratio": 1,
+  "window": {
+    "width": 1400,
+    "height": 900
+  },
+  "monaco": "0.58.0",
+  "method": [
+    "Each run disposes the previous editors and models, waits two animation frames, then opens the fixture.",
+    "load_ms: the two read_side IPC calls and the UTF-8 decode. For option B it also includes the canonical_hunks IPC call.",
+    "oracle_ms (option B): the git diff oracle time on the first run. Later runs use the cached hunks and record 0.",
+    "model_ms: monaco.editor.createModel for both sides.",
+    "diff_ms (option A): from setModel to the first onDidUpdateDiff event. Monaco calculates the presentation diff in a web worker.",
+    "setup_ms (option B): editor creation, decorations, alignment view zones and scroll sync.",
+    "paint_ms: two requestAnimationFrame callbacks after the editor is ready, as an estimate of the first paint.",
+    "total_ms: from the open request to the end of paint_ms.",
+    "Run 1 is a warm-up. The summary excludes it when there are 2 or more runs.",
+    "memory: the resident set size of the app process and its descendants, for example WebKitWebProcess, after the open."
+  ],
+  "items": [
+    {
+      "option": "A",
+      "fixture": {
+        "left": {
+          "bytes": 998730,
+          "file": "1mb.left.txt",
+          "lines": 28249,
+          "sha256": "c6b43a841946991924da51a12b411f4b52226aa4b21cf9ed22591e77166a5b13"
+        },
+        "name": "1mb",
+        "note": "A 1 MB diff: each side is about 1 MB.",
+        "right": {
+          "bytes": 997132,
+          "file": "1mb.right.txt",
+          "lines": 28090,
+          "sha256": "29a6bb7c040210e921dd1fbf150d0e482a34e796822075ab36e534a704281274"
+        },
+        "seed": 2
+      },
+      "runs": 21,
+      "all_ok": true,
+      "summary": {
+        "measured_runs": 20,
+        "total_ms_p50": 240,
+        "total_ms_p95": 257,
+        "total_ms_max": 259
+      },
+      "results": [
+        {
+          "option": "A",
+          "fixture": "1mb",
+          "ok": true,
+          "phases": {
+            "load_ms": 8,
+            "model_ms": 26,
+            "diff_ms": 451,
+            "paint_ms": 27,
+            "total_ms": 512
+          },
+          "checks": {
+            "left_model_lines": 28250,
+            "right_model_lines": 28091,
+            "expected_left_lines": 28250,
+            "expected_right_lines": 28091,
+            "rendered_view_lines": 91,
+            "presentation_changes": 250,
+            "canonical_blocks": 250,
+            "presentation_changes_equal_to_a_canonical_block": 246,
+            "quit_early": false
+          },
+          "memory": {
+            "processes": [
+              {
+                "name": "WebKitNetworkPr",
+                "pid": 1103964,
+                "rss_kb": 57032
+              },
+              {
+                "name": "WebKitWebProces",
+                "pid": 1103983,
+                "rss_kb": 390664
+              },
+              {
+                "name": "diffy-s1-monaco",
+                "pid": 1103951,
+                "rss_kb": 157584
+              }
+            ],
+            "total_rss_kb": 605280
+          }
+        },
+        {
+          "option": "A",
+          "fixture": "1mb",
+          "ok": true,
+          "phases": {
+            "load_ms": 9,
+            "model_ms": 10,
+            "diff_ms": 225,
+            "paint_ms": 15,
+            "total_ms": 259
+          },
+          "checks": {
+            "left_model_lines": 28250,
+            "right_model_lines": 28091,
+            "expected_left_lines": 28250,
+            "expected_right_lines": 28091,
+            "rendered_view_lines": 91,
+            "presentation_changes": 250,
+            "canonical_blocks": 250,
+            "presentation_changes_equal_to_a_canonical_block": 246,
+            "quit_early": false
+          },
+          "memory": {
+            "processes": [
+              {
+                "name": "diffy-s1-monaco",
+                "pid": 1103951,
+                "rss_kb": 158744
+              },
+              {
+                "name": "WebKitNetworkPr",
+                "pid": 1103964,
+                "rss_kb": 57088
+              },
+              {
+                "name": "WebKitWebProces",
+                "pid": 1103983,
+                "rss_kb": 419108
+              }
+            ],
+            "total_rss_kb": 634940
+          }
+        },
+        {
+          "option": "A",
+          "fixture": "1mb",
+          "ok": true,
+          "phases": {
+            "load_ms": 8,
+            "model_ms": 8,
+            "diff_ms": 224,
+            "paint_ms": 17,
+            "total_ms": 257
+          },
+          "checks": {
+            "left_model_lines": 28250,
+            "right_model_lines": 28091,
+            "expected_left_lines": 28250,
+            "expected_right_lines": 28091,
+            "rendered_view_lines": 91,
+            "presentation_changes": 250,
+            "canonical_blocks": 250,
+            "presentation_changes_equal_to_a_canonical_block": 246,
+            "quit_early": false
+          },
+          "memory": {
+            "processes": [
+              {
+                "name": "diffy-s1-monaco",
+                "pid": 1103951,
+                "rss_kb": 158736
+              },
+              {
+                "name": "WebKitNetworkPr",
+                "pid": 1103964,
+                "rss_kb": 57084
+              },
+              {
+                "name": "WebKitWebProces",
+                "pid": 1103983,
+                "rss_kb": 429188
+              }
+            ],
+            "total_rss_kb": 645008
+          }
+        },
+        {
+          "option": "A",
+          "fixture": "1mb",
+          "ok": true,
+          "phases": {
+            "load_ms": 8,
+            "model_ms": 9,
+            "diff_ms": 220,
+            "paint_ms": 14,
+            "total_ms": 251
+          },
+          "checks": {
+            "left_model_lines": 28250,
+            "right_model_lines": 28091,
+            "expected_left_lines": 28250,
+            "expected_right_lines": 28091,
+            "rendered_view_lines": 91,
+            "presentation_changes": 250,
+            "canonical_blocks": 250,
+            "presentation_changes_equal_to_a_canonical_block": 246,
+            "quit_early": false
+          },
+          "memory": {
+            "processes": [
+              {
+                "name": "WebKitWebProces",
+                "pid": 1103983,
+                "rss_kb": 433804
+              },
+              {
+                "name": "WebKitNetworkPr",
+                "pid": 1103964,
+                "rss_kb": 57084
+              },
+              {
+                "name": "diffy-s1-monaco",
+                "pid": 1103951,
+                "rss_kb": 158452
+              }
+            ],
+            "total_rss_kb": 649340
+          }
+        },
+        {
+          "option": "A",
+          "fixture": "1mb",
+          "ok": true,
+          "phases": {
+            "load_ms": 10,
+            "model_ms": 8,
+            "diff_ms": 207,
+            "paint_ms": 22,
+            "total_ms": 247
+          },
+          "checks": {
+            "left_model_lines": 28250,
+            "right_model_lines": 28091,
+            "expected_left_lines": 28250,
+            "expected_right_lines": 28091,
+            "rendered_view_lines": 91,
+            "presentation_changes": 250,
+            "canonical_blocks": 250,
+            "presentation_changes_equal_to_a_canonical_block": 246,
+            "quit_early": false
+          },
+          "memory": {
+            "processes": [
+              {
+                "name": "WebKitNetworkPr",
+                "pid": 1103964,
+                "rss_kb": 57080
+              },
+              {
+                "name": "WebKitWebProces",
+                "pid": 1103983,
+                "rss_kb": 444232
+              },
+              {
+                "name": "diffy-s1-monaco",
+                "pid": 1103951,
+                "rss_kb": 158768
+              }
+            ],
+            "total_rss_kb": 660080
+          }
+        },
+        {
+          "option": "A",
+          "fixture": "1mb",
+          "ok": true,
+          "phases": {
+            "load_ms": 11,
+            "model_ms": 8,
+            "diff_ms": 224,
+            "paint_ms": 14,
+            "total_ms": 257
+          },
+          "checks": {
+            "left_model_lines": 28250,
+            "right_model_lines": 28091,
+            "expected_left_lines": 28250,
+            "expected_right_lines": 28091,
+            "rendered_view_lines": 91,
+            "presentation_changes": 250,
+            "canonical_blocks": 250,
+            "presentation_changes_equal_to_a_canonical_block": 246,
+            "quit_early": false
+          },
+          "memory": {
+            "processes": [
+              {
+                "name": "WebKitNetworkPr",
+                "pid": 1103964,
+                "rss_kb": 57084
+              },
+              {
+                "name": "diffy-s1-monaco",
+                "pid": 1103951,
+                "rss_kb": 158748
+              },
+              {
+                "name": "WebKitWebProces",
+                "pid": 1103983,
+                "rss_kb": 461660
+              }
+            ],
+            "total_rss_kb": 677492
+          }
+        },
+        {
+          "option": "A",
+          "fixture": "1mb",
+          "ok": true,
+          "phases": {
+            "load_ms": 9,
+            "model_ms": 9,
+            "diff_ms": 208,
+            "paint_ms": 14,
+            "total_ms": 240
+          },
+          "checks": {
+            "left_model_lines": 28250,
+            "right_model_lines": 28091,
+            "expected_left_lines": 28250,
+            "expected_right_lines": 28091,
+            "rendered_view_lines": 91,
+            "presentation_changes": 250,
+            "canonical_blocks": 250,
+            "presentation_changes_equal_to_a_canonical_block": 246,
+            "quit_early": false
+          },
+          "memory": {
+            "processes": [
+              {
+                "name": "WebKitNetworkPr",
+                "pid": 1103964,
+                "rss_kb": 57092
+              },
+              {
+                "name": "WebKitWebProces",
+                "pid": 1103983,
+                "rss_kb": 477684
+              },
+              {
+                "name": "diffy-s1-monaco",
+                "pid": 1103951,
+                "rss_kb": 158604
+              }
+            ],
+            "total_rss_kb": 693380
+          }
+        },
+        {
+          "option": "A",
+          "fixture": "1mb",
+          "ok": true,
+          "phases": {
+            "load_ms": 8,
+            "model_ms": 7,
+            "diff_ms": 209,
+            "paint_ms": 14,
+            "total_ms": 238
+          },
+          "checks": {
+            "left_model_lines": 28250,
+            "right_model_lines": 28091,
+            "expected_left_lines": 28250,
+            "expected_right_lines": 28091,
+            "rendered_view_lines": 91,
+            "presentation_changes": 250,
+            "canonical_blocks": 250,
+            "presentation_changes_equal_to_a_canonical_block": 246,
+            "quit_early": false
+          },
+          "memory": {
+            "processes": [
+              {
+                "name": "diffy-s1-monaco",
+                "pid": 1103951,
+                "rss_kb": 158924
+              },
+              {
+                "name": "WebKitNetworkPr",
+                "pid": 1103964,
+                "rss_kb": 57096
+              },
+              {
+                "name": "WebKitWebProces",
+                "pid": 1103983,
+                "rss_kb": 482544
+              }
+            ],
+            "total_rss_kb": 698564
+          }
+        },
+        {
+          "option": "A",
+          "fixture": "1mb",
+          "ok": true,
+          "phases": {
+            "load_ms": 10,
+            "model_ms": 8,
+            "diff_ms": 209,
+            "paint_ms": 15,
+            "total_ms": 242
+          },
+          "checks": {
+            "left_model_lines": 28250,
+            "right_model_lines": 28091,
+            "expected_left_lines": 28250,
+            "expected_right_lines": 28091,
+            "rendered_view_lines": 91,
+            "presentation_changes": 250,
+            "canonical_blocks": 250,
+            "presentation_changes_equal_to_a_canonical_block": 246,
+            "quit_early": false
+          },
+          "memory": {
+            "processes": [
+              {
+                "name": "WebKitNetworkPr",
+                "pid": 1103964,
+                "rss_kb": 57092
+              },
+              {
+                "name": "diffy-s1-monaco",
+                "pid": 1103951,
+                "rss_kb": 158772
+              },
+              {
+                "name": "WebKitWebProces",
+                "pid": 1103983,
+                "rss_kb": 500668
+              }
+            ],
+            "total_rss_kb": 716532
+          }
+        },
+        {
+          "option": "A",
+          "fixture": "1mb",
+          "ok": true,
+          "phases": {
+            "load_ms": 8,
+            "model_ms": 7,
+            "diff_ms": 204,
+            "paint_ms": 13,
+            "total_ms": 232
+          },
+          "checks": {
+            "left_model_lines": 28250,
+            "right_model_lines": 28091,
+            "expected_left_lines": 28250,
+            "expected_right_lines": 28091,
+            "rendered_view_lines": 91,
+            "presentation_changes": 250,
+            "canonical_blocks": 250,
+            "presentation_changes_equal_to_a_canonical_block": 246,
+            "quit_early": false
+          },
+          "memory": {
+            "processes": [
+              {
+                "name": "WebKitNetworkPr",
+                "pid": 1103964,
+                "rss_kb": 57092
+              },
+              {
+                "name": "WebKitWebProces",
+                "pid": 1103983,
+                "rss_kb": 507356
+              },
+              {
+                "name": "diffy-s1-monaco",
+                "pid": 1103951,
+                "rss_kb": 158748
+              }
+            ],
+            "total_rss_kb": 723196
+          }
+        },
+        {
+          "option": "A",
+          "fixture": "1mb",
+          "ok": true,
+          "phases": {
+            "load_ms": 8,
+            "model_ms": 7,
+            "diff_ms": 216,
+            "paint_ms": 13,
+            "total_ms": 244
+          },
+          "checks": {
+            "left_model_lines": 28250,
+            "right_model_lines": 28091,
+            "expected_left_lines": 28250,
+            "expected_right_lines": 28091,
+            "rendered_view_lines": 91,
+            "presentation_changes": 250,
+            "canonical_blocks": 250,
+            "presentation_changes_equal_to_a_canonical_block": 246,
+            "quit_early": false
+          },
+          "memory": {
+            "processes": [
+              {
+                "name": "WebKitNetworkPr",
+                "pid": 1103964,
+                "rss_kb": 57096
+              },
+              {
+                "name": "diffy-s1-monaco",
+                "pid": 1103951,
+                "rss_kb": 159064
+              },
+              {
+                "name": "WebKitWebProces",
+                "pid": 1103983,
+                "rss_kb": 540524
+              }
+            ],
+            "total_rss_kb": 756684
+          }
+        },
+        {
+          "option": "A",
+          "fixture": "1mb",
+          "ok": true,
+          "phases": {
+            "load_ms": 8,
+            "model_ms": 9,
+            "diff_ms": 223,
+            "paint_ms": 14,
+            "total_ms": 254
+          },
+          "checks": {
+            "left_model_lines": 28250,
+            "right_model_lines": 28091,
+            "expected_left_lines": 28250,
+            "expected_right_lines": 28091,
+            "rendered_view_lines": 91,
+            "presentation_changes": 250,
+            "canonical_blocks": 250,
+            "presentation_changes_equal_to_a_canonical_block": 246,
+            "quit_early": false
+          },
+          "memory": {
+            "processes": [
+              {
+                "name": "WebKitWebProces",
+                "pid": 1103983,
+                "rss_kb": 562028
+              },
+              {
+                "name": "WebKitNetworkPr",
+                "pid": 1103964,
+                "rss_kb": 57092
+              },
+              {
+                "name": "diffy-s1-monaco",
+                "pid": 1103951,
+                "rss_kb": 158844
+              }
+            ],
+            "total_rss_kb": 777964
+          }
+        },
+        {
+          "option": "A",
+          "fixture": "1mb",
+          "ok": true,
+          "phases": {
+            "load_ms": 9,
+            "model_ms": 9,
+            "diff_ms": 191,
+            "paint_ms": 13,
+            "total_ms": 222
+          },
+          "checks": {
+            "left_model_lines": 28250,
+            "right_model_lines": 28091,
+            "expected_left_lines": 28250,
+            "expected_right_lines": 28091,
+            "rendered_view_lines": 91,
+            "presentation_changes": 250,
+            "canonical_blocks": 250,
+            "presentation_changes_equal_to_a_canonical_block": 246,
+            "quit_early": false
+          },
+          "memory": {
+            "processes": [
+              {
+                "name": "WebKitWebProces",
+                "pid": 1103983,
+                "rss_kb": 565812
+              },
+              {
+                "name": "diffy-s1-monaco",
+                "pid": 1103951,
+                "rss_kb": 158560
+              },
+              {
+                "name": "WebKitNetworkPr",
+                "pid": 1103964,
+                "rss_kb": 57096
+              }
+            ],
+            "total_rss_kb": 781468
+          }
+        },
+        {
+          "option": "A",
+          "fixture": "1mb",
+          "ok": true,
+          "phases": {
+            "load_ms": 9,
+            "model_ms": 8,
+            "diff_ms": 205,
+            "paint_ms": 18,
+            "total_ms": 240
+          },
+          "checks": {
+            "left_model_lines": 28250,
+            "right_model_lines": 28091,
+            "expected_left_lines": 28250,
+            "expected_right_lines": 28091,
+            "rendered_view_lines": 91,
+            "presentation_changes": 250,
+            "canonical_blocks": 250,
+            "presentation_changes_equal_to_a_canonical_block": 246,
+            "quit_early": false
+          },
+          "memory": {
+            "processes": [
+              {
+                "name": "diffy-s1-monaco",
+                "pid": 1103951,
+                "rss_kb": 159312
+              },
+              {
+                "name": "WebKitNetworkPr",
+                "pid": 1103964,
+                "rss_kb": 57096
+              },
+              {
+                "name": "WebKitWebProces",
+                "pid": 1103983,
+                "rss_kb": 570100
+              }
+            ],
+            "total_rss_kb": 786508
+          }
+        },
+        {
+          "option": "A",
+          "fixture": "1mb",
+          "ok": true,
+          "phases": {
+            "load_ms": 10,
+            "model_ms": 6,
+            "diff_ms": 183,
+            "paint_ms": 17,
+            "total_ms": 216
+          },
+          "checks": {
+            "left_model_lines": 28250,
+            "right_model_lines": 28091,
+            "expected_left_lines": 28250,
+            "expected_right_lines": 28091,
+            "rendered_view_lines": 91,
+            "presentation_changes": 250,
+            "canonical_blocks": 250,
+            "presentation_changes_equal_to_a_canonical_block": 246,
+            "quit_early": false
+          },
+          "memory": {
+            "processes": [
+              {
+                "name": "WebKitNetworkPr",
+                "pid": 1103964,
+                "rss_kb": 57100
+              },
+              {
+                "name": "diffy-s1-monaco",
+                "pid": 1103951,
+                "rss_kb": 159300
+              },
+              {
+                "name": "WebKitWebProces",
+                "pid": 1103983,
+                "rss_kb": 580864
+              }
+            ],
+            "total_rss_kb": 797264
+          }
+        },
+        {
+          "option": "A",
+          "fixture": "1mb",
+          "ok": true,
+          "phases": {
+            "load_ms": 9,
+            "model_ms": 7,
+            "diff_ms": 193,
+            "paint_ms": 22,
+            "total_ms": 231
+          },
+          "checks": {
+            "left_model_lines": 28250,
+            "right_model_lines": 28091,
+            "expected_left_lines": 28250,
+            "expected_right_lines": 28091,
+            "rendered_view_lines": 91,
+            "presentation_changes": 250,
+            "canonical_blocks": 250,
+            "presentation_changes_equal_to_a_canonical_block": 246,
+            "quit_early": false
+          },
+          "memory": {
+            "processes": [
+              {
+                "name": "WebKitWebProces",
+                "pid": 1103983,
+                "rss_kb": 589552
+              },
+              {
+                "name": "diffy-s1-monaco",
+                "pid": 1103951,
+                "rss_kb": 159716
+              },
+              {
+                "name": "WebKitNetworkPr",
+                "pid": 1103964,
+                "rss_kb": 57100
+              }
+            ],
+            "total_rss_kb": 806368
+          }
+        },
+        {
+          "option": "A",
+          "fixture": "1mb",
+          "ok": true,
+          "phases": {
+            "load_ms": 10,
+            "model_ms": 6,
+            "diff_ms": 193,
+            "paint_ms": 17,
+            "total_ms": 226
+          },
+          "checks": {
+            "left_model_lines": 28250,
+            "right_model_lines": 28091,
+            "expected_left_lines": 28250,
+            "expected_right_lines": 28091,
+            "rendered_view_lines": 91,
+            "presentation_changes": 250,
+            "canonical_blocks": 250,
+            "presentation_changes_equal_to_a_canonical_block": 246,
+            "quit_early": false
+          },
+          "memory": {
+            "processes": [
+              {
+                "name": "diffy-s1-monaco",
+                "pid": 1103951,
+                "rss_kb": 159236
+              },
+              {
+                "name": "WebKitWebProces",
+                "pid": 1103983,
+                "rss_kb": 605880
+              },
+              {
+                "name": "WebKitNetworkPr",
+                "pid": 1103964,
+                "rss_kb": 57100
+              }
+            ],
+            "total_rss_kb": 822216
+          }
+        },
+        {
+          "option": "A",
+          "fixture": "1mb",
+          "ok": true,
+          "phases": {
+            "load_ms": 9,
+            "model_ms": 8,
+            "diff_ms": 194,
+            "paint_ms": 14,
+            "total_ms": 225
+          },
+          "checks": {
+            "left_model_lines": 28250,
+            "right_model_lines": 28091,
+            "expected_left_lines": 28250,
+            "expected_right_lines": 28091,
+            "rendered_view_lines": 91,
+            "presentation_changes": 250,
+            "canonical_blocks": 250,
+            "presentation_changes_equal_to_a_canonical_block": 246,
+            "quit_early": false
+          },
+          "memory": {
+            "processes": [
+              {
+                "name": "WebKitWebProces",
+                "pid": 1103983,
+                "rss_kb": 617200
+              },
+              {
+                "name": "diffy-s1-monaco",
+                "pid": 1103951,
+                "rss_kb": 158964
+              },
+              {
+                "name": "WebKitNetworkPr",
+                "pid": 1103964,
+                "rss_kb": 57100
+              }
+            ],
+            "total_rss_kb": 833264
+          }
+        },
+        {
+          "option": "A",
+          "fixture": "1mb",
+          "ok": true,
+          "phases": {
+            "load_ms": 10,
+            "model_ms": 8,
+            "diff_ms": 200,
+            "paint_ms": 22,
+            "total_ms": 240
+          },
+          "checks": {
+            "left_model_lines": 28250,
+            "right_model_lines": 28091,
+            "expected_left_lines": 28250,
+            "expected_right_lines": 28091,
+            "rendered_view_lines": 91,
+            "presentation_changes": 250,
+            "canonical_blocks": 250,
+            "presentation_changes_equal_to_a_canonical_block": 246,
+            "quit_early": false
+          },
+          "memory": {
+            "processes": [
+              {
+                "name": "WebKitWebProces",
+                "pid": 1103983,
+                "rss_kb": 644584
+              },
+              {
+                "name": "WebKitNetworkPr",
+                "pid": 1103964,
+                "rss_kb": 57100
+              },
+              {
+                "name": "diffy-s1-monaco",
+                "pid": 1103951,
+                "rss_kb": 159100
+              }
+            ],
+            "total_rss_kb": 860784
+          }
+        },
+        {
+          "option": "A",
+          "fixture": "1mb",
+          "ok": true,
+          "phases": {
+            "load_ms": 9,
+            "model_ms": 6,
+            "diff_ms": 211,
+            "paint_ms": 15,
+            "total_ms": 241
+          },
+          "checks": {
+            "left_model_lines": 28250,
+            "right_model_lines": 28091,
+            "expected_left_lines": 28250,
+            "expected_right_lines": 28091,
+            "rendered_view_lines": 91,
+            "presentation_changes": 250,
+            "canonical_blocks": 250,
+            "presentation_changes_equal_to_a_canonical_block": 246,
+            "quit_early": false
+          },
+          "memory": {
+            "processes": [
+              {
+                "name": "WebKitWebProces",
+                "pid": 1103983,
+                "rss_kb": 658664
+              },
+              {
+                "name": "WebKitNetworkPr",
+                "pid": 1103964,
+                "rss_kb": 57100
+              },
+              {
+                "name": "diffy-s1-monaco",
+                "pid": 1103951,
+                "rss_kb": 158916
+              }
+            ],
+            "total_rss_kb": 874680
+          }
+        },
+        {
+          "option": "A",
+          "fixture": "1mb",
+          "ok": true,
+          "phases": {
+            "load_ms": 9,
+            "model_ms": 7,
+            "diff_ms": 203,
+            "paint_ms": 22,
+            "total_ms": 241
+          },
+          "checks": {
+            "left_model_lines": 28250,
+            "right_model_lines": 28091,
+            "expected_left_lines": 28250,
+            "expected_right_lines": 28091,
+            "rendered_view_lines": 91,
+            "presentation_changes": 250,
+            "canonical_blocks": 250,
+            "presentation_changes_equal_to_a_canonical_block": 246,
+            "quit_early": false
+          },
+          "memory": {
+            "processes": [
+              {
+                "name": "diffy-s1-monaco",
+                "pid": 1103951,
+                "rss_kb": 158932
+              },
+              {
+                "name": "WebKitWebProces",
+                "pid": 1103983,
+                "rss_kb": 647592
+              },
+              {
+                "name": "WebKitNetworkPr",
+                "pid": 1103964,
+                "rss_kb": 57104
+              }
+            ],
+            "total_rss_kb": 863628
+          }
+        }
+      ]
+    },
+    {
+      "option": "A",
+      "fixture": {
+        "left": {
+          "bytes": 10088713,
+          "file": "10mb.left.txt",
+          "lines": 282486,
+          "sha256": "ec4f1f1348e5f47811eb40c3d795e6f1d5a9753d8a21831d6eefab29a4eb2e4c"
+        },
+        "name": "10mb",
+        "note": "A 10 MB diff: each side is about 10 MB.",
+        "right": {
+          "bytes": 10136542,
+          "file": "10mb.right.txt",
+          "lines": 282676,
+          "sha256": "89e6c439bbb7614bf4efdd80ea1d87d216baca5750a2a0c40e54c2417379f62a"
+        },
+        "seed": 3
+      },
+      "runs": 21,
+      "all_ok": true,
+      "summary": {
+        "measured_runs": 20,
+        "total_ms_p50": 2439,
+        "total_ms_p95": 2687,
+        "total_ms_max": 2903
+      },
+      "results": [
+        {
+          "option": "A",
+          "fixture": "10mb",
+          "ok": true,
+          "phases": {
+            "load_ms": 116,
+            "model_ms": 39,
+            "diff_ms": 2290,
+            "paint_ms": 38,
+            "total_ms": 2483
+          },
+          "checks": {
+            "left_model_lines": 282487,
+            "right_model_lines": 282677,
+            "expected_left_lines": 282487,
+            "expected_right_lines": 282677,
+            "rendered_view_lines": 93,
+            "presentation_changes": 2500,
+            "canonical_blocks": 2500,
+            "presentation_changes_equal_to_a_canonical_block": 2458,
+            "quit_early": false
+          },
+          "memory": {
+            "processes": [
+              {
+                "name": "WebKitWebProces",
+                "pid": 1103983,
+                "rss_kb": 893780
+              },
+              {
+                "name": "diffy-s1-monaco",
+                "pid": 1103951,
+                "rss_kb": 158276
+              },
+              {
+                "name": "WebKitNetworkPr",
+                "pid": 1103964,
+                "rss_kb": 57104
+              }
+            ],
+            "total_rss_kb": 1109160
+          }
+        },
+        {
+          "option": "A",
+          "fixture": "10mb",
+          "ok": true,
+          "phases": {
+            "load_ms": 119,
+            "model_ms": 41,
+            "diff_ms": 2300,
+            "paint_ms": 37,
+            "total_ms": 2497
+          },
+          "checks": {
+            "left_model_lines": 282487,
+            "right_model_lines": 282677,
+            "expected_left_lines": 282487,
+            "expected_right_lines": 282677,
+            "rendered_view_lines": 93,
+            "presentation_changes": 2500,
+            "canonical_blocks": 2500,
+            "presentation_changes_equal_to_a_canonical_block": 2458,
+            "quit_early": false
+          },
+          "memory": {
+            "processes": [
+              {
+                "name": "WebKitNetworkPr",
+                "pid": 1103964,
+                "rss_kb": 57108
+              },
+              {
+                "name": "diffy-s1-monaco",
+                "pid": 1103951,
+                "rss_kb": 158228
+              },
+              {
+                "name": "WebKitWebProces",
+                "pid": 1103983,
+                "rss_kb": 962376
+              }
+            ],
+            "total_rss_kb": 1177712
+          }
+        },
+        {
+          "option": "A",
+          "fixture": "10mb",
+          "ok": true,
+          "phases": {
+            "load_ms": 115,
+            "model_ms": 40,
+            "diff_ms": 2224,
+            "paint_ms": 35,
+            "total_ms": 2414
+          },
+          "checks": {
+            "left_model_lines": 282487,
+            "right_model_lines": 282677,
+            "expected_left_lines": 282487,
+            "expected_right_lines": 282677,
+            "rendered_view_lines": 93,
+            "presentation_changes": 2500,
+            "canonical_blocks": 2500,
+            "presentation_changes_equal_to_a_canonical_block": 2458,
+            "quit_early": false
+          },
+          "memory": {
+            "processes": [
+              {
+                "name": "WebKitNetworkPr",
+                "pid": 1103964,
+                "rss_kb": 57172
+              },
+              {
+                "name": "WebKitWebProces",
+                "pid": 1103983,
+                "rss_kb": 976684
+              },
+              {
+                "name": "diffy-s1-monaco",
+                "pid": 1103951,
+                "rss_kb": 158304
+              }
+            ],
+            "total_rss_kb": 1192160
+          }
+        },
+        {
+          "option": "A",
+          "fixture": "10mb",
+          "ok": true,
+          "phases": {
+            "load_ms": 115,
+            "model_ms": 38,
+            "diff_ms": 2258,
+            "paint_ms": 36,
+            "total_ms": 2447
+          },
+          "checks": {
+            "left_model_lines": 282487,
+            "right_model_lines": 282677,
+            "expected_left_lines": 282487,
+            "expected_right_lines": 282677,
+            "rendered_view_lines": 93,
+            "presentation_changes": 2500,
+            "canonical_blocks": 2500,
+            "presentation_changes_equal_to_a_canonical_block": 2458,
+            "quit_early": false
+          },
+          "memory": {
+            "processes": [
+              {
+                "name": "WebKitNetworkPr",
+                "pid": 1103964,
+                "rss_kb": 57172
+              },
+              {
+                "name": "WebKitWebProces",
+                "pid": 1103983,
+                "rss_kb": 1079472
+              },
+              {
+                "name": "diffy-s1-monaco",
+                "pid": 1103951,
+                "rss_kb": 158320
+              }
+            ],
+            "total_rss_kb": 1294964
+          }
+        },
+        {
+          "option": "A",
+          "fixture": "10mb",
+          "ok": true,
+          "phases": {
+            "load_ms": 114,
+            "model_ms": 40,
+            "diff_ms": 2223,
+            "paint_ms": 40,
+            "total_ms": 2417
+          },
+          "checks": {
+            "left_model_lines": 282487,
+            "right_model_lines": 282677,
+            "expected_left_lines": 282487,
+            "expected_right_lines": 282677,
+            "rendered_view_lines": 93,
+            "presentation_changes": 2500,
+            "canonical_blocks": 2500,
+            "presentation_changes_equal_to_a_canonical_block": 2458,
+            "quit_early": false
+          },
+          "memory": {
+            "processes": [
+              {
+                "name": "WebKitWebProces",
+                "pid": 1103983,
+                "rss_kb": 1065544
+              },
+              {
+                "name": "diffy-s1-monaco",
+                "pid": 1103951,
+                "rss_kb": 158348
+              },
+              {
+                "name": "WebKitNetworkPr",
+                "pid": 1103964,
+                "rss_kb": 57172
+              }
+            ],
+            "total_rss_kb": 1281064
+          }
+        },
+        {
+          "option": "A",
+          "fixture": "10mb",
+          "ok": true,
+          "phases": {
+            "load_ms": 117,
+            "model_ms": 42,
+            "diff_ms": 2287,
+            "paint_ms": 36,
+            "total_ms": 2482
+          },
+          "checks": {
+            "left_model_lines": 282487,
+            "right_model_lines": 282677,
+            "expected_left_lines": 282487,
+            "expected_right_lines": 282677,
+            "rendered_view_lines": 93,
+            "presentation_changes": 2500,
+            "canonical_blocks": 2500,
+            "presentation_changes_equal_to_a_canonical_block": 2458,
+            "quit_early": false
+          },
+          "memory": {
+            "processes": [
+              {
+                "name": "WebKitWebProces",
+                "pid": 1103983,
+                "rss_kb": 1224800
+              },
+              {
+                "name": "diffy-s1-monaco",
+                "pid": 1103951,
+                "rss_kb": 158340
+              },
+              {
+                "name": "WebKitNetworkPr",
+                "pid": 1103964,
+                "rss_kb": 57172
+              }
+            ],
+            "total_rss_kb": 1440312
+          }
+        },
+        {
+          "option": "A",
+          "fixture": "10mb",
+          "ok": true,
+          "phases": {
+            "load_ms": 109,
+            "model_ms": 40,
+            "diff_ms": 2249,
+            "paint_ms": 38,
+            "total_ms": 2436
+          },
+          "checks": {
+            "left_model_lines": 282487,
+            "right_model_lines": 282677,
+            "expected_left_lines": 282487,
+            "expected_right_lines": 282677,
+            "rendered_view_lines": 93,
+            "presentation_changes": 2500,
+            "canonical_blocks": 2500,
+            "presentation_changes_equal_to_a_canonical_block": 2458,
+            "quit_early": false
+          },
+          "memory": {
+            "processes": [
+              {
+                "name": "diffy-s1-monaco",
+                "pid": 1103951,
+                "rss_kb": 158328
+              },
+              {
+                "name": "WebKitWebProces",
+                "pid": 1103983,
+                "rss_kb": 1212032
+              },
+              {
+                "name": "WebKitNetworkPr",
+                "pid": 1103964,
+                "rss_kb": 57172
+              }
+            ],
+            "total_rss_kb": 1427532
+          }
+        },
+        {
+          "option": "A",
+          "fixture": "10mb",
+          "ok": true,
+          "phases": {
+            "load_ms": 111,
+            "model_ms": 37,
+            "diff_ms": 2273,
+            "paint_ms": 35,
+            "total_ms": 2456
+          },
+          "checks": {
+            "left_model_lines": 282487,
+            "right_model_lines": 282677,
+            "expected_left_lines": 282487,
+            "expected_right_lines": 282677,
+            "rendered_view_lines": 93,
+            "presentation_changes": 2500,
+            "canonical_blocks": 2500,
+            "presentation_changes_equal_to_a_canonical_block": 2458,
+            "quit_early": false
+          },
+          "memory": {
+            "processes": [
+              {
+                "name": "WebKitNetworkPr",
+                "pid": 1103964,
+                "rss_kb": 57172
+              },
+              {
+                "name": "diffy-s1-monaco",
+                "pid": 1103951,
+                "rss_kb": 158328
+              },
+              {
+                "name": "WebKitWebProces",
+                "pid": 1103983,
+                "rss_kb": 1261132
+              }
+            ],
+            "total_rss_kb": 1476632
+          }
+        },
+        {
+          "option": "A",
+          "fixture": "10mb",
+          "ok": true,
+          "phases": {
+            "load_ms": 113,
+            "model_ms": 40,
+            "diff_ms": 2238,
+            "paint_ms": 44,
+            "total_ms": 2435
+          },
+          "checks": {
+            "left_model_lines": 282487,
+            "right_model_lines": 282677,
+            "expected_left_lines": 282487,
+            "expected_right_lines": 282677,
+            "rendered_view_lines": 93,
+            "presentation_changes": 2500,
+            "canonical_blocks": 2500,
+            "presentation_changes_equal_to_a_canonical_block": 2458,
+            "quit_early": false
+          },
+          "memory": {
+            "processes": [
+              {
+                "name": "WebKitNetworkPr",
+                "pid": 1103964,
+                "rss_kb": 57172
+              },
+              {
+                "name": "diffy-s1-monaco",
+                "pid": 1103951,
+                "rss_kb": 158312
+              },
+              {
+                "name": "WebKitWebProces",
+                "pid": 1103983,
+                "rss_kb": 1238392
+              }
+            ],
+            "total_rss_kb": 1453876
+          }
+        },
+        {
+          "option": "A",
+          "fixture": "10mb",
+          "ok": true,
+          "phases": {
+            "load_ms": 119,
+            "model_ms": 38,
+            "diff_ms": 2313,
+            "paint_ms": 35,
+            "total_ms": 2505
+          },
+          "checks": {
+            "left_model_lines": 282487,
+            "right_model_lines": 282677,
+            "expected_left_lines": 282487,
+            "expected_right_lines": 282677,
+            "rendered_view_lines": 93,
+            "presentation_changes": 2500,
+            "canonical_blocks": 2500,
+            "presentation_changes_equal_to_a_canonical_block": 2458,
+            "quit_early": false
+          },
+          "memory": {
+            "processes": [
+              {
+                "name": "WebKitWebProces",
+                "pid": 1103983,
+                "rss_kb": 1384140
+              },
+              {
+                "name": "diffy-s1-monaco",
+                "pid": 1103951,
+                "rss_kb": 158424
+              },
+              {
+                "name": "WebKitNetworkPr",
+                "pid": 1103964,
+                "rss_kb": 57176
+              }
+            ],
+            "total_rss_kb": 1599740
+          }
+        },
+        {
+          "option": "A",
+          "fixture": "10mb",
+          "ok": true,
+          "phases": {
+            "load_ms": 110,
+            "model_ms": 38,
+            "diff_ms": 2243,
+            "paint_ms": 37,
+            "total_ms": 2428
+          },
+          "checks": {
+            "left_model_lines": 282487,
+            "right_model_lines": 282677,
+            "expected_left_lines": 282487,
+            "expected_right_lines": 282677,
+            "rendered_view_lines": 93,
+            "presentation_changes": 2500,
+            "canonical_blocks": 2500,
+            "presentation_changes_equal_to_a_canonical_block": 2458,
+            "quit_early": false
+          },
+          "memory": {
+            "processes": [
+              {
+                "name": "WebKitWebProces",
+                "pid": 1103983,
+                "rss_kb": 1463540
+              },
+              {
+                "name": "WebKitNetworkPr",
+                "pid": 1103964,
+                "rss_kb": 57176
+              },
+              {
+                "name": "diffy-s1-monaco",
+                "pid": 1103951,
+                "rss_kb": 158428
+              }
+            ],
+            "total_rss_kb": 1679144
+          }
+        },
+        {
+          "option": "A",
+          "fixture": "10mb",
+          "ok": true,
+          "phases": {
+            "load_ms": 111,
+            "model_ms": 39,
+            "diff_ms": 2252,
+            "paint_ms": 37,
+            "total_ms": 2439
+          },
+          "checks": {
+            "left_model_lines": 282487,
+            "right_model_lines": 282677,
+            "expected_left_lines": 282487,
+            "expected_right_lines": 282677,
+            "rendered_view_lines": 93,
+            "presentation_changes": 2500,
+            "canonical_blocks": 2500,
+            "presentation_changes_equal_to_a_canonical_block": 2458,
+            "quit_early": false
+          },
+          "memory": {
+            "processes": [
+              {
+                "name": "WebKitNetworkPr",
+                "pid": 1103964,
+                "rss_kb": 57172
+              },
+              {
+                "name": "diffy-s1-monaco",
+                "pid": 1103951,
+                "rss_kb": 158420
+              },
+              {
+                "name": "WebKitWebProces",
+                "pid": 1103983,
+                "rss_kb": 1480320
+              }
+            ],
+            "total_rss_kb": 1695912
+          }
+        },
+        {
+          "option": "A",
+          "fixture": "10mb",
+          "ok": true,
+          "phases": {
+            "load_ms": 114,
+            "model_ms": 41,
+            "diff_ms": 2487,
+            "paint_ms": 38,
+            "total_ms": 2680
+          },
+          "checks": {
+            "left_model_lines": 282487,
+            "right_model_lines": 282677,
+            "expected_left_lines": 282487,
+            "expected_right_lines": 282677,
+            "rendered_view_lines": 93,
+            "presentation_changes": 2500,
+            "canonical_blocks": 2500,
+            "presentation_changes_equal_to_a_canonical_block": 2458,
+            "quit_early": false
+          },
+          "memory": {
+            "processes": [
+              {
+                "name": "WebKitNetworkPr",
+                "pid": 1103964,
+                "rss_kb": 57176
+              },
+              {
+                "name": "WebKitWebProces",
+                "pid": 1103983,
+                "rss_kb": 1551592
+              },
+              {
+                "name": "diffy-s1-monaco",
+                "pid": 1103951,
+                "rss_kb": 158440
+              }
+            ],
+            "total_rss_kb": 1767208
+          }
+        },
+        {
+          "option": "A",
+          "fixture": "10mb",
+          "ok": true,
+          "phases": {
+            "load_ms": 111,
+            "model_ms": 37,
+            "diff_ms": 2282,
+            "paint_ms": 46,
+            "total_ms": 2476
+          },
+          "checks": {
+            "left_model_lines": 282487,
+            "right_model_lines": 282677,
+            "expected_left_lines": 282487,
+            "expected_right_lines": 282677,
+            "rendered_view_lines": 93,
+            "presentation_changes": 2500,
+            "canonical_blocks": 2500,
+            "presentation_changes_equal_to_a_canonical_block": 2458,
+            "quit_early": false
+          },
+          "memory": {
+            "processes": [
+              {
+                "name": "diffy-s1-monaco",
+                "pid": 1103951,
+                "rss_kb": 159360
+              },
+              {
+                "name": "WebKitNetworkPr",
+                "pid": 1103964,
+                "rss_kb": 57176
+              },
+              {
+                "name": "WebKitWebProces",
+                "pid": 1103983,
+                "rss_kb": 1145416
+              }
+            ],
+            "total_rss_kb": 1361952
+          }
+        },
+        {
+          "option": "A",
+          "fixture": "10mb",
+          "ok": true,
+          "phases": {
+            "load_ms": 119,
+            "model_ms": 40,
+            "diff_ms": 2707,
+            "paint_ms": 37,
+            "total_ms": 2903
+          },
+          "checks": {
+            "left_model_lines": 282487,
+            "right_model_lines": 282677,
+            "expected_left_lines": 282487,
+            "expected_right_lines": 282677,
+            "rendered_view_lines": 93,
+            "presentation_changes": 2500,
+            "canonical_blocks": 2500,
+            "presentation_changes_equal_to_a_canonical_block": 2458,
+            "quit_early": false
+          },
+          "memory": {
+            "processes": [
+              {
+                "name": "diffy-s1-monaco",
+                "pid": 1103951,
+                "rss_kb": 158420
+              },
+              {
+                "name": "WebKitWebProces",
+                "pid": 1103983,
+                "rss_kb": 1699652
+              },
+              {
+                "name": "WebKitNetworkPr",
+                "pid": 1103964,
+                "rss_kb": 57176
+              }
+            ],
+            "total_rss_kb": 1915248
+          }
+        },
+        {
+          "option": "A",
+          "fixture": "10mb",
+          "ok": true,
+          "phases": {
+            "load_ms": 107,
+            "model_ms": 41,
+            "diff_ms": 2207,
+            "paint_ms": 37,
+            "total_ms": 2392
+          },
+          "checks": {
+            "left_model_lines": 282487,
+            "right_model_lines": 282677,
+            "expected_left_lines": 282487,
+            "expected_right_lines": 282677,
+            "rendered_view_lines": 93,
+            "presentation_changes": 2500,
+            "canonical_blocks": 2500,
+            "presentation_changes_equal_to_a_canonical_block": 2458,
+            "quit_early": false
+          },
+          "memory": {
+            "processes": [
+              {
+                "name": "diffy-s1-monaco",
+                "pid": 1103951,
+                "rss_kb": 158432
+              },
+              {
+                "name": "WebKitNetworkPr",
+                "pid": 1103964,
+                "rss_kb": 57176
+              },
+              {
+                "name": "WebKitWebProces",
+                "pid": 1103983,
+                "rss_kb": 1787796
+              }
+            ],
+            "total_rss_kb": 2003404
+          }
+        },
+        {
+          "option": "A",
+          "fixture": "10mb",
+          "ok": true,
+          "phases": {
+            "load_ms": 117,
+            "model_ms": 40,
+            "diff_ms": 2231,
+            "paint_ms": 37,
+            "total_ms": 2425
+          },
+          "checks": {
+            "left_model_lines": 282487,
+            "right_model_lines": 282677,
+            "expected_left_lines": 282487,
+            "expected_right_lines": 282677,
+            "rendered_view_lines": 93,
+            "presentation_changes": 2500,
+            "canonical_blocks": 2500,
+            "presentation_changes_equal_to_a_canonical_block": 2458,
+            "quit_early": false
+          },
+          "memory": {
+            "processes": [
+              {
+                "name": "WebKitNetworkPr",
+                "pid": 1103964,
+                "rss_kb": 57176
+              },
+              {
+                "name": "diffy-s1-monaco",
+                "pid": 1103951,
+                "rss_kb": 158456
+              },
+              {
+                "name": "WebKitWebProces",
+                "pid": 1103983,
+                "rss_kb": 1874320
+              }
+            ],
+            "total_rss_kb": 2089952
+          }
+        },
+        {
+          "option": "A",
+          "fixture": "10mb",
+          "ok": true,
+          "phases": {
+            "load_ms": 130,
+            "model_ms": 40,
+            "diff_ms": 2203,
+            "paint_ms": 37,
+            "total_ms": 2410
+          },
+          "checks": {
+            "left_model_lines": 282487,
+            "right_model_lines": 282677,
+            "expected_left_lines": 282487,
+            "expected_right_lines": 282677,
+            "rendered_view_lines": 93,
+            "presentation_changes": 2500,
+            "canonical_blocks": 2500,
+            "presentation_changes_equal_to_a_canonical_block": 2458,
+            "quit_early": false
+          },
+          "memory": {
+            "processes": [
+              {
+                "name": "diffy-s1-monaco",
+                "pid": 1103951,
+                "rss_kb": 158340
+              },
+              {
+                "name": "WebKitNetworkPr",
+                "pid": 1103964,
+                "rss_kb": 57176
+              },
+              {
+                "name": "WebKitWebProces",
+                "pid": 1103983,
+                "rss_kb": 1889564
+              }
+            ],
+            "total_rss_kb": 2105080
+          }
+        },
+        {
+          "option": "A",
+          "fixture": "10mb",
+          "ok": true,
+          "phases": {
+            "load_ms": 116,
+            "model_ms": 46,
+            "diff_ms": 2192,
+            "paint_ms": 36,
+            "total_ms": 2390
+          },
+          "checks": {
+            "left_model_lines": 282487,
+            "right_model_lines": 282677,
+            "expected_left_lines": 282487,
+            "expected_right_lines": 282677,
+            "rendered_view_lines": 93,
+            "presentation_changes": 2500,
+            "canonical_blocks": 2500,
+            "presentation_changes_equal_to_a_canonical_block": 2458,
+            "quit_early": false
+          },
+          "memory": {
+            "processes": [
+              {
+                "name": "diffy-s1-monaco",
+                "pid": 1103951,
+                "rss_kb": 158468
+              },
+              {
+                "name": "WebKitWebProces",
+                "pid": 1103983,
+                "rss_kb": 1909120
+              },
+              {
+                "name": "WebKitNetworkPr",
+                "pid": 1103964,
+                "rss_kb": 57176
+              }
+            ],
+            "total_rss_kb": 2124764
+          }
+        },
+        {
+          "option": "A",
+          "fixture": "10mb",
+          "ok": true,
+          "phases": {
+            "load_ms": 116,
+            "model_ms": 38,
+            "diff_ms": 2318,
+            "paint_ms": 58,
+            "total_ms": 2530
+          },
+          "checks": {
+            "left_model_lines": 282487,
+            "right_model_lines": 282677,
+            "expected_left_lines": 282487,
+            "expected_right_lines": 282677,
+            "rendered_view_lines": 93,
+            "presentation_changes": 2500,
+            "canonical_blocks": 2500,
+            "presentation_changes_equal_to_a_canonical_block": 2458,
+            "quit_early": false
+          },
+          "memory": {
+            "processes": [
+              {
+                "name": "WebKitWebProces",
+                "pid": 1103983,
+                "rss_kb": 1713880
+              },
+              {
+                "name": "WebKitNetworkPr",
+                "pid": 1103964,
+                "rss_kb": 57176
+              },
+              {
+                "name": "diffy-s1-monaco",
+                "pid": 1103951,
+                "rss_kb": 158428
+              }
+            ],
+            "total_rss_kb": 1929484
+          }
+        },
+        {
+          "option": "A",
+          "fixture": "10mb",
+          "ok": true,
+          "phases": {
+            "load_ms": 115,
+            "model_ms": 50,
+            "diff_ms": 2481,
+            "paint_ms": 41,
+            "total_ms": 2687
+          },
+          "checks": {
+            "left_model_lines": 282487,
+            "right_model_lines": 282677,
+            "expected_left_lines": 282487,
+            "expected_right_lines": 282677,
+            "rendered_view_lines": 93,
+            "presentation_changes": 2500,
+            "canonical_blocks": 2500,
+            "presentation_changes_equal_to_a_canonical_block": 2458,
+            "quit_early": false
+          },
+          "memory": {
+            "processes": [
+              {
+                "name": "WebKitWebProces",
+                "pid": 1103983,
+                "rss_kb": 1763120
+              },
+              {
+                "name": "WebKitNetworkPr",
+                "pid": 1103964,
+                "rss_kb": 57176
+              },
+              {
+                "name": "diffy-s1-monaco",
+                "pid": 1103951,
+                "rss_kb": 158412
+              }
+            ],
+            "total_rss_kb": 1978708
+          }
+        }
+      ]
+    }
+  ]
+}
