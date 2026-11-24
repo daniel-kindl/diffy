@@ -88,6 +88,32 @@ test("a closing reference in the label of a link to another page does not count"
   assert.match(checkPrBody(body)[0], /link an issue/);
 });
 
+test("a closing reference in the label of a reference link to another page does not count", () => {
+  for (const link of ["[Closes #19 in Diffy][docs]", "[Closes #19 in Diffy][]", "[Closes #19 in Diffy]"]) {
+    const label = link.includes("][docs]") ? "docs" : "Closes #19 in Diffy";
+    const body = VALID.replace("Closes #19", `${link}\n\n[${label}]: README.md`);
+    assert.match(checkPrBody(body)[0], /link an issue/, link);
+  }
+});
+
+test("a reference link to an issue counts as a link", () => {
+  const body = VALID.replace("Closes #19", `Closes [#19][issue]\n\n[issue]: ${URL}`);
+  assert.deepEqual(checkPrBody(body), []);
+  const shortcut = VALID.replace("Closes #19", `Closes [#19]\n\n[#19]: <${URL}> "Bootstrap"`);
+  assert.deepEqual(checkPrBody(shortcut), []);
+});
+
+test("a removed link or code span does not join the keyword and a later reference", () => {
+  for (const middle of ["[documentation](README.md)", "`code`", "[documentation][docs]"]) {
+    const body = VALID.replace("Closes #19", `Closes ${middle} #19\n\n[docs]: README.md`);
+    assert.match(checkPrBody(body)[0], /link an issue/, middle);
+  }
+});
+
+test("brackets with no definition stay plain text", () => {
+  assert.deepEqual(checkPrBody(VALID.replace("Closes #19", "[Note] Closes #19")), []);
+});
+
 test("a two-line setext heading uses the whole paragraph as its text", () => {
   const body = "Closes #19\n\nSupporting\nEvidence\n--------\n\nObservability: none, docs only\n";
   assert.match(checkPrBody(body)[0], /Evidence/);

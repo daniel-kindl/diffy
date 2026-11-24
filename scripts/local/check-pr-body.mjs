@@ -28,6 +28,15 @@ const WHOLE_ISSUE_URL = new RegExp(`^${ISSUE_URL}$`);
 // A code span ends in its paragraph, so it does not cross a blank line.
 const INLINE_CODE = /(`+)(?:(?!\n[ \t]*\n)[\s\S])*?\1/g;
 const MARKDOWN_LINK = /!?\[[^\]]*\]\(\s*<?([^\s)>]*)>?(?:\s+"[^"]*")?\s*\)/g;
+// [label]: destination "title", a reference definition on its own line.
+const REFERENCE_DEFINITION = /^ {0,3}\[([^\]]+)\]:[ \t]*<?([^\s>]*)>?(?:[ \t]+.*)?$/gm;
+// [label][ref], [label][] or [label]. A shortcut [label] is a link only when
+// a definition for it exists.
+const REFERENCE_LINK = /!?\[([^\]]*)\](?:\[([^\]]*)\])?/g;
+// A removed span leaves this boundary. The keyword pattern needs only white
+// space between the keyword and the issue, so a boundary breaks the match.
+const BOUNDARY = " \u0000 ";
+const normalizeLabel = (label) => label.trim().replace(/\s+/g, " ").toLowerCase();
 const OBSERVABILITY = /^[ \t]*(?:[-*+][ \t]+)?Observability:[ \t]*(.*)$/;
 const PLACEHOLDER = /<[^>]*>/;
 const ATX = /^ {0,3}(#{1,6})(?:[ \t]+(.*?))?(?:[ \t]+#+)?[ \t]*$/;
@@ -59,14 +68,27 @@ function stripExamples(text) {
 }
 
 // Return the text where the closing reference can be: no inline code, and
-// each Markdown link replaced by its destination when that is an issue URL.
-// The label of a link is not a closing reference. A link to another page
-// is removed.
+// each inline or reference link replaced by its destination when that is an
+// issue URL. The label of a link is not a closing reference. A link to
+// another page, a code span and a reference definition become a boundary,
+// so the text around them does not join into a new reference.
 export function linkProse(lines) {
-  return lines
+  const linkText = (destination) => (WHOLE_ISSUE_URL.test(destination) ? ` ${destination} ` : BOUNDARY);
+  const definitions = new Map();
+  const text = lines
     .join("\n")
-    .replace(INLINE_CODE, " ")
-    .replace(MARKDOWN_LINK, (_, destination) => (WHOLE_ISSUE_URL.test(destination) ? ` ${destination} ` : " "));
+    .replace(INLINE_CODE, BOUNDARY)
+    .replace(REFERENCE_DEFINITION, (_, label, destination) => {
+      const key = normalizeLabel(label);
+      if (!definitions.has(key)) definitions.set(key, destination);
+      return BOUNDARY;
+    })
+    .replace(MARKDOWN_LINK, (_, destination) => linkText(destination));
+  return text.replace(REFERENCE_LINK, (whole, label, ref) => {
+    const key = normalizeLabel(ref === undefined || ref === "" ? label : ref);
+    if (!definitions.has(key)) return ref === undefined ? whole : BOUNDARY;
+    return linkText(definitions.get(key));
+  });
 }
 
 const isParagraphLine = (line) =>
