@@ -5,8 +5,8 @@ name: validate
 # This workflow does not tag, release or publish.
 
 on:
+  # Each pull request, to any base branch, runs the checks.
   pull_request:
-    branches: [main]
     types: [opened, synchronize, reopened, edited]
   push:
     branches: [main]
@@ -48,6 +48,19 @@ jobs:
           TITLE: ${{ github.event.pull_request.title }}
         run: node scripts/check-title.mjs "$TITLE"
 
+      # A project script. dkstack v1.6.0 has no body check. The "edited" event
+      # runs it again after a change to the body.
+      - name: Check that the PR body links an issue and has the Evidence lines
+        if: ${{ !cancelled() && steps.node.outcome == 'success' && github.event_name == 'pull_request' }}
+        env:
+          BODY: ${{ github.event.pull_request.body }}
+          AUTHOR: ${{ github.event.pull_request.user.login }}
+        run: node scripts/local/check-pr-body.mjs
+
+      - name: Run the tests of the project scripts
+        if: ${{ !cancelled() && steps.node.outcome == 'success' }}
+        run: node --test scripts/local/*.test.mjs
+
       - name: Check that the commit titles of the push are conventional commits
         if: ${{ !cancelled() && steps.node.outcome == 'success' && github.event_name == 'push' }}
         env:
@@ -74,9 +87,22 @@ jobs:
         if: ${{ !cancelled() && steps.node.outcome == 'success' }}
         run: node scripts/check-context.mjs
 
+      # On a pull request, the base is origin/main. On a push to main,
+      # origin/main is HEAD, so the base is the tip before the push.
       - name: Check that new ADRs have Status and Affects
         if: ${{ !cancelled() && steps.node.outcome == 'success' }}
-        run: node scripts/check-adrs.mjs
+        env:
+          EVENT: ${{ github.event_name }}
+          BEFORE: ${{ github.event.before }}
+        run: |
+          if [ "$EVENT" != "push" ]; then
+            node scripts/check-adrs.mjs
+            exit
+          fi
+          if ! git cat-file -e "$BEFORE^{commit}" 2>/dev/null; then
+            BEFORE="$GITHUB_SHA~1"
+          fi
+          node scripts/check-adrs.mjs --base "$BEFORE"
 
       - name: Check that Markdown has no em dash or en dash
         if: ${{ !cancelled() && steps.node.outcome == 'success' }}
@@ -105,10 +131,11 @@ jobs:
           tar -xzf "$ARCHIVE" -C "$RUNNER_TEMP" actionlint
           "$RUNNER_TEMP/actionlint" -no-color -shellcheck=shellcheck
 
-      # Offline mode checks only local files and anchors. It does not read
-      # the network, so the result is deterministic. The binary is fixed by
-      # version and SHA-256.
-      - name: Check that relative links and anchors in Markdown resolve
+      # Offline mode checks only local files and anchors. Each dkstack URL on
+      # the ref v1 maps to a file in a clone of the dkstack branch v1, so a
+      # broken dkstack link or anchor fails too. Other URLs are not checked.
+      # The binary is fixed by version and SHA-256.
+      - name: Check that relative links, dkstack links and anchors in Markdown resolve
         if: ${{ !cancelled() }}
         env:
           LYCHEE_VERSION: 0.24.2
@@ -118,4 +145,22 @@ jobs:
           curl -fsSL -o "$ARCHIVE" "https://github.com/lycheeverse/lychee/releases/download/lychee-v${LYCHEE_VERSION}/lychee-x86_64-unknown-linux-gnu.tar.gz"
           echo "$LYCHEE_SHA256  $ARCHIVE" | sha256sum --check --strict
           tar -xzf "$ARCHIVE" -C "$RUNNER_TEMP" --strip-components=1 lychee-x86_64-unknown-linux-gnu/lychee
-          git ls-files -z '*.md' | xargs -0 "$RUNNER_TEMP/lychee" --offline --include-fragments --no-progress
+          DKSTACK="$RUNNER_TEMP/dkstack"
+          git clone --quiet --depth 1 --branch v1 https://github.com/daniel-kindl/dkstack.git "$DKSTACK"
+          git ls-files -z '*.md' | xargs -0 "$RUNNER_TEMP/lychee" --offline --include-fragments --no-progress \
+            --remap "^https://raw\.githubusercontent\.com/daniel-kindl/dkstack/v1/ file://$DKSTACK/" \
+            --remap "^https://github\.com/daniel-kindl/dkstack/(blob|tree)/v1/ file://$DKSTACK/"
+
+      # The secret scan reads each commit of the repository history.
+      # The binary is fixed by version and SHA-256.
+      - name: Scan the repository history for secrets
+        if: ${{ !cancelled() }}
+        env:
+          GITLEAKS_VERSION: 8.30.1
+          GITLEAKS_SHA256: 551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb
+        run: |
+          ARCHIVE="$RUNNER_TEMP/gitleaks.tar.gz"
+          curl -fsSL -o "$ARCHIVE" "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz"
+          echo "$GITLEAKS_SHA256  $ARCHIVE" | sha256sum --check --strict
+          tar -xzf "$ARCHIVE" -C "$RUNNER_TEMP" gitleaks
+          "$RUNNER_TEMP/gitleaks" git --redact --no-banner --exit-code 1 .

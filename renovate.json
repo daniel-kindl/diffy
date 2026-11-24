@@ -10,6 +10,11 @@
   "semanticCommitScope": "deps",
   "packageRules": [
     {
+      "description": "Short titles: dkstack check-title allows 50 characters.",
+      "matchManagers": ["cargo", "npm", "github-actions"],
+      "commitMessageTopic": "{{depName}}"
+    },
+    {
       "matchManagers": ["github-actions"],
       "semanticCommitType": "ci"
     },
