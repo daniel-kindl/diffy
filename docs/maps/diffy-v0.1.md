@@ -27,7 +27,7 @@ Next: Q40
 - Q8 Spike end: evidence-driven, with no time box. The agent proposed charters as a control, see Q40. Decided by: Daniel Kindl, 2026-11-24. Record: this line.
 - Q9 Updater: keep the Tauri Updater with a self-generated minisign key. The private key is only in a GitHub Actions secret and an offline backup. Decided by: Daniel Kindl, 2026-11-24. Record: this line.
 - Q10 Windows testing: CI builds and automated tests on Windows at all times. Manual QA on the Windows notebook only before a release. Owner words: "I have windows notebook. I can do some test there but prefer to do only testing on that before release." Decided by: Daniel Kindl, 2026-11-24. Record: this line.
-- Q11 Dogfood releases: unsigned Linux AppImage pre-releases (v0.0.x) after M1 and after M2. The full release gate applies only to v0.1.0. Decided by: Daniel Kindl, 2026-11-24. Record: this line.
+- Q11 Dogfood releases: Linux AppImage pre-releases (v0.0.x) after M1 and after M2, with no OS code signing. Update artifacts still get the Q9 minisign signature, see Q36. The full release gate applies only to v0.1.0. Decided by: Daniel Kindl, 2026-11-24. Record: this line.
 - Q12 S1 on Windows: one S1 check on the Windows notebook is an exception to Q10. Decided by: Daniel Kindl, 2026-11-24. Record: this line.
 - Q13 Canonical diff: hunks match `git diff --histogram`. Decided by: Daniel Kindl, 2026-11-24. Record: [ADR 0002](../adr/0002-canonical-diff-matches-git-histogram.md).
 - Q14 OneDev server: the homelab instance. Owner words: "I have OneDev on my local homelab, we can test it there, but I dont use it often." Decided by: Daniel Kindl, 2026-11-24. Record: this line.
@@ -49,10 +49,10 @@ Next: Q40
 - Q30 Checkpoints: the user creates a checkpoint with an explicit action. Decided by: Daniel Kindl, 2026-11-24. Record: this line.
 - Q31 Finding taxonomy: a fixed set. Severity is blocker, major, minor or nit. Category is correctness, security, performance, design, tests, docs or style. Decided by: Daniel Kindl, 2026-11-24. Record: this line.
 - Q32 GitHub authentication: OAuth device flow with a registered OAuth App. The token is in the OS credential store. Decided by: Daniel Kindl, 2026-11-24. Record: this line.
-- Q33 Publication unit: one batched review with an explicit review event. Decided by: Daniel Kindl, 2026-11-24. Record: [ADR 0003](../adr/0003-remote-publication-format.md).
+- Q33 Publication unit: on GitHub, one batched review with an explicit review event. The question named GitHub pull requests. Q49 covers OneDev. Decided by: Daniel Kindl, 2026-11-24. Record: [ADR 0003](../adr/0003-remote-publication-format.md).
 - Q34 Publication marker: a hidden HTML comment marker with the finding ID and the attempt ID. Decided by: Daniel Kindl, 2026-11-24. Record: [ADR 0003](../adr/0003-remote-publication-format.md).
 - Q35 Remote threads: Diffy can reply to and resolve threads where the provider allows it. Decided by: Daniel Kindl, 2026-11-24. Record: this line.
-- Q36 Dogfood updates: the v0.0.x AppImages use the updater from v0.0.2, on a pre-release channel. Decided by: Daniel Kindl, 2026-11-24. Record: this line.
+- Q36 Dogfood updates: the v0.0.x AppImages use the updater from v0.0.2, on a pre-release channel. The user installs v0.0.1 manually, and it contains the updater public key. Each release from v0.0.2 has update artifacts with a minisign signature. Decided by: Daniel Kindl, 2026-11-24. Record: this line.
 - Q37 Screen readers: Orca on Fedora during development, axe-core checks in CI, and NVDA on Windows at release candidate. Decided by: Daniel Kindl, 2026-11-24. Record: this line.
 - Q38 Documentation and performance reference: README and Markdown in `docs/`. The Fedora host is the reference hardware for the performance targets. CI benchmarks show relative regressions only. Decided by: Daniel Kindl, 2026-11-24. Record: this line.
 - Q39 Specification files: leave the specification and the logo untracked for now. Decided by: Daniel Kindl, 2026-11-24. Record: this line.
@@ -69,7 +69,7 @@ Write one charter for each spike (S1 to S8): the question, the evidence that ans
 ### Q41: S1 Monaco renderer shape
 
 Type: prototype
-Blocked by: Q40
+Blocked by: Q40, Q42
 
 Compare the Monaco DiffEditor with two Monaco editors that show the canonical hunks from Rust. Measure large diffs, aligned rows, inline findings, scrolling and live refresh. Include the Windows check from Q12.
 
@@ -78,7 +78,7 @@ Compare the Monaco DiffEditor with two Monaco editors that show the canonical hu
 Type: prototype
 Blocked by: Q40
 
-Check the S1 prototype on WebKitGTK under Wayland and X11: clipboard, keyboard, GPU and rendering.
+Check the S1 prototype on WebKitGTK under Wayland and X11: clipboard, keyboard, GPU and rendering. This check starts when the Q41 prototype runs. The Q41 verdict uses its results, so Q41 is blocked by this question.
 
 ### Q43: Diff crate with histogram parity
 
@@ -127,7 +127,7 @@ Find out if GitHub can resolve a review thread through REST, or only through Gra
 Type: research
 Blocked by: Q40
 
-Find out which review actions the latest stable OneDev REST API supports. Check inline comments, replies, resolution and approval. Check that the Q34 marker is invisible in OneDev.
+Find out which review actions the latest stable OneDev REST API supports. Check inline comments, replies, resolution and approval. Check that the Q34 marker is invisible in OneDev. Define how Diffy confirms each OneDev operation (comment, approval, change request) before a retry. See ADR 0003.
 
 ### Q50: S6 updater pre-release channel
 
@@ -148,7 +148,7 @@ Find out how a second `diffy` process forwards its arguments to the running inst
 Type: task
 Blocked by: none
 
-List the actions that only the owner can do, with the latest date for each. Examples are the GitHub OAuth App, the minisign key, the Renovate app, the labels and the branch protection.
+List the actions that only the owner can do, with the latest date for each. Examples are the GitHub OAuth App, the minisign key, the Renovate app and the branch protection. The minisign key must exist before the v0.0.1 build, because v0.0.1 contains the public key (Q36).
 
 ### Q53: Domain glossary
 

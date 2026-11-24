@@ -16,7 +16,8 @@ The publication lifecycle (specification section 07) requires reconciliation bef
 
 ## Decision
 
-- Diffy publishes the selected findings as the inline comments of one review. The user selects the review event explicitly: COMMENT, APPROVE or REQUEST_CHANGES.
+- On GitHub, Diffy publishes the selected findings as the inline comments of one review. The user selects the review event explicitly: COMMENT, APPROVE or REQUEST_CHANGES.
+- A provider with no batched review publishes each comment and each review action as a separate operation. Each operation is reconciled alone before a retry. Map question Q49 defines the OneDev operations and how Diffy confirms each one.
 - Each published comment body ends with a hidden marker in this format: `<!-- diffy:f=<finding-id> a=<attempt-id> -->`.
 - Reconciliation finds the comments by the marker before a retry.
 
@@ -24,7 +25,8 @@ See [the v0.1 map](../maps/diffy-v0.1.md), decisions Q33 and Q34.
 
 ## Consequences
 
-- One review gives followers of the pull request one notification. A partial failure of a review must be reconciled as one unit.
+- On GitHub, one review gives followers of the pull request one notification. A partial failure of a review must be reconciled as one unit.
+- On OneDev, the marker confirms that a comment exists. It does not confirm a review action, for example an approval. Reconciliation must read the review state of the pull request for each review action.
 - The marker contains only local IDs. It must not contain paths outside the repository, tokens or personal data.
-- OneDev must render the marker invisibly. Map question Q47 verifies this. If OneDev shows the marker, the OneDev adapter needs a different marker, and this ADR gets an amendment.
+- OneDev must render the marker invisibly. Map question Q49 verifies this. If OneDev shows the marker, the OneDev adapter needs a different marker, and this ADR gets an amendment.
 - A user can edit or delete a marker on the provider. Reconciliation must handle a missing marker as an unknown result, not as a failure.
