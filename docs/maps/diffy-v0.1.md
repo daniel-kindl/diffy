@@ -2,7 +2,7 @@
 
 Status: open
 Destination: Each v0.1 milestone (M0 to M4) has a plan and issues with acceptance criteria. Each spike has a verdict, and no open question blocks the first M0 issue.
-Next: Q54
+Next: Q43
 
 ## Notes
 
@@ -24,6 +24,10 @@ Next: Q54
 - The Monaco default font, Droid Sans Mono, is not installed on Fedora or Ubuntu. WebKit uses the `monospace` fallback: Adwaita Mono on Fedora and DejaVu Sans Mono on Ubuntu. Source: https://github.com/daniel-kindl/diffy/blob/37f9892/prototypes/s1-monaco/bench-results/q42-fedora-x11-A.json and https://github.com/daniel-kindl/diffy/blob/37f9892/prototypes/s1-monaco/bench-results/q42-ubuntu-x11-A.json
 - At 125% scale, the XWayland window has a device pixel ratio of 1.25. The Wayland window has a device pixel ratio of 2, because GTK 3 has no fractional scale. KWin scales the window down. Source: https://github.com/daniel-kindl/diffy/blob/37f9892/prototypes/s1-monaco/bench-results/q42-fedora125-x11-A.json and https://github.com/daniel-kindl/diffy/blob/37f9892/prototypes/s1-monaco/bench-results/q42-fedora125-wayland-A.json
 - In option B, a horizontal scroll bar on one side only adds its height to that side. In a 1,120 px window, the content heights were 2,304 px and 2,316 px with the same 128 rows. Source: https://github.com/daniel-kindl/diffy/blob/37f9892/prototypes/s1-monaco/bench-results/q42-fedora125-x11-B.json
+- On the 1 MB, 10 MB and 50 MB fixtures, the Monaco DiffEditor (option A) puts some deletions one line higher than the canonical block. An identical line is next to each such block. On the 1 MB fixture, 4 unchanged pairs are out of line and 8 left lines have the wrong mark. Option B has no fail on the five fixtures. Source: https://github.com/daniel-kindl/diffy/blob/f87a6fb/prototypes/s1-monaco/bench-results/q54-fedora-checks-A.json and https://github.com/daniel-kindl/diffy/blob/f87a6fb/prototypes/s1-monaco/bench-results/q54-fedora-checks-B.json
+- The public `diffAlgorithm` option of Monaco 0.58 accepts only `legacy`, `advanced`, `advanced-external` and `advanced-wasm`. A custom diff provider is not possible through it. Source: monaco-editor 0.58.0 `esm/vs/editor/browser/widget/diffEditor/diffEditorOptions.js:167`
+- The `10k-lines` fixture has 26 right lines of 83 characters, so only the right side shows a horizontal scroll bar. Option B then needs the scroll bar pad of Q54. Source: https://github.com/daniel-kindl/diffy/blob/f87a6fb/prototypes/s1-monaco/README.md
+- Monaco keeps the scroll position in pixels when the model changes. A line inserted above the viewport moves the content, unless the refresh code anchors the first visible line. Source: https://github.com/daniel-kindl/diffy/blob/f87a6fb/prototypes/s1-monaco/src/q54.ts
 
 ## Decisions
 
@@ -70,6 +74,8 @@ Next: Q54
 - Q41 S1 Monaco prototype build: both options open the small and the 1 MB fixture on Fedora. The prototype, the fixture set and the benchmark harness are on the tag `prototype/diffy-v0.1-q41`. Owner words: "Accept the build phase". The owner record is on issue #5. Decided by: Daniel Kindl, 2026-11-24. Record: this line.
 - Q56 Container as the reference host: Q54 measurements in the `rust-dev` distrobox container count as the Fedora reference host of Q38. Owner words: "yes they do count". The owner record is on issue #27. Decided by: Daniel Kindl, 2026-11-24. Record: this line.
 - Q42 S2 Linux WebKitGTK behavior: both options work on WebKitGTK under Wayland and XWayland, on Fedora and on Ubuntu 24.04. No check has a blocker. The input method preedit goes to Q57, and the Monaco features and font go to Q58. Owner words: "Accept the S2 results". Decided by: Daniel Kindl, 2026-11-24. Record: this line.
+- Q54 S1 renderer verdict: option B, two Monaco editors that show the canonical hunks from Rust. Only option B passes the coordinate check. Owner words: "B". The Windows run of Q12 comes later, in Q59. For the order, the owner selected the option "Record B, Windows later". Decided by: Daniel Kindl, 2026-11-24. Record: [ADR 0004](../adr/0004-renderer-two-monaco-editors-with-canonical-hunks.md).
+- Q47 S7 CodeMirror fallback: skipped. Monaco passes in Q54, and the Q47 charter (Q40) skips the benchmark in that case. Decided by: Daniel Kindl, 2026-11-24. Record: this line.
 
 ## Open questions
 
@@ -131,9 +137,9 @@ Stop when:
 ### Q46: S8 scale
 
 Type: prototype
-Blocked by: Q54, Q44, Q47
+Blocked by: Q44
 
-Measure 1,000 or more changed files with bounded memory and cancellation against the section 18 targets. Measure only the renderer that Q54, or Q47 when Monaco fails, selects.
+Measure 1,000 or more changed files with bounded memory and cancellation against the section 18 targets. Measure only option B, the renderer that Q54 selects (ADR 0004).
 
 Charter question: Does Diffy stay responsive with 1,000 or more changed files, with bounded memory and fast cancellation?
 
@@ -148,26 +154,6 @@ Evidence, on the Fedora reference host (Q38) with the selected renderer:
 Stop when:
 
 - Each target has a measured result. A missed target is a finding for the owner. It is not an automatic fail, because the section 18 targets are proposals.
-
-### Q47: S7 CodeMirror fallback
-
-Type: prototype
-Blocked by: Q54
-
-Run the CodeMirror 6 benchmark only if the Q54 verdict says that Monaco fails. If Monaco passes, record Q47 in Decisions as skipped, with the Q54 verdict as the reason.
-
-Charter question: If Monaco fails, does CodeMirror 6 meet the targets that Monaco did not meet?
-
-Evidence, only if the Q54 verdict says that Monaco fails:
-
-- A CodeMirror 6 merge view that shows the canonical hunks, on the branch `prototype/diffy-v0.1-q47`.
-- The Q41 fixtures and harness, and the same measurements as Q54, the coordinate check included.
-
-Stop when:
-
-- Q54 says that Monaco passes. Record Q47 as skipped.
-- Each Q54 measurement has a CodeMirror result, and CodeMirror passes the coordinate check. The owner picks the renderer.
-- CodeMirror fails the coordinate check. Record the failed fallback and ask the owner how to continue. Q47 stays open until a renderer is eligible, so Q46 stays blocked.
 
 ### Q48: GitHub thread resolution API
 
@@ -229,47 +215,6 @@ Blocked by: none
 
 Approve the `CONTEXT.md` terms from specification section 07: snapshot, comparison, review session, finding, file review state, publication, baseline and checkpoint.
 
-### Q54: S1 renderer verdict
-
-Type: prototype
-Blocked by: Q41, Q42, Q56
-
-Select the renderer option from the Q41 prototype. Measure large diffs, aligned rows, inline findings, scrolling and live refresh. Use the Q42 results and the Windows check from Q12. The owner picks the option.
-
-S1 charter. Q41 is the build phase and Q54 is the verdict phase.
-
-Charter question: Which renderer option shows the canonical hunks and the findings at the correct coordinates, and how near does it come to the targets?
-
-Build phase evidence (Q41):
-
-- A Tauri prototype on the branch `prototype/diffy-v0.1-q41`. Option A is the Monaco DiffEditor. Option B is two Monaco editors that show the canonical hunks from Rust.
-- Until Q43 selects a crate, option B can take its hunks from the ADR 0002 oracle command.
-- A fixture set that Q54, Q47 and Q46 use again. It has a small change, a 1 MB diff and a 10 MB diff. It also has a 50 MB stress input and 10,000 changed lines.
-- A benchmark harness that records the hardware, the OS, the workload and the method, as specification section 18 says.
-
-Build phase stop when:
-
-- Both options open the small fixture and the 1 MB fixture on Fedora. Tag the commit and continue with Q42 and Q54.
-- An option cannot open these fixtures. Record the cause and ask the owner before more work on that option.
-
-Verdict phase evidence (Q54), for each option on the Fedora reference host (Q38):
-
-- Coordinate check: on each fixture, each row and each shown finding maps to the correct canonical coordinates.
-- Option A calculates its own presentation diff. A presentation difference is allowed only if the canonical coordinates stay correct (specification section 12).
-- Inline findings: a finding widget in a row does not break the alignment.
-- Scrolling: 60 FPS normal scrolling, and the two sides stay aligned.
-- Live refresh: a file change keeps the scroll position and the selection. The typical settled refresh takes less than 500 ms.
-- Large diffs: the p95 time to show the 1 MB diff and the 10 MB diff. The targets are less than 250 ms and less than 3 s.
-- The memory, the CPU use and the stalls for the 50 MB stress input.
-- The Q42 results, and one run on the Windows notebook (Q12).
-- Option B alignment when only one side has a horizontal scroll bar (Q42).
-
-Verdict phase stop when:
-
-- An option is eligible only if the coordinate check passes. The other results are measurements for the owner.
-- Each item has a result for each option. The owner picks an eligible option.
-- No option is eligible, or the owner says that Monaco fails. A Monaco fail starts Q47.
-
 ### Q55: S6 signed update prototype
 
 Type: prototype
@@ -317,9 +262,16 @@ wry 0.57.3 turns off the WebKitGTK preedit, so the input method shows the text t
 ### Q58: Monaco features and font for M0
 
 Type: task
-Blocked by: Q54
+Blocked by: none
 
 List the Monaco contributions that the M0 scaffold imports, at least the find widget and the tab focus mode. Select a font list for the editor, because the Monaco default font is not installed on Fedora or Ubuntu.
+
+### Q59: S1 checks on the Windows notebook
+
+Type: task
+Blocked by: none
+
+Run the Q54 checks for option B once on the Windows notebook (Q12), with `prototypes/s1-monaco/q54-windows.ps1` from the tag `prototype/diffy-v0.1-q54`. A fail for option B goes to the owner. Issue #30.
 
 ## Not yet clear
 
@@ -355,6 +307,17 @@ List the Monaco contributions that the M0 scaffold imports, at least the find wi
 - Result: each clipboard, keyboard, GPU and rendering check passes for both options. The only fail is the in-page preedit, which wry turns off. Turning it on again is the workaround.
 - Picked: none. The owner picks the option in Q54.
 - Branch: `prototype/diffy-v0.1-q42` at `37f9892`. Tag: `prototype/diffy-v0.1-q42`. Not merged.
+
+### Q54: S1 renderer verdict
+
+- Options: A and B from Q41, on the Fedora reference host (Q38, Q56) with WebKitGTK 2.54.2 under Wayland.
+- Coordinates: option A fails on the 1 MB, 10 MB and 50 MB fixtures. Option B passes on each fixture, and with five finding widgets on the 1 MB and 10 MB fixtures.
+- Open p95: option A 257 ms for 1 MB and 2,687 ms for 10 MB. Option B 102 ms and 422 ms, or 118 ms and 539 ms with the oracle on each open.
+- Live refresh p95: option A 350 ms for 1 MB and 5,016 ms for 10 MB. Option B 58 ms and 401 ms. With the anchor, both options keep the scroll position and the selection. One exception: option A on 10 MB, with a line inserted above the viewport. Only 3 of 10 runs keep the selection.
+- Scrolling: 60 FPS for both options on 1 MB and 10 MB, programmatic, and the sides stay aligned.
+- 50 MB stress: option A opens in 25.7 s, with a peak of 1.63 GB and a longest stall of 1,254 ms. Option B opens in 1.8 s, with a peak of 1.11 GB and a longest stall of 390 ms.
+- Picked: option B, because only option B passes the coordinate check (ADR 0004).
+- Branch: `prototype/diffy-v0.1-q54` at `f87a6fb`. Tag: `prototype/diffy-v0.1-q54`. Not merged.
 
 ## Hand-off
 
