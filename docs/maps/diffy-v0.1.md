@@ -2,7 +2,7 @@
 
 Status: open
 Destination: Each v0.1 milestone (M0 to M4) has a plan and issues with acceptance criteria. Each spike has a verdict, and no open question blocks the first M0 issue.
-Next: Q41
+Next: Q56
 
 ## Notes
 
@@ -14,6 +14,9 @@ Next: Q41
 - The repository has the 10 DKSTACK labels (six `type:` and four `priority:` labels) and no other labels. Source: `gh label list` on 2026-11-24.
 - The specification links the logo as `diffy-assets/media/image1.png`, but the file is `image1.png` at the repository root. Source: Diffy_Master_Specification.md line 3.
 - Some decisions change the specification. The changed sections are signing (Q6), M3 scope (Q16), OneDev versions (Q17) and the Windows minimum (Q18). Q24 adds requirement C-09 for the CLI. Q28 adds requirement R-08 for the Markdown copy. Source: the Decisions section of this map.
+- The Q41 run used WebKitGTK 2.54.2 in the `rust-dev` distrobox container (Fedora 44) on the host, in a Wayland session. Source: https://github.com/daniel-kindl/diffy/blob/627236e4c92c2161e51aa06204d0705537b46f86/prototypes/s1-monaco/bench-results/q41-open-fedora.json
+- Each frontend phase duration in the Q41 result file is a whole number of milliseconds. Q41 did not measure the clock resolution. Source: https://github.com/daniel-kindl/diffy/blob/627236e4c92c2161e51aa06204d0705537b46f86/prototypes/s1-monaco/bench-results/q41-open-fedora.json
+- On the 1 MB fixture, 246 of the 250 option A presentation changes are equal to a canonical block. Q54 checks the coordinates. Source: https://github.com/daniel-kindl/diffy/blob/627236e4c92c2161e51aa06204d0705537b46f86/prototypes/s1-monaco/bench-results/q41-open-fedora.json
 
 ## Decisions
 
@@ -57,17 +60,9 @@ Next: Q41
 - Q38 Documentation and performance reference: README and Markdown in `docs/`. The Fedora host is the reference hardware for the performance targets. CI benchmarks show relative regressions only. Decided by: Daniel Kindl, 2026-11-24. Record: this line.
 - Q39 Specification files: leave the specification and the logo untracked for now. Decided by: Daniel Kindl, 2026-11-24. Record: this line.
 - Q40 Spike charters: each spike S1 to S8 has one charter, with the question, the evidence and the stop conditions. The S1 charter is in Q54 and the S6 charter is in Q55. The other charters are in Q42, Q44 to Q47 and Q49. Owner words, after the PR #24 review: "Approve the revised charters". The owner record is on issue #4. Decided by: Daniel Kindl, 2026-11-24. Record: this line.
+- Q41 S1 Monaco prototype build: both options open the small and the 1 MB fixture on Fedora. The prototype, the fixture set and the benchmark harness are on the tag `prototype/diffy-v0.1-q41`. Owner words: "Accept the build phase". The owner record is on issue #5. Decided by: Daniel Kindl, 2026-11-24. Record: this line.
 
 ## Open questions
-
-### Q41: S1 Monaco prototype build
-
-Type: task
-Blocked by: Q40
-
-Build a throwaway prototype with two renderer options: the Monaco DiffEditor, and two Monaco editors that show the canonical hunks from Rust. The task is done when both options run on Fedora. It gives no verdict. Q54 gives the verdict.
-
-Charter: the S1 charter in Q54. Q41 is its build phase.
 
 ### Q42: S2 Linux WebKitGTK behavior
 
@@ -251,7 +246,7 @@ Approve the `CONTEXT.md` terms from specification section 07: snapshot, comparis
 ### Q54: S1 renderer verdict
 
 Type: prototype
-Blocked by: Q41, Q42
+Blocked by: Q41, Q42, Q56
 
 Select the renderer option from the Q41 prototype. Measure large diffs, aligned rows, inline findings, scrolling and live refresh. Use the Q42 results and the Windows check from Q12. The owner picks the option.
 
@@ -325,6 +320,13 @@ Prototype phase stop when:
 
 - Each item has a pass or fail result on both platforms. Each fail has a recovery path, or goes to the owner.
 
+### Q56: Container as the reference host
+
+Type: owner
+Blocked by: none
+
+The Q41 run used WebKitGTK from the `rust-dev` distrobox container, not from the host system. Do Q54 measurements in that container count as the Fedora reference host of Q38?
+
 ## Not yet clear
 
 - The rules that mark a file as generated (R-02).
@@ -347,7 +349,11 @@ Prototype phase stop when:
 
 ## Prototypes
 
-None yet.
+### Q41: S1 Monaco prototype build
+
+- Options: A: the Monaco DiffEditor, with its own presentation diff. B: two Monaco editors that show the canonical hunks from the ADR 0002 oracle command.
+- Picked: none yet. Q41 is the build phase. The owner picks an eligible option in Q54.
+- Branch: `prototype/diffy-v0.1-q41` at `627236e`. Tag: `prototype/diffy-v0.1-q41`. Not merged.
 
 ## Hand-off
 
