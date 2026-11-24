@@ -18,11 +18,15 @@ Add one entry for each exception:
 - Project rule: <what this project does in place of it>
 - Reason: <why this project needs the exception>
 
-This project has one exception:
+This project has two exceptions:
 
 - dkstack rule: [setup-repo-protection](https://raw.githubusercontent.com/daniel-kindl/dkstack/v1/skills/setup-repo-protection/SKILL.md#steps), step 4: a `CODEOWNERS` entry requires the owner's review for the CI workflow files.
 - Project rule: `.github/CODEOWNERS` names the owner for `.github/`, `scripts/` and `renovate.json`. The `main` ruleset does not require a code owner review. A pull request that changes one of these paths merges only after the owner posts the owner's own review verdict on it. An agent review alone is not sufficient. The owner merges that pull request.
 - Reason: each pull request comes from the owner's GitHub account, and GitHub does not let an account approve its own pull request. A required code owner review would block each such pull request. The owner approved this rule on 2026-11-24 (#20).
+
+- dkstack rule: [write-pr](https://raw.githubusercontent.com/daniel-kindl/dkstack/v1/skills/write-pr/SKILL.md#evidence): a pull request body links an issue and has an Evidence section with one `Observability:` line. Issue #19 asks CI to check the body of each pull request.
+- Project rule: `scripts/local/check-pr-body.mjs` skips a pull request from a bot account (a login that ends in `[bot]`), for example Renovate. A bot pull request still needs the title check, the other CI checks and a review.
+- Reason: a dependency update from a bot has no issue to link. The upstream dkstack body check also skips bot accounts. The owner approved this rule on 2026-11-24 (#20).
 
 ## Project facts
 
@@ -32,7 +36,7 @@ This project has one exception:
 - The CI workflow `.github/workflows/validate.yml` runs the repository checks. The job name `validate` is the required status check.
 - Run the checks locally with Node.js 24 from the repository root:
   - `node scripts/check-title.mjs "<title>"`
-  - `BODY="$(cat body.md)" node scripts/local/check-pr-body.mjs`
+  - `node scripts/local/check-pr-body.mjs body.md`
   - `node --test scripts/local/*.test.mjs`
   - `node scripts/check-maps.mjs`
   - `node scripts/check-context.mjs`
