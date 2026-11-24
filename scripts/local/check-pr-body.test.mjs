@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { mkdtempSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { checkPrBody, readInput } from "./check-pr-body.mjs";
+import { checkPrBody, lineKinds, readInput } from "./check-pr-body.mjs";
 
 const VALID = "Closes #19\n\n## Evidence\n\n- Observability: none, docs only\n";
 const URL = "https://github.com/daniel-kindl/diffy/issues/19";
@@ -116,6 +116,27 @@ test("brackets with no definition stay plain text", () => {
 
 test("a two-line setext heading uses the whole paragraph as its text", () => {
   const body = "Closes #19\n\nSupporting\nEvidence\n--------\n\nObservability: none, docs only\n";
+  assert.match(checkPrBody(body)[0], /Evidence/);
+});
+
+test("a setext Evidence heading right after an indented code block starts the section", () => {
+  const body = "Closes #19\n\n    code line\nEvidence\n--------\n\nObservability: none, docs only\n";
+  assert.deepEqual(checkPrBody(body), []);
+});
+
+test("an indented line after a paragraph continues the paragraph", () => {
+  const body = "Closes #19\n\nSupporting\n    Evidence\n--------\n\nObservability: none, docs only\n";
+  assert.match(checkPrBody(body)[0], /Evidence/);
+});
+
+test("an indented line after a list item and a blank line is list content, not code", () => {
+  const kinds = lineKinds(["- item", "", "    more", "", "    code?"]);
+  assert.deepEqual(kinds, ["list", "blank", "list", "blank", "list"]);
+  assert.deepEqual(lineKinds(["text", "", "    code", "    more"]), ["para", "blank", "code", "code"]);
+});
+
+test("a dash line after a code block is not a heading", () => {
+  const body = "Closes #19\n\n    Evidence\n--------\n\nObservability: none, docs only\n";
   assert.match(checkPrBody(body)[0], /Evidence/);
 });
 

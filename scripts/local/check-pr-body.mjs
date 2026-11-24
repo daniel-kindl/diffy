@@ -91,30 +91,58 @@ export function linkProse(lines) {
   });
 }
 
-const isParagraphLine = (line) =>
-  line.trim() !== "" && !ATX.test(line) && !SETEXT.test(line) && !LIST_ITEM.test(line) && !BLOCK_START.test(line);
+const INDENTED = /^(?: {4}|\t)/;
 
-// Return the headings as { line, level, text }. ATX headings ("## Text") and
-// setext headings ("Text" over a line of "=" or "-") count. A "-" line after
-// a list item or a blank line is a list or a thematic break, not a heading.
-// The text of a setext heading is the whole paragraph over the underline.
+// Return the kind of each line: "blank", "atx", "underline" (of a setext
+// heading), "code" (an indented code block), "list", "quote", "break" or
+// "para". A paragraph line can continue a paragraph, a list item or a block
+// quote. An indented line continues a paragraph or a list item, but it starts
+// a code block after a blank line or another block.
+export function lineKinds(lines) {
+  const kinds = [];
+  let lastBlock = "blank";
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    const previous = i > 0 ? kinds[i - 1] : "blank";
+    let kind;
+    if (line.trim() === "") kind = "blank";
+    else if (previous === "para" && SETEXT.test(line)) kind = "underline";
+    else if (INDENTED.test(line)) {
+      if (previous === "para" || previous === "list") kind = previous;
+      else if (previous === "code" || lastBlock !== "list") kind = "code";
+      else kind = "list";
+    } else if (ATX.test(line)) kind = "atx";
+    else if (LIST_ITEM.test(line)) kind = "list";
+    else if (BLOCK_START.test(line)) kind = "quote";
+    else if (SETEXT.test(line)) kind = "break";
+    else if (previous === "list" || previous === "quote") kind = previous;
+    else kind = "para";
+    kinds.push(kind);
+    if (kind !== "blank") lastBlock = kind;
+  }
+  return kinds;
+}
+
+// Return the headings as { line, end, level, text }. ATX headings ("## Text")
+// and setext headings (a paragraph over a line of "=" or "-") count. A "-"
+// line after a list item, a code block or a blank line is not a heading.
+// The text of a setext heading is the whole paragraph over the underline, and
+// the paragraph starts after the block before it, for example a code block.
 export function headings(lines) {
+  const kinds = lineKinds(lines);
   const result = [];
   for (let i = 0; i < lines.length; i++) {
-    const atx = ATX.exec(lines[i]);
-    if (atx) {
-      result.push({ line: i, level: atx[1].length, text: (atx[2] ?? "").trim() });
+    if (kinds[i] === "atx") {
+      const atx = ATX.exec(lines[i]);
+      result.push({ line: i, end: i, level: atx[1].length, text: (atx[2] ?? "").trim() });
       continue;
     }
-    const setext = SETEXT.exec(lines[i]);
-    if (!setext || i === 0) continue;
-    const previous = lines[i - 1];
-    if (previous.trim() === "" || LIST_ITEM.test(previous) || BLOCK_START.test(previous)) continue;
-    if (/^(?: {4}|\t)/.test(previous) || SETEXT.test(previous)) continue;
+    if (kinds[i] !== "underline") continue;
     let first = i - 1;
-    while (first > 0 && isParagraphLine(lines[first - 1])) first--;
+    while (first > 0 && kinds[first - 1] === "para") first--;
     const text = lines.slice(first, i).map((line) => line.trim()).join(" ");
-    result.push({ line: first, end: i, level: setext[1][0] === "=" ? 1 : 2, text });
+    const level = SETEXT.exec(lines[i])[1][0] === "=" ? 1 : 2;
+    result.push({ line: first, end: i, level, text });
   }
   return result;
 }
