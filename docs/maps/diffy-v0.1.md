@@ -2,7 +2,7 @@
 
 Status: open
 Destination: Each v0.1 milestone (M0 to M4) has a plan and issues with acceptance criteria. Each spike has a verdict, and no open question blocks the first M0 issue.
-Next: Q40
+Next: Q41
 
 ## Notes
 
@@ -56,15 +56,9 @@ Next: Q40
 - Q37 Screen readers: Orca on Fedora during development, axe-core checks in CI, and NVDA on Windows at release candidate. Decided by: Daniel Kindl, 2026-11-24. Record: this line.
 - Q38 Documentation and performance reference: README and Markdown in `docs/`. The Fedora host is the reference hardware for the performance targets. CI benchmarks show relative regressions only. Decided by: Daniel Kindl, 2026-11-24. Record: this line.
 - Q39 Specification files: leave the specification and the logo untracked for now. Decided by: Daniel Kindl, 2026-11-24. Record: this line.
+- Q40 Spike charters: each spike question has a charter in its entry, with the question, the evidence and the stop conditions. The spikes are Q41, Q42, Q44 to Q47, Q49, Q50 and Q54. Owner words: "Approve all as written". Decided by: Daniel Kindl, 2026-11-24. Record: this line.
 
 ## Open questions
-
-### Q40: Spike charters
-
-Type: task
-Blocked by: none
-
-Write one charter for each spike (S1 to S8): the question, the evidence that answers it, and the stop conditions. The owner approves each charter before the spike starts.
 
 ### Q41: S1 Monaco prototype build
 
@@ -73,12 +67,42 @@ Blocked by: Q40
 
 Build a throwaway prototype with two renderer options: the Monaco DiffEditor, and two Monaco editors that show the canonical hunks from Rust. The task is done when both options run on Fedora. It gives no verdict. Q54 gives the verdict.
 
+Charter question: Do both renderer options run on Fedora with the same fixtures?
+
+Evidence:
+
+- A Tauri prototype on the branch `prototype/diffy-v0.1-q41`. Option A is the Monaco DiffEditor. Option B is two Monaco editors that show the canonical hunks from Rust.
+- Until Q43 selects a crate, option B can take its hunks from the ADR 0002 oracle command.
+- A fixture set that Q54, Q47 and Q46 use again. It has a small change, a 1 MB diff and a 10 MB diff. It also has a 50 MB stress input and 10,000 changed lines.
+- A benchmark harness that records the hardware, the OS, the workload and the method, as specification section 18 says.
+
+Stop when:
+
+- Both options open the small fixture and the 1 MB fixture on Fedora. Tag the commit and continue with Q42 and Q54.
+- An option cannot open these fixtures. Record the cause and ask the owner before more work on that option.
+
 ### Q42: S2 Linux WebKitGTK behavior
 
 Type: prototype
 Blocked by: Q41
 
 Check the Q41 prototype on WebKitGTK under Wayland and X11: clipboard, keyboard, GPU and rendering. The Q54 verdict uses these results.
+
+Charter question: Does the Q41 prototype work on WebKitGTK under Wayland and under X11?
+
+Evidence, for each option and each session type:
+
+- The WebKitGTK version and the session type. For X11, record if it is an X11 session or XWayland with `GDK_BACKEND=x11`.
+- Clipboard: copy and paste text in both directions between the prototype and a different application.
+- Keyboard: the editor shortcuts, the Tab focus order and an input method.
+- GPU: the compositing mode, and each environment variable that the prototype needs, for example `WEBKIT_DISABLE_DMABUF_RENDERER`.
+- Rendering: fonts, fractional scaling, and no blank or flickering area when you scroll the 10 MB fixture.
+- The same checks on Ubuntu LTS, for example in a distrobox container on the host. Specification section 17 names Ubuntu.
+
+Stop when:
+
+- Each check has a pass or fail result with the versions. Q54 uses the results.
+- A check fails and has no workaround. Record it as a blocker for that option and tell the owner.
 
 ### Q43: Diff crate with histogram parity
 
@@ -94,12 +118,42 @@ Blocked by: Q40
 
 Compare gix and git2 on the Git fixtures: index and worktree, renames, submodules, unusual paths and detached HEAD. Prove read-only behavior and a build that needs no installed Git.
 
+Charter question: Which Git backend, gix or git2, reads the fixtures correctly, never writes, and builds with no installed Git?
+
+Evidence, for each backend on the branch `prototype/diffy-v0.1-q44`:
+
+- A result for each Git fixture in specification section 19: index and worktree, unusual filenames, renames, detached HEAD, submodules and binary files.
+- The oracle is the `git` CLI with no system or global Git configuration, as in Q43.
+- Read-only proof: the checksum of each file in the fixture repository, `.git` included, is the same before and after each operation. No lock file appears.
+- The same operations pass on a fixture copy that has no write permission.
+- A build and a test run in a container with no `git` executable. A process trace shows that no `git` process starts.
+- Build facts: the native dependencies, the binary size and a Windows x64 build.
+
+Stop when:
+
+- Each backend has a result for each fixture. The owner picks one backend.
+- No backend passes all fixtures. List the gaps of each backend and ask the owner.
+
 ### Q45: S5 anchor mapping
 
 Type: prototype
 Blocked by: Q43
 
 Prove conservative re-anchoring across revisions. An ambiguous mapping must become outdated and never publish to a wrong line.
+
+Charter question: Which method moves a finding to the correct line of a new revision, and marks it outdated when the mapping is not certain?
+
+Evidence, on the branch `prototype/diffy-v0.1-q45`:
+
+- Two or three methods. Examples are a map through the Q43 hunks only, and that map plus an exact match of the line and its context.
+- Fixture revision pairs, each with an expected result. The cases are: line unchanged, lines added above, line edited, line deleted and duplicate lines. They also include file renamed, file deleted, whitespace changes and line-ending changes.
+- A property test with random edits. A finding that maps to a line must point to the same line text and context. If not, the finding must be outdated.
+- For each method: the number of wrong mappings and the number of outdated findings.
+
+Stop when:
+
+- A method has zero wrong mappings on all fixtures and property cases. The owner picks from the methods that have zero.
+- No method has zero wrong mappings. Ask the owner before more work.
 
 ### Q46: S8 scale
 
@@ -108,12 +162,38 @@ Blocked by: Q54, Q44, Q47
 
 Measure 1,000 or more changed files with bounded memory and cancellation against the section 18 targets. Measure only the renderer that Q54, or Q47 when Monaco fails, selects.
 
+Charter question: Does Diffy stay responsive with 1,000 or more changed files, with bounded memory and fast cancellation?
+
+Evidence, on the Fedora reference host (Q38) with the selected renderer:
+
+- Generated fixture repositories with 1,000 and with 5,000 changed files, and one with 10,000 changed lines.
+- The p95 time to show the change list of 1,000 files. The target is less than 3 s.
+- The p95 time from a cancel action to its acknowledgement. The target is less than 250 ms.
+- The peak memory of the Rust process and of the WebView process for each fixture. Memory is bounded when it does not grow with the content of files that are not open.
+- The CPU use and the stalls, with the method that specification section 18 asks for.
+
+Stop when:
+
+- Each target has a measured result. A missed target is a finding for the owner. It is not an automatic fail, because the section 18 targets are proposals.
+
 ### Q47: S7 CodeMirror fallback
 
 Type: prototype
 Blocked by: Q54
 
 Run the CodeMirror 6 benchmark only if the Q54 verdict says that Monaco fails. If Monaco passes, record Q47 in Decisions as skipped, with the Q54 verdict as the reason.
+
+Charter question: If Monaco fails, does CodeMirror 6 meet the targets that Monaco did not meet?
+
+Evidence, only if the Q54 verdict says that Monaco fails:
+
+- A CodeMirror 6 merge view that shows the canonical hunks, on the branch `prototype/diffy-v0.1-q47`.
+- The Q41 fixtures and harness, and the same measurements as Q54.
+
+Stop when:
+
+- Q54 says that Monaco passes. Record Q47 as skipped.
+- Each Q54 measurement has a CodeMirror result. The owner picks the renderer.
 
 ### Q48: GitHub thread resolution API
 
@@ -129,12 +209,41 @@ Blocked by: Q40
 
 Find out which review actions the latest stable OneDev REST API supports. Check inline comments, replies, resolution and approval. Check that the Q34 marker is invisible in OneDev. Define how Diffy confirms each OneDev operation (comment, approval, change request) before a retry. See ADR 0003. Run a smoke test against the Q14 homelab instance on the latest stable version (Q17). The test authenticates, retrieves a pull request and does each supported review action.
 
+Charter question: Which review actions can Diffy do through the latest stable OneDev REST API, and how does Diffy confirm each one?
+
+Evidence:
+
+- The OneDev version in the CI container and on the Q14 homelab instance.
+- A table with one row for each action: authenticate, get a pull request, inline comment, reply, resolve, approve and request changes. Each row has the endpoint and a source, or "not supported".
+- A comment with the Q34 marker, examined in the OneDev web UI. Screenshots stay on the prototype branch or its pull request.
+- For each supported write: the read call that finds the write by its marker before a retry (ADR 0003).
+- A smoke test against the homelab instance that does each supported action.
+
+Stop when:
+
+- Each row has a source and a live result. An action with no API is recorded as not supported (Q35).
+- The homelab instance is not on the latest stable version. Ask the owner to upgrade it (Q17).
+
 ### Q50: S6 updater pre-release channel
 
 Type: research
 Blocked by: Q40
 
 Find out how the Tauri Updater can serve a pre-release channel next to the stable channel (for example a separate update endpoint). Include signature checks, restart and migration recovery.
+
+Charter question: How does the Tauri Updater serve a pre-release channel next to the stable channel, and how does it fail safely?
+
+Evidence: a source for each item, as a documentation link or a plugin source file and line:
+
+- How the app selects the update endpoint of a channel at run time.
+- How the updater checks the minisign signature, and what it does with an invalid or changed artifact.
+- How an AppImage and an NSIS installation restart after an update.
+- What happens after an interrupted download, a failed installation, a location that is not writable, and no network.
+- A recovery path for a failed database migration. The specification does not promise automatic rollback.
+
+Stop when:
+
+- Each item has an answer with a source, or is listed as unknown with the test that can answer it. Each unknown becomes a new question in this map.
 
 ### Q51: Single instance and CLI forwarding
 
@@ -163,6 +272,22 @@ Type: prototype
 Blocked by: Q41, Q42
 
 Select the renderer option from the Q41 prototype. Measure large diffs, aligned rows, inline findings, scrolling and live refresh. Use the Q42 results and the Windows check from Q12. The owner picks the option.
+
+Charter question: Which renderer option does Diffy use?
+
+Evidence, for each Q41 option on the Fedora reference host (Q38):
+
+- Aligned rows: the rows on screen agree with the canonical hunks on each fixture. Option A calculates its own diff, so record each difference.
+- Inline findings: a finding widget in a row does not break the alignment.
+- Scrolling: 60 FPS normal scrolling, and the two sides stay aligned.
+- Live refresh: a file change keeps the scroll position and the selection. The typical settled refresh takes less than 500 ms.
+- Large diffs: the p95 time to show the 1 MB diff and the 10 MB diff. The targets are less than 250 ms and less than 3 s.
+- The memory, the CPU use and the stalls for the 50 MB stress input.
+- The Q42 results, and one run on the Windows notebook (Q12).
+
+Stop when:
+
+- Each item has a result for each option. The owner picks an option, or says that Monaco fails. A Monaco fail starts Q47.
 
 ## Not yet clear
 
