@@ -185,7 +185,8 @@ Evidence, only if the Q54 verdict says that Monaco fails:
 Stop when:
 
 - Q54 says that Monaco passes. Record Q47 as skipped.
-- Each Q54 measurement has a CodeMirror result. CodeMirror is eligible only if the coordinate check passes. The owner picks the renderer.
+- Each Q54 measurement has a CodeMirror result, and CodeMirror passes the coordinate check. The owner picks the renderer.
+- CodeMirror fails the coordinate check. Record the failed fallback and ask the owner how to continue. Q47 stays open until a renderer is eligible, so Q46 stays blocked.
 
 ### Q48: GitHub thread resolution API
 
