@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Diffy S1 prototype (Q41)</title>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <header id="toolbar">
+      <label>Option
+        <select id="option">
+          <option value="A">A: Monaco DiffEditor</option>
+          <option value="B">B: two editors, canonical hunks from Rust</option>
+        </select>
+      </label>
+      <label>Fixture <select id="fixture"></select></label>
+      <button id="open">Open</button>
+      <label>Runs <input id="runs" type="number" min="1" max="100" value="5" /></label>
+      <button id="bench">Run benchmark</button>
+      <span id="status">Loading the fixture list.</span>
+    </header>
+    <main id="host"></main>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
