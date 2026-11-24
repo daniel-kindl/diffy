@@ -85,7 +85,7 @@ Check the Q41 prototype on WebKitGTK under Wayland and X11: clipboard, keyboard,
 Type: research
 Blocked by: Q40
 
-Find a Rust diff crate (for example similar or imara-diff) whose output is identical to `git diff --histogram` on the fixtures. Pin the reference Git version and the hunk options, for example the context lines. Run the oracle command with no system or global Git configuration, for example with `GIT_CONFIG_NOSYSTEM=1` and `GIT_CONFIG_GLOBAL=/dev/null`. See ADR 0002.
+Find a Rust diff crate (for example similar or imara-diff) whose output is identical to `git diff --histogram` on the fixtures. Pin the reference Git version and the hunk options, for example the context lines. Run the oracle command with no system or global Git configuration, for example with `GIT_CONFIG_NOSYSTEM=1` and `GIT_CONFIG_GLOBAL=/dev/null`. Repository settings such as `diff.interHunkContext` also change the hunks. So run `git diff --no-index` in a temporary folder outside each repository, or in a fixture repository with known local settings. Give each hunk option on the command line, for example `-U3` and `--inter-hunk-context=0`. See ADR 0002.
 
 ### Q44: S3 Git backend
 
@@ -104,16 +104,16 @@ Prove conservative re-anchoring across revisions. An ambiguous mapping must beco
 ### Q46: S8 scale
 
 Type: prototype
-Blocked by: Q54, Q44
+Blocked by: Q54, Q44, Q47
 
-Measure 1,000 or more changed files with bounded memory and cancellation against the section 18 targets.
+Measure 1,000 or more changed files with bounded memory and cancellation against the section 18 targets. Measure only the renderer that Q54, or Q47 when Monaco fails, selects.
 
 ### Q47: S7 CodeMirror fallback
 
 Type: prototype
 Blocked by: Q54
 
-Run the CodeMirror 6 benchmark only if the Q54 verdict says that Monaco fails.
+Run the CodeMirror 6 benchmark only if the Q54 verdict says that Monaco fails. If Monaco passes, record Q47 in Decisions as skipped, with the Q54 verdict as the reason.
 
 ### Q48: GitHub thread resolution API
 
