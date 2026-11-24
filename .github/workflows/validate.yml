@@ -1,0 +1,121 @@
+name: validate
+
+# Runs the repository checks. The job name "validate" is the required status
+# check context for main. Do not rename it.
+# This workflow does not tag, release or publish.
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, edited]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+# A new push to a pull request cancels the old run of that pull request.
+# A push to main is never cancelled: each commit on main gets a full run.
+concurrency:
+  group: validate-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  validate:
+    name: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          # check-adrs compares the change with origin/main, so it needs the history.
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        id: node
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+
+      # The scripts in scripts/ are copies from dkstack v1.6.0
+      # (https://github.com/daniel-kindl/dkstack/tree/v1.6.0/scripts).
+      # Each check runs when an earlier check fails, so one run shows all failures.
+      - name: Check that the PR title is a conventional commit
+        if: ${{ !cancelled() && steps.node.outcome == 'success' && github.event_name == 'pull_request' }}
+        env:
+          TITLE: ${{ github.event.pull_request.title }}
+        run: node scripts/check-title.mjs "$TITLE"
+
+      - name: Check that the commit titles of the push are conventional commits
+        if: ${{ !cancelled() && steps.node.outcome == 'success' && github.event_name == 'push' }}
+        env:
+          BEFORE: ${{ github.event.before }}
+        run: |
+          # Check each commit of the push, not only the last one.
+          if ! git cat-file -e "$BEFORE^{commit}" 2>/dev/null; then
+            BEFORE="$GITHUB_SHA~1"
+          fi
+          # A git log error must fail the step, so write the titles to a file first.
+          titles=$(mktemp)
+          git log --format=%s "$BEFORE..$GITHUB_SHA" > "$titles" || exit 1
+          status=0
+          while IFS= read -r title; do
+            node scripts/check-title.mjs "$title" || status=1
+          done < "$titles"
+          exit "$status"
+
+      - name: Check the format of the maps in docs/maps
+        if: ${{ !cancelled() && steps.node.outcome == 'success' }}
+        run: node scripts/check-maps.mjs
+
+      - name: Check the format of CONTEXT.md
+        if: ${{ !cancelled() && steps.node.outcome == 'success' }}
+        run: node scripts/check-context.mjs
+
+      - name: Check that new ADRs have Status and Affects
+        if: ${{ !cancelled() && steps.node.outcome == 'success' }}
+        run: node scripts/check-adrs.mjs
+
+      - name: Check that Markdown has no em dash or en dash
+        if: ${{ !cancelled() && steps.node.outcome == 'success' }}
+        run: node scripts/check-dashes.mjs
+
+      # This check only warns. It always exits 0.
+      - name: Warn about long sentences and semicolons in Markdown
+        if: ${{ !cancelled() && steps.node.outcome == 'success' }}
+        run: node scripts/check-writing.mjs
+
+      - name: Check that workflows pin actions and set permissions
+        if: ${{ !cancelled() && steps.node.outcome == 'success' }}
+        run: node scripts/check-workflows.mjs
+
+      # The binary is fixed by version and SHA-256. The runner image has shellcheck.
+      - name: Check the workflows with actionlint and shellcheck
+        if: ${{ !cancelled() }}
+        env:
+          ACTIONLINT_VERSION: 1.7.12
+          ACTIONLINT_SHA256: 8aca8db96f1b94770f1b0d72b6dddcb1ebb8123cb3712530b08cc387b349a3d8
+        run: |
+          command -v shellcheck
+          ARCHIVE="$RUNNER_TEMP/actionlint.tar.gz"
+          curl -fsSL -o "$ARCHIVE" "https://github.com/rhysd/actionlint/releases/download/v${ACTIONLINT_VERSION}/actionlint_${ACTIONLINT_VERSION}_linux_amd64.tar.gz"
+          echo "$ACTIONLINT_SHA256  $ARCHIVE" | sha256sum --check --strict
+          tar -xzf "$ARCHIVE" -C "$RUNNER_TEMP" actionlint
+          "$RUNNER_TEMP/actionlint" -no-color -shellcheck=shellcheck
+
+      # Offline mode checks only local files and anchors. It does not read
+      # the network, so the result is deterministic. The binary is fixed by
+      # version and SHA-256.
+      - name: Check that relative links and anchors in Markdown resolve
+        if: ${{ !cancelled() }}
+        env:
+          LYCHEE_VERSION: 0.24.2
+          LYCHEE_SHA256: 1f4e0ef7f6554a6ed33dd7ac144fb2e1bbed98598e7af973042fc5cd43951c9a
+        run: |
+          ARCHIVE="$RUNNER_TEMP/lychee.tar.gz"
+          curl -fsSL -o "$ARCHIVE" "https://github.com/lycheeverse/lychee/releases/download/lychee-v${LYCHEE_VERSION}/lychee-x86_64-unknown-linux-gnu.tar.gz"
+          echo "$LYCHEE_SHA256  $ARCHIVE" | sha256sum --check --strict
+          tar -xzf "$ARCHIVE" -C "$RUNNER_TEMP" --strip-components=1 lychee-x86_64-unknown-linux-gnu/lychee
+          git ls-files -z '*.md' | xargs -0 "$RUNNER_TEMP/lychee" --offline --include-fragments --no-progress

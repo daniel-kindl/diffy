@@ -1,0 +1,4 @@
+# The owner reviews each change to the CI workflows and the CI configuration.
+/.github/ @daniel-kindl
+/renovate.json @daniel-kindl
+/scripts/ @daniel-kindl
