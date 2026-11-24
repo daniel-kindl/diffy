@@ -2,7 +2,7 @@
 
 Status: open
 Destination: Each v0.1 milestone (M0 to M4) has a plan and issues with acceptance criteria. Each spike has a verdict, and no open question blocks the first M0 issue.
-Next: Q56
+Next: Q42
 
 ## Notes
 
@@ -61,6 +61,7 @@ Next: Q56
 - Q39 Specification files: leave the specification and the logo untracked for now. Decided by: Daniel Kindl, 2026-11-24. Record: this line.
 - Q40 Spike charters: each spike S1 to S8 has one charter, with the question, the evidence and the stop conditions. The S1 charter is in Q54 and the S6 charter is in Q55. The other charters are in Q42, Q44 to Q47 and Q49. Owner words, after the PR #24 review: "Approve the revised charters". The owner record is on issue #4. Decided by: Daniel Kindl, 2026-11-24. Record: this line.
 - Q41 S1 Monaco prototype build: both options open the small and the 1 MB fixture on Fedora. The prototype, the fixture set and the benchmark harness are on the tag `prototype/diffy-v0.1-q41`. Owner words: "Accept the build phase". The owner record is on issue #5. Decided by: Daniel Kindl, 2026-11-24. Record: this line.
+- Q56 Container as the reference host: Q54 measurements in the `rust-dev` distrobox container count as the Fedora reference host of Q38. Owner words: "yes they do count". The owner record is on issue #27. Decided by: Daniel Kindl, 2026-11-24. Record: this line.
 
 ## Open questions
 
@@ -319,13 +320,6 @@ Prototype phase evidence (Q55), on the branch `prototype/diffy-v0.1-q55`:
 Prototype phase stop when:
 
 - Each item has a pass or fail result on both platforms. Each fail has a recovery path, or goes to the owner.
-
-### Q56: Container as the reference host
-
-Type: owner
-Blocked by: none
-
-The Q41 run used WebKitGTK from the `rust-dev` distrobox container, not from the host system. Do Q54 measurements in that container count as the Fedora reference host of Q38?
 
 ## Not yet clear
 
