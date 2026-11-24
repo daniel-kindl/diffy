@@ -42,11 +42,13 @@ jobs:
       # The scripts in scripts/ are copies from dkstack v1.6.0
       # (https://github.com/daniel-kindl/dkstack/tree/v1.6.0/scripts).
       # Each check runs when an earlier check fails, so one run shows all failures.
-      - name: Check that the PR title is a conventional commit
-        if: ${{ !cancelled() && steps.node.outcome == 'success' && github.event_name == 'pull_request' }}
-        env:
-          TITLE: ${{ github.event.pull_request.title }}
-        run: node scripts/check-title.mjs "$TITLE"
+
+      # A project script with the rules of the dkstack check-title.mjs. It
+      # reads the PR title, or the commit titles of a push, from
+      # GITHUB_EVENT_PATH and Git, so the log does not show a title.
+      - name: Check that the PR title or the pushed commit titles are conventional commits
+        if: ${{ !cancelled() && steps.node.outcome == 'success' }}
+        run: node scripts/local/check-titles.mjs
 
       # A project script. dkstack v1.6.0 has no body check. The "edited" event
       # runs it again after a change to the body. The script reads the body
@@ -58,24 +60,6 @@ jobs:
       - name: Run the tests of the project scripts
         if: ${{ !cancelled() && steps.node.outcome == 'success' }}
         run: node --test scripts/local/*.test.mjs
-
-      - name: Check that the commit titles of the push are conventional commits
-        if: ${{ !cancelled() && steps.node.outcome == 'success' && github.event_name == 'push' }}
-        env:
-          BEFORE: ${{ github.event.before }}
-        run: |
-          # Check each commit of the push, not only the last one.
-          if ! git cat-file -e "$BEFORE^{commit}" 2>/dev/null; then
-            BEFORE="$GITHUB_SHA~1"
-          fi
-          # A git log error must fail the step, so write the titles to a file first.
-          titles=$(mktemp)
-          git log --format=%s "$BEFORE..$GITHUB_SHA" > "$titles" || exit 1
-          status=0
-          while IFS= read -r title; do
-            node scripts/check-title.mjs "$title" || status=1
-          done < "$titles"
-          exit "$status"
 
       - name: Check the format of the maps in docs/maps
         if: ${{ !cancelled() && steps.node.outcome == 'success' }}

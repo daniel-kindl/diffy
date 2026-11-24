@@ -47,7 +47,10 @@ This project has two exceptions:
   - `node scripts/check-dashes.mjs "$dir"`
   - `node scripts/check-writing.mjs "$dir"` (it only warns)
 - The `.mjs` files directly in `scripts/` are copies from dkstack `v1.6.0`. Do not change them. To update them, copy them again from a newer release tag.
-- `scripts/local/` has the project scripts. `check-pr-body.mjs` is there because dkstack `v1.6.0` has no body check. Replace it with the dkstack copy when a dkstack release has one.
+- `scripts/local/` has the project scripts:
+  - `check-pr-body.mjs`, because dkstack `v1.6.0` has no body check. Replace it with the dkstack copy when a dkstack release has one.
+  - `check-titles.mjs`, which uses the rules of the dkstack `check-title.mjs` in CI. The dkstack script prints the title, and CI must not log it.
+  - Both scripts read the pull request from `GITHUB_EVENT_PATH`, not from the environment.
 - The link check is lychee in offline mode. It checks local links, anchors and dkstack links on the ref `v1`. CI maps each dkstack link to a file in a clone of the dkstack branch `v1`. It does not check other URLs. The dkstack `check-links.mjs` is not used, because it reads each dkstack URL as a file in this repository.
 - CI scans the full Git history for secrets with gitleaks.
 - CI pins actionlint, lychee and gitleaks by version and SHA-256 in `validate.yml`. Renovate does not update these pins. Update them by hand.

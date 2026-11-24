@@ -40,6 +40,40 @@ test("a Markdown link to a page that is not an issue fails", () => {
   assert.match(checkPrBody(body)[0], /link an issue/);
 });
 
+test("a Markdown link with no closing keyword fails, because the merge must close the issue", () => {
+  const body = VALID.replace("Closes #19", `See [#19](${URL})`);
+  assert.match(checkPrBody(body)[0], /closing keyword/);
+});
+
+test("a Markdown link whose destination is not an issue fails, even with an issue number as text", () => {
+  assert.match(checkPrBody(VALID.replace("#19", "[#19](README.md)"))[0], /link an issue/);
+  assert.match(checkPrBody(VALID.replace("#19", `[#19](${URL.replace("issues", "pull")})`))[0], /link an issue/);
+});
+
+test("a setext heading after Evidence ends the section", () => {
+  const body = "Closes #19\n\n## Evidence\n\n- check: pass\n\nNotes\n-----\n\nObservability: none\n";
+  assert.match(checkPrBody(body)[0], /0 in the Evidence section/);
+  const top = "Closes #19\n\n## Evidence\n\n- check: pass\n\nNotes\n=====\n\nObservability: none\n";
+  assert.match(checkPrBody(top)[0], /0 in the Evidence section/);
+});
+
+test("a setext Evidence heading starts the section", () => {
+  const body = "Closes #19\n\nEvidence\n--------\n\nObservability: none, docs only\n";
+  assert.deepEqual(checkPrBody(body), []);
+});
+
+test("a thematic break or a list item over a dash line is not a heading", () => {
+  const rule = "Closes #19\n\n## Evidence\n\n- check: pass\n\n---\n\nObservability: none, docs only\n";
+  assert.deepEqual(checkPrBody(rule), []);
+  const list = "Closes #19\n\n## Evidence\n\n- check: pass\n---\nObservability: none, docs only\n";
+  assert.deepEqual(checkPrBody(list), []);
+});
+
+test("a heading in a code block does not end the section", () => {
+  const body = "Closes #19\n\n## Evidence\n\n```\n## Notes\n```\n\nObservability: none, docs only\n";
+  assert.deepEqual(checkPrBody(body), []);
+});
+
 test("a body with no Evidence section fails", () => {
   assert.match(checkPrBody(VALID.replace("## Evidence", "## Checks"))[0], /Evidence/);
 });
