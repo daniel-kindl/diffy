@@ -66,26 +66,26 @@ Blocked by: none
 
 Write one charter for each spike (S1 to S8): the question, the evidence that answers it, and the stop conditions. The owner approves each charter before the spike starts.
 
-### Q41: S1 Monaco renderer shape
+### Q41: S1 Monaco prototype build
 
-Type: prototype
-Blocked by: Q40, Q42
+Type: task
+Blocked by: Q40
 
-Compare the Monaco DiffEditor with two Monaco editors that show the canonical hunks from Rust. Measure large diffs, aligned rows, inline findings, scrolling and live refresh. Include the Windows check from Q12.
+Build a throwaway prototype with two renderer options: the Monaco DiffEditor, and two Monaco editors that show the canonical hunks from Rust. The task is done when both options run on Fedora. It gives no verdict. Q54 gives the verdict.
 
 ### Q42: S2 Linux WebKitGTK behavior
 
 Type: prototype
-Blocked by: Q40
+Blocked by: Q41
 
-Check the S1 prototype on WebKitGTK under Wayland and X11: clipboard, keyboard, GPU and rendering. This check starts when the Q41 prototype runs. The Q41 verdict uses its results, so Q41 is blocked by this question.
+Check the Q41 prototype on WebKitGTK under Wayland and X11: clipboard, keyboard, GPU and rendering. The Q54 verdict uses these results.
 
 ### Q43: Diff crate with histogram parity
 
 Type: research
 Blocked by: Q40
 
-Find a Rust diff crate (for example similar or imara-diff) whose output is identical to `git diff --histogram` on the fixtures. See ADR 0002.
+Find a Rust diff crate (for example similar or imara-diff) whose output is identical to `git diff --histogram` on the fixtures. Pin the reference Git version and the hunk options, for example the context lines. Run the oracle command with no system or global Git configuration, for example with `GIT_CONFIG_NOSYSTEM=1` and `GIT_CONFIG_GLOBAL=/dev/null`. See ADR 0002.
 
 ### Q44: S3 Git backend
 
@@ -104,16 +104,16 @@ Prove conservative re-anchoring across revisions. An ambiguous mapping must beco
 ### Q46: S8 scale
 
 Type: prototype
-Blocked by: Q41, Q44
+Blocked by: Q54, Q44
 
 Measure 1,000 or more changed files with bounded memory and cancellation against the section 18 targets.
 
 ### Q47: S7 CodeMirror fallback
 
 Type: prototype
-Blocked by: Q41
+Blocked by: Q54
 
-Run the CodeMirror 6 benchmark only if the Q41 verdict says that Monaco fails.
+Run the CodeMirror 6 benchmark only if the Q54 verdict says that Monaco fails.
 
 ### Q48: GitHub thread resolution API
 
@@ -124,10 +124,10 @@ Find out if GitHub can resolve a review thread through REST, or only through Gra
 
 ### Q49: S4 OneDev capabilities
 
-Type: research
+Type: prototype
 Blocked by: Q40
 
-Find out which review actions the latest stable OneDev REST API supports. Check inline comments, replies, resolution and approval. Check that the Q34 marker is invisible in OneDev. Define how Diffy confirms each OneDev operation (comment, approval, change request) before a retry. See ADR 0003.
+Find out which review actions the latest stable OneDev REST API supports. Check inline comments, replies, resolution and approval. Check that the Q34 marker is invisible in OneDev. Define how Diffy confirms each OneDev operation (comment, approval, change request) before a retry. See ADR 0003. Run a smoke test against the Q14 homelab instance on the latest stable version (Q17). The test authenticates, retrieves a pull request and does each supported review action.
 
 ### Q50: S6 updater pre-release channel
 
@@ -141,7 +141,7 @@ Find out how the Tauri Updater can serve a pre-release channel next to the stabl
 Type: research
 Blocked by: none
 
-Find out how a second `diffy` process forwards its arguments to the running instance on Windows and Linux. Find out how `git difftool` gives temporary files to Diffy.
+Find out how a second `diffy` process forwards its arguments to the running instance on Windows and Linux. Find out how `git difftool` gives temporary files to Diffy. Git can delete a temporary file when the helper process exits. Prove that Diffy has read each input before the helper exits.
 
 ### Q52: Owner setup actions
 
@@ -156,6 +156,13 @@ Type: owner
 Blocked by: none
 
 Approve the `CONTEXT.md` terms from specification section 07: snapshot, comparison, review session, finding, file review state, publication, baseline and checkpoint.
+
+### Q54: S1 renderer verdict
+
+Type: prototype
+Blocked by: Q41, Q42
+
+Select the renderer option from the Q41 prototype. Measure large diffs, aligned rows, inline findings, scrolling and live refresh. Use the Q42 results and the Windows check from Q12. The owner picks the option.
 
 ## Not yet clear
 
