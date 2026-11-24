@@ -56,7 +56,7 @@ Next: Q41
 - Q37 Screen readers: Orca on Fedora during development, axe-core checks in CI, and NVDA on Windows at release candidate. Decided by: Daniel Kindl, 2026-11-24. Record: this line.
 - Q38 Documentation and performance reference: README and Markdown in `docs/`. The Fedora host is the reference hardware for the performance targets. CI benchmarks show relative regressions only. Decided by: Daniel Kindl, 2026-11-24. Record: this line.
 - Q39 Specification files: leave the specification and the logo untracked for now. Decided by: Daniel Kindl, 2026-11-24. Record: this line.
-- Q40 Spike charters: each spike question has a charter in its entry, with the question, the evidence and the stop conditions. The spikes are Q41, Q42, Q44 to Q47, Q49, Q50 and Q54. Owner words: "Approve all as written". Decided by: Daniel Kindl, 2026-11-24. Record: this line.
+- Q40 Spike charters: each spike S1 to S8 has one charter, with the question, the evidence and the stop conditions. The S1 charter is in Q54 and the S6 charter is in Q55. The other charters are in Q42, Q44 to Q47 and Q49. Owner words, after the PR #24 review: "Approve the revised charters". The owner record is on issue #4. Decided by: Daniel Kindl, 2026-11-24. Record: this line.
 
 ## Open questions
 
@@ -67,19 +67,7 @@ Blocked by: Q40
 
 Build a throwaway prototype with two renderer options: the Monaco DiffEditor, and two Monaco editors that show the canonical hunks from Rust. The task is done when both options run on Fedora. It gives no verdict. Q54 gives the verdict.
 
-Charter question: Do both renderer options run on Fedora with the same fixtures?
-
-Evidence:
-
-- A Tauri prototype on the branch `prototype/diffy-v0.1-q41`. Option A is the Monaco DiffEditor. Option B is two Monaco editors that show the canonical hunks from Rust.
-- Until Q43 selects a crate, option B can take its hunks from the ADR 0002 oracle command.
-- A fixture set that Q54, Q47 and Q46 use again. It has a small change, a 1 MB diff and a 10 MB diff. It also has a 50 MB stress input and 10,000 changed lines.
-- A benchmark harness that records the hardware, the OS, the workload and the method, as specification section 18 says.
-
-Stop when:
-
-- Both options open the small fixture and the 1 MB fixture on Fedora. Tag the commit and continue with Q42 and Q54.
-- An option cannot open these fixtures. Record the cause and ask the owner before more work on that option.
+Charter: the S1 charter in Q54. Q41 is its build phase.
 
 ### Q42: S2 Linux WebKitGTK behavior
 
@@ -131,8 +119,9 @@ Evidence, for each backend on the branch `prototype/diffy-v0.1-q44`:
 
 Stop when:
 
-- Each backend has a result for each fixture. The owner picks one backend.
-- No backend passes all fixtures. List the gaps of each backend and ask the owner.
+- A backend qualifies only when it passes each fixture, the read-only proof and the build with no installed Git.
+- Each backend has a result for each item, and at least one backend qualifies. The owner picks from the qualified backends.
+- No backend qualifies. List the gaps of each backend and ask the owner.
 
 ### Q45: S5 anchor mapping
 
@@ -146,14 +135,17 @@ Charter question: Which method moves a finding to the correct line of a new revi
 Evidence, on the branch `prototype/diffy-v0.1-q45`:
 
 - Two or three methods. Examples are a map through the Q43 hunks only, and that map plus an exact match of the line and its context.
-- Fixture revision pairs, each with an expected result. The cases are: line unchanged, lines added above, line edited, line deleted and duplicate lines. They also include file renamed, file deleted, whitespace changes and line-ending changes.
-- A property test with random edits. A finding that maps to a line must point to the same line text and context. If not, the finding must be outdated.
-- For each method: the number of wrong mappings and the number of outdated findings.
+- Fixture revision pairs. Each pair has one expected result for each anchor: an exact new line, or outdated.
+- The cases are: line unchanged, lines added above, line edited, line deleted and duplicate blocks. They also include file renamed, file deleted, whitespace changes and line-ending changes.
+- An anchor on a unique unchanged line must map to its exact new line. An anchor in identical duplicate blocks must be outdated.
+- A property test that generates an edit history. The generator records the expected new line of each anchor, or outdated when the anchor is edited, deleted or ambiguous.
+- In the property test, the method must return the expected line or outdated. Each other line is a wrong mapping.
+- For each method: the number of wrong mappings, and the number of outdated results where the generator expected a line.
 
 Stop when:
 
-- A method has zero wrong mappings on all fixtures and property cases. The owner picks from the methods that have zero.
-- No method has zero wrong mappings. Ask the owner before more work.
+- A method qualifies when each fixture gives its expected result and the property test has zero wrong mappings. The owner picks from the qualified methods.
+- No method qualifies. Ask the owner before more work.
 
 ### Q46: S8 scale
 
@@ -188,12 +180,12 @@ Charter question: If Monaco fails, does CodeMirror 6 meet the targets that Monac
 Evidence, only if the Q54 verdict says that Monaco fails:
 
 - A CodeMirror 6 merge view that shows the canonical hunks, on the branch `prototype/diffy-v0.1-q47`.
-- The Q41 fixtures and harness, and the same measurements as Q54.
+- The Q41 fixtures and harness, and the same measurements as Q54, the coordinate check included.
 
 Stop when:
 
 - Q54 says that Monaco passes. Record Q47 as skipped.
-- Each Q54 measurement has a CodeMirror result. The owner picks the renderer.
+- Each Q54 measurement has a CodeMirror result. CodeMirror is eligible only if the coordinate check passes. The owner picks the renderer.
 
 ### Q48: GitHub thread resolution API
 
@@ -216,7 +208,8 @@ Evidence:
 - The OneDev version in the CI container and on the Q14 homelab instance.
 - A table with one row for each action: authenticate, get a pull request, inline comment, reply, resolve, approve and request changes. Each row has the endpoint and a source, or "not supported".
 - A comment with the Q34 marker, examined in the OneDev web UI. Screenshots stay on the prototype branch or its pull request.
-- For each supported write: the read call that finds the write by its marker before a retry (ADR 0003).
+- For each supported comment and reply: the read call that finds it by its marker before a retry (ADR 0003).
+- For each supported review action, for example approve, request changes and resolve: the read call that returns the state before a retry. The state is of the pull request or of the thread. ADR 0003 says that a marker does not confirm a review action.
 - A smoke test against the homelab instance that does each supported action.
 
 Stop when:
@@ -231,19 +224,7 @@ Blocked by: Q40
 
 Find out how the Tauri Updater can serve a pre-release channel next to the stable channel (for example a separate update endpoint). Include signature checks, restart and migration recovery.
 
-Charter question: How does the Tauri Updater serve a pre-release channel next to the stable channel, and how does it fail safely?
-
-Evidence: a source for each item, as a documentation link or a plugin source file and line:
-
-- How the app selects the update endpoint of a channel at run time.
-- How the updater checks the minisign signature, and what it does with an invalid or changed artifact.
-- How an AppImage and an NSIS installation restart after an update.
-- What happens after an interrupted download, a failed installation, a location that is not writable, and no network.
-- A recovery path for a failed database migration. The specification does not promise automatic rollback.
-
-Stop when:
-
-- Each item has an answer with a source, or is listed as unknown with the test that can answer it. Each unknown becomes a new question in this map.
+Charter: the S6 charter in Q55. Q50 is its research phase.
 
 ### Q51: Single instance and CLI forwarding
 
@@ -273,11 +254,26 @@ Blocked by: Q41, Q42
 
 Select the renderer option from the Q41 prototype. Measure large diffs, aligned rows, inline findings, scrolling and live refresh. Use the Q42 results and the Windows check from Q12. The owner picks the option.
 
-Charter question: Which renderer option does Diffy use?
+S1 charter. Q41 is the build phase and Q54 is the verdict phase.
 
-Evidence, for each Q41 option on the Fedora reference host (Q38):
+Charter question: Which renderer option shows the canonical hunks and the findings at the correct coordinates, and how near does it come to the targets?
 
-- Aligned rows: the rows on screen agree with the canonical hunks on each fixture. Option A calculates its own diff, so record each difference.
+Build phase evidence (Q41):
+
+- A Tauri prototype on the branch `prototype/diffy-v0.1-q41`. Option A is the Monaco DiffEditor. Option B is two Monaco editors that show the canonical hunks from Rust.
+- Until Q43 selects a crate, option B can take its hunks from the ADR 0002 oracle command.
+- A fixture set that Q54, Q47 and Q46 use again. It has a small change, a 1 MB diff and a 10 MB diff. It also has a 50 MB stress input and 10,000 changed lines.
+- A benchmark harness that records the hardware, the OS, the workload and the method, as specification section 18 says.
+
+Build phase stop when:
+
+- Both options open the small fixture and the 1 MB fixture on Fedora. Tag the commit and continue with Q42 and Q54.
+- An option cannot open these fixtures. Record the cause and ask the owner before more work on that option.
+
+Verdict phase evidence (Q54), for each option on the Fedora reference host (Q38):
+
+- Coordinate check: on each fixture, each row and each shown finding maps to the correct canonical coordinates.
+- Option A calculates its own presentation diff. A presentation difference is allowed only if the canonical coordinates stay correct (specification section 12).
 - Inline findings: a finding widget in a row does not break the alignment.
 - Scrolling: 60 FPS normal scrolling, and the two sides stay aligned.
 - Live refresh: a file change keeps the scroll position and the selection. The typical settled refresh takes less than 500 ms.
@@ -285,9 +281,48 @@ Evidence, for each Q41 option on the Fedora reference host (Q38):
 - The memory, the CPU use and the stalls for the 50 MB stress input.
 - The Q42 results, and one run on the Windows notebook (Q12).
 
-Stop when:
+Verdict phase stop when:
 
-- Each item has a result for each option. The owner picks an option, or says that Monaco fails. A Monaco fail starts Q47.
+- An option is eligible only if the coordinate check passes. The other results are measurements for the owner.
+- Each item has a result for each option. The owner picks an eligible option.
+- No option is eligible, or the owner says that Monaco fails. A Monaco fail starts Q47.
+
+### Q55: S6 signed update prototype
+
+Type: prototype
+Blocked by: Q50
+
+Run signed updates on Linux and Windows with the design from Q50. Check the restart, the database migration and the recovery from each failure.
+
+S6 charter. Q50 is the research phase and Q55 is the prototype phase.
+
+Charter question: How does the Tauri Updater serve a pre-release channel next to the stable channel? Does a signed update install, restart and recover safely?
+
+Research phase evidence (Q50): a source for each item, as a documentation link or a plugin source file and line:
+
+- How the app selects the update endpoint of a channel at run time.
+- How the updater checks the minisign signature, and what it does with an invalid or changed artifact.
+- How an AppImage and an NSIS installation restart after an update.
+- What happens after an interrupted download, a failed installation, a location that is not writable, and no network.
+- A recovery path for a failed database migration. The specification does not promise automatic rollback.
+
+Research phase stop when:
+
+- Each item has an answer with a source, or is listed as unknown with the test that can answer it. Q55 runs these tests.
+
+Prototype phase evidence (Q55), on the branch `prototype/diffy-v0.1-q55`:
+
+- Two signed test releases of a minimal Tauri app, and an update from the older release to the newer release.
+- Sign them with a throwaway test key, not with the Q9 release key.
+- Linux: the AppImage on the Fedora host. Windows: the NSIS installer on a Windows CI runner. A manual run on the notebook happens only before a release (Q10).
+- The updater rejects an artifact with an invalid signature, and an artifact that was changed after signing.
+- The app restarts on the new version, and a test database migration runs at startup.
+- Recovery from an interrupted download, a failed installation, a location that is not writable, no network and a failed migration. The user data stays.
+- The pre-release channel and the stable channel each get only their own updates.
+
+Prototype phase stop when:
+
+- Each item has a pass or fail result on both platforms. Each fail has a recovery path, or goes to the owner.
 
 ## Not yet clear
 
