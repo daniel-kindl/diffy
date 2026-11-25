@@ -2,7 +2,7 @@
 
 Status: open
 Destination: Each v0.1 milestone (M0 to M4) has a plan and issues with acceptance criteria. Each spike has a verdict, and no open question blocks the first M0 issue.
-Next: Q52
+Next: Q53
 
 ## Notes
 
@@ -107,6 +107,15 @@ Next: Q52
 - With `--dir-diff`, the left folder is a copy and the right folder has symlinks to the worktree files, or copies. Git removes the whole temporary folder after the tool returns. Source: https://github.com/git/git/blob/03b41523c576f26ad34085378717a0c1b287470f/builtin/difftool.c#L404-L414, https://github.com/git/git/blob/03b41523c576f26ad34085378717a0c1b287470f/builtin/difftool.c#L546-L560 and https://github.com/git/git/blob/03b41523c576f26ad34085378717a0c1b287470f/builtin/difftool.c#L667-L672
 - Git ignores the tool exit code, unless `difftool.trustExitCode` is set. An exit code of 126 or more always stops difftool. Source: https://github.com/git/git/blob/03b41523c576f26ad34085378717a0c1b287470f/git-difftool--helper.sh#L88-L114
 
+- On 2026-11-25 the rulesets `protect-main` and `protect-release-tags` are active. Source: `gh api repos/daniel-kindl/diffy/rulesets` on 2026-11-25.
+- On 2026-11-25 Renovate is installed, because it opened #21 and #22. Dependabot alerts, secret scanning and push protection are on. Source: `gh pr list --author app/renovate` and `gh api repos/daniel-kindl/diffy` on 2026-11-25.
+- On 2026-11-25 a workflow run for a pull request from each external contributor needs approval. Source: `gh api repos/daniel-kindl/diffy/actions/permissions/fork-pr-contributor-approval` on 2026-11-25.
+- On 2026-11-25 the repository has no Actions secret and no environment. Source: `gh api repos/daniel-kindl/diffy/actions/secrets` and `gh api repos/daniel-kindl/diffy/environments` on 2026-11-25.
+- `tauri signer generate` makes the updater key pair. The build reads `TAURI_SIGNING_PRIVATE_KEY` and `TAURI_SIGNING_PRIVATE_KEY_PASSWORD`. Without the private key, the installed apps get no more updates. Source: https://github.com/tauri-apps/tauri-docs/blob/d930b9e2a538d6326de3d92d60604cba69218096/src/content/docs/plugin/updater.mdx#L89-L113
+- A dkstack release workflow runs in an environment with a required reviewer, and no bot can be that reviewer. Source: https://raw.githubusercontent.com/daniel-kindl/dkstack/v1/coding/security.md#release-and-deploy-workflows
+- A job gets the environment secrets only after the environment rules pass, for example the required reviewers. Source: https://docs.github.com/en/actions/how-tos/deploy/configure-and-manage-deployments/manage-environments
+- An OAuth App must have the device flow enabled in its settings before the device flow works. Source: https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps#device-flow
+- M1 is the universal comparison, M3 is the remote review and M4 has the signed packaging and updates. Source: Diffy_Master_Specification.md lines 382 to 386.
 ## Decisions
 
 - Q1 Independent review: tiered by risk. Safety-critical areas (Git adapter, publication, anchors, updater, IPC and capabilities) need owner review. Other areas merge after agent review and green CI. Decided by: Daniel Kindl, 2026-11-24. Record: this line.
@@ -168,15 +177,9 @@ Next: Q52
 - Q73 Signed version check: Diffy turns on the updater option `requireSignedVersion` from v0.0.1. The updater then rejects an update when the signed version differs from the manifest version. It also rejects a signature with no version. So a changed manifest cannot install an older signed release. Each update signature comes from `tauri build`, which writes the version. Q55 tests the rejection. The owner selected the option "On from v0.0.1". Decided by: Daniel Kindl, 2026-11-25. Record: this line.
 - Q51 Single instance and CLI forwarding: a second `diffy` exits only after the callback of the running instance returns, on Linux and on Windows. So a callback that reads each input before it returns is safe for `git difftool`. On Windows a timeout loses the input with exit code 0. The follow-up questions are Q74 and Q75. The owner selected the option "Accept the Q51 result". Decided by: Daniel Kindl, 2026-11-25. Record: this line.
 - Q74 Forwarding design for CLI inputs: the single instance callback copies or reads each input into a Diffy snapshot before it returns. The tab then opens from the snapshot. Diffy uses the plugin as it is, with no channel of its own. The helper cannot report an error. A copy that takes more than 10 s on Windows loses the input, so Q75 measures the copy time. The owner selected the option "Copy in the callback". Decided by: Daniel Kindl, 2026-11-25. Record: this line.
+- Q52 Owner setup actions: Q4 has no target dates, so each latest date is a milestone point. Done on 2026-11-25: the rulesets, Renovate, Dependabot alerts, secret scanning with push protection and the approval for fork workflow runs. Before the first release run at the end of M1: a `release` environment with the owner as the required reviewer. Before the v0.0.1 build: the minisign key with a password, in two `release` environment secrets and an offline backup (Q9, Q36). The public key goes to the M1 updater configuration. Before M3a: a GitHub OAuth App with the device flow on, and its client ID (Q32). Before M3b: a OneDev test project and an access token on the homelab (Q14). For each release: the owner starts the workflow and approves the environment. The owner selected the option "Accept the Q52 list". Decided by: Daniel Kindl, 2026-11-25. Record: this line.
 
 ## Open questions
-
-### Q52: Owner setup actions
-
-Type: task
-Blocked by: none
-
-List the actions that only the owner can do, with the latest date for each. Examples are the GitHub OAuth App, the minisign key, the Renovate app and the branch protection. The minisign key must exist before the v0.0.1 build, because v0.0.1 contains the public key (Q36).
 
 ### Q53: Domain glossary
 
