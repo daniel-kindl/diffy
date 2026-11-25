@@ -2,7 +2,7 @@
 
 Status: open
 Destination: Each v0.1 milestone (M0 to M4) has a plan and issues with acceptance criteria. Each spike has a verdict, and no open question blocks the first M0 issue.
-Next: Q72
+Next: Q73
 
 ## Notes
 
@@ -152,6 +152,7 @@ Next: Q72
 - Q48 GitHub thread resolution API: only the GraphQL API resolves a review thread, so M3a needs a GraphQL client. REST can post a reply, but it cannot resolve a thread or show the thread of a comment. Diffy finds the thread through `pullRequest.reviewThreads` and the comment `node_id`. How much of the GitHub client uses GraphQL goes to Q69. The owner selected the option "Accept the Q48 result". Decided by: Daniel Kindl, 2026-11-25. Record: this line.
 - Q49 S4 OneDev capabilities: Diffy can do each review action through the OneDev 17.2.4 REST API. Each action has a read call that confirms it before a retry. Comments and replies are found by the marker. A resolve is confirmed by the `resolved` field, and an approval or a change request by the status of the user in the reviews. Diffy sends a note that ends with the marker on each resolve, because each status change adds a reply. OneDev does not show the marker, so ADR 0003 needs no amendment. The follow-up questions are Q70 and Q71. The owner selected the option "Accept the Q49 result". Decided by: Daniel Kindl, 2026-11-25. Record: this line.
 - Q50 S6 updater pre-release channel: Diffy selects the channel in Rust, with a separate update endpoint for each channel. The updater checks the minisign signature before it writes a file. An AppImage update restores the old file on failure, and Diffy restarts the app itself. An NSIS update restarts the app only on success, and a failed NSIS install has no rollback. A failed migration keeps a copy of the database from before the migration. Q55 tests each item. The follow-up questions are Q72 and Q73. The owner selected the option "Accept the Q50 result". Decided by: Daniel Kindl, 2026-11-25. Record: this line.
+- Q72 Manifest URL of the pre-release channel: the pre-release manifest is the `latest.json` asset of one GitHub pre-release with a fixed tag, for example `channel-prerelease`. The release workflow replaces the asset on each pre-release. The URL is `/releases/download/<fixed tag>/latest.json`. The fixed-tag release stays marked as a pre-release, so that it never becomes the latest release. The stable channel keeps `/releases/latest/download/latest.json`. The owner selected the option "Fixed-tag release". Decided by: Daniel Kindl, 2026-11-25. Record: this line.
 
 ## Open questions
 
@@ -179,7 +180,7 @@ Approve the `CONTEXT.md` terms from specification section 07: snapshot, comparis
 ### Q55: S6 signed update prototype
 
 Type: prototype
-Blocked by: Q72, Q73
+Blocked by: Q73
 
 Run signed updates on Linux and Windows with the design from Q50. Check the restart, the database migration and the recovery from each failure.
 
@@ -296,13 +297,6 @@ Type: owner
 Blocked by: none
 
 On OneDev, only a reviewer of the pull request can approve or request changes (Q49). The submitter never can. Decide what Diffy does when the user is not a reviewer. Examples are no review action in the dialog, or a pull request comment. Another example: Diffy adds the user as a reviewer first, if the user has the permission.
-
-### Q72: Manifest URL of the pre-release channel
-
-Type: owner
-Blocked by: none
-
-The GitHub URL `/releases/latest/download/latest.json` skips pre-releases (Q50). So the pre-release channel needs its own manifest URL. Decide where the manifest of each channel lives. Examples are a GitHub release with a fixed tag whose manifest each pre-release replaces, a file on a branch, or GitHub Pages.
 
 ### Q73: Signed version check
 
