@@ -1,0 +1,11 @@
+{
+  "build": { "git_start_attempts": 0, "programs": { "ar": 110, "as": 2277, "build-script-build": 19, "cargo": 2, "cc": 2633, "cc1": 209, "collect2": 25, "ld": 1, "ld.lld": 24, "pkgconf": 2, "pkg-config": 22, "rpm": 2, "rustc": 174, "rust-lld": 24, "x86_64-redhat-linux-gnu-pkg-config": 2 } },
+  "git2-no-write": { "git_start_attempts": 0, "programs": { "backend-git2": 58, "harness": 1 } },
+  "git2": { "git_start_attempts": 0, "programs": { "backend-git2": 58, "harness": 1 } },
+  "gix-default-open": { "git_start_attempts": 0, "programs": { "backend-gix": 58, "harness": 1 } },
+  "gix-filters-section-filter-no-write": { "git_start_attempts": 0, "programs": { "backend-gix": 58, "harness": 1 } },
+  "gix-filters-section-filter": { "git_start_attempts": 0, "programs": { "backend-gix": 58, "harness": 1 } },
+  "gix-filters-trust": { "git_start_attempts": 0, "programs": { "backend-gix": 58, "cat": 2, "clean.sh": 2, "harness": 1, "touch": 2 } },
+  "gix-no-write": { "git_start_attempts": 0, "programs": { "backend-gix": 58, "harness": 1 } },
+  "gix": { "git_start_attempts": 0, "programs": { "backend-gix": 58, "harness": 1 } }
+}

@@ -1,0 +1,2687 @@
+{
+  "fixtures": {
+    "binary": [
+      {
+        "actual": {
+          "message": "bad output (missing field `op` at line 1 column 2): ",
+          "op": "error"
+        },
+        "changed_paths": [
+          "changed .git: dir mode=40755 size=128 mtime=1795608124.272429476 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c -> dir mode=40755 size=128 mtime=1795608124.288505878 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c",
+          "changed .git/index: file mode=100644 size=369 mtime=1795608124.272535177 sha256=e1e433170a5dfc0e647cfbba6192d0e2e4d232e3f614a8a703ba5804a8a1c254 -> file mode=100644 size=369 mtime=1795608124.287838850 sha256=72899c180f2fa295c1c593d37a4bb9e0dd8a382313d03a902a4770b71281e688"
+        ],
+        "expected": {
+          "branch": "refs/heads/main",
+          "oid": "674e91690d8efac644a153fb16b8666616912e0c",
+          "op": "head"
+        },
+        "no_configured_command": true,
+        "op": "head",
+        "pass": false,
+        "repository_unchanged": false
+      },
+      {
+        "actual": {
+          "message": "bad output (missing field `op` at line 1 column 2): ",
+          "op": "error"
+        },
+        "changed_paths": [
+          "changed .git: dir mode=40755 size=128 mtime=1795608124.288505878 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c -> dir mode=40755 size=128 mtime=1795608124.296469078 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c",
+          "changed .git/index: file mode=100644 size=369 mtime=1795608124.287838850 sha256=72899c180f2fa295c1c593d37a4bb9e0dd8a382313d03a902a4770b71281e688 -> file mode=100644 size=369 mtime=1795608124.295838878 sha256=72899c180f2fa295c1c593d37a4bb9e0dd8a382313d03a902a4770b71281e688"
+        ],
+        "expected": {
+          "op": "refs",
+          "refs": [
+            [
+              "refs/heads/main",
+              "674e91690d8efac644a153fb16b8666616912e0c"
+            ]
+          ]
+        },
+        "no_configured_command": true,
+        "op": "refs",
+        "pass": false,
+        "repository_unchanged": false
+      },
+      {
+        "actual": {
+          "message": "bad output (missing field `op` at line 1 column 2): ",
+          "op": "error"
+        },
+        "changed_paths": [
+          "changed .git: dir mode=40755 size=128 mtime=1795608124.296469078 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c -> dir mode=40755 size=128 mtime=1795608124.303838906 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c",
+          "changed .git/index: file mode=100644 size=369 mtime=1795608124.295838878 sha256=72899c180f2fa295c1c593d37a4bb9e0dd8a382313d03a902a4770b71281e688 -> file mode=100644 size=369 mtime=1795608124.302838903 sha256=72899c180f2fa295c1c593d37a4bb9e0dd8a382313d03a902a4770b71281e688"
+        ],
+        "expected": {
+          "entries": [
+            {
+              "index": ".",
+              "orig": null,
+              "path": "big.bin",
+              "worktree": "M"
+            },
+            {
+              "index": "?",
+              "orig": null,
+              "path": "untracked.bin",
+              "worktree": "?"
+            }
+          ],
+          "op": "status"
+        },
+        "no_configured_command": true,
+        "op": "status",
+        "pass": false,
+        "repository_unchanged": false
+      },
+      {
+        "actual": {
+          "message": "bad output (missing field `op` at line 1 column 2): ",
+          "op": "error"
+        },
+        "changed_paths": [
+          "changed .git: dir mode=40755 size=128 mtime=1795608124.303838906 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c -> dir mode=40755 size=128 mtime=1795608124.312101447 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c",
+          "changed .git/index: file mode=100644 size=369 mtime=1795608124.302838903 sha256=72899c180f2fa295c1c593d37a4bb9e0dd8a382313d03a902a4770b71281e688 -> file mode=100644 size=369 mtime=1795608124.310838931 sha256=72899c180f2fa295c1c593d37a4bb9e0dd8a382313d03a902a4770b71281e688"
+        ],
+        "expected": {
+          "entries": [
+            {
+              "content_sha256": "126d9aac4bca4f66d122b9eedd7bef7a21e2c6a831d10711d4ec37772832af6d",
+              "mode": "100644",
+              "oid": "397703c9c2ef7d8198f078a28916e92c2d1537e2",
+              "path": "added.dat",
+              "stage": 0
+            },
+            {
+              "content_sha256": "b4b3a65dcc95e6b8b419389b029e1e68d1f476c2b3f03c7b0420a765d243828b",
+              "mode": "100644",
+              "oid": "76f758c26e20ca23c9dc74cf45a7252f8e2808b1",
+              "path": "big.bin",
+              "stage": 0
+            },
+            {
+              "content_sha256": "afa56cc1d5113ffc5c2c785928264fa7b091c93b0d71037432a6ed6649cecc28",
+              "mode": "100644",
+              "oid": "da5a3a34870124f6e23218d46db7e7319770b38a",
+              "path": "image.png",
+              "stage": 0
+            },
+            {
+              "content_sha256": "c4aea621ea4213e2face664d7073d3fdf2c601b611693c6bf88c901e1b928777",
+              "mode": "100644",
+              "oid": "7c7761410431bc4aa07160879d4621323931b7f0",
+              "path": "text-to-binary.txt",
+              "stage": 0
+            }
+          ],
+          "op": "index"
+        },
+        "no_configured_command": true,
+        "op": "index",
+        "pass": false,
+        "repository_unchanged": false
+      },
+      {
+        "actual": {
+          "message": "bad output (missing field `op` at line 1 column 2): ",
+          "op": "error"
+        },
+        "changed_paths": [
+          "changed .git: dir mode=40755 size=128 mtime=1795608124.312101447 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c -> dir mode=40755 size=128 mtime=1795608124.319809246 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c",
+          "changed .git/index: file mode=100644 size=369 mtime=1795608124.310838931 sha256=72899c180f2fa295c1c593d37a4bb9e0dd8a382313d03a902a4770b71281e688 -> file mode=100644 size=369 mtime=1795608124.318838959 sha256=72899c180f2fa295c1c593d37a4bb9e0dd8a382313d03a902a4770b71281e688"
+        ],
+        "expected": {
+          "entries": [],
+          "op": "submodules"
+        },
+        "no_configured_command": true,
+        "op": "submodules",
+        "pass": false,
+        "repository_unchanged": false
+      },
+      {
+        "actual": {
+          "message": "bad output (missing field `op` at line 1 column 2): ",
+          "op": "error"
+        },
+        "changed_paths": [
+          "changed .git: dir mode=40755 size=128 mtime=1795608124.319809246 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c -> dir mode=40755 size=128 mtime=1795608124.327644486 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c",
+          "changed .git/index: file mode=100644 size=369 mtime=1795608124.318838959 sha256=72899c180f2fa295c1c593d37a4bb9e0dd8a382313d03a902a4770b71281e688 -> file mode=100644 size=369 mtime=1795608124.326838988 sha256=72899c180f2fa295c1c593d37a4bb9e0dd8a382313d03a902a4770b71281e688"
+        ],
+        "expected": {
+          "entries": [
+            {
+              "content_sha256": "126d9aac4bca4f66d122b9eedd7bef7a21e2c6a831d10711d4ec37772832af6d",
+              "mode": "100644",
+              "oid": "397703c9c2ef7d8198f078a28916e92c2d1537e2",
+              "path": "added.dat",
+              "stage": 0
+            },
+            {
+              "content_sha256": "b4b3a65dcc95e6b8b419389b029e1e68d1f476c2b3f03c7b0420a765d243828b",
+              "mode": "100644",
+              "oid": "76f758c26e20ca23c9dc74cf45a7252f8e2808b1",
+              "path": "big.bin",
+              "stage": 0
+            },
+            {
+              "content_sha256": "afa56cc1d5113ffc5c2c785928264fa7b091c93b0d71037432a6ed6649cecc28",
+              "mode": "100644",
+              "oid": "da5a3a34870124f6e23218d46db7e7319770b38a",
+              "path": "image.png",
+              "stage": 0
+            },
+            {
+              "content_sha256": "c4aea621ea4213e2face664d7073d3fdf2c601b611693c6bf88c901e1b928777",
+              "mode": "100644",
+              "oid": "7c7761410431bc4aa07160879d4621323931b7f0",
+              "path": "text-to-binary.txt",
+              "stage": 0
+            }
+          ],
+          "op": "tree",
+          "rev": "674e91690d8efac644a153fb16b8666616912e0c"
+        },
+        "no_configured_command": true,
+        "op": "tree 674e91690d8efac644a153fb16b8666616912e0c",
+        "pass": false,
+        "repository_unchanged": false
+      },
+      {
+        "actual": {
+          "message": "bad output (missing field `op` at line 1 column 2): ",
+          "op": "error"
+        },
+        "changed_paths": [
+          "changed .git: dir mode=40755 size=128 mtime=1795608124.327644486 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c -> dir mode=40755 size=128 mtime=1795608124.335471546 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c",
+          "changed .git/index: file mode=100644 size=369 mtime=1795608124.326838988 sha256=72899c180f2fa295c1c593d37a4bb9e0dd8a382313d03a902a4770b71281e688 -> file mode=100644 size=369 mtime=1795608124.334839016 sha256=72899c180f2fa295c1c593d37a4bb9e0dd8a382313d03a902a4770b71281e688"
+        ],
+        "expected": {
+          "entries": [
+            {
+              "orig": null,
+              "path": "added.dat",
+              "status": "A"
+            },
+            {
+              "orig": null,
+              "path": "image.png",
+              "status": "M"
+            },
+            {
+              "orig": null,
+              "path": "text-to-binary.txt",
+              "status": "M"
+            }
+          ],
+          "from": "38073e6ded81391ce58eddfcb5ad2018f00158f7",
+          "op": "diff",
+          "to": "674e91690d8efac644a153fb16b8666616912e0c"
+        },
+        "no_configured_command": true,
+        "op": "diff 38073e6ded81391ce58eddfcb5ad2018f00158f7 674e91690d8efac644a153fb16b8666616912e0c",
+        "pass": false,
+        "repository_unchanged": false
+      },
+      {
+        "actual": {
+          "message": "bad output (missing field `op` at line 1 column 2): ",
+          "op": "error"
+        },
+        "changed_paths": [
+          "changed .git: dir mode=40755 size=128 mtime=1795608124.335471546 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c -> dir mode=40755 size=128 mtime=1795608124.343293645 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c",
+          "changed .git/index: file mode=100644 size=369 mtime=1795608124.334839016 sha256=72899c180f2fa295c1c593d37a4bb9e0dd8a382313d03a902a4770b71281e688 -> file mode=100644 size=369 mtime=1795608124.342839044 sha256=72899c180f2fa295c1c593d37a4bb9e0dd8a382313d03a902a4770b71281e688"
+        ],
+        "expected": {
+          "entries": [
+            {
+              "content_sha256": "b4b3a65dcc95e6b8b419389b029e1e68d1f476c2b3f03c7b0420a765d243828b",
+              "mode": "100644",
+              "oid": "76f758c26e20ca23c9dc74cf45a7252f8e2808b1",
+              "path": "big.bin",
+              "stage": 0
+            },
+            {
+              "content_sha256": "8fa4fa44487ca3006b6fd13e79de2a038838683df7b241d670dc71b338b512fc",
+              "mode": "100644",
+              "oid": "739ac31e2a3a4191e2ef4a564ed99c51f2370c55",
+              "path": "image.png",
+              "stage": 0
+            },
+            {
+              "content_sha256": "3e751b8e401dc7d6fbf830885ef24acf8157e4c49268981d51b48a28b42baf1a",
+              "mode": "100644",
+              "oid": "11aea9e663bf3c359845e24e998a814361ee7840",
+              "path": "text-to-binary.txt",
+              "stage": 0
+            }
+          ],
+          "op": "tree",
+          "rev": "38073e6ded81391ce58eddfcb5ad2018f00158f7"
+        },
+        "no_configured_command": true,
+        "op": "tree 38073e6ded81391ce58eddfcb5ad2018f00158f7",
+        "pass": false,
+        "repository_unchanged": false
+      }
+    ],
+    "detached-head": [
+      {
+        "actual": {
+          "message": "bad output (missing field `op` at line 1 column 2): ",
+          "op": "error"
+        },
+        "changed_paths": [
+          "changed .git: dir mode=40755 size=150 mtime=1795608124.352828852 entries=3f2bb173a0a714341815d569b744d8d2df9c7c3fe3faded4823c49ad2f87bad4 -> dir mode=40755 size=150 mtime=1795608124.357839097 entries=3f2bb173a0a714341815d569b744d8d2df9c7c3fe3faded4823c49ad2f87bad4"
+        ],
+        "expected": {
+          "branch": null,
+          "oid": "2ba4c7a89fff88b8061a20e14e264a640757babe",
+          "op": "head"
+        },
+        "no_configured_command": true,
+        "op": "head",
+        "pass": false,
+        "repository_unchanged": false
+      },
+      {
+        "actual": {
+          "message": "bad output (missing field `op` at line 1 column 2): ",
+          "op": "error"
+        },
+        "changed_paths": [
+          "changed .git: dir mode=40755 size=150 mtime=1795608124.357839097 entries=3f2bb173a0a714341815d569b744d8d2df9c7c3fe3faded4823c49ad2f87bad4 -> dir mode=40755 size=150 mtime=1795608124.364839122 entries=3f2bb173a0a714341815d569b744d8d2df9c7c3fe3faded4823c49ad2f87bad4"
+        ],
+        "expected": {
+          "op": "refs",
+          "refs": [
+            [
+              "refs/heads/loose-branch",
+              "0c434d8373091f799fc42497ffe16bed9c75fecf"
+            ],
+            [
+              "refs/heads/main",
+              "0c434d8373091f799fc42497ffe16bed9c75fecf"
+            ],
+            [
+              "refs/heads/side",
+              "1332b2ad2c4aa4ecd73dc4cfcdb514955fa4484e"
+            ],
+            [
+              "refs/tags/annotated",
+              "75fad025bbeb0fc958de822fc66958c410971b39"
+            ],
+            [
+              "refs/tags/light",
+              "1332b2ad2c4aa4ecd73dc4cfcdb514955fa4484e"
+            ]
+          ]
+        },
+        "no_configured_command": true,
+        "op": "refs",
+        "pass": false,
+        "repository_unchanged": false
+      },
+      {
+        "actual": {
+          "message": "bad output (missing field `op` at line 1 column 2): ",
+          "op": "error"
+        },
+        "changed_paths": [
+          "changed .git: dir mode=40755 size=150 mtime=1795608124.364839122 entries=3f2bb173a0a714341815d569b744d8d2df9c7c3fe3faded4823c49ad2f87bad4 -> dir mode=40755 size=150 mtime=1795608124.371839147 entries=3f2bb173a0a714341815d569b744d8d2df9c7c3fe3faded4823c49ad2f87bad4"
+        ],
+        "expected": {
+          "entries": [
+            {
+              "index": ".",
+              "orig": null,
+              "path": "file.txt",
+              "worktree": "M"
+            }
+          ],
+          "op": "status"
+        },
+        "no_configured_command": true,
+        "op": "status",
+        "pass": false,
+        "repository_unchanged": false
+      },
+      {
+        "actual": {
+          "message": "bad output (missing field `op` at line 1 column 2): ",
+          "op": "error"
+        },
+        "changed_paths": [
+          "changed .git: dir mode=40755 size=150 mtime=1795608124.371839147 entries=3f2bb173a0a714341815d569b744d8d2df9c7c3fe3faded4823c49ad2f87bad4 -> dir mode=40755 size=150 mtime=1795608124.379839175 entries=3f2bb173a0a714341815d569b744d8d2df9c7c3fe3faded4823c49ad2f87bad4"
+        ],
+        "expected": {
+          "entries": [
+            {
+              "content_sha256": "8edbf37ce71fe6847df20c64f8ca38e31e1e3a2d97281d500bf57d9ee80d85dc",
+              "mode": "100644",
+              "oid": "ed09fdd6ae24706c20bccb48f3ae37814d1a5a21",
+              "path": "file.txt",
+              "stage": 0
+            }
+          ],
+          "op": "index"
+        },
+        "no_configured_command": true,
+        "op": "index",
+        "pass": false,
+        "repository_unchanged": false
+      },
+      {
+        "actual": {
+          "message": "bad output (missing field `op` at line 1 column 2): ",
+          "op": "error"
+        },
+        "changed_paths": [
+          "changed .git: dir mode=40755 size=150 mtime=1795608124.379839175 entries=3f2bb173a0a714341815d569b744d8d2df9c7c3fe3faded4823c49ad2f87bad4 -> dir mode=40755 size=150 mtime=1795608124.386839200 entries=3f2bb173a0a714341815d569b744d8d2df9c7c3fe3faded4823c49ad2f87bad4"
+        ],
+        "expected": {
+          "entries": [],
+          "op": "submodules"
+        },
+        "no_configured_command": true,
+        "op": "submodules",
+        "pass": false,
+        "repository_unchanged": false
+      },
+      {
+        "actual": {
+          "message": "bad output (missing field `op` at line 1 column 2): ",
+          "op": "error"
+        },
+        "changed_paths": [
+          "changed .git: dir mode=40755 size=150 mtime=1795608124.386839200 entries=3f2bb173a0a714341815d569b744d8d2df9c7c3fe3faded4823c49ad2f87bad4 -> dir mode=40755 size=150 mtime=1795608124.393839225 entries=3f2bb173a0a714341815d569b744d8d2df9c7c3fe3faded4823c49ad2f87bad4"
+        ],
+        "expected": {
+          "entries": [
+            {
+              "content_sha256": "0800e6836ac013edb47a164e0d4a6dae5de08982f3598757a0075d7fa4560762",
+              "mode": "100644",
+              "oid": "9cdc61df6e7b811e3bc77825f5a531e68a672fa9",
+              "path": "file.txt",
+              "stage": 0
+            }
+          ],
+          "op": "tree",
+          "rev": "0c434d8373091f799fc42497ffe16bed9c75fecf"
+        },
+        "no_configured_command": true,
+        "op": "tree 0c434d8373091f799fc42497ffe16bed9c75fecf",
+        "pass": false,
+        "repository_unchanged": false
+      },
+      {
+        "actual": {
+          "message": "bad output (missing field `op` at line 1 column 2): ",
+          "op": "error"
+        },
+        "changed_paths": [
+          "changed .git: dir mode=40755 size=150 mtime=1795608124.393839225 entries=3f2bb173a0a714341815d569b744d8d2df9c7c3fe3faded4823c49ad2f87bad4 -> dir mode=40755 size=150 mtime=1795608124.401839253 entries=3f2bb173a0a714341815d569b744d8d2df9c7c3fe3faded4823c49ad2f87bad4"
+        ],
+        "expected": {
+          "entries": [
+            {
+              "orig": null,
+              "path": "file.txt",
+              "status": "M"
+            }
+          ],
+          "from": "2ba4c7a89fff88b8061a20e14e264a640757babe",
+          "op": "diff",
+          "to": "0c434d8373091f799fc42497ffe16bed9c75fecf"
+        },
+        "no_configured_command": true,
+        "op": "diff 2ba4c7a89fff88b8061a20e14e264a640757babe 0c434d8373091f799fc42497ffe16bed9c75fecf",
+        "pass": false,
+        "repository_unchanged": false
+      },
+      {
+        "actual": {
+          "message": "bad output (missing field `op` at line 1 column 2): ",
+          "op": "error"
+        },
+        "changed_paths": [
+          "changed .git: dir mode=40755 size=150 mtime=1795608124.401839253 entries=3f2bb173a0a714341815d569b744d8d2df9c7c3fe3faded4823c49ad2f87bad4 -> dir mode=40755 size=150 mtime=1795608124.408839277 entries=3f2bb173a0a714341815d569b744d8d2df9c7c3fe3faded4823c49ad2f87bad4"
+        ],
+        "expected": {
+          "entries": [
+            {
+              "content_sha256": "8edbf37ce71fe6847df20c64f8ca38e31e1e3a2d97281d500bf57d9ee80d85dc",
+              "mode": "100644",
+              "oid": "ed09fdd6ae24706c20bccb48f3ae37814d1a5a21",
+              "path": "file.txt",
+              "stage": 0
+            }
+          ],
+          "op": "tree",
+          "rev": "2ba4c7a89fff88b8061a20e14e264a640757babe"
+        },
+        "no_configured_command": true,
+        "op": "tree 2ba4c7a89fff88b8061a20e14e264a640757babe",
+        "pass": false,
+        "repository_unchanged": false
+      },
+      {
+        "actual": {
+          "message": "bad output (missing field `op` at line 1 column 2): ",
+          "op": "error"
+        },
+        "changed_paths": [
+          "changed .git: dir mode=40755 size=150 mtime=1795608124.408839277 entries=3f2bb173a0a714341815d569b744d8d2df9c7c3fe3faded4823c49ad2f87bad4 -> dir mode=40755 size=150 mtime=1795608124.415839302 entries=3f2bb173a0a714341815d569b744d8d2df9c7c3fe3faded4823c49ad2f87bad4"
+        ],
+        "expected": {
+          "entries": [
+            {
+              "orig": null,
+              "path": "file.txt",
+              "status": "M"
+            }
+          ],
+          "from": "1332b2ad2c4aa4ecd73dc4cfcdb514955fa4484e",
+          "op": "diff",
+          "to": "2ba4c7a89fff88b8061a20e14e264a640757babe"
+        },
+        "no_configured_command": true,
+        "op": "diff 1332b2ad2c4aa4ecd73dc4cfcdb514955fa4484e 2ba4c7a89fff88b8061a20e14e264a640757babe",
+        "pass": false,
+        "repository_unchanged": false
+      },
+      {
+        "actual": {
+          "message": "bad output (missing field `op` at line 1 column 2): ",
+          "op": "error"
+        },
+        "changed_paths": [
+          "changed .git: dir mode=40755 size=150 mtime=1795608124.415839302 entries=3f2bb173a0a714341815d569b744d8d2df9c7c3fe3faded4823c49ad2f87bad4 -> dir mode=40755 size=150 mtime=1795608124.422839327 entries=3f2bb173a0a714341815d569b744d8d2df9c7c3fe3faded4823c49ad2f87bad4"
+        ],
+        "expected": {
+          "entries": [
+            {
+              "content_sha256": "076079de4360c1759a20227b6a1020402e46df608068ee54aad7e24069e9c78f",
+              "mode": "100644",
+              "oid": "f079d658eb24eb7e9434b7c61ce08d535eca8b7d",
+              "path": "file.txt",
+              "stage": 0
+            }
+          ],
+          "op": "tree",
+          "rev": "1332b2ad2c4aa4ecd73dc4cfcdb514955fa4484e"
+        },
+        "no_configured_command": true,
+        "op": "tree 1332b2ad2c4aa4ecd73dc4cfcdb514955fa4484e",
+        "pass": false,
+        "repository_unchanged": false
+      }
+    ],
+    "index-worktree": [
+      {
+        "actual": {
+          "message": "bad output (missing field `op` at line 1 column 2): ",
+          "op": "error"
+        },
+        "changed_paths": [
+          "changed .git: dir mode=40755 size=128 mtime=1795608124.434014989 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c -> dir mode=40755 size=128 mtime=1795608124.441984539 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c",
+          "changed .git/index: file mode=100644 size=874 mtime=1795608124.434146369 sha256=4f04813d72ebed3df0c5d36689c79c90eac843d523695bf2e6ce43a5082e88c2 -> file mode=100644 size=874 mtime=1795608124.440839391 sha256=6d83f35cdbd932ce01650124111618598aefbb7434da2e9bf1104fa45d2d50fa"
+        ],
+        "expected": {
+          "branch": "refs/heads/main",
+          "oid": "c4d3111d3490d01f3aea82be18a347b9d1fa3bff",
+          "op": "head"
+        },
+        "no_configured_command": true,
+        "op": "head",
+        "pass": false,
+        "repository_unchanged": false
+      },
+      {
+        "actual": {
+          "message": "bad output (missing field `op` at line 1 column 2): ",
+          "op": "error"
+        },
+        "changed_paths": [
+          "changed .git: dir mode=40755 size=128 mtime=1795608124.441984539 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c -> dir mode=40755 size=128 mtime=1795608124.450822853 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c",
+          "changed .git/index: file mode=100644 size=874 mtime=1795608124.440839391 sha256=6d83f35cdbd932ce01650124111618598aefbb7434da2e9bf1104fa45d2d50fa -> file mode=100644 size=874 mtime=1795608124.449839423 sha256=6d83f35cdbd932ce01650124111618598aefbb7434da2e9bf1104fa45d2d50fa"
+        ],
+        "expected": {
+          "op": "refs",
+          "refs": [
+            [
+              "refs/heads/main",
+              "c4d3111d3490d01f3aea82be18a347b9d1fa3bff"
+            ]
+          ]
+        },
+        "no_configured_command": true,
+        "op": "refs",
+        "pass": false,
+        "repository_unchanged": false
+      },
+      {
+        "actual": {
+          "message": "bad output (missing field `op` at line 1 column 2): ",
+          "op": "error"
+        },
+        "changed_paths": [
+          "changed .git: dir mode=40755 size=128 mtime=1795608124.450822853 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c -> dir mode=40755 size=128 mtime=1795608124.459613096 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c",
+          "changed .git/index: file mode=100644 size=874 mtime=1795608124.449839423 sha256=6d83f35cdbd932ce01650124111618598aefbb7434da2e9bf1104fa45d2d50fa -> file mode=100644 size=874 mtime=1795608124.458839454 sha256=6d83f35cdbd932ce01650124111618598aefbb7434da2e9bf1104fa45d2d50fa"
+        ],
+        "expected": {
+          "entries": [
+            {
+              "index": "M",
+              "orig": null,
+              "path": "a.txt",
+              "worktree": "."
+            },
+            {
+              "index": "D",
+              "orig": null,
+              "path": "b.txt",
+              "worktree": "."
+            },
+            {
+              "index": ".",
+              "orig": null,
+              "path": "c.txt",
+              "worktree": "M"
+            },
+            {
+              "index": ".",
+              "orig": null,
+              "path": "d.txt",
+              "worktree": "D"
+            },
+            {
+              "index": ".",
+              "orig": null,
+              "path": "dir/f.txt",
+              "worktree": "M"
+            },
+            {
+              "index": "M",
+              "orig": null,
+              "path": "e.sh",
+              "worktree": "M"
+            },
+            {
+              "index": ".",
+              "orig": null,
+              "path": "g.txt",
+              "worktree": "M"
+            },
+            {
+              "index": "M",
+              "orig": null,
+              "path": "h.txt",
+              "worktree": "M"
+            },
+            {
+              "index": ".",
+              "orig": null,
+              "path": "ita.txt",
+              "worktree": "A"
+            },
+            {
+              "index": ".",
+              "orig": null,
+              "path": "link",
+              "worktree": "T"
+            },
+            {
+              "index": "A",
+              "orig": null,
+              "path": "new.txt",
+              "worktree": "."
+            },
+            {
+              "index": "?",
+              "orig": null,
+              "path": "u.txt",
+              "worktree": "?"
+            },
+            {
+              "index": "?",
+              "orig": null,
+              "path": "udir/x/y.txt",
+              "worktree": "?"
+            }
+          ],
+          "op": "status"
+        },
+        "no_configured_command": true,
+        "op": "status",
+        "pass": false,
+        "repository_unchanged": false
+      },
+      {
+        "actual": {
+          "message": "bad output (missing field `op` at line 1 column 2): ",
+          "op": "error"
+        },
+        "changed_paths": [
+          "changed .git: dir mode=40755 size=128 mtime=1795608124.459613096 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c -> dir mode=40755 size=128 mtime=1795608124.468422920 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c",
+          "changed .git/index: file mode=100644 size=874 mtime=1795608124.458839454 sha256=6d83f35cdbd932ce01650124111618598aefbb7434da2e9bf1104fa45d2d50fa -> file mode=100644 size=874 mtime=1795608124.467839487 sha256=6d83f35cdbd932ce01650124111618598aefbb7434da2e9bf1104fa45d2d50fa"
+        ],
+        "expected": {
+          "entries": [
+            {
+              "content_sha256": "318d9a16533732a69cda7bb7b174ee392fdd15be3d72a114cd8f2d51f3eab510",
+              "mode": "100644",
+              "oid": "397b4a7624e35fa60563a9c03b1213d93f7b6546",
+              "path": ".gitignore",
+              "stage": 0
+            },
+            {
+              "content_sha256": "94a18cc74b1ae183a1e939a038d44bca341d630a579a03a54f7a653c85cdd8ab",
+              "mode": "100644",
+              "oid": "76e47b6df7aa2897dca1b6d12767a08d9d7676c1",
+              "path": "a.txt",
+              "stage": 0
+            },
+            {
+              "content_sha256": "b53fe96f7cdba1d6b934e66179fd2347a2cb696121a49a18b16dbc6e6822bde5",
+              "mode": "100644",
+              "oid": "1a1c67c8e4e8161ddc5580386ba1309f4ca52e74",
+              "path": "c.txt",
+              "stage": 0
+            },
+            {
+              "content_sha256": "cd1b79526bb629fe0213aad489d146f8a597bd7fd175ddf98a159ab1f1b07583",
+              "mode": "100644",
+              "oid": "afc7a283872ab47d046a5dec0160ae86f15d49f6",
+              "path": "d.txt",
+              "stage": 0
+            },
+            {
+              "content_sha256": "81912a51ae84a976384cfe3c84dc2e5ca3554776491cbe32efba175eb2057751",
+              "mode": "100644",
+              "oid": "ba5b31c3aee96ce25bf1877fc2112efdd5c4435b",
+              "path": "dir/f.txt",
+              "stage": 0
+            },
+            {
+              "content_sha256": "8300a56f194e745cb2bddf5c5c3d38d948d60c97b7e9510dd8209739ae476310",
+              "mode": "100755",
+              "oid": "6c7d5a3f8853db1e86dfb650d6481367aecbaacb",
+              "path": "e.sh",
+              "stage": 0
+            },
+            {
+              "content_sha256": "8b88e4f03957045ca7ff5963071078e0ba3b11e875148bf429539d3a6901336c",
+              "mode": "100644",
+              "oid": "2bd52434d899be17f2cf7b2cd3bdac373b0806e7",
+              "path": "g.txt",
+              "stage": 0
+            },
+            {
+              "content_sha256": "769da9fd9f0067043eb4ecfff065069f66bedce68423cb23fd7ab68151f17ff0",
+              "mode": "100644",
+              "oid": "a9d75fce4e01efb6319a305b88c21dc76def2c4e",
+              "path": "h.txt",
+              "stage": 0
+            },
+            {
+              "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "mode": "100644",
+              "oid": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+              "path": "ita.txt",
+              "stage": 0
+            },
+            {
+              "content_sha256": "18b7cb099a9ea3f50ba899b5ba81e0d377a5f3b16f8f6eeb8b3e58cd4692b993",
+              "mode": "120000",
+              "oid": "8d14cbf983b3fad683171c9418998d9f68340823",
+              "path": "link",
+              "stage": 0
+            },
+            {
+              "content_sha256": "c9f7b56889277dbe59f4d9b95f2a854f9ebf5e93913c564215e6e3acf85fb1f0",
+              "mode": "100644",
+              "oid": "4c704c54baacdfb5cdf4175f2ae5865bab918cb7",
+              "path": "new.txt",
+              "stage": 0
+            }
+          ],
+          "op": "index"
+        },
+        "no_configured_command": true,
+        "op": "index",
+        "pass": false,
+        "repository_unchanged": false
+      },
+      {
+        "actual": {
+          "message": "bad output (missing field `op` at line 1 column 2): ",
+          "op": "error"
+        },
+        "changed_paths": [
+          "changed .git: dir mode=40755 size=128 mtime=1795608124.468422920 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c -> dir mode=40755 size=128 mtime=1795608124.477176643 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c",
+          "changed .git/index: file mode=100644 size=874 mtime=1795608124.467839487 sha256=6d83f35cdbd932ce01650124111618598aefbb7434da2e9bf1104fa45d2d50fa -> file mode=100644 size=874 mtime=1795608124.475839515 sha256=6d83f35cdbd932ce01650124111618598aefbb7434da2e9bf1104fa45d2d50fa"
+        ],
+        "expected": {
+          "entries": [],
+          "op": "submodules"
+        },
+        "no_configured_command": true,
+        "op": "submodules",
+        "pass": false,
+        "repository_unchanged": false
+      },
+      {
+        "actual": {
+          "message": "bad output (missing field `op` at line 1 column 2): ",
+          "op": "error"
+        },
+        "changed_paths": [
+          "changed .git: dir mode=40755 size=128 mtime=1795608124.477176643 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c -> dir mode=40755 size=128 mtime=1795608124.485985856 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c",
+          "changed .git/index: file mode=100644 size=874 mtime=1795608124.475839515 sha256=6d83f35cdbd932ce01650124111618598aefbb7434da2e9bf1104fa45d2d50fa -> file mode=100644 size=874 mtime=1795608124.484839546 sha256=6d83f35cdbd932ce01650124111618598aefbb7434da2e9bf1104fa45d2d50fa"
+        ],
+        "expected": {
+          "entries": [
+            {
+              "content_sha256": "318d9a16533732a69cda7bb7b174ee392fdd15be3d72a114cd8f2d51f3eab510",
+              "mode": "100644",
+              "oid": "397b4a7624e35fa60563a9c03b1213d93f7b6546",
+              "path": ".gitignore",
+              "stage": 0
+            },
+            {
+              "content_sha256": "554c0a97e261d9cbbf161287f3e323944e9711033cd02e2d95c9e7091d8871a2",
+              "mode": "100644",
+              "oid": "f43d46e41277ca59e4b419afc10b0625257f498c",
+              "path": "a.txt",
+              "stage": 0
+            },
+            {
+              "content_sha256": "711847a7921d52cef8f14e1faf65ad7adeaf433cb9e505eac61fa51883760bde",
+              "mode": "100644",
+              "oid": "d1fa30ed563cb1091116b83ec7b6369d48e7db34",
+              "path": "b.txt",
+              "stage": 0
+            },
+            {
+              "content_sha256": "b53fe96f7cdba1d6b934e66179fd2347a2cb696121a49a18b16dbc6e6822bde5",
+              "mode": "100644",
+              "oid": "1a1c67c8e4e8161ddc5580386ba1309f4ca52e74",
+              "path": "c.txt",
+              "stage": 0
+            },
+            {
+              "content_sha256": "cd1b79526bb629fe0213aad489d146f8a597bd7fd175ddf98a159ab1f1b07583",
+              "mode": "100644",
+              "oid": "afc7a283872ab47d046a5dec0160ae86f15d49f6",
+              "path": "d.txt",
+              "stage": 0
+            },
+            {
+              "content_sha256": "81912a51ae84a976384cfe3c84dc2e5ca3554776491cbe32efba175eb2057751",
+              "mode": "100644",
+              "oid": "ba5b31c3aee96ce25bf1877fc2112efdd5c4435b",
+              "path": "dir/f.txt",
+              "stage": 0
+            },
+            {
+              "content_sha256": "8300a56f194e745cb2bddf5c5c3d38d948d60c97b7e9510dd8209739ae476310",
+              "mode": "100644",
+              "oid": "6c7d5a3f8853db1e86dfb650d6481367aecbaacb",
+              "path": "e.sh",
+              "stage": 0
+            },
+            {
+              "content_sha256": "8b88e4f03957045ca7ff5963071078e0ba3b11e875148bf429539d3a6901336c",
+              "mode": "100644",
+              "oid": "2bd52434d899be17f2cf7b2cd3bdac373b0806e7",
+              "path": "g.txt",
+              "stage": 0
+            },
+            {
+              "content_sha256": "9d5cefa9c15aecb161683bf11e44892b00da70dcd16238142becce3c7fe6d801",
+              "mode": "100644",
+              "oid": "793d91090f33c65c8d8b295bc1885f40d54bf19a",
+              "path": "h.txt",
+              "stage": 0
+            },
+            {
+              "content_sha256": "18b7cb099a9ea3f50ba899b5ba81e0d377a5f3b16f8f6eeb8b3e58cd4692b993",
+              "mode": "120000",
+              "oid": "8d14cbf983b3fad683171c9418998d9f68340823",
+              "path": "link",
+              "stage": 0
+            }
+          ],
+          "op": "tree",
+          "rev": "c4d3111d3490d01f3aea82be18a347b9d1fa3bff"
+        },
+        "no_configured_command": true,
+        "op": "tree c4d3111d3490d01f3aea82be18a347b9d1fa3bff",
+        "pass": false,
+        "repository_unchanged": false
+      }
+    ],
+    "renames": [
+      {
+        "actual": {
+          "message": "bad output (missing field `op` at line 1 column 2): ",
+          "op": "error"
+        },
+        "changed_paths": [
+          "changed .git: dir mode=40755 size=128 mtime=1795608124.496317675 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c -> dir mode=40755 size=128 mtime=1795608124.502935580 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c",
+          "changed .git/index: file mode=100644 size=729 mtime=1795608124.496451736 sha256=bd878d5f89d971c1063e9afa1dc7f164fe0803c0e991d60b3a766ec682243da3 -> file mode=100644 size=729 mtime=1795608124.501839607 sha256=d8042484ea320a91f829175f905b67c2c7a132bed8989e4762ddcb1e22a73f38"
+        ],
+        "expected": {
+          "branch": "refs/heads/main",
+          "oid": "7192046f5badc7c7f18ce43dd2dff79297d4d016",
+          "op": "head"
+        },
+        "no_configured_command": true,
+        "op": "head",
+        "pass": false,
+        "repository_unchanged": false
+      },
+      {
+        "actual": {
+          "message": "bad output (missing field `op` at line 1 column 2): ",
+          "op": "error"
+        },
+        "changed_paths": [
+          "changed .git: dir mode=40755 size=128 mtime=1795608124.502935580 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c -> dir mode=40755 size=128 mtime=1795608124.509997597 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c",
+          "changed .git/index: file mode=100644 size=729 mtime=1795608124.501839607 sha256=d8042484ea320a91f829175f905b67c2c7a132bed8989e4762ddcb1e22a73f38 -> file mode=100644 size=729 mtime=1795608124.508839631 sha256=d8042484ea320a91f829175f905b67c2c7a132bed8989e4762ddcb1e22a73f38"
+        ],
+        "expected": {
+          "op": "refs",
+          "refs": [
+            [
+              "refs/heads/main",
+              "7192046f5badc7c7f18ce43dd2dff79297d4d016"
+            ]
+          ]
+        },
+        "no_configured_command": true,
+        "op": "refs",
+        "pass": false,
+        "repository_unchanged": false
+      },
+      {
+        "actual": {
+          "message": "bad output (missing field `op` at line 1 column 2): ",
+          "op": "error"
+        },
+        "changed_paths": [
+          "changed .git: dir mode=40755 size=128 mtime=1795608124.509997597 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c -> dir mode=40755 size=128 mtime=1795608124.517083164 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c",
+          "changed .git/index: file mode=100644 size=729 mtime=1795608124.508839631 sha256=d8042484ea320a91f829175f905b67c2c7a132bed8989e4762ddcb1e22a73f38 -> file mode=100644 size=729 mtime=1795608124.515839656 sha256=d8042484ea320a91f829175f905b67c2c7a132bed8989e4762ddcb1e22a73f38"
+        ],
+        "expected": {
+          "entries": [
+            {
+              "index": "R",
+              "orig": "keep.txt",
+              "path": "kept.txt",
+              "worktree": "."
+            },
+            {
+              "index": "?",
+              "orig": null,
+              "path": "z-moved.txt",
+              "worktree": "?"
+            },
+            {
+              "index": ".",
+              "orig": null,
+              "path": "z.txt",
+              "worktree": "D"
+            }
+          ],
+          "op": "status"
+        },
+        "no_configured_command": true,
+        "op": "status",
+        "pass": false,
+        "repository_unchanged": false
+      },
+      {
+        "actual": {
+          "message": "bad output (missing field `op` at line 1 column 2): ",
+          "op": "error"
+        },
+        "changed_paths": [
+          "changed .git: dir mode=40755 size=128 mtime=1795608124.517083164 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c -> dir mode=40755 size=128 mtime=1795608124.524117590 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c",
+          "changed .git/index: file mode=100644 size=729 mtime=1795608124.515839656 sha256=d8042484ea320a91f829175f905b67c2c7a132bed8989e4762ddcb1e22a73f38 -> file mode=100644 size=729 mtime=1795608124.522839681 sha256=d8042484ea320a91f829175f905b67c2c7a132bed8989e4762ddcb1e22a73f38"
+        ],
+        "expected": {
+          "entries": [
+            {
+              "content_sha256": "df225932465536f8e2243ad3d63d21264287d1be1a02b1b97d8943084c5834cc",
+              "mode": "100644",
+              "oid": "375db77c5c412063afa7fd4072d553ad390dc62d",
+              "path": "dir2/x.txt",
+              "stage": 0
+            },
+            {
+              "content_sha256": "64275840c81e15233cdfc4271503a321b190adb78cd0dad5f04a6c91e982217c",
+              "mode": "100644",
+              "oid": "ceb8ab0a8278d09556e4a5ed23408ad392efcf62",
+              "path": "dir2/y.txt",
+              "stage": 0
+            },
+            {
+              "content_sha256": "e6fffb1743370d2fc414dfc12355de1d4310a27f069a7a2118fc447b4bfda9a7",
+              "mode": "100644",
+              "oid": "3c8cc30e1997cbd100e9a9cea8dff8658137bad0",
+              "path": "kept.txt",
+              "stage": 0
+            },
+            {
+              "content_sha256": "46b3f4b589641b73631b66c69768727166d767c0d3545221643369198ce6c50f",
+              "mode": "100644",
+              "oid": "3094a8232baa3b876653465c9abec829d604bbdf",
+              "path": "moved/r3.txt",
+              "stage": 0
+            },
+            {
+              "content_sha256": "6c812d442e5c3a1b506713735b3dda07c694d4dd7f6c2db8d780d593f1b8c136",
+              "mode": "100644",
+              "oid": "dffd47d3e5d2e09d4bc9c563c0a4611e0fd0698f",
+              "path": "renamed1.txt",
+              "stage": 0
+            },
+            {
+              "content_sha256": "66d2bfd42e54c712ec7548ffdd0cd10a23f726583e035068541f4ff7fe6a51b9",
+              "mode": "100644",
+              "oid": "7a5a05733af10db41722bf7414e26fd414a5e112",
+              "path": "renamed2.txt",
+              "stage": 0
+            },
+            {
+              "content_sha256": "b4dd420c65c8a531ca0e4b6670835660a4392400516b4754eb0f67e9d74d2bc2",
+              "mode": "100644",
+              "oid": "cd4e552a045ad7959cf8eca3b148a71086864181",
+              "path": "renamed4.txt",
+              "stage": 0
+            },
+            {
+              "content_sha256": "329e69ea8c6000b0ea44eceefedb45830177bb6b1f757d78b58721a5f661f36e",
+              "mode": "100644",
+              "oid": "83713aa5414428999cf341ee641a76eb6ae536b8",
+              "path": "z.txt",
+              "stage": 0
+            }
+          ],
+          "op": "index"
+        },
+        "no_configured_command": true,
+        "op": "index",
+        "pass": false,
+        "repository_unchanged": false
+      },
+      {
+        "actual": {
+          "message": "bad output (missing field `op` at line 1 column 2): ",
+          "op": "error"
+        },
+        "changed_paths": [
+          "changed .git: dir mode=40755 size=128 mtime=1795608124.524117590 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c -> dir mode=40755 size=128 mtime=1795608124.531192917 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c",
+          "changed .git/index: file mode=100644 size=729 mtime=1795608124.522839681 sha256=d8042484ea320a91f829175f905b67c2c7a132bed8989e4762ddcb1e22a73f38 -> file mode=100644 size=729 mtime=1795608124.529839706 sha256=d8042484ea320a91f829175f905b67c2c7a132bed8989e4762ddcb1e22a73f38"
+        ],
+        "expected": {
+          "entries": [],
+          "op": "submodules"
+        },
+        "no_configured_command": true,
+        "op": "submodules",
+        "pass": false,
+        "repository_unchanged": false
+      },
+      {
+        "actual": {
+          "message": "bad output (missing field `op` at line 1 column 2): ",
+          "op": "error"
+        },
+        "changed_paths": [
+          "changed .git: dir mode=40755 size=128 mtime=1795608124.531192917 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c -> dir mode=40755 size=128 mtime=1795608124.538127314 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c",
+          "changed .git/index: file mode=100644 size=729 mtime=1795608124.529839706 sha256=d8042484ea320a91f829175f905b67c2c7a132bed8989e4762ddcb1e22a73f38 -> file mode=100644 size=729 mtime=1795608124.536839731 sha256=d8042484ea320a91f829175f905b67c2c7a132bed8989e4762ddcb1e22a73f38"
+        ],
+        "expected": {
+          "entries": [
+            {
+              "content_sha256": "df225932465536f8e2243ad3d63d21264287d1be1a02b1b97d8943084c5834cc",
+              "mode": "100644",
+              "oid": "375db77c5c412063afa7fd4072d553ad390dc62d",
+              "path": "dir2/x.txt",
+              "stage": 0
+            },
+            {
+              "content_sha256": "64275840c81e15233cdfc4271503a321b190adb78cd0dad5f04a6c91e982217c",
+              "mode": "100644",
+              "oid": "ceb8ab0a8278d09556e4a5ed23408ad392efcf62",
+              "path": "dir2/y.txt",
+              "stage": 0
+            },
+            {
+              "content_sha256": "e6fffb1743370d2fc414dfc12355de1d4310a27f069a7a2118fc447b4bfda9a7",
+              "mode": "100644",
+              "oid": "3c8cc30e1997cbd100e9a9cea8dff8658137bad0",
+              "path": "keep.txt",
+              "stage": 0
+            },
+            {
+              "content_sha256": "46b3f4b589641b73631b66c69768727166d767c0d3545221643369198ce6c50f",
+              "mode": "100644",
+              "oid": "3094a8232baa3b876653465c9abec829d604bbdf",
+              "path": "moved/r3.txt",
+              "stage": 0
+            },
+            {
+              "content_sha256": "6c812d442e5c3a1b506713735b3dda07c694d4dd7f6c2db8d780d593f1b8c136",
+              "mode": "100644",
+              "oid": "dffd47d3e5d2e09d4bc9c563c0a4611e0fd0698f",
+              "path": "renamed1.txt",
+              "stage": 0
+            },
+            {
+              "content_sha256": "66d2bfd42e54c712ec7548ffdd0cd10a23f726583e035068541f4ff7fe6a51b9",
+              "mode": "100644",
+              "oid": "7a5a05733af10db41722bf7414e26fd414a5e112",
+              "path": "renamed2.txt",
+              "stage": 0
+            },
+            {
+              "content_sha256": "b4dd420c65c8a531ca0e4b6670835660a4392400516b4754eb0f67e9d74d2bc2",
+              "mode": "100644",
+              "oid": "cd4e552a045ad7959cf8eca3b148a71086864181",
+              "path": "renamed4.txt",
+              "stage": 0
+            },
+            {
+              "content_sha256": "329e69ea8c6000b0ea44eceefedb45830177bb6b1f757d78b58721a5f661f36e",
+              "mode": "100644",
+              "oid": "83713aa5414428999cf341ee641a76eb6ae536b8",
+              "path": "z.txt",
+              "stage": 0
+            }
+          ],
+          "op": "tree",
+          "rev": "7192046f5badc7c7f18ce43dd2dff79297d4d016"
+        },
+        "no_configured_command": true,
+        "op": "tree 7192046f5badc7c7f18ce43dd2dff79297d4d016",
+        "pass": false,
+        "repository_unchanged": false
+      },
+      {
+        "actual": {
+          "message": "bad output (missing field `op` at line 1 column 2): ",
+          "op": "error"
+        },
+        "changed_paths": [
+          "changed .git: dir mode=40755 size=128 mtime=1795608124.538127314 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c -> dir mode=40755 size=128 mtime=1795608124.545091410 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c",
+          "changed .git/index: file mode=100644 size=729 mtime=1795608124.536839731 sha256=d8042484ea320a91f829175f905b67c2c7a132bed8989e4762ddcb1e22a73f38 -> file mode=100644 size=729 mtime=1795608124.543839755 sha256=d8042484ea320a91f829175f905b67c2c7a132bed8989e4762ddcb1e22a73f38"
+        ],
+        "expected": {
+          "entries": [
+            {
+              "orig": null,
+              "path": "z.txt",
+              "status": "A"
+            }
+          ],
+          "from": "9dad4831da985a1c61b77239e4e6284b8b4efea9",
+          "op": "diff",
+          "to": "7192046f5badc7c7f18ce43dd2dff79297d4d016"
+        },
+        "no_configured_command": true,
+        "op": "diff 9dad4831da985a1c61b77239e4e6284b8b4efea9 7192046f5badc7c7f18ce43dd2dff79297d4d016",
+        "pass": false,
+        "repository_unchanged": false
+      },
+      {
+        "actual": {
+          "message": "bad output (missing field `op` at line 1 column 2): ",
+          "op": "error"
+        },
+        "changed_paths": [
+          "changed .git: dir mode=40755 size=128 mtime=1795608124.545091410 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c -> dir mode=40755 size=128 mtime=1795608124.552057467 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c",
+          "changed .git/index: file mode=100644 size=729 mtime=1795608124.543839755 sha256=d8042484ea320a91f829175f905b67c2c7a132bed8989e4762ddcb1e22a73f38 -> file mode=100644 size=729 mtime=1795608124.550839780 sha256=d8042484ea320a91f829175f905b67c2c7a132bed8989e4762ddcb1e22a73f38"
+        ],
+        "expected": {
+          "entries": [
+            {
+              "content_sha256": "df225932465536f8e2243ad3d63d21264287d1be1a02b1b97d8943084c5834cc",
+              "mode": "100644",
+              "oid": "375db77c5c412063afa7fd4072d553ad390dc62d",
+              "path": "dir2/x.txt",
+              "stage": 0
+            },
+            {
+              "content_sha256": "64275840c81e15233cdfc4271503a321b190adb78cd0dad5f04a6c91e982217c",
+              "mode": "100644",
+              "oid": "ceb8ab0a8278d09556e4a5ed23408ad392efcf62",
+              "path": "dir2/y.txt",
+              "stage": 0
+            },
+            {
+              "content_sha256": "e6fffb1743370d2fc414dfc12355de1d4310a27f069a7a2118fc447b4bfda9a7",
+              "mode": "100644",
+              "oid": "3c8cc30e1997cbd100e9a9cea8dff8658137bad0",
+              "path": "keep.txt",
+              "stage": 0
+            },
+            {
+              "content_sha256": "46b3f4b589641b73631b66c69768727166d767c0d3545221643369198ce6c50f",
+              "mode": "100644",
+              "oid": "3094a8232baa3b876653465c9abec829d604bbdf",
+              "path": "moved/r3.txt",
+              "stage": 0
+            },
+            {
+              "content_sha256": "6c812d442e5c3a1b506713735b3dda07c694d4dd7f6c2db8d780d593f1b8c136",
+              "mode": "100644",
+              "oid": "dffd47d3e5d2e09d4bc9c563c0a4611e0fd0698f",
+              "path": "renamed1.txt",
+              "stage": 0
+            },
+            {
+              "content_sha256": "66d2bfd42e54c712ec7548ffdd0cd10a23f726583e035068541f4ff7fe6a51b9",
+              "mode": "100644",
+              "oid": "7a5a05733af10db41722bf7414e26fd414a5e112",
+              "path": "renamed2.txt",
+              "stage": 0
+            },
+            {
+              "content_sha256": "b4dd420c65c8a531ca0e4b6670835660a4392400516b4754eb0f67e9d74d2bc2",
+              "mode": "100644",
+              "oid": "cd4e552a045ad7959cf8eca3b148a71086864181",
+              "path": "renamed4.txt",
+              "stage": 0
+            }
+          ],
+          "op": "tree",
+          "rev": "9dad4831da985a1c61b77239e4e6284b8b4efea9"
+        },
+        "no_configured_command": true,
+        "op": "tree 9dad4831da985a1c61b77239e4e6284b8b4efea9",
+        "pass": false,
+        "repository_unchanged": false
+      },
+      {
+        "actual": {
+          "message": "bad output (missing field `op` at line 1 column 2): ",
+          "op": "error"
+        },
+        "changed_paths": [
+          "changed .git: dir mode=40755 size=128 mtime=1795608124.552057467 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c -> dir mode=40755 size=128 mtime=1795608124.559626495 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c",
+          "changed .git/index: file mode=100644 size=729 mtime=1795608124.550839780 sha256=d8042484ea320a91f829175f905b67c2c7a132bed8989e4762ddcb1e22a73f38 -> file mode=100644 size=729 mtime=1795608124.558839808 sha256=d8042484ea320a91f829175f905b67c2c7a132bed8989e4762ddcb1e22a73f38"
+        ],
+        "expected": {
+          "entries": [
+            {
+              "orig": null,
+              "path": "renamed4.txt",
+              "status": "A"
+            },
+            {
+              "orig": null,
+              "path": "r4.txt",
+              "status": "D"
+            },
+            {
+              "orig": "dir1/x.txt",
+              "path": "dir2/x.txt",
+              "status": "R"
+            },
+            {
+              "orig": "dir1/y.txt",
+              "path": "dir2/y.txt",
+              "status": "R"
+            },
+            {
+              "orig": "r3.txt",
+              "path": "moved/r3.txt",
+              "status": "R"
+            },
+            {
+              "orig": "r1.txt",
+              "path": "renamed1.txt",
+              "status": "R"
+            },
+            {
+              "orig": "r2.txt",
+              "path": "renamed2.txt",
+              "status": "R"
+            }
+          ],
+          "from": "0fceb8b5f488f7c9cf97db42b452f99dab9cfe2f",
+          "op": "diff",
+          "to": "9dad4831da985a1c61b77239e4e6284b8b4efea9"
+        },
+        "no_configured_command": true,
+        "op": "diff 0fceb8b5f488f7c9cf97db42b452f99dab9cfe2f 9dad4831da985a1c61b77239e4e6284b8b4efea9",
+        "pass": false,
+        "repository_unchanged": false
+      },
+      {
+        "actual": {
+          "message": "bad output (missing field `op` at line 1 column 2): ",
+          "op": "error"
+        },
+        "changed_paths": [
+          "changed .git: dir mode=40755 size=128 mtime=1795608124.559626495 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c -> dir mode=40755 size=128 mtime=1795608124.566684672 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c",
+          "changed .git/index: file mode=100644 size=729 mtime=1795608124.558839808 sha256=d8042484ea320a91f829175f905b67c2c7a132bed8989e4762ddcb1e22a73f38 -> file mode=100644 size=729 mtime=1795608124.565839833 sha256=d8042484ea320a91f829175f905b67c2c7a132bed8989e4762ddcb1e22a73f38"
+        ],
+        "expected": {
+          "entries": [
+            {
+              "content_sha256": "df225932465536f8e2243ad3d63d21264287d1be1a02b1b97d8943084c5834cc",
+              "mode": "100644",
+              "oid": "375db77c5c412063afa7fd4072d553ad390dc62d",
+              "path": "dir1/x.txt",
+              "stage": 0
+            },
+            {
+              "content_sha256": "64275840c81e15233cdfc4271503a321b190adb78cd0dad5f04a6c91e982217c",
+              "mode": "100644",
+              "oid": "ceb8ab0a8278d09556e4a5ed23408ad392efcf62",
+              "path": "dir1/y.txt",
+              "stage": 0
+            },
+            {
+              "content_sha256": "e6fffb1743370d2fc414dfc12355de1d4310a27f069a7a2118fc447b4bfda9a7",
+              "mode": "100644",
+              "oid": "3c8cc30e1997cbd100e9a9cea8dff8658137bad0",
+              "path": "keep.txt",
+              "stage": 0
+            },
+            {
+              "content_sha256": "6c812d442e5c3a1b506713735b3dda07c694d4dd7f6c2db8d780d593f1b8c136",
+              "mode": "100644",
+              "oid": "dffd47d3e5d2e09d4bc9c563c0a4611e0fd0698f",
+              "path": "r1.txt",
+              "stage": 0
+            },
+            {
+              "content_sha256": "0ea2039925a4cccee358b29e6c3439b2e560e41eccc5d3ff818084f431a4ab4e",
+              "mode": "100644",
+              "oid": "c4c62445fedf689a71f839e7992a61df3108875d",
+              "path": "r2.txt",
+              "stage": 0
+            },
+            {
+              "content_sha256": "d9eed3724b865cb206871e7d3ab3755369544c8f21c0387905b187173845b78f",
+              "mode": "100644",
+              "oid": "4c6b2a3d28f59711c3c1b2e07d4b3802076c27ac",
+              "path": "r3.txt",
+              "stage": 0
+            },
+            {
+              "content_sha256": "b856704318279f3c83a2e182edc338142346df41f79800b07367ca92b6f8ecf6",
+              "mode": "100644",
+              "oid": "1b03685998796b6d5647c887d8163dad8e27de54",
+              "path": "r4.txt",
+              "stage": 0
+            }
+          ],
+          "op": "tree",
+          "rev": "0fceb8b5f488f7c9cf97db42b452f99dab9cfe2f"
+        },
+        "no_configured_command": true,
+        "op": "tree 0fceb8b5f488f7c9cf97db42b452f99dab9cfe2f",
+        "pass": false,
+        "repository_unchanged": false
+      }
+    ],
+    "submodules": [
+      {
+        "actual": {
+          "message": "bad output (missing field `op` at line 1 column 2): ",
+          "op": "error"
+        },
+        "changed_paths": [
+          "changed .git: dir mode=40755 size=142 mtime=1795608124.589595529 entries=bed036cc3097230b2f2c43dfa5b0c05e1e5bda529492f6511f5282e4f76806ae -> dir mode=40755 size=142 mtime=1795608124.615610727 entries=bed036cc3097230b2f2c43dfa5b0c05e1e5bda529492f6511f5282e4f76806ae",
+          "changed .git/index: file mode=100644 size=505 mtime=1795608124.589595529 sha256=83bf0594186c1c48e3ce8f7b1bb45344f8d11d61037c1c86860c43c5cc528f4b -> file mode=100644 size=505 mtime=1795608124.614840006 sha256=724bb849a41bc0f1a5256e8de9a020a703d9e330dafc13a78d8b3dc9d0e33ba6",
+          "changed .git/modules/sub-s1: dir mode=40755 size=122 mtime=1795608124.578599987 entries=7051501d1b18799885798e1e907cee787f3e72e8aa85df20497bc05b01f0166a -> dir mode=40755 size=122 mtime=1795608124.608560310 entries=7051501d1b18799885798e1e907cee787f3e72e8aa85df20497bc05b01f0166a",
+          "changed .git/modules/sub-s1/index: file mode=100644 size=137 mtime=1795608124.578599987 sha256=380bc40ad82cd2030770371961bcae38052c0a926c5b96487f885a1b8b2ff04b -> file mode=100644 size=137 mtime=1795608124.607839981 sha256=bc36e36f2d6dfed87bf72eb3114e6dfb7e1db1da2c0fd5721da1d40f8f425042",
+          "changed .git/modules/sub-s2: dir mode=40755 size=122 mtime=1795608124.582172490 entries=7051501d1b18799885798e1e907cee787f3e72e8aa85df20497bc05b01f0166a -> dir mode=40755 size=122 mtime=1795608124.610839992 entries=7051501d1b18799885798e1e907cee787f3e72e8aa85df20497bc05b01f0166a",
+          "changed .git/modules/sub-s3: dir mode=40755 size=122 mtime=1795608124.585760714 entries=7051501d1b18799885798e1e907cee787f3e72e8aa85df20497bc05b01f0166a -> dir mode=40755 size=122 mtime=1795608124.614777004 entries=7051501d1b18799885798e1e907cee787f3e72e8aa85df20497bc05b01f0166a",
+          "changed .git/modules/sub-s3/index: file mode=100644 size=137 mtime=1795608124.585760714 sha256=acd79f75d70c4fbc91de528b011c045355ba82a4edbee2fba0b9a086252aeac2 -> file mode=100644 size=137 mtime=1795608124.613840003 sha256=0ff2818849305fdd8d248f23d2c7a20417dedbd973eff9de9027a89e525a8ab5"
+        ],
+        "expected": {
+          "branch": "refs/heads/main",
+          "oid": "3cf8376fee86f7be725d02ff56cecb8264d3a72b",
+          "op": "head"
+        },
+        "no_configured_command": true,
+        "op": "head",
+        "pass": false,
+        "repository_unchanged": false
+      },
+      {
+        "actual": {
+          "message": "bad output (missing field `op` at line 1 column 2): ",
+          "op": "error"
+        },
+        "changed_paths": [
+          "changed .git: dir mode=40755 size=142 mtime=1795608124.615610727 entries=bed036cc3097230b2f2c43dfa5b0c05e1e5bda529492f6511f5282e4f76806ae -> dir mode=40755 size=142 mtime=1795608124.645143289 entries=bed036cc3097230b2f2c43dfa5b0c05e1e5bda529492f6511f5282e4f76806ae",
+          "changed .git/index: file mode=100644 size=505 mtime=1795608124.614840006 sha256=724bb849a41bc0f1a5256e8de9a020a703d9e330dafc13a78d8b3dc9d0e33ba6 -> file mode=100644 size=505 mtime=1795608124.644372516 sha256=724bb849a41bc0f1a5256e8de9a020a703d9e330dafc13a78d8b3dc9d0e33ba6",
+          "changed .git/modules/sub-s1: dir mode=40755 size=122 mtime=1795608124.608560310 entries=7051501d1b18799885798e1e907cee787f3e72e8aa85df20497bc05b01f0166a -> dir mode=40755 size=122 mtime=1795608124.638377484 entries=7051501d1b18799885798e1e907cee787f3e72e8aa85df20497bc05b01f0166a",
+          "changed .git/modules/sub-s1/index: file mode=100644 size=137 mtime=1795608124.607839981 sha256=bc36e36f2d6dfed87bf72eb3114e6dfb7e1db1da2c0fd5721da1d40f8f425042 -> file mode=100644 size=137 mtime=1795608124.637840088 sha256=bc36e36f2d6dfed87bf72eb3114e6dfb7e1db1da2c0fd5721da1d40f8f425042",
+          "changed .git/modules/sub-s2: dir mode=40755 size=122 mtime=1795608124.610839992 entries=7051501d1b18799885798e1e907cee787f3e72e8aa85df20497bc05b01f0166a -> dir mode=40755 size=122 mtime=1795608124.640840098 entries=7051501d1b18799885798e1e907cee787f3e72e8aa85df20497bc05b01f0166a",
+          "changed .git/modules/sub-s3: dir mode=40755 size=122 mtime=1795608124.614777004 entries=7051501d1b18799885798e1e907cee787f3e72e8aa85df20497bc05b01f0166a -> dir mode=40755 size=122 mtime=1795608124.644372516 entries=7051501d1b18799885798e1e907cee787f3e72e8aa85df20497bc05b01f0166a",
+          "changed .git/modules/sub-s3/index: file mode=100644 size=137 mtime=1795608124.613840003 sha256=0ff2818849305fdd8d248f23d2c7a20417dedbd973eff9de9027a89e525a8ab5 -> file mode=100644 size=137 mtime=1795608124.643840109 sha256=0ff2818849305fdd8d248f23d2c7a20417dedbd973eff9de9027a89e525a8ab5"
+        ],
+        "expected": {
+          "op": "refs",
+          "refs": [
+            [
+              "refs/heads/main",
+              "3cf8376fee86f7be725d02ff56cecb8264d3a72b"
+            ]
+          ]
+        },
+        "no_configured_command": true,
+        "op": "refs",
+        "pass": false,
+        "repository_unchanged": false
+      },
+      {
+        "actual": {
+          "message": "bad output (missing field `op` at line 1 column 2): ",
+          "op": "error"
+        },
+        "changed_paths": [
+          "changed .git: dir mode=40755 size=142 mtime=1795608124.645143289 entries=bed036cc3097230b2f2c43dfa5b0c05e1e5bda529492f6511f5282e4f76806ae -> dir mode=40755 size=142 mtime=1795608124.674378130 entries=bed036cc3097230b2f2c43dfa5b0c05e1e5bda529492f6511f5282e4f76806ae",
+          "changed .git/index: file mode=100644 size=505 mtime=1795608124.644372516 sha256=724bb849a41bc0f1a5256e8de9a020a703d9e330dafc13a78d8b3dc9d0e33ba6 -> file mode=100644 size=505 mtime=1795608124.673840215 sha256=724bb849a41bc0f1a5256e8de9a020a703d9e330dafc13a78d8b3dc9d0e33ba6",
+          "changed .git/modules/sub-s1: dir mode=40755 size=122 mtime=1795608124.638377484 entries=7051501d1b18799885798e1e907cee787f3e72e8aa85df20497bc05b01f0166a -> dir mode=40755 size=122 mtime=1795608124.667710045 entries=7051501d1b18799885798e1e907cee787f3e72e8aa85df20497bc05b01f0166a",
+          "changed .git/modules/sub-s1/index: file mode=100644 size=137 mtime=1795608124.637840088 sha256=bc36e36f2d6dfed87bf72eb3114e6dfb7e1db1da2c0fd5721da1d40f8f425042 -> file mode=100644 size=137 mtime=1795608124.666840190 sha256=bc36e36f2d6dfed87bf72eb3114e6dfb7e1db1da2c0fd5721da1d40f8f425042",
+          "changed .git/modules/sub-s2: dir mode=40755 size=122 mtime=1795608124.640840098 entries=7051501d1b18799885798e1e907cee787f3e72e8aa85df20497bc05b01f0166a -> dir mode=40755 size=122 mtime=1795608124.669840201 entries=7051501d1b18799885798e1e907cee787f3e72e8aa85df20497bc05b01f0166a",
+          "changed .git/modules/sub-s3: dir mode=40755 size=122 mtime=1795608124.644372516 entries=7051501d1b18799885798e1e907cee787f3e72e8aa85df20497bc05b01f0166a -> dir mode=40755 size=122 mtime=1795608124.673588177 entries=7051501d1b18799885798e1e907cee787f3e72e8aa85df20497bc05b01f0166a",
+          "changed .git/modules/sub-s3/index: file mode=100644 size=137 mtime=1795608124.643840109 sha256=0ff2818849305fdd8d248f23d2c7a20417dedbd973eff9de9027a89e525a8ab5 -> file mode=100644 size=137 mtime=1795608124.672840212 sha256=0ff2818849305fdd8d248f23d2c7a20417dedbd973eff9de9027a89e525a8ab5"
+        ],
+        "expected": {
+          "entries": [
+            {
+              "index": ".",
+              "orig": null,
+              "path": "sub-s1",
+              "worktree": "M"
+            },
+            {
+              "index": ".",
+              "orig": null,
+              "path": "sub-s2",
+              "worktree": "M"
+            },
+            {
+              "index": ".",
+              "orig": null,
+              "path": "sub-s3",
+              "worktree": "M"
+            }
+          ],
+          "op": "status"
+        },
+        "no_configured_command": true,
+        "op": "status",
+        "pass": false,
+        "repository_unchanged": false
+      },
+      {
+        "actual": {
+          "message": "bad output (missing field `op` at line 1 column 2): ",
+          "op": "error"
+        },
+        "changed_paths": [
+          "changed .git: dir mode=40755 size=142 mtime=1795608124.674378130 entries=bed036cc3097230b2f2c43dfa5b0c05e1e5bda529492f6511f5282e4f76806ae -> dir mode=40755 size=142 mtime=1795608124.703603431 entries=bed036cc3097230b2f2c43dfa5b0c05e1e5bda529492f6511f5282e4f76806ae",
+          "changed .git/index: file mode=100644 size=505 mtime=1795608124.673840215 sha256=724bb849a41bc0f1a5256e8de9a020a703d9e330dafc13a78d8b3dc9d0e33ba6 -> file mode=100644 size=505 mtime=1795608124.702840318 sha256=724bb849a41bc0f1a5256e8de9a020a703d9e330dafc13a78d8b3dc9d0e33ba6",
+          "changed .git/modules/sub-s1: dir mode=40755 size=122 mtime=1795608124.667710045 entries=7051501d1b18799885798e1e907cee787f3e72e8aa85df20497bc05b01f0166a -> dir mode=40755 size=122 mtime=1795608124.696859065 entries=7051501d1b18799885798e1e907cee787f3e72e8aa85df20497bc05b01f0166a",
+          "changed .git/modules/sub-s1/index: file mode=100644 size=137 mtime=1795608124.666840190 sha256=bc36e36f2d6dfed87bf72eb3114e6dfb7e1db1da2c0fd5721da1d40f8f425042 -> file mode=100644 size=137 mtime=1795608124.695840293 sha256=bc36e36f2d6dfed87bf72eb3114e6dfb7e1db1da2c0fd5721da1d40f8f425042",
+          "changed .git/modules/sub-s2: dir mode=40755 size=122 mtime=1795608124.669840201 entries=7051501d1b18799885798e1e907cee787f3e72e8aa85df20497bc05b01f0166a -> dir mode=40755 size=122 mtime=1795608124.698840304 entries=7051501d1b18799885798e1e907cee787f3e72e8aa85df20497bc05b01f0166a",
+          "changed .git/modules/sub-s3: dir mode=40755 size=122 mtime=1795608124.673588177 entries=7051501d1b18799885798e1e907cee787f3e72e8aa85df20497bc05b01f0166a -> dir mode=40755 size=122 mtime=1795608124.702792518 entries=7051501d1b18799885798e1e907cee787f3e72e8aa85df20497bc05b01f0166a",
+          "changed .git/modules/sub-s3/index: file mode=100644 size=137 mtime=1795608124.672840212 sha256=0ff2818849305fdd8d248f23d2c7a20417dedbd973eff9de9027a89e525a8ab5 -> file mode=100644 size=137 mtime=1795608124.701840314 sha256=0ff2818849305fdd8d248f23d2c7a20417dedbd973eff9de9027a89e525a8ab5"
+        ],
+        "expected": {
+          "entries": [
+            {
+              "content_sha256": "5810f411544d2ab40a43d8c491a8d8ba255c38db9721bbfbde05958f8fb9453b",
+              "mode": "100644",
+              "oid": "8ae2c172ac7c7e973e3eb861689426afe0012121",
+              "path": ".gitmodules",
+              "stage": 0
+            },
+            {
+              "content_sha256": null,
+              "mode": "160000",
+              "oid": "48a144d228ae3aeaf01e91cd3608fa31fad49eb0",
+              "path": "sub-s1",
+              "stage": 0
+            },
+            {
+              "content_sha256": null,
+              "mode": "160000",
+              "oid": "7493b4c1a02e503995137733aef98284525cc890",
+              "path": "sub-s2",
+              "stage": 0
+            },
+            {
+              "content_sha256": null,
+              "mode": "160000",
+              "oid": "73309f0a88c398397a28e57fd458cdb70a656e4e",
+              "path": "sub-s3",
+              "stage": 0
+            },
+            {
+              "content_sha256": null,
+              "mode": "160000",
+              "oid": "50876606293821718d54a7ced37a31c55152e391",
+              "path": "sub-s4",
+              "stage": 0
+            },
+            {
+              "content_sha256": "d85eb18bb94eef4cb240a281e117db48e6104899199e0a141f794967f6e87a6c",
+              "mode": "100644",
+              "oid": "94118dfa1946519c6736df6b9b32413cd4770a07",
+              "path": "top.txt",
+              "stage": 0
+            }
+          ],
+          "op": "index"
+        },
+        "no_configured_command": true,
+        "op": "index",
+        "pass": false,
+        "repository_unchanged": false
+      },
+      {
+        "actual": {
+          "message": "bad output (missing field `op` at line 1 column 2): ",
+          "op": "error"
+        },
+        "changed_paths": [
+          "changed .git: dir mode=40755 size=142 mtime=1795608124.703603431 entries=bed036cc3097230b2f2c43dfa5b0c05e1e5bda529492f6511f5282e4f76806ae -> dir mode=40755 size=142 mtime=1795608124.733031452 entries=bed036cc3097230b2f2c43dfa5b0c05e1e5bda529492f6511f5282e4f76806ae",
+          "changed .git/index: file mode=100644 size=505 mtime=1795608124.702840318 sha256=724bb849a41bc0f1a5256e8de9a020a703d9e330dafc13a78d8b3dc9d0e33ba6 -> file mode=100644 size=505 mtime=1795608124.731840420 sha256=724bb849a41bc0f1a5256e8de9a020a703d9e330dafc13a78d8b3dc9d0e33ba6",
+          "changed .git/modules/sub-s1: dir mode=40755 size=122 mtime=1795608124.696859065 entries=7051501d1b18799885798e1e907cee787f3e72e8aa85df20497bc05b01f0166a -> dir mode=40755 size=122 mtime=1795608124.726173056 entries=7051501d1b18799885798e1e907cee787f3e72e8aa85df20497bc05b01f0166a",
+          "changed .git/modules/sub-s1/index: file mode=100644 size=137 mtime=1795608124.695840293 sha256=bc36e36f2d6dfed87bf72eb3114e6dfb7e1db1da2c0fd5721da1d40f8f425042 -> file mode=100644 size=137 mtime=1795608124.724840395 sha256=bc36e36f2d6dfed87bf72eb3114e6dfb7e1db1da2c0fd5721da1d40f8f425042",
+          "changed .git/modules/sub-s2: dir mode=40755 size=122 mtime=1795608124.698840304 entries=7051501d1b18799885798e1e907cee787f3e72e8aa85df20497bc05b01f0166a -> dir mode=40755 size=122 mtime=1795608124.728840410 entries=7051501d1b18799885798e1e907cee787f3e72e8aa85df20497bc05b01f0166a",
+          "changed .git/modules/sub-s3: dir mode=40755 size=122 mtime=1795608124.702792518 entries=7051501d1b18799885798e1e907cee787f3e72e8aa85df20497bc05b01f0166a -> dir mode=40755 size=122 mtime=1795608124.731840420 entries=7051501d1b18799885798e1e907cee787f3e72e8aa85df20497bc05b01f0166a",
+          "changed .git/modules/sub-s3/index: file mode=100644 size=137 mtime=1795608124.701840314 sha256=0ff2818849305fdd8d248f23d2c7a20417dedbd973eff9de9027a89e525a8ab5 -> file mode=100644 size=137 mtime=1795608124.730840417 sha256=0ff2818849305fdd8d248f23d2c7a20417dedbd973eff9de9027a89e525a8ab5"
+        ],
+        "expected": {
+          "entries": [
+            {
+              "head_oid": "9b11860799739fb52c71b6d510ae3d010f55be89",
+              "index_oid": "48a144d228ae3aeaf01e91cd3608fa31fad49eb0",
+              "path": "sub-s1"
+            },
+            {
+              "head_oid": "7493b4c1a02e503995137733aef98284525cc890",
+              "index_oid": "7493b4c1a02e503995137733aef98284525cc890",
+              "path": "sub-s2"
+            },
+            {
+              "head_oid": "73309f0a88c398397a28e57fd458cdb70a656e4e",
+              "index_oid": "73309f0a88c398397a28e57fd458cdb70a656e4e",
+              "path": "sub-s3"
+            },
+            {
+              "head_oid": null,
+              "index_oid": "50876606293821718d54a7ced37a31c55152e391",
+              "path": "sub-s4"
+            }
+          ],
+          "op": "submodules"
+        },
+        "no_configured_command": true,
+        "op": "submodules",
+        "pass": false,
+        "repository_unchanged": false
+      },
+      {
+        "actual": {
+          "message": "bad output (missing field `op` at line 1 column 2): ",
+          "op": "error"
+        },
+        "changed_paths": [
+          "changed .git: dir mode=40755 size=142 mtime=1795608124.733031452 entries=bed036cc3097230b2f2c43dfa5b0c05e1e5bda529492f6511f5282e4f76806ae -> dir mode=40755 size=142 mtime=1795608124.762488354 entries=bed036cc3097230b2f2c43dfa5b0c05e1e5bda529492f6511f5282e4f76806ae",
+          "changed .git/index: file mode=100644 size=505 mtime=1795608124.731840420 sha256=724bb849a41bc0f1a5256e8de9a020a703d9e330dafc13a78d8b3dc9d0e33ba6 -> file mode=100644 size=505 mtime=1795608124.761840526 sha256=724bb849a41bc0f1a5256e8de9a020a703d9e330dafc13a78d8b3dc9d0e33ba6",
+          "changed .git/modules/sub-s1: dir mode=40755 size=122 mtime=1795608124.726173056 entries=7051501d1b18799885798e1e907cee787f3e72e8aa85df20497bc05b01f0166a -> dir mode=40755 size=122 mtime=1795608124.755755389 entries=7051501d1b18799885798e1e907cee787f3e72e8aa85df20497bc05b01f0166a",
+          "changed .git/modules/sub-s1/index: file mode=100644 size=137 mtime=1795608124.724840395 sha256=bc36e36f2d6dfed87bf72eb3114e6dfb7e1db1da2c0fd5721da1d40f8f425042 -> file mode=100644 size=137 mtime=1795608124.754840501 sha256=bc36e36f2d6dfed87bf72eb3114e6dfb7e1db1da2c0fd5721da1d40f8f425042",
+          "changed .git/modules/sub-s2: dir mode=40755 size=122 mtime=1795608124.728840410 entries=7051501d1b18799885798e1e907cee787f3e72e8aa85df20497bc05b01f0166a -> dir mode=40755 size=122 mtime=1795608124.757840512 entries=7051501d1b18799885798e1e907cee787f3e72e8aa85df20497bc05b01f0166a",
+          "changed .git/modules/sub-s3: dir mode=40755 size=122 mtime=1795608124.731840420 entries=7051501d1b18799885798e1e907cee787f3e72e8aa85df20497bc05b01f0166a -> dir mode=40755 size=122 mtime=1795608124.761705931 entries=7051501d1b18799885798e1e907cee787f3e72e8aa85df20497bc05b01f0166a",
+          "changed .git/modules/sub-s3/index: file mode=100644 size=137 mtime=1795608124.730840417 sha256=0ff2818849305fdd8d248f23d2c7a20417dedbd973eff9de9027a89e525a8ab5 -> file mode=100644 size=137 mtime=1795608124.760840523 sha256=0ff2818849305fdd8d248f23d2c7a20417dedbd973eff9de9027a89e525a8ab5"
+        ],
+        "expected": {
+          "entries": [
+            {
+              "content_sha256": "5810f411544d2ab40a43d8c491a8d8ba255c38db9721bbfbde05958f8fb9453b",
+              "mode": "100644",
+              "oid": "8ae2c172ac7c7e973e3eb861689426afe0012121",
+              "path": ".gitmodules",
+              "stage": 0
+            },
+            {
+              "content_sha256": null,
+              "mode": "160000",
+              "oid": "48a144d228ae3aeaf01e91cd3608fa31fad49eb0",
+              "path": "sub-s1",
+              "stage": 0
+            },
+            {
+              "content_sha256": null,
+              "mode": "160000",
+              "oid": "7493b4c1a02e503995137733aef98284525cc890",
+              "path": "sub-s2",
+              "stage": 0
+            },
+            {
+              "content_sha256": null,
+              "mode": "160000",
+              "oid": "73309f0a88c398397a28e57fd458cdb70a656e4e",
+              "path": "sub-s3",
+              "stage": 0
+            },
+            {
+              "content_sha256": null,
+              "mode": "160000",
+              "oid": "50876606293821718d54a7ced37a31c55152e391",
+              "path": "sub-s4",
+              "stage": 0
+            },
+            {
+              "content_sha256": "d85eb18bb94eef4cb240a281e117db48e6104899199e0a141f794967f6e87a6c",
+              "mode": "100644",
+              "oid": "94118dfa1946519c6736df6b9b32413cd4770a07",
+              "path": "top.txt",
+              "stage": 0
+            }
+          ],
+          "op": "tree",
+          "rev": "3cf8376fee86f7be725d02ff56cecb8264d3a72b"
+        },
+        "no_configured_command": true,
+        "op": "tree 3cf8376fee86f7be725d02ff56cecb8264d3a72b",
+        "pass": false,
+        "repository_unchanged": false
+      },
+      {
+        "actual": {
+          "message": "bad output (missing field `op` at line 1 column 2): ",
+          "op": "error"
+        },
+        "changed_paths": [
+          "changed .git: dir mode=40755 size=142 mtime=1795608124.762488354 entries=bed036cc3097230b2f2c43dfa5b0c05e1e5bda529492f6511f5282e4f76806ae -> dir mode=40755 size=142 mtime=1795608124.791684025 entries=bed036cc3097230b2f2c43dfa5b0c05e1e5bda529492f6511f5282e4f76806ae",
+          "changed .git/index: file mode=100644 size=505 mtime=1795608124.761840526 sha256=724bb849a41bc0f1a5256e8de9a020a703d9e330dafc13a78d8b3dc9d0e33ba6 -> file mode=100644 size=505 mtime=1795608124.790896472 sha256=724bb849a41bc0f1a5256e8de9a020a703d9e330dafc13a78d8b3dc9d0e33ba6",
+          "changed .git/modules/sub-s1: dir mode=40755 size=122 mtime=1795608124.755755389 entries=7051501d1b18799885798e1e907cee787f3e72e8aa85df20497bc05b01f0166a -> dir mode=40755 size=122 mtime=1795608124.784997610 entries=7051501d1b18799885798e1e907cee787f3e72e8aa85df20497bc05b01f0166a",
+          "changed .git/modules/sub-s1/index: file mode=100644 size=137 mtime=1795608124.754840501 sha256=bc36e36f2d6dfed87bf72eb3114e6dfb7e1db1da2c0fd5721da1d40f8f425042 -> file mode=100644 size=137 mtime=1795608124.783840604 sha256=bc36e36f2d6dfed87bf72eb3114e6dfb7e1db1da2c0fd5721da1d40f8f425042",
+          "changed .git/modules/sub-s2: dir mode=40755 size=122 mtime=1795608124.757840512 entries=7051501d1b18799885798e1e907cee787f3e72e8aa85df20497bc05b01f0166a -> dir mode=40755 size=122 mtime=1795608124.786840615 entries=7051501d1b18799885798e1e907cee787f3e72e8aa85df20497bc05b01f0166a",
+          "changed .git/modules/sub-s3: dir mode=40755 size=122 mtime=1795608124.761705931 entries=7051501d1b18799885798e1e907cee787f3e72e8aa85df20497bc05b01f0166a -> dir mode=40755 size=122 mtime=1795608124.790896472 entries=7051501d1b18799885798e1e907cee787f3e72e8aa85df20497bc05b01f0166a",
+          "changed .git/modules/sub-s3/index: file mode=100644 size=137 mtime=1795608124.760840523 sha256=0ff2818849305fdd8d248f23d2c7a20417dedbd973eff9de9027a89e525a8ab5 -> file mode=100644 size=137 mtime=1795608124.789840625 sha256=0ff2818849305fdd8d248f23d2c7a20417dedbd973eff9de9027a89e525a8ab5"
+        ],
+        "expected": {
+          "entries": [
+            {
+              "orig": null,
+              "path": "sub-s1",
+              "status": "M"
+            }
+          ],
+          "from": "bb1bf3bffeff6b9175a8eb60d9a1ccabb024f42f",
+          "op": "diff",
+          "to": "3cf8376fee86f7be725d02ff56cecb8264d3a72b"
+        },
+        "no_configured_command": true,
+        "op": "diff bb1bf3bffeff6b9175a8eb60d9a1ccabb024f42f 3cf8376fee86f7be725d02ff56cecb8264d3a72b",
+        "pass": false,
+        "repository_unchanged": false
+      },
+      {
+        "actual": {
+          "message": "bad output (missing field `op` at line 1 column 2): ",
+          "op": "error"
+        },
+        "changed_paths": [
+          "changed .git: dir mode=40755 size=142 mtime=1795608124.791684025 entries=bed036cc3097230b2f2c43dfa5b0c05e1e5bda529492f6511f5282e4f76806ae -> dir mode=40755 size=142 mtime=1795608124.820840735 entries=bed036cc3097230b2f2c43dfa5b0c05e1e5bda529492f6511f5282e4f76806ae",
+          "changed .git/index: file mode=100644 size=505 mtime=1795608124.790896472 sha256=724bb849a41bc0f1a5256e8de9a020a703d9e330dafc13a78d8b3dc9d0e33ba6 -> file mode=100644 size=505 mtime=1795608124.820451224 sha256=724bb849a41bc0f1a5256e8de9a020a703d9e330dafc13a78d8b3dc9d0e33ba6",
+          "changed .git/modules/sub-s1: dir mode=40755 size=122 mtime=1795608124.784997610 entries=7051501d1b18799885798e1e907cee787f3e72e8aa85df20497bc05b01f0166a -> dir mode=40755 size=122 mtime=1795608124.814305161 entries=7051501d1b18799885798e1e907cee787f3e72e8aa85df20497bc05b01f0166a",
+          "changed .git/modules/sub-s1/index: file mode=100644 size=137 mtime=1795608124.783840604 sha256=bc36e36f2d6dfed87bf72eb3114e6dfb7e1db1da2c0fd5721da1d40f8f425042 -> file mode=100644 size=137 mtime=1795608124.813840710 sha256=bc36e36f2d6dfed87bf72eb3114e6dfb7e1db1da2c0fd5721da1d40f8f425042",
+          "changed .git/modules/sub-s2: dir mode=40755 size=122 mtime=1795608124.786840615 entries=7051501d1b18799885798e1e907cee787f3e72e8aa85df20497bc05b01f0166a -> dir mode=40755 size=122 mtime=1795608124.816840720 entries=7051501d1b18799885798e1e907cee787f3e72e8aa85df20497bc05b01f0166a",
+          "changed .git/modules/sub-s3: dir mode=40755 size=122 mtime=1795608124.790896472 entries=7051501d1b18799885798e1e907cee787f3e72e8aa85df20497bc05b01f0166a -> dir mode=40755 size=122 mtime=1795608124.820451224 entries=7051501d1b18799885798e1e907cee787f3e72e8aa85df20497bc05b01f0166a",
+          "changed .git/modules/sub-s3/index: file mode=100644 size=137 mtime=1795608124.789840625 sha256=0ff2818849305fdd8d248f23d2c7a20417dedbd973eff9de9027a89e525a8ab5 -> file mode=100644 size=137 mtime=1795608124.819840731 sha256=0ff2818849305fdd8d248f23d2c7a20417dedbd973eff9de9027a89e525a8ab5"
+        ],
+        "expected": {
+          "entries": [
+            {
+              "content_sha256": "5810f411544d2ab40a43d8c491a8d8ba255c38db9721bbfbde05958f8fb9453b",
+              "mode": "100644",
+              "oid": "8ae2c172ac7c7e973e3eb861689426afe0012121",
+              "path": ".gitmodules",
+              "stage": 0
+            },
+            {
+              "content_sha256": null,
+              "mode": "160000",
+              "oid": "9b11860799739fb52c71b6d510ae3d010f55be89",
+              "path": "sub-s1",
+              "stage": 0
+            },
+            {
+              "content_sha256": null,
+              "mode": "160000",
+              "oid": "7493b4c1a02e503995137733aef98284525cc890",
+              "path": "sub-s2",
+              "stage": 0
+            },
+            {
+              "content_sha256": null,
+              "mode": "160000",
+              "oid": "73309f0a88c398397a28e57fd458cdb70a656e4e",
+              "path": "sub-s3",
+              "stage": 0
+            },
+            {
+              "content_sha256": null,
+              "mode": "160000",
+              "oid": "50876606293821718d54a7ced37a31c55152e391",
+              "path": "sub-s4",
+              "stage": 0
+            },
+            {
+              "content_sha256": "d85eb18bb94eef4cb240a281e117db48e6104899199e0a141f794967f6e87a6c",
+              "mode": "100644",
+              "oid": "94118dfa1946519c6736df6b9b32413cd4770a07",
+              "path": "top.txt",
+              "stage": 0
+            }
+          ],
+          "op": "tree",
+          "rev": "bb1bf3bffeff6b9175a8eb60d9a1ccabb024f42f"
+        },
+        "no_configured_command": true,
+        "op": "tree bb1bf3bffeff6b9175a8eb60d9a1ccabb024f42f",
+        "pass": false,
+        "repository_unchanged": false
+      },
+      {
+        "actual": {
+          "message": "bad output (missing field `op` at line 1 column 2): ",
+          "op": "error"
+        },
+        "changed_paths": [
+          "changed .git: dir mode=40755 size=142 mtime=1795608124.820840735 entries=bed036cc3097230b2f2c43dfa5b0c05e1e5bda529492f6511f5282e4f76806ae -> dir mode=40755 size=142 mtime=1795608124.850949900 entries=bed036cc3097230b2f2c43dfa5b0c05e1e5bda529492f6511f5282e4f76806ae",
+          "changed .git/index: file mode=100644 size=505 mtime=1795608124.820451224 sha256=724bb849a41bc0f1a5256e8de9a020a703d9e330dafc13a78d8b3dc9d0e33ba6 -> file mode=100644 size=505 mtime=1795608124.850168047 sha256=724bb849a41bc0f1a5256e8de9a020a703d9e330dafc13a78d8b3dc9d0e33ba6",
+          "changed .git/modules/sub-s1: dir mode=40755 size=122 mtime=1795608124.814305161 entries=7051501d1b18799885798e1e907cee787f3e72e8aa85df20497bc05b01f0166a -> dir mode=40755 size=122 mtime=1795608124.844154614 entries=7051501d1b18799885798e1e907cee787f3e72e8aa85df20497bc05b01f0166a",
+          "changed .git/modules/sub-s1/index: file mode=100644 size=137 mtime=1795608124.813840710 sha256=bc36e36f2d6dfed87bf72eb3114e6dfb7e1db1da2c0fd5721da1d40f8f425042 -> file mode=100644 size=137 mtime=1795608124.842840813 sha256=bc36e36f2d6dfed87bf72eb3114e6dfb7e1db1da2c0fd5721da1d40f8f425042",
+          "changed .git/modules/sub-s2: dir mode=40755 size=122 mtime=1795608124.816840720 entries=7051501d1b18799885798e1e907cee787f3e72e8aa85df20497bc05b01f0166a -> dir mode=40755 size=122 mtime=1795608124.845840823 entries=7051501d1b18799885798e1e907cee787f3e72e8aa85df20497bc05b01f0166a",
+          "changed .git/modules/sub-s3: dir mode=40755 size=122 mtime=1795608124.820451224 entries=7051501d1b18799885798e1e907cee787f3e72e8aa85df20497bc05b01f0166a -> dir mode=40755 size=122 mtime=1795608124.850168047 entries=7051501d1b18799885798e1e907cee787f3e72e8aa85df20497bc05b01f0166a",
+          "changed .git/modules/sub-s3/index: file mode=100644 size=137 mtime=1795608124.819840731 sha256=0ff2818849305fdd8d248f23d2c7a20417dedbd973eff9de9027a89e525a8ab5 -> file mode=100644 size=137 mtime=1795608124.848840834 sha256=0ff2818849305fdd8d248f23d2c7a20417dedbd973eff9de9027a89e525a8ab5"
+        ],
+        "expected": {
+          "entries": [
+            {
+              "orig": null,
+              "path": ".gitmodules",
+              "status": "A"
+            },
+            {
+              "orig": null,
+              "path": "sub-s1",
+              "status": "A"
+            },
+            {
+              "orig": null,
+              "path": "sub-s2",
+              "status": "A"
+            },
+            {
+              "orig": null,
+              "path": "sub-s3",
+              "status": "A"
+            },
+            {
+              "orig": null,
+              "path": "sub-s4",
+              "status": "A"
+            }
+          ],
+          "from": "8ba66228a6a0f290d62be297da45ad473404787c",
+          "op": "diff",
+          "to": "bb1bf3bffeff6b9175a8eb60d9a1ccabb024f42f"
+        },
+        "no_configured_command": true,
+        "op": "diff 8ba66228a6a0f290d62be297da45ad473404787c bb1bf3bffeff6b9175a8eb60d9a1ccabb024f42f",
+        "pass": false,
+        "repository_unchanged": false
+      },
+      {
+        "actual": {
+          "message": "bad output (missing field `op` at line 1 column 2): ",
+          "op": "error"
+        },
+        "changed_paths": [
+          "changed .git: dir mode=40755 size=142 mtime=1795608124.850949900 entries=bed036cc3097230b2f2c43dfa5b0c05e1e5bda529492f6511f5282e4f76806ae -> dir mode=40755 size=142 mtime=1795608124.880347751 entries=bed036cc3097230b2f2c43dfa5b0c05e1e5bda529492f6511f5282e4f76806ae",
+          "changed .git/index: file mode=100644 size=505 mtime=1795608124.850168047 sha256=724bb849a41bc0f1a5256e8de9a020a703d9e330dafc13a78d8b3dc9d0e33ba6 -> file mode=100644 size=505 mtime=1795608124.879840944 sha256=724bb849a41bc0f1a5256e8de9a020a703d9e330dafc13a78d8b3dc9d0e33ba6",
+          "changed .git/modules/sub-s1: dir mode=40755 size=122 mtime=1795608124.844154614 entries=7051501d1b18799885798e1e907cee787f3e72e8aa85df20497bc05b01f0166a -> dir mode=40755 size=122 mtime=1795608124.873480145 entries=7051501d1b18799885798e1e907cee787f3e72e8aa85df20497bc05b01f0166a",
+          "changed .git/modules/sub-s1/index: file mode=100644 size=137 mtime=1795608124.842840813 sha256=bc36e36f2d6dfed87bf72eb3114e6dfb7e1db1da2c0fd5721da1d40f8f425042 -> file mode=100644 size=137 mtime=1795608124.872840919 sha256=bc36e36f2d6dfed87bf72eb3114e6dfb7e1db1da2c0fd5721da1d40f8f425042",
+          "changed .git/modules/sub-s2: dir mode=40755 size=122 mtime=1795608124.845840823 entries=7051501d1b18799885798e1e907cee787f3e72e8aa85df20497bc05b01f0166a -> dir mode=40755 size=122 mtime=1795608124.875840930 entries=7051501d1b18799885798e1e907cee787f3e72e8aa85df20497bc05b01f0166a",
+          "changed .git/modules/sub-s3: dir mode=40755 size=122 mtime=1795608124.850168047 entries=7051501d1b18799885798e1e907cee787f3e72e8aa85df20497bc05b01f0166a -> dir mode=40755 size=122 mtime=1795608124.879432997 entries=7051501d1b18799885798e1e907cee787f3e72e8aa85df20497bc05b01f0166a",
+          "changed .git/modules/sub-s3/index: file mode=100644 size=137 mtime=1795608124.848840834 sha256=0ff2818849305fdd8d248f23d2c7a20417dedbd973eff9de9027a89e525a8ab5 -> file mode=100644 size=137 mtime=1795608124.878840940 sha256=0ff2818849305fdd8d248f23d2c7a20417dedbd973eff9de9027a89e525a8ab5"
+        ],
+        "expected": {
+          "entries": [
+            {
+              "content_sha256": "d85eb18bb94eef4cb240a281e117db48e6104899199e0a141f794967f6e87a6c",
+              "mode": "100644",
+              "oid": "94118dfa1946519c6736df6b9b32413cd4770a07",
+              "path": "top.txt",
+              "stage": 0
+            }
+          ],
+          "op": "tree",
+          "rev": "8ba66228a6a0f290d62be297da45ad473404787c"
+        },
+        "no_configured_command": true,
+        "op": "tree 8ba66228a6a0f290d62be297da45ad473404787c",
+        "pass": false,
+        "repository_unchanged": false
+      }
+    ],
+    "untrusted-config": [
+      {
+        "actual": {
+          "message": "bad output (missing field `op` at line 1 column 2): ",
+          "op": "error"
+        },
+        "changed_paths": [
+          "changed .git: dir mode=40755 size=128 mtime=1795608124.908196917 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c -> dir mode=40755 size=128 mtime=1795608124.935143178 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c",
+          "changed .git/index: file mode=100644 size=289 mtime=1795608124.907852745 sha256=bc6b9b31b2f019c93d670b10a2eff2a72a7b4cfc7015ff26b344236b032a2f71 -> file mode=100644 size=353 mtime=1795608124.933841135 sha256=1f93ca42a74cd2f29937a8b145e0ce4c44a8dba235e329855966bd33a022573e"
+        ],
+        "commands_run": [
+          "clean",
+          "clean",
+          "fsmonitor",
+          "fsmonitor"
+        ],
+        "expected": {
+          "branch": "refs/heads/main",
+          "oid": "214001e552719aaf25f13b117d1a9bd4c57cb90e",
+          "op": "head"
+        },
+        "no_configured_command": false,
+        "op": "head",
+        "pass": false,
+        "repository_unchanged": false
+      },
+      {
+        "actual": {
+          "message": "bad output (missing field `op` at line 1 column 2): ",
+          "op": "error"
+        },
+        "changed_paths": [
+          "changed .git: dir mode=40755 size=128 mtime=1795608124.935143178 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c -> dir mode=40755 size=128 mtime=1795608124.954369841 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c",
+          "changed .git/index: file mode=100644 size=353 mtime=1795608124.933841135 sha256=1f93ca42a74cd2f29937a8b145e0ce4c44a8dba235e329855966bd33a022573e -> file mode=100644 size=353 mtime=1795608124.953841205 sha256=5b31dc5f9cc2ad930f55346d576186a246449dd5ea31e9fe283846b91cb19024"
+        ],
+        "commands_run": [
+          "clean",
+          "clean",
+          "fsmonitor",
+          "fsmonitor"
+        ],
+        "expected": {
+          "op": "refs",
+          "refs": [
+            [
+              "refs/heads/main",
+              "214001e552719aaf25f13b117d1a9bd4c57cb90e"
+            ]
+          ]
+        },
+        "no_configured_command": false,
+        "op": "refs",
+        "pass": false,
+        "repository_unchanged": false
+      },
+      {
+        "actual": {
+          "message": "bad output (missing field `op` at line 1 column 2): ",
+          "op": "error"
+        },
+        "changed_paths": [
+          "changed .git: dir mode=40755 size=128 mtime=1795608124.954369841 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c -> dir mode=40755 size=128 mtime=1795608124.973556854 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c",
+          "changed .git/index: file mode=100644 size=353 mtime=1795608124.953841205 sha256=5b31dc5f9cc2ad930f55346d576186a246449dd5ea31e9fe283846b91cb19024 -> file mode=100644 size=353 mtime=1795608124.972841273 sha256=ff1e0f26df9c81ee961ff316c76fd2bad3c59a51c9ea7dbd5bde14ace50a2dd9"
+        ],
+        "commands_run": [
+          "clean",
+          "clean",
+          "fsmonitor",
+          "fsmonitor"
+        ],
+        "expected": {
+          "entries": [
+            {
+              "index": ".",
+              "orig": null,
+              "path": "a.txt",
+              "worktree": "M"
+            }
+          ],
+          "op": "status"
+        },
+        "no_configured_command": false,
+        "op": "status",
+        "pass": false,
+        "repository_unchanged": false
+      },
+      {
+        "actual": {
+          "message": "bad output (missing field `op` at line 1 column 2): ",
+          "op": "error"
+        },
+        "changed_paths": [
+          "changed .git: dir mode=40755 size=128 mtime=1795608124.973556854 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c -> dir mode=40755 size=128 mtime=1795608124.992849657 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c",
+          "changed .git/index: file mode=100644 size=353 mtime=1795608124.972841273 sha256=ff1e0f26df9c81ee961ff316c76fd2bad3c59a51c9ea7dbd5bde14ace50a2dd9 -> file mode=100644 size=353 mtime=1795608124.991841340 sha256=8a0e1b25bea66fc7e42a6eac39921b0cd74cb56c71ad59a39085f2d736f0dc5e"
+        ],
+        "commands_run": [
+          "clean",
+          "clean",
+          "fsmonitor",
+          "fsmonitor"
+        ],
+        "expected": {
+          "entries": [
+            {
+              "content_sha256": "9b4ee39911b9752fea6f724f9b9d83ea44ff9b3cbb2cee867218e7e9893822e1",
+              "mode": "100644",
+              "oid": "a7a04bdeb8c71e69513c791c441d0a603f445373",
+              "path": ".gitattributes",
+              "stage": 0
+            },
+            {
+              "content_sha256": "fb87dc6dbf44adb2cb4a740e8227411b29ade0d6b1af4e7c2b29c229848ff809",
+              "mode": "100644",
+              "oid": "e1697383d9a444281353758affb7f9d92f70843f",
+              "path": "a.txt",
+              "stage": 0
+            },
+            {
+              "content_sha256": "2b526725f8d4fb17fd96a6dfc0933f3f314d424f11f2967a68b3aa270feb8712",
+              "mode": "100644",
+              "oid": "e2d347f0d2e84fc09139b85e91cdf23361b7d1d7",
+              "path": "b.txt",
+              "stage": 0
+            }
+          ],
+          "op": "index"
+        },
+        "no_configured_command": false,
+        "op": "index",
+        "pass": false,
+        "repository_unchanged": false
+      },
+      {
+        "actual": {
+          "message": "bad output (missing field `op` at line 1 column 2): ",
+          "op": "error"
+        },
+        "changed_paths": [
+          "changed .git: dir mode=40755 size=128 mtime=1795608124.992849657 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c -> dir mode=40755 size=128 mtime=1795608125.012167560 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c",
+          "changed .git/index: file mode=100644 size=353 mtime=1795608124.991841340 sha256=8a0e1b25bea66fc7e42a6eac39921b0cd74cb56c71ad59a39085f2d736f0dc5e -> file mode=100644 size=353 mtime=1795608125.010841407 sha256=eaedee18b47b9744b3fd4208055e3278666f40108c8d98435960959154184817"
+        ],
+        "commands_run": [
+          "clean",
+          "clean",
+          "fsmonitor",
+          "fsmonitor"
+        ],
+        "expected": {
+          "entries": [],
+          "op": "submodules"
+        },
+        "no_configured_command": false,
+        "op": "submodules",
+        "pass": false,
+        "repository_unchanged": false
+      },
+      {
+        "actual": {
+          "message": "bad output (missing field `op` at line 1 column 2): ",
+          "op": "error"
+        },
+        "changed_paths": [
+          "changed .git: dir mode=40755 size=128 mtime=1795608125.012167560 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c -> dir mode=40755 size=128 mtime=1795608125.028182211 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c",
+          "changed .git/index: file mode=100644 size=353 mtime=1795608125.010841407 sha256=eaedee18b47b9744b3fd4208055e3278666f40108c8d98435960959154184817 -> file mode=100644 size=353 mtime=1795608125.026841464 sha256=e6a77fc22e5a563521bb5e11f3a49ea496739a89b6a4cc5f7263de6f8cea3100"
+        ],
+        "commands_run": [
+          "clean",
+          "fsmonitor",
+          "fsmonitor"
+        ],
+        "expected": {
+          "entries": [
+            {
+              "content_sha256": "9b4ee39911b9752fea6f724f9b9d83ea44ff9b3cbb2cee867218e7e9893822e1",
+              "mode": "100644",
+              "oid": "a7a04bdeb8c71e69513c791c441d0a603f445373",
+              "path": ".gitattributes",
+              "stage": 0
+            },
+            {
+              "content_sha256": "fb87dc6dbf44adb2cb4a740e8227411b29ade0d6b1af4e7c2b29c229848ff809",
+              "mode": "100644",
+              "oid": "e1697383d9a444281353758affb7f9d92f70843f",
+              "path": "a.txt",
+              "stage": 0
+            },
+            {
+              "content_sha256": "2b526725f8d4fb17fd96a6dfc0933f3f314d424f11f2967a68b3aa270feb8712",
+              "mode": "100644",
+              "oid": "e2d347f0d2e84fc09139b85e91cdf23361b7d1d7",
+              "path": "b.txt",
+              "stage": 0
+            }
+          ],
+          "op": "tree",
+          "rev": "214001e552719aaf25f13b117d1a9bd4c57cb90e"
+        },
+        "no_configured_command": false,
+        "op": "tree 214001e552719aaf25f13b117d1a9bd4c57cb90e",
+        "pass": false,
+        "repository_unchanged": false
+      }
+    ],
+    "unusual-names": [
+      {
+        "actual": {
+          "message": "bad output (missing field `op` at line 1 column 2): ",
+          "op": "error"
+        },
+        "changed_paths": [
+          "changed .git: dir mode=40755 size=128 mtime=1795608125.042732046 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c -> dir mode=40755 size=128 mtime=1795608125.063037483 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c",
+          "changed .git/index: file mode=100644 size=1932 mtime=1795608125.042832797 sha256=1cd3179807f7a1fc1efdcff984180c0940ea6b6bee6790e390a87c017b73cc32 -> file mode=100644 size=1932 mtime=1795608125.061841587 sha256=6df48e3ca6ab2fe40d2275c37374f6eb95705be65f8799327af2b75a0a737d3b"
+        ],
+        "expected": {
+          "branch": "refs/heads/main",
+          "oid": "ed12de241949a9d0e797dbab050f1d17576ade56",
+          "op": "head"
+        },
+        "no_configured_command": true,
+        "op": "head",
+        "pass": false,
+        "repository_unchanged": false
+      },
+      {
+        "actual": {
+          "message": "bad output (missing field `op` at line 1 column 2): ",
+          "op": "error"
+        },
+        "changed_paths": [
+          "changed .git: dir mode=40755 size=128 mtime=1795608125.063037483 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c -> dir mode=40755 size=128 mtime=1795608125.076273413 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c",
+          "changed .git/index: file mode=100644 size=1932 mtime=1795608125.061841587 sha256=6df48e3ca6ab2fe40d2275c37374f6eb95705be65f8799327af2b75a0a737d3b -> file mode=100644 size=1932 mtime=1795608125.075841637 sha256=6df48e3ca6ab2fe40d2275c37374f6eb95705be65f8799327af2b75a0a737d3b"
+        ],
+        "expected": {
+          "op": "refs",
+          "refs": [
+            [
+              "refs/heads/main",
+              "ed12de241949a9d0e797dbab050f1d17576ade56"
+            ]
+          ]
+        },
+        "no_configured_command": true,
+        "op": "refs",
+        "pass": false,
+        "repository_unchanged": false
+      },
+      {
+        "actual": {
+          "message": "bad output (missing field `op` at line 1 column 2): ",
+          "op": "error"
+        },
+        "changed_paths": [
+          "changed .git: dir mode=40755 size=128 mtime=1795608125.076273413 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c -> dir mode=40755 size=128 mtime=1795608125.088841683 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c",
+          "changed .git/index: file mode=100644 size=1932 mtime=1795608125.075841637 sha256=6df48e3ca6ab2fe40d2275c37374f6eb95705be65f8799327af2b75a0a737d3b -> file mode=100644 size=1932 mtime=1795608125.087841680 sha256=6df48e3ca6ab2fe40d2275c37374f6eb95705be65f8799327af2b75a0a737d3b"
+        ],
+        "expected": {
+          "entries": [
+            {
+              "index": ".",
+              "orig": null,
+              "path": "latin1-\\xe9.txt",
+              "worktree": "M"
+            },
+            {
+              "index": ".",
+              "orig": null,
+              "path": "space name.txt",
+              "worktree": "M"
+            },
+            {
+              "index": "?",
+              "orig": null,
+              "path": "untracked-\\xff",
+              "worktree": "?"
+            },
+            {
+              "index": "?",
+              "orig": null,
+              "path": "untracked\\x0anewline",
+              "worktree": "?"
+            },
+            {
+              "index": "R",
+              "orig": "ünïcödé.txt",
+              "path": "ünïcödé-renamed.txt",
+              "worktree": "."
+            }
+          ],
+          "op": "status"
+        },
+        "no_configured_command": true,
+        "op": "status",
+        "pass": false,
+        "repository_unchanged": false
+      },
+      {
+        "actual": {
+          "message": "bad output (missing field `op` at line 1 column 2): ",
+          "op": "error"
+        },
+        "changed_paths": [
+          "changed .git: dir mode=40755 size=128 mtime=1795608125.088841683 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c -> dir mode=40755 size=128 mtime=1795608125.102091361 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c",
+          "changed .git/index: file mode=100644 size=1932 mtime=1795608125.087841680 sha256=6df48e3ca6ab2fe40d2275c37374f6eb95705be65f8799327af2b75a0a737d3b -> file mode=100644 size=1932 mtime=1795608125.100841725 sha256=6df48e3ca6ab2fe40d2275c37374f6eb95705be65f8799327af2b75a0a737d3b"
+        ],
+        "expected": {
+          "entries": [
+            {
+              "content_sha256": "97f6c104f8f91cceebac98da043fab19ac1e12af6cb321028e682974a1428a33",
+              "mode": "100644",
+              "oid": "af05b8e68270619dbdd4bbea2c8ec2aab8d975fc",
+              "path": " leading-space",
+              "stage": 0
+            },
+            {
+              "content_sha256": "ca46f9d17a07168f2c101d30da2683c5437d121b65d11497bcbb78be6c5692ec",
+              "mode": "100644",
+              "oid": "6d1b0a884423fc4b68764c37570686c6f53da3c3",
+              "path": "#hash",
+              "stage": 0
+            },
+            {
+              "content_sha256": "175448a89d96ff961d42232e1f70e12082f89937aa672930f00ba597619ef009",
+              "mode": "100644",
+              "oid": "b5c6bd6f3f793df7ca4e0d49ddc6ee723d2ff0d5",
+              "path": "-leading-dash",
+              "stage": 0
+            },
+            {
+              "content_sha256": "75c166e2c05bf52debfbbed80a45fe8255446418e44857da8bd8682530f442b2",
+              "mode": "100644",
+              "oid": "25ebc064e828ba11a7f7f52f3709a357965f78e9",
+              "path": ".hidden",
+              "stage": 0
+            },
+            {
+              "content_sha256": "916b656a950a6f8af162de7dc5ed27d5c31030c6c1a601138d6b40a09a457b3b",
+              "mode": "100644",
+              "oid": "8994f2525d740136e6756787c3748776dbfe6d43",
+              "path": "back\\\\slash",
+              "stage": 0
+            },
+            {
+              "content_sha256": "4cc3a0b8ebffdf2df101587cc127067c45e7ee768b60a3ae1de651e439aaada3",
+              "mode": "100644",
+              "oid": "2368c16ef28c06d249e60fa14ad8cf174d324bd7",
+              "path": "colon:name",
+              "stage": 0
+            },
+            {
+              "content_sha256": "4f884dfdd913bae94adc187997b372584ca5661644db781347a6280868a4adbc",
+              "mode": "100644",
+              "oid": "5cb20ac11be50976019ab4bacefa0ef9b772245a",
+              "path": "deep/a/b/c/d/e/f.txt",
+              "stage": 0
+            },
+            {
+              "content_sha256": "34775c1aa67b89b99557915409511f2dfd7c0a41f48ab2b423809da3e235cbb5",
+              "mode": "100644",
+              "oid": "3256000ee125035f8edd7a61c513d77ac667ed92",
+              "path": "dir with space/inner file",
+              "stage": 0
+            },
+            {
+              "content_sha256": "723ce15548a59169d986df6eea2d5cc03d946ccf9488ea4675b251be1aa5fc7b",
+              "mode": "100644",
+              "oid": "8f27eebf10c4b6d2c0a7278aad655f781b05b1fe",
+              "path": "emoji-🦀.txt",
+              "stage": 0
+            },
+            {
+              "content_sha256": "703cf1b1307cb5f033b69b43c62c028c16efd2eeee87bf7bd667b91cb061d9d6",
+              "mode": "100644",
+              "oid": "d3d5c192a39612bc0f335cb9571eae250365da40",
+              "path": "latin1-\\xe9.txt",
+              "stage": 0
+            },
+            {
+              "content_sha256": "a7f44ee8a8934513fead2b034939e830b5798ff6103000b0fd7f335babf2ccf7",
+              "mode": "100644",
+              "oid": "6bd8f8c25f220d93a87ea4a6b3edca9d5f9af69d",
+              "path": "long-00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+              "stage": 0
+            },
+            {
+              "content_sha256": "5a7208dab75972b72c423aa5348b2b1580241be26aa4b217ee38a0fbdb1b72d8",
+              "mode": "100644",
+              "oid": "600cb176cb84b856e6c409169182f7c723f06b63",
+              "path": "new\\x0aline",
+              "stage": 0
+            },
+            {
+              "content_sha256": "3d136f6da1cd43aa070891606845a448d761dbdf69df1ef25e4ba37397f28716",
+              "mode": "100644",
+              "oid": "29f30413fc15037b96eb9617a9b20e046d46de41",
+              "path": "quote\"d",
+              "stage": 0
+            },
+            {
+              "content_sha256": "f90551879b2aadb0dd45a10db6a63e3e61063f1fa65d62c1d3ad8b57b1a33d1a",
+              "mode": "100644",
+              "oid": "3ee149ca5c6f5b5272e71aac61d078f1e16044d2",
+              "path": "single'quote",
+              "stage": 0
+            },
+            {
+              "content_sha256": "c574b2a1290a22273ab61b6db21fd4941a031b70c9beb2af2dc6ad9bd6f320f8",
+              "mode": "100644",
+              "oid": "b30635b31b7206e4434372b88ec0a59f269cbb66",
+              "path": "space name.txt",
+              "stage": 0
+            },
+            {
+              "content_sha256": "ff02d663119c0ee08e796171cc04ef448bece89ccfe12ee18db5954be36aae03",
+              "mode": "100644",
+              "oid": "6c354d107a97b8a75c4e4bd28f11e1e567594065",
+              "path": "star*.txt",
+              "stage": 0
+            },
+            {
+              "content_sha256": "bcd016b005bd5eca71c73821c584bd4bda1f57b31ae2a754b9c0668b131bd4f6",
+              "mode": "100644",
+              "oid": "033dd94d9e67648bd600dc81c65f2f319b97d28d",
+              "path": "tab\\x09name",
+              "stage": 0
+            },
+            {
+              "content_sha256": "c09c704d0b21c04ab323d4b66ad257db8b39d1e072ea2f1dce2a2e6c9521b7d2",
+              "mode": "100644",
+              "oid": "4eabede8967b76bc0262521a86ae37ef41efd9e5",
+              "path": "trailing-space ",
+              "stage": 0
+            },
+            {
+              "content_sha256": "a407700f86f9cf2f5b17ebca46efe5fdd9c8af5f6d13e0f85d3533c3f28da41a",
+              "mode": "100644",
+              "oid": "74e06d6e48b1bdb969011c28b6abd66a4d2e1b7e",
+              "path": "ünïcödé-renamed.txt",
+              "stage": 0
+            }
+          ],
+          "op": "index"
+        },
+        "no_configured_command": true,
+        "op": "index",
+        "pass": false,
+        "repository_unchanged": false
+      },
+      {
+        "actual": {
+          "message": "bad output (missing field `op` at line 1 column 2): ",
+          "op": "error"
+        },
+        "changed_paths": [
+          "changed .git: dir mode=40755 size=128 mtime=1795608125.102091361 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c -> dir mode=40755 size=128 mtime=1795608125.115014400 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c",
+          "changed .git/index: file mode=100644 size=1932 mtime=1795608125.100841725 sha256=6df48e3ca6ab2fe40d2275c37374f6eb95705be65f8799327af2b75a0a737d3b -> file mode=100644 size=1932 mtime=1795608125.113841771 sha256=6df48e3ca6ab2fe40d2275c37374f6eb95705be65f8799327af2b75a0a737d3b"
+        ],
+        "expected": {
+          "entries": [],
+          "op": "submodules"
+        },
+        "no_configured_command": true,
+        "op": "submodules",
+        "pass": false,
+        "repository_unchanged": false
+      },
+      {
+        "actual": {
+          "message": "bad output (missing field `op` at line 1 column 2): ",
+          "op": "error"
+        },
+        "changed_paths": [
+          "changed .git: dir mode=40755 size=128 mtime=1795608125.115014400 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c -> dir mode=40755 size=128 mtime=1795608125.127947449 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c",
+          "changed .git/index: file mode=100644 size=1932 mtime=1795608125.113841771 sha256=6df48e3ca6ab2fe40d2275c37374f6eb95705be65f8799327af2b75a0a737d3b -> file mode=100644 size=1932 mtime=1795608125.126841817 sha256=6df48e3ca6ab2fe40d2275c37374f6eb95705be65f8799327af2b75a0a737d3b"
+        ],
+        "expected": {
+          "entries": [
+            {
+              "content_sha256": "97f6c104f8f91cceebac98da043fab19ac1e12af6cb321028e682974a1428a33",
+              "mode": "100644",
+              "oid": "af05b8e68270619dbdd4bbea2c8ec2aab8d975fc",
+              "path": " leading-space",
+              "stage": 0
+            },
+            {
+              "content_sha256": "ca46f9d17a07168f2c101d30da2683c5437d121b65d11497bcbb78be6c5692ec",
+              "mode": "100644",
+              "oid": "6d1b0a884423fc4b68764c37570686c6f53da3c3",
+              "path": "#hash",
+              "stage": 0
+            },
+            {
+              "content_sha256": "175448a89d96ff961d42232e1f70e12082f89937aa672930f00ba597619ef009",
+              "mode": "100644",
+              "oid": "b5c6bd6f3f793df7ca4e0d49ddc6ee723d2ff0d5",
+              "path": "-leading-dash",
+              "stage": 0
+            },
+            {
+              "content_sha256": "75c166e2c05bf52debfbbed80a45fe8255446418e44857da8bd8682530f442b2",
+              "mode": "100644",
+              "oid": "25ebc064e828ba11a7f7f52f3709a357965f78e9",
+              "path": ".hidden",
+              "stage": 0
+            },
+            {
+              "content_sha256": "916b656a950a6f8af162de7dc5ed27d5c31030c6c1a601138d6b40a09a457b3b",
+              "mode": "100644",
+              "oid": "8994f2525d740136e6756787c3748776dbfe6d43",
+              "path": "back\\\\slash",
+              "stage": 0
+            },
+            {
+              "content_sha256": "4cc3a0b8ebffdf2df101587cc127067c45e7ee768b60a3ae1de651e439aaada3",
+              "mode": "100644",
+              "oid": "2368c16ef28c06d249e60fa14ad8cf174d324bd7",
+              "path": "colon:name",
+              "stage": 0
+            },
+            {
+              "content_sha256": "4f884dfdd913bae94adc187997b372584ca5661644db781347a6280868a4adbc",
+              "mode": "100644",
+              "oid": "5cb20ac11be50976019ab4bacefa0ef9b772245a",
+              "path": "deep/a/b/c/d/e/f.txt",
+              "stage": 0
+            },
+            {
+              "content_sha256": "34775c1aa67b89b99557915409511f2dfd7c0a41f48ab2b423809da3e235cbb5",
+              "mode": "100644",
+              "oid": "3256000ee125035f8edd7a61c513d77ac667ed92",
+              "path": "dir with space/inner file",
+              "stage": 0
+            },
+            {
+              "content_sha256": "723ce15548a59169d986df6eea2d5cc03d946ccf9488ea4675b251be1aa5fc7b",
+              "mode": "100644",
+              "oid": "8f27eebf10c4b6d2c0a7278aad655f781b05b1fe",
+              "path": "emoji-🦀.txt",
+              "stage": 0
+            },
+            {
+              "content_sha256": "703cf1b1307cb5f033b69b43c62c028c16efd2eeee87bf7bd667b91cb061d9d6",
+              "mode": "100644",
+              "oid": "d3d5c192a39612bc0f335cb9571eae250365da40",
+              "path": "latin1-\\xe9.txt",
+              "stage": 0
+            },
+            {
+              "content_sha256": "a7f44ee8a8934513fead2b034939e830b5798ff6103000b0fd7f335babf2ccf7",
+              "mode": "100644",
+              "oid": "6bd8f8c25f220d93a87ea4a6b3edca9d5f9af69d",
+              "path": "long-00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+              "stage": 0
+            },
+            {
+              "content_sha256": "5a7208dab75972b72c423aa5348b2b1580241be26aa4b217ee38a0fbdb1b72d8",
+              "mode": "100644",
+              "oid": "600cb176cb84b856e6c409169182f7c723f06b63",
+              "path": "new\\x0aline",
+              "stage": 0
+            },
+            {
+              "content_sha256": "3d136f6da1cd43aa070891606845a448d761dbdf69df1ef25e4ba37397f28716",
+              "mode": "100644",
+              "oid": "29f30413fc15037b96eb9617a9b20e046d46de41",
+              "path": "quote\"d",
+              "stage": 0
+            },
+            {
+              "content_sha256": "f90551879b2aadb0dd45a10db6a63e3e61063f1fa65d62c1d3ad8b57b1a33d1a",
+              "mode": "100644",
+              "oid": "3ee149ca5c6f5b5272e71aac61d078f1e16044d2",
+              "path": "single'quote",
+              "stage": 0
+            },
+            {
+              "content_sha256": "c574b2a1290a22273ab61b6db21fd4941a031b70c9beb2af2dc6ad9bd6f320f8",
+              "mode": "100644",
+              "oid": "b30635b31b7206e4434372b88ec0a59f269cbb66",
+              "path": "space name.txt",
+              "stage": 0
+            },
+            {
+              "content_sha256": "ff02d663119c0ee08e796171cc04ef448bece89ccfe12ee18db5954be36aae03",
+              "mode": "100644",
+              "oid": "6c354d107a97b8a75c4e4bd28f11e1e567594065",
+              "path": "star*.txt",
+              "stage": 0
+            },
+            {
+              "content_sha256": "bcd016b005bd5eca71c73821c584bd4bda1f57b31ae2a754b9c0668b131bd4f6",
+              "mode": "100644",
+              "oid": "033dd94d9e67648bd600dc81c65f2f319b97d28d",
+              "path": "tab\\x09name",
+              "stage": 0
+            },
+            {
+              "content_sha256": "c09c704d0b21c04ab323d4b66ad257db8b39d1e072ea2f1dce2a2e6c9521b7d2",
+              "mode": "100644",
+              "oid": "4eabede8967b76bc0262521a86ae37ef41efd9e5",
+              "path": "trailing-space ",
+              "stage": 0
+            },
+            {
+              "content_sha256": "a407700f86f9cf2f5b17ebca46efe5fdd9c8af5f6d13e0f85d3533c3f28da41a",
+              "mode": "100644",
+              "oid": "74e06d6e48b1bdb969011c28b6abd66a4d2e1b7e",
+              "path": "ünïcödé.txt",
+              "stage": 0
+            }
+          ],
+          "op": "tree",
+          "rev": "ed12de241949a9d0e797dbab050f1d17576ade56"
+        },
+        "no_configured_command": true,
+        "op": "tree ed12de241949a9d0e797dbab050f1d17576ade56",
+        "pass": false,
+        "repository_unchanged": false
+      },
+      {
+        "actual": {
+          "message": "bad output (missing field `op` at line 1 column 2): ",
+          "op": "error"
+        },
+        "changed_paths": [
+          "changed .git: dir mode=40755 size=128 mtime=1795608125.127947449 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c -> dir mode=40755 size=128 mtime=1795608125.140827348 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c",
+          "changed .git/index: file mode=100644 size=1932 mtime=1795608125.126841817 sha256=6df48e3ca6ab2fe40d2275c37374f6eb95705be65f8799327af2b75a0a737d3b -> file mode=100644 size=1932 mtime=1795608125.139841863 sha256=6df48e3ca6ab2fe40d2275c37374f6eb95705be65f8799327af2b75a0a737d3b"
+        ],
+        "expected": {
+          "entries": [
+            {
+              "orig": null,
+              "path": " leading-space",
+              "status": "M"
+            },
+            {
+              "orig": null,
+              "path": "#hash",
+              "status": "M"
+            },
+            {
+              "orig": null,
+              "path": "-leading-dash",
+              "status": "M"
+            },
+            {
+              "orig": null,
+              "path": ".hidden",
+              "status": "M"
+            },
+            {
+              "orig": null,
+              "path": "back\\\\slash",
+              "status": "M"
+            },
+            {
+              "orig": null,
+              "path": "colon:name",
+              "status": "M"
+            },
+            {
+              "orig": null,
+              "path": "deep/a/b/c/d/e/f.txt",
+              "status": "M"
+            },
+            {
+              "orig": null,
+              "path": "dir with space/inner file",
+              "status": "M"
+            },
+            {
+              "orig": null,
+              "path": "emoji-🦀.txt",
+              "status": "M"
+            },
+            {
+              "orig": null,
+              "path": "latin1-\\xe9.txt",
+              "status": "M"
+            },
+            {
+              "orig": null,
+              "path": "long-00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+              "status": "M"
+            },
+            {
+              "orig": null,
+              "path": "new\\x0aline",
+              "status": "M"
+            },
+            {
+              "orig": null,
+              "path": "quote\"d",
+              "status": "M"
+            },
+            {
+              "orig": null,
+              "path": "single'quote",
+              "status": "M"
+            },
+            {
+              "orig": null,
+              "path": "space name.txt",
+              "status": "M"
+            },
+            {
+              "orig": null,
+              "path": "star*.txt",
+              "status": "M"
+            },
+            {
+              "orig": null,
+              "path": "tab\\x09name",
+              "status": "M"
+            },
+            {
+              "orig": null,
+              "path": "trailing-space ",
+              "status": "M"
+            },
+            {
+              "orig": null,
+              "path": "ünïcödé.txt",
+              "status": "M"
+            }
+          ],
+          "from": "e9a49eb3a169d9f140aa3489309179391a73a716",
+          "op": "diff",
+          "to": "ed12de241949a9d0e797dbab050f1d17576ade56"
+        },
+        "no_configured_command": true,
+        "op": "diff e9a49eb3a169d9f140aa3489309179391a73a716 ed12de241949a9d0e797dbab050f1d17576ade56",
+        "pass": false,
+        "repository_unchanged": false
+      },
+      {
+        "actual": {
+          "message": "bad output (missing field `op` at line 1 column 2): ",
+          "op": "error"
+        },
+        "changed_paths": [
+          "changed .git: dir mode=40755 size=128 mtime=1795608125.140827348 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c -> dir mode=40755 size=128 mtime=1795608125.154103489 entries=3fd90da2b07b871a90a82353d46a63415b9c0a4c7c613337bea605181088201c",
+          "changed .git/index: file mode=100644 size=1932 mtime=1795608125.139841863 sha256=6df48e3ca6ab2fe40d2275c37374f6eb95705be65f8799327af2b75a0a737d3b -> file mode=100644 size=1932 mtime=1795608125.152841909 sha256=6df48e3ca6ab2fe40d2275c37374f6eb95705be65f8799327af2b75a0a737d3b"
+        ],
+        "expected": {
+          "entries": [
+            {
+              "content_sha256": "444b5402c23aeee58717131bedbc3da0985cec66e97cff8c1319adc499c5234a",
+              "mode": "100644",
+              "oid": "6e9648a5caab52e22576b60cd90c98bc0a07979c",
+              "path": " leading-space",
+              "stage": 0
+            },
+            {
+              "content_sha256": "9f2dc57e7b8542e3db86d53a3afd5d9336b14abe163c45e362dc623094a4fba7",
+              "mode": "100644",
+              "oid": "46474d563286fb8de6a180e7a1a1d6d99cf1395a",
+              "path": "#hash",
+              "stage": 0
+            },
+            {
+              "content_sha256": "39f59063e720f40ca7c7a7e9e7e5d44630dec1368dbb6100809f8091234df085",
+              "mode": "100644",
+              "oid": "93845d80a7de84468f3e678c0280d12ce61eabcc",
+              "path": "-leading-dash",
+              "stage": 0
+            },
+            {
+              "content_sha256": "e0c401d3a07991c3d1cd0e44ecb4df77f0c685655367a9f664eb3c6b55ae141a",
+              "mode": "100644",
+              "oid": "676468530dc5a570f61275ffe930e25d70e0b3f2",
+              "path": ".hidden",
+              "stage": 0
+            },
+            {
+              "content_sha256": "ec12700445ad38bf5e874ca54735c47a89de50eb7a00a1592a56e4820ec62a85",
+              "mode": "100644",
+              "oid": "3b12eb7875deeebdb8ec25ff382000fca63d9dc5",
+              "path": "back\\\\slash",
+              "stage": 0
+            },
+            {
+              "content_sha256": "b2570befe99a45bfbbc66a4290d5ecec3aef48bf55dcc90cfc9a85e215769218",
+              "mode": "100644",
+              "oid": "5e4e3cd10af725077a38a4c20ba3b0854e208c5b",
+              "path": "colon:name",
+              "stage": 0
+            },
+            {
+              "content_sha256": "7ee7b458cd39d348f83e806c982acb8abe3aa0dbe7415f3309791b3a2e2c9be4",
+              "mode": "100644",
+              "oid": "b3825c1e7b00f99c4f37f4c4dd0c298fd0eba07e",
+              "path": "deep/a/b/c/d/e/f.txt",
+              "stage": 0
+            },
+            {
+              "content_sha256": "d4ee104dc1c963d1f445d8974c4d74366de5562063226c18d85c1b213e554a35",
+              "mode": "100644",
+              "oid": "858014cac4fded5cb7faf148e7ffc7a0d59bf6b0",
+              "path": "dir with space/inner file",
+              "stage": 0
+            },
+            {
+              "content_sha256": "ebd50f42341c0229b7fe19164607ee231cfa1747b4a9d3bbc7de8666e17d5342",
+              "mode": "100644",
+              "oid": "4c96f2efdd6f466fae6a865a8a92f12ba1dec682",
+              "path": "emoji-🦀.txt",
+              "stage": 0
+            },
+            {
+              "content_sha256": "8e31a803b0b66d1ddc9b4045b617b8753cb9d57323dbe65b8bd50d54ccdb66f5",
+              "mode": "100644",
+              "oid": "e95309e6c06cffc6a61fbe50eb1f28d776a8db75",
+              "path": "latin1-\\xe9.txt",
+              "stage": 0
+            },
+            {
+              "content_sha256": "d5145eb3e807d9dd288fd9e4c388309b2fc328d411b3385392b6834a8eaa23e3",
+              "mode": "100644",
+              "oid": "db364fef8c0177fad4eef9972fdba0675e418b1f",
+              "path": "long-00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+              "stage": 0
+            },
+            {
+              "content_sha256": "d8949b4735b4a2b0c25a6f855ffa992b927315d5ec58c614cadc220522851636",
+              "mode": "100644",
+              "oid": "bdc4850b0dd57deff1f44165b9eddcdb4baba874",
+              "path": "new\\x0aline",
+              "stage": 0
+            },
+            {
+              "content_sha256": "b6d0bd16f404290558101a08d0f84e9173a7e81a0f3a6cbbe3fe1cf9564265dc",
+              "mode": "100644",
+              "oid": "d8e08feba4e842f24a5ae3bdbaef500d3c09f4bf",
+              "path": "quote\"d",
+              "stage": 0
+            },
+            {
+              "content_sha256": "92e4e763c26b1b27ab06754123eae36ddc3339637270fd00acaeb89cfe6ce444",
+              "mode": "100644",
+              "oid": "18874dd88942b42d8026d970d1e34c1a5ce1e362",
+              "path": "single'quote",
+              "stage": 0
+            },
+            {
+              "content_sha256": "7fbf7da4a79cc34cd1f89c1096217b4a284003b8cf34f0bde101aa278bfe3aec",
+              "mode": "100644",
+              "oid": "d183ac519de67aa5d1795a40986e89038acafbed",
+              "path": "space name.txt",
+              "stage": 0
+            },
+            {
+              "content_sha256": "f8a12b2c2c8c37d45fedd9ea52d084a0f5d10305069cb21e67ad8f3cd3236658",
+              "mode": "100644",
+              "oid": "aa27f396a3fc32735763c0566ae32e44fbce94c8",
+              "path": "star*.txt",
+              "stage": 0
+            },
+            {
+              "content_sha256": "450821cb7a1e72bde2c9e86e187968abbe1ab75598b158233c3bd870136822eb",
+              "mode": "100644",
+              "oid": "2a8770e02a7b775987daec2f88cfe72ee76cf707",
+              "path": "tab\\x09name",
+              "stage": 0
+            },
+            {
+              "content_sha256": "3a8687b59a93d5547373665565f138846f891d19e6c57d81ad3c1318bb47deb4",
+              "mode": "100644",
+              "oid": "22707d743ddf522a89375f00377493e9a1a8ddaf",
+              "path": "trailing-space ",
+              "stage": 0
+            },
+            {
+              "content_sha256": "d8c2632f4e8fe30641ccf1517ce5a0a1ead28699e6536e10bb9d81d972ded836",
+              "mode": "100644",
+              "oid": "ba5f13f4772782cbd0063006589e7da2b7f0eaf6",
+              "path": "ünïcödé.txt",
+              "stage": 0
+            }
+          ],
+          "op": "tree",
+          "rev": "e9a49eb3a169d9f140aa3489309179391a73a716"
+        },
+        "no_configured_command": true,
+        "op": "tree e9a49eb3a169d9f140aa3489309179391a73a716",
+        "pass": false,
+        "repository_unchanged": false
+      }
+    ]
+  },
+  "summary": {
+    "backend": "git-status-writes.sh",
+    "no_configured_command": 52,
+    "no_write_permission": false,
+    "operations": 58,
+    "oracle": "git version 2.55.0",
+    "pass": 0,
+    "repository_unchanged": 0
+  }
+}

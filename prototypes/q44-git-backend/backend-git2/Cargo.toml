@@ -1,0 +1,10 @@
+[package]
+name = "backend-git2"
+version = "0.1.0"
+edition.workspace = true
+publish.workspace = true
+
+[dependencies]
+git2 = { version = "0.21.0", default-features = false, features = ["vendored-libgit2"] }
+model = { version = "0.1.0", path = "../model" }
+serde_json = "1"

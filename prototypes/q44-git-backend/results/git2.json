@@ -1,0 +1,541 @@
+{
+  "fixtures": {
+    "binary": [
+      {
+        "no_configured_command": true,
+        "op": "head",
+        "pass": true,
+        "repository_unchanged": true
+      },
+      {
+        "no_configured_command": true,
+        "op": "refs",
+        "pass": true,
+        "repository_unchanged": true
+      },
+      {
+        "no_configured_command": true,
+        "op": "status",
+        "pass": true,
+        "repository_unchanged": true
+      },
+      {
+        "no_configured_command": true,
+        "op": "index",
+        "pass": true,
+        "repository_unchanged": true
+      },
+      {
+        "no_configured_command": true,
+        "op": "submodules",
+        "pass": true,
+        "repository_unchanged": true
+      },
+      {
+        "no_configured_command": true,
+        "op": "tree 674e91690d8efac644a153fb16b8666616912e0c",
+        "pass": true,
+        "repository_unchanged": true
+      },
+      {
+        "no_configured_command": true,
+        "op": "diff 38073e6ded81391ce58eddfcb5ad2018f00158f7 674e91690d8efac644a153fb16b8666616912e0c",
+        "pass": true,
+        "repository_unchanged": true
+      },
+      {
+        "no_configured_command": true,
+        "op": "tree 38073e6ded81391ce58eddfcb5ad2018f00158f7",
+        "pass": true,
+        "repository_unchanged": true
+      }
+    ],
+    "detached-head": [
+      {
+        "no_configured_command": true,
+        "op": "head",
+        "pass": true,
+        "repository_unchanged": true
+      },
+      {
+        "no_configured_command": true,
+        "op": "refs",
+        "pass": true,
+        "repository_unchanged": true
+      },
+      {
+        "no_configured_command": true,
+        "op": "status",
+        "pass": true,
+        "repository_unchanged": true
+      },
+      {
+        "no_configured_command": true,
+        "op": "index",
+        "pass": true,
+        "repository_unchanged": true
+      },
+      {
+        "no_configured_command": true,
+        "op": "submodules",
+        "pass": true,
+        "repository_unchanged": true
+      },
+      {
+        "no_configured_command": true,
+        "op": "tree 0c434d8373091f799fc42497ffe16bed9c75fecf",
+        "pass": true,
+        "repository_unchanged": true
+      },
+      {
+        "no_configured_command": true,
+        "op": "diff 2ba4c7a89fff88b8061a20e14e264a640757babe 0c434d8373091f799fc42497ffe16bed9c75fecf",
+        "pass": true,
+        "repository_unchanged": true
+      },
+      {
+        "no_configured_command": true,
+        "op": "tree 2ba4c7a89fff88b8061a20e14e264a640757babe",
+        "pass": true,
+        "repository_unchanged": true
+      },
+      {
+        "no_configured_command": true,
+        "op": "diff 1332b2ad2c4aa4ecd73dc4cfcdb514955fa4484e 2ba4c7a89fff88b8061a20e14e264a640757babe",
+        "pass": true,
+        "repository_unchanged": true
+      },
+      {
+        "no_configured_command": true,
+        "op": "tree 1332b2ad2c4aa4ecd73dc4cfcdb514955fa4484e",
+        "pass": true,
+        "repository_unchanged": true
+      }
+    ],
+    "index-worktree": [
+      {
+        "no_configured_command": true,
+        "op": "head",
+        "pass": true,
+        "repository_unchanged": true
+      },
+      {
+        "no_configured_command": true,
+        "op": "refs",
+        "pass": true,
+        "repository_unchanged": true
+      },
+      {
+        "actual": {
+          "entries": [
+            {
+              "index": "M",
+              "orig": null,
+              "path": "a.txt",
+              "worktree": "."
+            },
+            {
+              "index": "D",
+              "orig": null,
+              "path": "b.txt",
+              "worktree": "."
+            },
+            {
+              "index": ".",
+              "orig": null,
+              "path": "c.txt",
+              "worktree": "M"
+            },
+            {
+              "index": ".",
+              "orig": null,
+              "path": "d.txt",
+              "worktree": "D"
+            },
+            {
+              "index": ".",
+              "orig": null,
+              "path": "dir/f.txt",
+              "worktree": "M"
+            },
+            {
+              "index": "M",
+              "orig": null,
+              "path": "e.sh",
+              "worktree": "M"
+            },
+            {
+              "index": ".",
+              "orig": null,
+              "path": "g.txt",
+              "worktree": "M"
+            },
+            {
+              "index": "M",
+              "orig": null,
+              "path": "h.txt",
+              "worktree": "M"
+            },
+            {
+              "index": "A",
+              "orig": null,
+              "path": "ita.txt",
+              "worktree": "M"
+            },
+            {
+              "index": ".",
+              "orig": null,
+              "path": "link",
+              "worktree": "T"
+            },
+            {
+              "index": "A",
+              "orig": null,
+              "path": "new.txt",
+              "worktree": "."
+            },
+            {
+              "index": "?",
+              "orig": null,
+              "path": "u.txt",
+              "worktree": "?"
+            },
+            {
+              "index": "?",
+              "orig": null,
+              "path": "udir/x/y.txt",
+              "worktree": "?"
+            }
+          ],
+          "op": "status"
+        },
+        "expected": {
+          "entries": [
+            {
+              "index": "M",
+              "orig": null,
+              "path": "a.txt",
+              "worktree": "."
+            },
+            {
+              "index": "D",
+              "orig": null,
+              "path": "b.txt",
+              "worktree": "."
+            },
+            {
+              "index": ".",
+              "orig": null,
+              "path": "c.txt",
+              "worktree": "M"
+            },
+            {
+              "index": ".",
+              "orig": null,
+              "path": "d.txt",
+              "worktree": "D"
+            },
+            {
+              "index": ".",
+              "orig": null,
+              "path": "dir/f.txt",
+              "worktree": "M"
+            },
+            {
+              "index": "M",
+              "orig": null,
+              "path": "e.sh",
+              "worktree": "M"
+            },
+            {
+              "index": ".",
+              "orig": null,
+              "path": "g.txt",
+              "worktree": "M"
+            },
+            {
+              "index": "M",
+              "orig": null,
+              "path": "h.txt",
+              "worktree": "M"
+            },
+            {
+              "index": ".",
+              "orig": null,
+              "path": "ita.txt",
+              "worktree": "A"
+            },
+            {
+              "index": ".",
+              "orig": null,
+              "path": "link",
+              "worktree": "T"
+            },
+            {
+              "index": "A",
+              "orig": null,
+              "path": "new.txt",
+              "worktree": "."
+            },
+            {
+              "index": "?",
+              "orig": null,
+              "path": "u.txt",
+              "worktree": "?"
+            },
+            {
+              "index": "?",
+              "orig": null,
+              "path": "udir/x/y.txt",
+              "worktree": "?"
+            }
+          ],
+          "op": "status"
+        },
+        "no_configured_command": true,
+        "op": "status",
+        "pass": false,
+        "repository_unchanged": true
+      },
+      {
+        "no_configured_command": true,
+        "op": "index",
+        "pass": true,
+        "repository_unchanged": true
+      },
+      {
+        "no_configured_command": true,
+        "op": "submodules",
+        "pass": true,
+        "repository_unchanged": true
+      },
+      {
+        "no_configured_command": true,
+        "op": "tree c4d3111d3490d01f3aea82be18a347b9d1fa3bff",
+        "pass": true,
+        "repository_unchanged": true
+      }
+    ],
+    "renames": [
+      {
+        "no_configured_command": true,
+        "op": "head",
+        "pass": true,
+        "repository_unchanged": true
+      },
+      {
+        "no_configured_command": true,
+        "op": "refs",
+        "pass": true,
+        "repository_unchanged": true
+      },
+      {
+        "no_configured_command": true,
+        "op": "status",
+        "pass": true,
+        "repository_unchanged": true
+      },
+      {
+        "no_configured_command": true,
+        "op": "index",
+        "pass": true,
+        "repository_unchanged": true
+      },
+      {
+        "no_configured_command": true,
+        "op": "submodules",
+        "pass": true,
+        "repository_unchanged": true
+      },
+      {
+        "no_configured_command": true,
+        "op": "tree 7192046f5badc7c7f18ce43dd2dff79297d4d016",
+        "pass": true,
+        "repository_unchanged": true
+      },
+      {
+        "no_configured_command": true,
+        "op": "diff 9dad4831da985a1c61b77239e4e6284b8b4efea9 7192046f5badc7c7f18ce43dd2dff79297d4d016",
+        "pass": true,
+        "repository_unchanged": true
+      },
+      {
+        "no_configured_command": true,
+        "op": "tree 9dad4831da985a1c61b77239e4e6284b8b4efea9",
+        "pass": true,
+        "repository_unchanged": true
+      },
+      {
+        "no_configured_command": true,
+        "op": "diff 0fceb8b5f488f7c9cf97db42b452f99dab9cfe2f 9dad4831da985a1c61b77239e4e6284b8b4efea9",
+        "pass": true,
+        "repository_unchanged": true
+      },
+      {
+        "no_configured_command": true,
+        "op": "tree 0fceb8b5f488f7c9cf97db42b452f99dab9cfe2f",
+        "pass": true,
+        "repository_unchanged": true
+      }
+    ],
+    "submodules": [
+      {
+        "no_configured_command": true,
+        "op": "head",
+        "pass": true,
+        "repository_unchanged": true
+      },
+      {
+        "no_configured_command": true,
+        "op": "refs",
+        "pass": true,
+        "repository_unchanged": true
+      },
+      {
+        "no_configured_command": true,
+        "op": "status",
+        "pass": true,
+        "repository_unchanged": true
+      },
+      {
+        "no_configured_command": true,
+        "op": "index",
+        "pass": true,
+        "repository_unchanged": true
+      },
+      {
+        "no_configured_command": true,
+        "op": "submodules",
+        "pass": true,
+        "repository_unchanged": true
+      },
+      {
+        "no_configured_command": true,
+        "op": "tree 3cf8376fee86f7be725d02ff56cecb8264d3a72b",
+        "pass": true,
+        "repository_unchanged": true
+      },
+      {
+        "no_configured_command": true,
+        "op": "diff bb1bf3bffeff6b9175a8eb60d9a1ccabb024f42f 3cf8376fee86f7be725d02ff56cecb8264d3a72b",
+        "pass": true,
+        "repository_unchanged": true
+      },
+      {
+        "no_configured_command": true,
+        "op": "tree bb1bf3bffeff6b9175a8eb60d9a1ccabb024f42f",
+        "pass": true,
+        "repository_unchanged": true
+      },
+      {
+        "no_configured_command": true,
+        "op": "diff 8ba66228a6a0f290d62be297da45ad473404787c bb1bf3bffeff6b9175a8eb60d9a1ccabb024f42f",
+        "pass": true,
+        "repository_unchanged": true
+      },
+      {
+        "no_configured_command": true,
+        "op": "tree 8ba66228a6a0f290d62be297da45ad473404787c",
+        "pass": true,
+        "repository_unchanged": true
+      }
+    ],
+    "untrusted-config": [
+      {
+        "no_configured_command": true,
+        "op": "head",
+        "pass": true,
+        "repository_unchanged": true
+      },
+      {
+        "no_configured_command": true,
+        "op": "refs",
+        "pass": true,
+        "repository_unchanged": true
+      },
+      {
+        "no_configured_command": true,
+        "op": "status",
+        "pass": true,
+        "repository_unchanged": true
+      },
+      {
+        "no_configured_command": true,
+        "op": "index",
+        "pass": true,
+        "repository_unchanged": true
+      },
+      {
+        "no_configured_command": true,
+        "op": "submodules",
+        "pass": true,
+        "repository_unchanged": true
+      },
+      {
+        "no_configured_command": true,
+        "op": "tree 214001e552719aaf25f13b117d1a9bd4c57cb90e",
+        "pass": true,
+        "repository_unchanged": true
+      }
+    ],
+    "unusual-names": [
+      {
+        "no_configured_command": true,
+        "op": "head",
+        "pass": true,
+        "repository_unchanged": true
+      },
+      {
+        "no_configured_command": true,
+        "op": "refs",
+        "pass": true,
+        "repository_unchanged": true
+      },
+      {
+        "no_configured_command": true,
+        "op": "status",
+        "pass": true,
+        "repository_unchanged": true
+      },
+      {
+        "no_configured_command": true,
+        "op": "index",
+        "pass": true,
+        "repository_unchanged": true
+      },
+      {
+        "no_configured_command": true,
+        "op": "submodules",
+        "pass": true,
+        "repository_unchanged": true
+      },
+      {
+        "no_configured_command": true,
+        "op": "tree ed12de241949a9d0e797dbab050f1d17576ade56",
+        "pass": true,
+        "repository_unchanged": true
+      },
+      {
+        "no_configured_command": true,
+        "op": "diff e9a49eb3a169d9f140aa3489309179391a73a716 ed12de241949a9d0e797dbab050f1d17576ade56",
+        "pass": true,
+        "repository_unchanged": true
+      },
+      {
+        "no_configured_command": true,
+        "op": "tree e9a49eb3a169d9f140aa3489309179391a73a716",
+        "pass": true,
+        "repository_unchanged": true
+      }
+    ]
+  },
+  "summary": {
+    "backend": "backend-git2",
+    "no_configured_command": 58,
+    "no_write_permission": false,
+    "operations": 58,
+    "oracle": "git version 2.55.0",
+    "pass": 57,
+    "repository_unchanged": 58
+  }
+}

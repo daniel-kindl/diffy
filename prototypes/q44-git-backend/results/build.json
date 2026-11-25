@@ -1,0 +1,17 @@
+{
+  "rustc": "rustc 1.98.1 (48a229cea 2026-09-01)",
+  "gix": {
+    "native_crates": [ "linux-raw-sys v0.12.1", "zlib-rs v0.6.9" ],
+    "linux_x86_64_bytes": 5820392,
+    "linux_x86_64_shared_libraries": [ "/lib64/ld-linux-x86-64.so.2", "libc.so.6", "libgcc_s.so.1" ],
+    "windows_x86_64_gnu_bytes": 9844736,
+    "windows_x86_64_gnu_dlls": [ "advapi32.dll", "api-ms-win-core-synch-l1-2-0.dll", "bcryptprimitives.dll", "kernel32.dll", "msvcrt.dll", "ntdll.dll", "userenv.dll", "ws2_32.dll" ]
+  },
+  "git2": {
+    "native_crates": [ "cc v1.11.3", "libgit2-sys v0.18.8+1.9.7", "libz-sys v1.1.33" ],
+    "linux_x86_64_bytes": 1601376,
+    "linux_x86_64_shared_libraries": [ "/lib64/ld-linux-x86-64.so.2", "libc.so.6", "libgcc_s.so.1", "libz.so.1" ],
+    "windows_x86_64_gnu_bytes": 3320832,
+    "windows_x86_64_gnu_dlls": [ "advapi32.dll", "api-ms-win-core-synch-l1-2-0.dll", "bcryptprimitives.dll", "kernel32.dll", "msvcrt.dll", "ntdll.dll", "secur32.dll", "userenv.dll", "ws2_32.dll" ]
+  }
+}

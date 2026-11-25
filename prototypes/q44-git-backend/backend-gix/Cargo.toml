@@ -1,0 +1,10 @@
+[package]
+name = "backend-gix"
+version = "0.1.0"
+edition.workspace = true
+publish.workspace = true
+
+[dependencies]
+gix = { version = "0.91.0", default-features = false, features = ["status", "revision", "sha1"] }
+model = { version = "0.1.0", path = "../model" }
+serde_json = "1"
