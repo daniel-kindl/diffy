@@ -26,6 +26,9 @@ struct Proc {
     pid: u32,
     name: String,
     rss_kb: u64,
+    /// Q46: the anonymous and the file-backed part of the RSS.
+    anon_kb: u64,
+    file_kb: u64,
     cpu_ticks: u64,
 }
 
@@ -71,10 +74,11 @@ fn tree() -> Vec<Proc> {
         }
         let status = fs::read_to_string(format!("/proc/{pid}/status")).unwrap_or_default();
         let field = |k: &str| status.lines().find_map(|l| l.strip_prefix(k)).map(|v| v.trim().to_string());
-        let rss_kb = field("VmRSS:")
-            .and_then(|v| v.split_whitespace().next().and_then(|n| n.parse().ok()))
-            .unwrap_or(0);
-        out.push(Proc { pid, name: field("Name:").unwrap_or_default(), rss_kb, cpu_ticks: ticks[&pid] });
+        let kb = |k: &str| -> u64 {
+            field(k).and_then(|v| v.split_whitespace().next().and_then(|n| n.parse().ok())).unwrap_or(0)
+        };
+        let (rss_kb, anon_kb, file_kb) = (kb("VmRSS:"), kb("RssAnon:"), kb("RssFile:"));
+        out.push(Proc { pid, name: field("Name:").unwrap_or_default(), rss_kb, anon_kb, file_kb, cpu_ticks: ticks[&pid] });
     }
     out
 }
@@ -124,12 +128,18 @@ pub fn sampler_start(interval_ms: u64, state: tauri::State<'_, Sampler>) -> Resu
         let started = Instant::now();
         let (mut peak, mut samples) = (0u64, 0u64);
         let mut peak_by_name: HashMap<String, u64> = HashMap::new();
+        let mut anon_by_name: HashMap<String, u64> = HashMap::new();
+        let mut file_by_name: HashMap<String, u64> = HashMap::new();
         while !flag.load(Ordering::Relaxed) {
             let t = tree();
             peak = peak.max(t.iter().map(|p| p.rss_kb).sum());
             for p in &t {
                 let e = peak_by_name.entry(p.name.clone()).or_default();
                 *e = (*e).max(p.rss_kb);
+                let e = anon_by_name.entry(p.name.clone()).or_default();
+                *e = (*e).max(p.anon_kb);
+                let e = file_by_name.entry(p.name.clone()).or_default();
+                *e = (*e).max(p.file_kb);
             }
             samples += 1;
             std::thread::sleep(Duration::from_millis(interval_ms));
@@ -140,6 +150,8 @@ pub fn sampler_start(interval_ms: u64, state: tauri::State<'_, Sampler>) -> Resu
             "duration_ms": started.elapsed().as_secs_f64() * 1000.0,
             "peak_total_rss_kb": peak,
             "peak_rss_kb_by_process_name": peak_by_name,
+            "peak_rss_anon_kb_by_process_name": anon_by_name,
+            "peak_rss_file_kb_by_process_name": file_by_name,
         })
     });
     *slot = Some((stop, handle));

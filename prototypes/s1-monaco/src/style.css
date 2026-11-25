@@ -8,3 +8,7 @@ body { display: flex; flex-direction: column; }
 .line-removed { background: rgba(255, 70, 70, 0.22); }
 .line-added { background: rgba(70, 200, 90, 0.22); }
 .pad { background: repeating-linear-gradient(135deg, #2a2a2a 0 4px, #232323 4px 8px); }
+.q46-list { width: 35%; min-width: 0; height: 100%; overflow: auto; position: relative; border-right: 1px solid #444; }
+.q46-inner { position: relative; }
+.q46-row { position: absolute; left: 0; right: 0; height: 20px; line-height: 20px; padding: 0 6px; white-space: nowrap; overflow: hidden; font: 12px monospace; }
+.q46-panes { flex: 1; min-width: 0; display: flex; }

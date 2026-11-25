@@ -4,3 +4,4 @@ fixtures/out/
 src-tauri/target/
 src-tauri/gen/
 src-tauri/target-ubuntu/
+src-tauri/vendor/

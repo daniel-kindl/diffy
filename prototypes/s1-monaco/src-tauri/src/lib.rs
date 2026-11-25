@@ -18,6 +18,7 @@ use tauri::{AppHandle, State};
 
 #[cfg(target_os = "linux")]
 mod q42;
+mod q46;
 mod q54;
 
 /// The hunk options of the oracle command. Q43 pins the final options.
@@ -426,14 +427,21 @@ macro_rules! handlers {
             q54::live_write,
             q54::live_read,
             q54::live_reset,
-            q54::live_canonical
+            q54::live_canonical,
+            q46::q46_config,
+            q46::q46_repos,
+            q46::q46_change_list,
+            q46::q46_stats_start,
+            q46::q46_cancel,
+            q46::q46_blob,
+            q46::q46_blocks
             $(, $extra)*
         ]
     };
 }
 
 pub fn run() {
-    let builder = tauri::Builder::default().manage(Cache::default()).manage(q54::Sampler::default());
+    let builder = tauri::Builder::default().manage(Cache::default()).manage(q54::Sampler::default()).manage(q46::Q46::default());
     // The Q42 checks use WebKitGTK, so they exist on Linux only.
     #[cfg(target_os = "linux")]
     let builder = builder.invoke_handler(handlers![

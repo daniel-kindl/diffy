@@ -1,0 +1,64 @@
+{
+  "fixtures": [
+    {
+      "name": "files-1000",
+      "repo": "files-1000.git",
+      "base": "91893999173cc1fe301ee0a1814080c96f1a49a2",
+      "head": "7f6eb1b82b0aca379c55a5809664d3a2ec14adb0",
+      "base_files": 2000,
+      "base_bytes": 6218722,
+      "changed_files": 1000,
+      "shortstat": "1000 files changed, 6957 insertions(+), 5117 deletions(-)"
+    },
+    {
+      "name": "files-1000-large",
+      "repo": "files-1000-large.git",
+      "base": "5814bb396595c64ea393949783f04264645dbe42",
+      "head": "83ec77c20f961e5f018e3eb73de4855f965cba6c",
+      "base_files": 2000,
+      "base_bytes": 332506883,
+      "changed_files": 1000,
+      "shortstat": "1000 files changed, 124600 insertions(+), 122760 deletions(-)"
+    },
+    {
+      "name": "files-2000-large",
+      "repo": "files-2000-large.git",
+      "base": "9b44cb4b285e7d95392da3a3ee98c95c2ff5576d",
+      "head": "83f4764fbff063e937a2d6044d48d94a1b5f6abe",
+      "base_files": 4000,
+      "base_bytes": 668345838,
+      "changed_files": 2000,
+      "shortstat": "2000 files changed, 249199 insertions(+), 245519 deletions(-)"
+    },
+    {
+      "name": "files-5000",
+      "repo": "files-5000.git",
+      "base": "8f26c00d44ed7fb08fbf40eeed6abdd4311d98e0",
+      "head": "de0d56843135bcfa9c89f3881d91b3e5f10f1c18",
+      "base_files": 10000,
+      "base_bytes": 31360976,
+      "changed_files": 5000,
+      "shortstat": "5000 files changed, 34777 insertions(+), 25577 deletions(-)"
+    },
+    {
+      "name": "lines-10k",
+      "repo": "lines-10k.git",
+      "base": "4b5c7a0c2375b8331db296b5d56e7a4d590af6ff",
+      "head": "36e1579fa50b47f72dc458769502339f3775d06b",
+      "base_files": 11,
+      "base_bytes": 2146952,
+      "changed_files": 1,
+      "shortstat": "1 file changed, 10000 insertions(+), 10000 deletions(-)"
+    },
+    {
+      "name": "stress-50mb",
+      "repo": "stress-50mb.git",
+      "base": "26821609c0f5a0629607e0bd19c3409dcc34189b",
+      "head": "bad882a74073731f227363f9d89efbbc980991cb",
+      "base_files": 11,
+      "base_bytes": 50685738,
+      "changed_files": 1,
+      "shortstat": "1 file changed, 23414 insertions(+), 23309 deletions(-)"
+    }
+  ]
+}

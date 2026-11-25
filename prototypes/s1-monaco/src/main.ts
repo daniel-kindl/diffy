@@ -8,6 +8,7 @@ import EditorWorker from "monaco-editor/editor/editor.worker?worker";
 import { invoke } from "@tauri-apps/api/core";
 import { q42 } from "./q42";
 import { q54 } from "./q54";
+import { q46 } from "./q46";
 declare const __MONACO_VERSION__: string;
 
 (self as unknown as { MonacoEnvironment: monaco.Environment }).MonacoEnvironment = {
@@ -416,6 +417,7 @@ async function main() {
   for (const f of fixtures) select.append(new Option(`${f.name} (${(f.left.bytes / 1e6).toFixed(2)} MB)`, f.name));
   status("Select an option and a fixture.");
   if (await autorun()) return;
+  if (await q46({ applyB, syncScroll, padForScrollbar, editorOptions: EDITOR_OPTIONS, percentile })) return;
   if (await q54({ open, current: () => current, applyB, syncScroll, padForScrollbar, editorOptions: EDITOR_OPTIONS, percentile })) return;
   if (await q42(open)) return;
   const option = () => $<HTMLSelectElement>("option").value as Option;

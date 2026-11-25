@@ -1,0 +1,521 @@
+{
+  "prototype": "Diffy S1 prototype, Q46 S8 scale checks",
+  "created": "2026-11-25T16:14:34.584Z",
+  "system": {
+    "build": {
+      "profile": "release",
+      "tauri": "2.12.7"
+    },
+    "hardware": {
+      "cpu": "AMD Ryzen 5 3600 6-Core Processor",
+      "gpus": [
+        {
+          "card": "card1",
+          "device": "0x7480",
+          "driver": "amdgpu",
+          "vendor": "0x1002"
+        }
+      ],
+      "logical_cpus": 12,
+      "mem_total_kb": 16263384
+    },
+    "oracle_git": "git version 2.55.0",
+    "os": {
+      "container": true,
+      "kernel": "7.3.4-ogc8.1.fc45.x86_64",
+      "name": "Fedora Linux 44 (Container Image)"
+    },
+    "session": {
+      "DISPLAY": ":0",
+      "GDK_BACKEND": null,
+      "WAYLAND_DISPLAY": "wayland-1",
+      "WEBKIT_DISABLE_COMPOSITING_MODE": null,
+      "WEBKIT_DISABLE_DMABUF_RENDERER": null,
+      "XDG_SESSION_TYPE": "wayland"
+    },
+    "webview": "2.54.2",
+    "windows_cpu": null,
+    "windows_logical_cpus": null
+  },
+  "user_agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/60.5 Safari/605.1.15",
+  "device_pixel_ratio": 1,
+  "window": {
+    "width": 1400,
+    "height": 900
+  },
+  "config": {
+    "fixtures": "files-2000-large",
+    "label": "q46-fedora-list-files-2000-large-no-renames",
+    "pack_cache": null,
+    "parts": "list",
+    "renames": false,
+    "runs": 21,
+    "threads": 4
+  },
+  "method": [
+    "Option B only, the renderer of ADR 0004. Times are performance.now() in the page. The window is the Q54 window.",
+    "Fixture repositories: fixtures/gen-repos.mjs writes bare repositories with git fast-import. The comparison is the tree of branch base to the tree of branch head.",
+    "Change list: the Rust command opens the repository with gix as ADR 0005 says (isolated, no filter section), and diffs the two trees with rename detection (gix Rewrites::default()). It returns one text line for each changed file. The page parses the lines and renders a virtual list: only the visible rows are in the DOM.",
+    "list_ms: from the request to two animation frames after the list shows its first rows. Each run makes a new comparison; the Rust side drops the earlier one. Run 1 is in the summary, and the p95 is over each run.",
+    "Line counts: after the list shows, a pool of DIFFY_Q46_THREADS worker threads (default 4) counts the added and removed lines of each file with the canonical diff (gix-imara-diff 0.3.4 with the Q60 patch, histogram, postprocess_lines). A sender thread emits a batch event each 50 ms. The page updates the visible rows in the next animation frame. stats_ms is from the start to the done event.",
+    "Line count check: the sums of the counts must equal the insertions and deletions of `git diff --shortstat --histogram -M base head`.",
+    "List scroll: setScrollTop on the list in each animation frame, a fixed step of 400 px, from the top to the end. A long frame is more than 1.5 times the median interval.",
+    "File open: 3 files (the first, the middle and the last of the list) open in option B: two q46_blob calls and one q46_blocks call, then two Monaco models, two editors, the decorations and view zones of applyB. open_ms is to two animation frames after the editors are ready.",
+    "Memory: the Q54 sampler reads the RSS of the process tree each 50 ms. The list phase has three samplers, one after the other: the change list runs, the line counts and the list scroll. RSS that the allocator keeps after a phase counts in the next phase too. The open phase is the 3 file opens. The Rust process is diffy-s1-monaco, the WebView is WebKitWebProcess. Each fixture runs in a new app process.",
+    "Bounded memory: files-1000 and files-1000-large have the same 1,000 changed files and 2,000 files in each tree. Each file of the large fixtures has 50 times the lines. files-2000-large has twice the files of files-1000-large, at the same size. If the list phase holds no file content, its peak memory does not grow from files-1000-large to files-2000-large. The sampler records the RSS, and its anonymous (RssAnon) and file-backed (RssFile) parts.",
+    "DIFFY_Q46_RENAMES=0 turns off rename detection. CPU: utime + stime of the process tree from /proc, for each phase. A stall is a timer callback (each 10 ms) that runs more than 50 ms late, or a gap of more than 50 ms between animation frames.",
+    "cancel-stats: files-5000. The line counts start, and 300 ms later a cancel action runs. ack_ms is from the planned time of the cancel action to two animation frames after the list shows the cancelled state. The page does not wait for the q46_cancel command (async in Rust); rust_ack_ms is when that command returns. stop_ms is to the done event: the workers stop before their next file. A batch that arrives after the cancel is not applied.",
+    "cancel-open: stress-50mb. The 50 MB file opens once in full. Then it opens again, and a cancel action is planned at 5, 30, 60, 75 or 90 % of the full open time. ack_ms is from the planned time to two animation frames after the page shows the cancelled state, with no wait for q46_cancel (rust_ack_ms). The open checks the cancel flag after each step and disposes what it made. The Rust q46_blocks diff cannot stop in the middle; the token drops its result."
+  ],
+  "results": [
+    {
+      "part": "list",
+      "fixture": "files-2000-large",
+      "repo": {
+        "base": "9b44cb4b285e7d95392da3a3ee98c95c2ff5576d",
+        "base_bytes": 668345838,
+        "base_files": 4000,
+        "changed_files": 2000,
+        "head": "83f4764fbff063e937a2d6044d48d94a1b5f6abe",
+        "name": "files-2000-large",
+        "repo": "files-2000-large.git",
+        "shortstat": "2000 files changed, 249199 insertions(+), 245519 deletions(-)"
+      },
+      "files_in_list": 2040,
+      "files_ok": false,
+      "visible_rows": 44,
+      "list": {
+        "runs": [
+          {
+            "list_ms": 36,
+            "ipc_ms": 4,
+            "parse_ms": 1,
+            "render_ms": 31,
+            "rust_ms": 3.069912,
+            "gix_open_ms": 0.5062719999999999,
+            "tree_diff_ms": 2.4449490000000003
+          },
+          {
+            "list_ms": 32,
+            "ipc_ms": 3,
+            "parse_ms": 1,
+            "render_ms": 28,
+            "rust_ms": 2.727639,
+            "gix_open_ms": 0.379471,
+            "tree_diff_ms": 2.293647
+          },
+          {
+            "list_ms": 32,
+            "ipc_ms": 3,
+            "parse_ms": 1,
+            "render_ms": 28,
+            "rust_ms": 2.602569,
+            "gix_open_ms": 0.358861,
+            "tree_diff_ms": 2.186658
+          },
+          {
+            "list_ms": 32,
+            "ipc_ms": 4,
+            "parse_ms": 1,
+            "render_ms": 27,
+            "rust_ms": 2.68004,
+            "gix_open_ms": 0.383441,
+            "tree_diff_ms": 2.230899
+          },
+          {
+            "list_ms": 32,
+            "ipc_ms": 3,
+            "parse_ms": 1,
+            "render_ms": 28,
+            "rust_ms": 2.529599,
+            "gix_open_ms": 0.355391,
+            "tree_diff_ms": 2.117178
+          },
+          {
+            "list_ms": 32,
+            "ipc_ms": 4,
+            "parse_ms": 1,
+            "render_ms": 27,
+            "rust_ms": 2.658379,
+            "gix_open_ms": 0.396921,
+            "tree_diff_ms": 2.204358
+          },
+          {
+            "list_ms": 32,
+            "ipc_ms": 4,
+            "parse_ms": 1,
+            "render_ms": 27,
+            "rust_ms": 2.57525,
+            "gix_open_ms": 0.372002,
+            "tree_diff_ms": 2.142448
+          },
+          {
+            "list_ms": 32,
+            "ipc_ms": 4,
+            "parse_ms": 1,
+            "render_ms": 27,
+            "rust_ms": 2.533529,
+            "gix_open_ms": 0.370011,
+            "tree_diff_ms": 2.110988
+          },
+          {
+            "list_ms": 32,
+            "ipc_ms": 3,
+            "parse_ms": 1,
+            "render_ms": 28,
+            "rust_ms": 2.627,
+            "gix_open_ms": 0.401422,
+            "tree_diff_ms": 2.1456180000000002
+          },
+          {
+            "list_ms": 32,
+            "ipc_ms": 3,
+            "parse_ms": 1,
+            "render_ms": 28,
+            "rust_ms": 2.6416999999999997,
+            "gix_open_ms": 0.40015199999999995,
+            "tree_diff_ms": 2.185478
+          },
+          {
+            "list_ms": 32,
+            "ipc_ms": 3,
+            "parse_ms": 1,
+            "render_ms": 28,
+            "rust_ms": 2.5443290000000003,
+            "gix_open_ms": 0.37411099999999997,
+            "tree_diff_ms": 2.115727
+          },
+          {
+            "list_ms": 32,
+            "ipc_ms": 3,
+            "parse_ms": 1,
+            "render_ms": 28,
+            "rust_ms": 2.5329990000000002,
+            "gix_open_ms": 0.367232,
+            "tree_diff_ms": 2.106157
+          },
+          {
+            "list_ms": 32,
+            "ipc_ms": 3,
+            "parse_ms": 1,
+            "render_ms": 28,
+            "rust_ms": 2.5321089999999997,
+            "gix_open_ms": 0.35446099999999997,
+            "tree_diff_ms": 2.122048
+          },
+          {
+            "list_ms": 32,
+            "ipc_ms": 4,
+            "parse_ms": 1,
+            "render_ms": 27,
+            "rust_ms": 2.554659,
+            "gix_open_ms": 0.359871,
+            "tree_diff_ms": 2.138558
+          },
+          {
+            "list_ms": 32,
+            "ipc_ms": 4,
+            "parse_ms": 1,
+            "render_ms": 27,
+            "rust_ms": 2.60657,
+            "gix_open_ms": 0.37051100000000003,
+            "tree_diff_ms": 2.174788
+          },
+          {
+            "list_ms": 33,
+            "ipc_ms": 4,
+            "parse_ms": 1,
+            "render_ms": 28,
+            "rust_ms": 2.5842389999999997,
+            "gix_open_ms": 0.364151,
+            "tree_diff_ms": 2.166098
+          },
+          {
+            "list_ms": 32,
+            "ipc_ms": 3,
+            "parse_ms": 1,
+            "render_ms": 28,
+            "rust_ms": 2.555659,
+            "gix_open_ms": 0.370961,
+            "tree_diff_ms": 2.133298
+          },
+          {
+            "list_ms": 32,
+            "ipc_ms": 3,
+            "parse_ms": 1,
+            "render_ms": 28,
+            "rust_ms": 2.55785,
+            "gix_open_ms": 0.374232,
+            "tree_diff_ms": 2.129607
+          },
+          {
+            "list_ms": 32,
+            "ipc_ms": 3,
+            "parse_ms": 1,
+            "render_ms": 28,
+            "rust_ms": 2.627139,
+            "gix_open_ms": 0.370011,
+            "tree_diff_ms": 2.198278
+          },
+          {
+            "list_ms": 32,
+            "ipc_ms": 3,
+            "parse_ms": 1,
+            "render_ms": 28,
+            "rust_ms": 2.564839,
+            "gix_open_ms": 0.359481,
+            "tree_diff_ms": 2.1515079999999998
+          },
+          {
+            "list_ms": 32,
+            "ipc_ms": 3,
+            "parse_ms": 2,
+            "render_ms": 27,
+            "rust_ms": 2.5071999999999997,
+            "gix_open_ms": 0.345322,
+            "tree_diff_ms": 2.107777
+          }
+        ],
+        "run1_ms": 36,
+        "p50_ms": 32,
+        "p95_ms": 33,
+        "max_ms": 36,
+        "stalls": {
+          "timer": {
+            "count": 0,
+            "total_ms": 0,
+            "max_ms": 0
+          },
+          "frames": {
+            "count": 0,
+            "total_ms": 0,
+            "max_ms": 0
+          }
+        }
+      },
+      "stats": {
+        "cancelled": false,
+        "counted": 2040,
+        "error": null,
+        "files": 2040,
+        "id": 21,
+        "ms": 6913.448243999999,
+        "threads": 4,
+        "token": 22,
+        "applied_batches": 139,
+        "dropped_batches": 0,
+        "done_at": 7825,
+        "wall_ms": 6914,
+        "sums": {
+          "added": 369079,
+          "removed": 365399,
+          "binary": 0,
+          "missing": 0
+        },
+        "expected": {
+          "added": 249199,
+          "removed": 245519
+        },
+        "counts_ok": false,
+        "stalls": {
+          "timer": {
+            "count": 0,
+            "total_ms": 0,
+            "max_ms": 0
+          },
+          "frames": {
+            "count": 0,
+            "total_ms": 0,
+            "max_ms": 0
+          }
+        }
+      },
+      "list_scroll": {
+        "frames": 100,
+        "median_ms": 16,
+        "p95_ms": 17,
+        "long_frames": 0,
+        "max_ms": 18,
+        "stalls": {
+          "timer": {
+            "count": 0,
+            "total_ms": 0,
+            "max_ms": 0
+          },
+          "frames": {
+            "count": 0,
+            "total_ms": 0,
+            "max_ms": 0
+          }
+        }
+      },
+      "memory_list_phase": {
+        "list_runs": {
+          "duration_ms": 705.290321,
+          "interval_ms": 50,
+          "peak_rss_anon_kb_by_process_name": {
+            "WebKitNetworkPr": 11128,
+            "WebKitWebProces": 113040,
+            "diffy-s1-monaco": 48668
+          },
+          "peak_rss_file_kb_by_process_name": {
+            "WebKitNetworkPr": 44856,
+            "WebKitWebProces": 158704,
+            "diffy-s1-monaco": 124416
+          },
+          "peak_rss_kb_by_process_name": {
+            "WebKitNetworkPr": 55984,
+            "WebKitWebProces": 271744,
+            "diffy-s1-monaco": 173360
+          },
+          "peak_total_rss_kb": 501052,
+          "samples": 12
+        },
+        "line_counts": {
+          "duration_ms": 6949.506853,
+          "interval_ms": 50,
+          "peak_rss_anon_kb_by_process_name": {
+            "WebKitNetworkPr": 11092,
+            "WebKitWebProces": 99852,
+            "diffy-s1-monaco": 127724
+          },
+          "peak_rss_file_kb_by_process_name": {
+            "WebKitNetworkPr": 44856,
+            "WebKitWebProces": 158768,
+            "diffy-s1-monaco": 312896
+          },
+          "peak_rss_kb_by_process_name": {
+            "WebKitNetworkPr": 55948,
+            "WebKitWebProces": 258556,
+            "diffy-s1-monaco": 440540
+          },
+          "peak_total_rss_kb": 751592,
+          "samples": 117
+        },
+        "list_scroll": {
+          "duration_ms": 1643.768502,
+          "interval_ms": 50,
+          "peak_rss_anon_kb_by_process_name": {
+            "WebKitNetworkPr": 11092,
+            "WebKitWebProces": 106412,
+            "diffy-s1-monaco": 69172
+          },
+          "peak_rss_file_kb_by_process_name": {
+            "WebKitNetworkPr": 44856,
+            "WebKitWebProces": 158768,
+            "diffy-s1-monaco": 312896
+          },
+          "peak_rss_kb_by_process_name": {
+            "WebKitNetworkPr": 55948,
+            "WebKitWebProces": 265180,
+            "diffy-s1-monaco": 382344
+          },
+          "peak_total_rss_kb": 703424,
+          "samples": 28
+        }
+      },
+      "cpu_list_phase": {
+        "total_ms": 30500,
+        "by_process": {
+          "WebKitNetworkPr": 10,
+          "diffy-s1-monaco": 29210,
+          "WebKitWebProces": 1280
+        }
+      },
+      "opens": [
+        {
+          "index": 0,
+          "path": "src/d00/file_00000.rs",
+          "status": "M",
+          "cancelled_after": null,
+          "phases": {
+            "load_ms": 9,
+            "model_ms": 17,
+            "setup_ms": 95,
+            "paint_ms": 84,
+            "open_ms": 206,
+            "blocks_rust_ms": 6.932705
+          },
+          "blocks": 4,
+          "left_lines": 3001,
+          "right_lines": 3003
+        },
+        {
+          "index": 1020,
+          "path": "src/d20/file_01620.rs",
+          "status": "M",
+          "cancelled_after": null,
+          "phases": {
+            "load_ms": 16,
+            "model_ms": 3,
+            "setup_ms": 11,
+            "paint_ms": 37,
+            "open_ms": 67,
+            "blocks_rust_ms": 15.359855
+          },
+          "blocks": 4,
+          "left_lines": 3001,
+          "right_lines": 3003
+        },
+        {
+          "index": 2039,
+          "path": "src/new/added_04079.rs",
+          "status": "A",
+          "cancelled_after": null,
+          "phases": {
+            "load_ms": 11,
+            "model_ms": 1,
+            "setup_ms": 9,
+            "paint_ms": 23,
+            "open_ms": 44,
+            "blocks_rust_ms": 1.327305
+          },
+          "blocks": 1,
+          "left_lines": 1,
+          "right_lines": 3001
+        }
+      ],
+      "open_stalls": {
+        "timer": {
+          "count": 2,
+          "total_ms": 180,
+          "max_ms": 112
+        },
+        "frames": {
+          "count": 2,
+          "total_ms": 203,
+          "max_ms": 122
+        }
+      },
+      "memory_open_phase": {
+        "duration_ms": 355.16037900000003,
+        "interval_ms": 50,
+        "peak_rss_anon_kb_by_process_name": {
+          "WebKitNetworkPr": 11092,
+          "WebKitWebProces": 167764,
+          "diffy-s1-monaco": 81700
+        },
+        "peak_rss_file_kb_by_process_name": {
+          "WebKitNetworkPr": 44856,
+          "WebKitWebProces": 170376,
+          "diffy-s1-monaco": 312960
+        },
+        "peak_rss_kb_by_process_name": {
+          "WebKitNetworkPr": 55948,
+          "WebKitWebProces": 338140,
+          "diffy-s1-monaco": 394936
+        },
+        "peak_total_rss_kb": 788820,
+        "samples": 6
+      },
+      "cpu_open_phase": {
+        "total_ms": 760,
+        "by_process": {
+          "diffy-s1-monaco": 140,
+          "WebKitNetworkPr": 0,
+          "WebKitWebProces": 620
+        }
+      }
+    }
+  ]
+}
