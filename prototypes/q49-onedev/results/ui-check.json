@@ -1,0 +1,46 @@
+{
+  "url": "http://192.168.0.102:6610",
+  "pullRequest": 5,
+  "pages": [
+    {
+      "name": "activities",
+      "path": "/diffy-q49-sandbox/~pulls/5/activities",
+      "title": "PR #5: Q49 run 20261125T170302",
+      "textHasMarker": false,
+      "htmlHasMarker": true,
+      "htmlHasEscapedMarker": false,
+      "textHasFinding": true,
+      "findingTexts": [
+        "a finding with no line"
+      ],
+      "screenshot": "homelab-pr5-activities.png"
+    },
+    {
+      "name": "changes",
+      "path": "/diffy-q49-sandbox/~pulls/5/changes",
+      "title": "PR #5: Q49 run 20261125T170302",
+      "textHasMarker": false,
+      "htmlHasMarker": false,
+      "htmlHasEscapedMarker": false,
+      "textHasFinding": false,
+      "findingTexts": [],
+      "screenshot": "homelab-pr5-changes.png"
+    },
+    {
+      "name": "inline-comment",
+      "path": "/diffy-q49-sandbox/~pulls/5/changes",
+      "title": "PR #5: Q49 run 20261125T170302",
+      "textHasMarker": false,
+      "htmlHasMarker": false,
+      "htmlHasEscapedMarker": false,
+      "textHasFinding": true,
+      "findingTexts": [
+        "the value of",
+        "A reply."
+      ],
+      "screenshot": "homelab-pr5-inline-comment.png"
+    }
+  ],
+  "browser": "HeadlessChrome/158.0.8127.36",
+  "loggedIn": true
+}

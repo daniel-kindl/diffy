@@ -1,0 +1,517 @@
+{
+  "run": "20261125T170302",
+  "url": "http://192.168.0.102:6610",
+  "started": "2026-11-25T17:03:02.664Z",
+  "version": "17.2.4",
+  "admin": {
+    "id": 1,
+    "name": "tango"
+  },
+  "projectId": 8,
+  "reviewerId": 2,
+  "commits": {
+    "base": "87a4ad59e89a18d6a85d85f1806d3531091d05bb",
+    "head": "e29df1111b64e3078faebbf866443ef6fb07fb6f",
+    "branch": "q49-run-20261125T170302"
+  },
+  "pullRequestId": 74,
+  "pullRequest": {
+    "number": 5,
+    "status": "OPEN",
+    "keys": [
+      "autoMerge",
+      "baseCommitHash",
+      "buildCommitHash",
+      "checkError",
+      "closeDate",
+      "closeTimeGroups",
+      "codeCommentsUpdateDate",
+      "commentCount",
+      "confusedCount",
+      "description",
+      "descriptionRevisionCount",
+      "duration",
+      "eyesCount",
+      "heartCount",
+      "id",
+      "lastActivity",
+      "mergeStrategy",
+      "number",
+      "numberScopeId",
+      "smileCount",
+      "sourceBranch",
+      "sourceProjectId",
+      "status",
+      "submitDate",
+      "submitTimeGroups",
+      "submitterId",
+      "tadaCount",
+      "targetBranch",
+      "targetProjectId",
+      "thumbsDownCount",
+      "thumbsUpCount",
+      "tickCount",
+      "title",
+      "uuid",
+      "workInProgress"
+    ]
+  },
+  "codeComment": {
+    "id": 8,
+    "keys": [
+      "compareContext",
+      "content",
+      "createDate",
+      "id",
+      "lastActivity",
+      "mark",
+      "projectId",
+      "replyCount",
+      "resolved",
+      "userId",
+      "uuid"
+    ],
+    "contentEndsWithMarker": true,
+    "mark": {
+      "commitHash": "e29df1111b64e3078faebbf866443ef6fb07fb6f",
+      "path": "src/lib.rs",
+      "range": {
+        "fromRow": 9,
+        "fromColumn": -1,
+        "toRow": 9,
+        "toColumn": -1,
+        "tabWidth": 1
+      }
+    },
+    "compareContext": {
+      "oldCommitHash": "87a4ad59e89a18d6a85d85f1806d3531091d05bb",
+      "newCommitHash": "e29df1111b64e3078faebbf866443ef6fb07fb6f",
+      "whitespaceOption": "IGNORE_TRAILING",
+      "pullRequestId": 74
+    }
+  },
+  "reply": {
+    "id": 20,
+    "keys": [
+      "commentId",
+      "compareContext",
+      "content",
+      "date",
+      "id",
+      "userId"
+    ]
+  },
+  "resolve": {
+    "afterResolve": true,
+    "afterSecondResolve": true,
+    "afterUnresolve": false,
+    "afterResolveAgain": true,
+    "repliesAfterStatusChanges": 4,
+    "emptyRepliesFromStatusChanges": 3,
+    "repliesAddedByJsonNullBody": 1,
+    "jsonNullBodyReplyContent": "null",
+    "noteWithMarker": {
+      "found": 1,
+      "content": "Resolved.\n\n<!-- diffy:f=F1 a=a23ba812s -->",
+      "resolved": true
+    }
+  },
+  "reviews": {
+    "keys": [
+      "requestId",
+      "status",
+      "statusDate",
+      "userId"
+    ],
+    "before": {
+      "statusDate": "2026-11-25T17:03:03.103+00:00",
+      "requestId": 74,
+      "userId": 2,
+      "status": "PENDING"
+    },
+    "afterApprove": {
+      "statusDate": "2026-11-25T17:03:03.779+00:00",
+      "requestId": 74,
+      "userId": 2,
+      "status": "APPROVED"
+    },
+    "afterApprove2": {
+      "statusDate": "2026-11-25T17:03:03.899+00:00",
+      "requestId": 74,
+      "userId": 2,
+      "status": "APPROVED"
+    },
+    "afterRequestChanges": {
+      "statusDate": "2026-11-25T17:03:03.968+00:00",
+      "requestId": 74,
+      "userId": 2,
+      "status": "REQUESTED_FOR_CHANGES"
+    }
+  },
+  "reviewChanges": [
+    {
+      "date": "2026-11-25T17:03:03.779+00:00",
+      "data": [
+        "@type"
+      ]
+    },
+    {
+      "date": "2026-11-25T17:03:03.899+00:00",
+      "data": [
+        "@type"
+      ]
+    },
+    {
+      "date": "2026-11-25T17:03:03.968+00:00",
+      "data": [
+        "@type"
+      ]
+    }
+  ],
+  "negative": {
+    "submitter approves": {
+      "status": 406,
+      "text": "You are not reviewer of this pull request. Add your option as comment instead"
+    },
+    "inline comment outside a hunk (row 30)": {
+      "status": 406,
+      "text": "Comment range must be within a diff hunk"
+    },
+    "inline comment on a context row (row 7)": {
+      "status": 200
+    }
+  },
+  "markers": {
+    "m1": "<!-- diffy:f=F1 a=a23ba812 -->",
+    "m2": "<!-- diffy:f=F1 a=a23ba812r -->",
+    "m3": "<!-- diffy:f=F2 a=a23ba812 -->"
+  },
+  "reviewerTokenDeleted": true,
+  "rows": [
+    {
+      "action": "authenticate",
+      "endpoint": "GET /~api/users/me (Authorization: Bearer <access token>)",
+      "source": "https://github.com/theonedev/onedev/blob/v17.2.4/server-core/src/main/java/io/onedev/server/rest/resource/UserResource.java#L153",
+      "live": "pass",
+      "confirm": "n/a"
+    },
+    {
+      "action": "get a pull request",
+      "endpoint": "GET /~api/pulls/{id}",
+      "source": "https://github.com/theonedev/onedev/blob/v17.2.4/server-core/src/main/java/io/onedev/server/rest/resource/PullRequestResource.java#L110",
+      "live": "pass",
+      "confirm": "n/a"
+    },
+    {
+      "action": "inline comment",
+      "endpoint": "POST /~api/code-comments",
+      "source": "https://github.com/theonedev/onedev/blob/v17.2.4/server-core/src/main/java/io/onedev/server/rest/resource/CodeCommentResource.java#L155",
+      "live": "pass",
+      "confirm": "GET /~api/pulls/{id}/code-comments, match the marker in content (found 1)"
+    },
+    {
+      "action": "reply",
+      "endpoint": "POST /~api/code-comment-replies",
+      "source": "https://github.com/theonedev/onedev/blob/v17.2.4/server-core/src/main/java/io/onedev/server/rest/resource/CodeCommentReplyResource.java#L59",
+      "live": "pass",
+      "confirm": "GET /~api/code-comments/{id}/replies, match the marker in content (found 1)"
+    },
+    {
+      "action": "resolve",
+      "endpoint": "POST /~api/code-comments/{id}/resolve and /unresolve",
+      "source": "https://github.com/theonedev/onedev/blob/v17.2.4/server-core/src/main/java/io/onedev/server/rest/resource/CodeCommentResource.java#L265",
+      "live": "pass",
+      "confirm": "GET /~api/code-comments/{id}, field `resolved`"
+    },
+    {
+      "action": "pull request comment",
+      "endpoint": "POST /~api/pull-request-comments",
+      "source": "https://github.com/theonedev/onedev/blob/v17.2.4/server-core/src/main/java/io/onedev/server/rest/resource/PullRequestCommentResource.java#L50",
+      "live": "pass",
+      "confirm": "GET /~api/pulls/{id}/comments, match the marker in content (found 1)"
+    },
+    {
+      "action": "approve",
+      "endpoint": "POST /~api/pulls/{id}/approve",
+      "source": "https://github.com/theonedev/onedev/blob/v17.2.4/server-core/src/main/java/io/onedev/server/rest/resource/PullRequestResource.java#L408",
+      "live": "pass",
+      "confirm": "GET /~api/pulls/{id}/reviews, the entry of the user, field `status`"
+    },
+    {
+      "action": "request changes",
+      "endpoint": "POST /~api/pulls/{id}/request-for-changes",
+      "source": "https://github.com/theonedev/onedev/blob/v17.2.4/server-core/src/main/java/io/onedev/server/rest/resource/PullRequestResource.java#L425",
+      "live": "pass",
+      "confirm": "GET /~api/pulls/{id}/reviews, the entry of the user, field `status`"
+    }
+  ],
+  "calls": [
+    {
+      "method": "GET",
+      "path": "/~api/server/version",
+      "status": 200,
+      "ms": 67
+    },
+    {
+      "method": "GET",
+      "path": "/~api/users/me",
+      "status": 200,
+      "ms": 13
+    },
+    {
+      "method": "GET",
+      "path": "/~api/projects/ids/diffy-q49-sandbox",
+      "status": 200,
+      "ms": 16
+    },
+    {
+      "method": "GET",
+      "path": "/~api/users/ids/diffy-q49-reviewer",
+      "status": 200,
+      "ms": 13
+    },
+    {
+      "method": "GET",
+      "path": "/~api/roles/ids/Code%20Writer",
+      "status": 200,
+      "ms": 15
+    },
+    {
+      "method": "GET",
+      "path": "/~api/projects/8/user-authorizations",
+      "status": 200,
+      "ms": 13
+    },
+    {
+      "method": "POST",
+      "path": "/~api/access-tokens",
+      "status": 200,
+      "ms": 18
+    },
+    {
+      "method": "POST",
+      "path": "/~api/pulls",
+      "status": 200,
+      "ms": 92
+    },
+    {
+      "method": "GET",
+      "path": "/~api/users/me",
+      "status": 200,
+      "ms": 11
+    },
+    {
+      "method": "GET",
+      "path": "/~api/pulls/74",
+      "status": 200,
+      "ms": 17
+    },
+    {
+      "method": "POST",
+      "path": "/~api/code-comments",
+      "status": 200,
+      "ms": 35
+    },
+    {
+      "method": "GET",
+      "path": "/~api/pulls/74/code-comments",
+      "status": 200,
+      "ms": 31
+    },
+    {
+      "method": "GET",
+      "path": "/~api/code-comments/8",
+      "status": 200,
+      "ms": 15
+    },
+    {
+      "method": "POST",
+      "path": "/~api/code-comment-replies",
+      "status": 200,
+      "ms": 53
+    },
+    {
+      "method": "GET",
+      "path": "/~api/code-comments/8/replies",
+      "status": 200,
+      "ms": 16
+    },
+    {
+      "method": "POST",
+      "path": "/~api/code-comments/8/resolve",
+      "status": 200,
+      "ms": 26
+    },
+    {
+      "method": "GET",
+      "path": "/~api/code-comments/8",
+      "status": 200,
+      "ms": 44
+    },
+    {
+      "method": "POST",
+      "path": "/~api/code-comments/8/resolve",
+      "status": 200,
+      "ms": 36
+    },
+    {
+      "method": "GET",
+      "path": "/~api/code-comments/8",
+      "status": 200,
+      "ms": 27
+    },
+    {
+      "method": "POST",
+      "path": "/~api/code-comments/8/unresolve",
+      "status": 200,
+      "ms": 28
+    },
+    {
+      "method": "GET",
+      "path": "/~api/code-comments/8",
+      "status": 200,
+      "ms": 16
+    },
+    {
+      "method": "POST",
+      "path": "/~api/code-comments/8/resolve",
+      "status": 200,
+      "ms": 28
+    },
+    {
+      "method": "GET",
+      "path": "/~api/code-comments/8",
+      "status": 200,
+      "ms": 18
+    },
+    {
+      "method": "GET",
+      "path": "/~api/code-comments/8/replies",
+      "status": 200,
+      "ms": 17
+    },
+    {
+      "method": "GET",
+      "path": "/~api/code-comments/8/replies",
+      "status": 200,
+      "ms": 16
+    },
+    {
+      "method": "POST",
+      "path": "/~api/code-comments/8/unresolve",
+      "status": 200,
+      "ms": 23
+    },
+    {
+      "method": "GET",
+      "path": "/~api/code-comments/8/replies",
+      "status": 200,
+      "ms": 15
+    },
+    {
+      "method": "POST",
+      "path": "/~api/code-comments/8/resolve",
+      "status": 200,
+      "ms": 28
+    },
+    {
+      "method": "GET",
+      "path": "/~api/code-comments/8/replies",
+      "status": 200,
+      "ms": 21
+    },
+    {
+      "method": "GET",
+      "path": "/~api/code-comments/8",
+      "status": 200,
+      "ms": 14
+    },
+    {
+      "method": "POST",
+      "path": "/~api/pull-request-comments",
+      "status": 200,
+      "ms": 24
+    },
+    {
+      "method": "GET",
+      "path": "/~api/pulls/74/comments",
+      "status": 200,
+      "ms": 15
+    },
+    {
+      "method": "GET",
+      "path": "/~api/pulls/74/reviews",
+      "status": 200,
+      "ms": 14
+    },
+    {
+      "method": "POST",
+      "path": "/~api/pulls/74/approve",
+      "status": 200,
+      "ms": 102
+    },
+    {
+      "method": "GET",
+      "path": "/~api/pulls/74/reviews",
+      "status": 200,
+      "ms": 16
+    },
+    {
+      "method": "POST",
+      "path": "/~api/pulls/74/approve",
+      "status": 200,
+      "ms": 51
+    },
+    {
+      "method": "GET",
+      "path": "/~api/pulls/74/reviews",
+      "status": 200,
+      "ms": 16
+    },
+    {
+      "method": "POST",
+      "path": "/~api/pulls/74/request-for-changes",
+      "status": 200,
+      "ms": 77
+    },
+    {
+      "method": "GET",
+      "path": "/~api/pulls/74/reviews",
+      "status": 200,
+      "ms": 15
+    },
+    {
+      "method": "GET",
+      "path": "/~api/pulls/74/changes",
+      "status": 200,
+      "ms": 16
+    },
+    {
+      "method": "POST",
+      "path": "/~api/pulls/74/approve",
+      "status": 406,
+      "ms": 14,
+      "body": "You are not reviewer of this pull request. Add your option as comment instead"
+    },
+    {
+      "method": "POST",
+      "path": "/~api/code-comments",
+      "status": 406,
+      "ms": 39,
+      "body": "Comment range must be within a diff hunk"
+    },
+    {
+      "method": "POST",
+      "path": "/~api/code-comments",
+      "status": 200,
+      "ms": 32
+    },
+    {
+      "method": "DELETE",
+      "path": "/~api/access-tokens/10",
+      "status": 200,
+      "ms": 24
+    }
+  ],
+  "finished": "2026-11-25T17:03:04.172Z"
+}
