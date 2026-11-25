@@ -2,7 +2,7 @@
 
 Status: open
 Destination: Each v0.1 milestone (M0 to M4) has a plan and issues with acceptance criteria. Each spike has a verdict, and no open question blocks the first M0 issue.
-Next: Q49
+Next: Q50
 
 ## Notes
 
@@ -75,6 +75,13 @@ Next: Q49
 - The REST API can reply to a review comment, with `POST /repos/{owner}/{repo}/pulls/{pull_number}/comments/{comment_id}/replies`. Source: https://github.com/github/rest-api-description/blob/c9c95fe34ced05fe076001f5c55704742bc8e7f8/descriptions/api.github.com/api.github.com.json#L91466
 - The GitHub GraphQL API resolves a review thread with `resolveReviewThread` and reopens it with `unresolveReviewThread`. Each takes the thread ID. Source: https://docs.github.com/en/graphql/reference/mutations#resolvereviewthread and https://docs.github.com/public/fpt/schema.docs.graphql lines 29511, 29848 and 60774, read on 2026-11-25.
 - A GraphQL review thread has `isResolved` and `viewerCanResolve`. `pullRequest.reviewThreads` lists the threads with their comments, so a REST comment maps to its thread by its `node_id`. Source: https://docs.github.com/public/fpt/schema.docs.graphql lines 45960, 47759 and 47824, read on 2026-11-25, and Q48 run on tokio-rs/tokio pull request 8781.
+- The Q14 homelab instance runs OneDev 17.2.4, the `1dev/server:17.2.4` image. On 2026-11-25 that image is also the `latest` tag. The agent upgraded the instance from 16.9.8 on 2026-11-25, with the owner's approval and after a backup of the data folder. Source: https://github.com/daniel-kindl/diffy/blob/4bcc767/prototypes/q49-onedev/README.md
+- OneDev 17.2.4 has a REST endpoint for each review action: inline comment, reply, resolve and unresolve, pull request comment, approve and request changes. An access token authenticates with `Authorization: Bearer`. Each action passed on the homelab instance. Source: https://github.com/daniel-kindl/diffy/blob/4bcc767/prototypes/q49-onedev/results/homelab.json and https://github.com/theonedev/onedev/blob/v17.2.4/server-core/src/main/java/io/onedev/server/rest/resource/CodeCommentResource.java#L155
+- OneDev does not show the Q34 marker. The visible text of the activity page, the changes page and the open code comment has no marker. Source: https://github.com/daniel-kindl/diffy/blob/4bcc767/prototypes/q49-onedev/results/ui-check.json
+- Only a reviewer of a pull request can approve it or request changes. The submitter gets the error 406, and the submitter cannot be added as a reviewer. Source: https://github.com/theonedev/onedev/blob/v17.2.4/server-core/src/main/java/io/onedev/server/rest/resource/PullRequestResource.java#L382 and https://github.com/daniel-kindl/diffy/blob/4bcc767/prototypes/q49-onedev/results/homelab.json
+- OneDev accepts an inline comment only inside a OneDev diff hunk, context rows included. Each comment has the whitespace option `IGNORE_TRAILING`, so a OneDev hunk can differ from a canonical hunk. Source: https://github.com/theonedev/onedev/blob/v17.2.4/server-core/src/main/java/io/onedev/server/rest/resource/CodeCommentResource.java#L237 and https://github.com/daniel-kindl/diffy/blob/4bcc767/prototypes/q49-onedev/results/homelab.json
+- A repeated approve adds a second entry to the pull request activity. A repeated resolve changes nothing. Source: https://github.com/daniel-kindl/diffy/blob/4bcc767/prototypes/q49-onedev/results/homelab.json
+- Each resolve or unresolve adds a reply. With an empty request body, the reply is empty. A note that ends with the marker adds that note, so the marker confirms it. Source: https://github.com/daniel-kindl/diffy/blob/4bcc767/prototypes/q49-onedev/README.md and https://github.com/theonedev/onedev/blob/v17.2.4/server-core/src/main/java/io/onedev/server/service/impl/DefaultCodeCommentStatusChangeService.java#L50
 
 ## Decisions
 
@@ -131,31 +138,9 @@ Next: Q49
 - Q45 S5 anchor mapping: M3. A finding moves with the canonical diff only when the LCS rule gives the same new line. M3 applies the rule in the segment between the two nearest bracket lines. A bracket is a line that occurs once in each file and that the canonical diff keeps. The start and the end of the file are also brackets. Otherwise the finding is outdated. M3 is the only method with the expected result on each fixture and no wrong mapping in the property test. The owner selected the option "M3". Decided by: Daniel Kindl, 2026-11-25. Record: this line.
 - Q46 S8 scale: each section 18 target has a measured result for option B on the Fedora reference host. The change list target is met on each fixture. The cancel target is met for the line counts and missed for the open of a 50 MB file. The follow-up questions are Q66 and Q67. The owner selected the option "Accept the Q46 result". Decided by: Daniel Kindl, 2026-11-25. Record: this line.
 - Q48 GitHub thread resolution API: only the GraphQL API resolves a review thread, so M3a needs a GraphQL client. REST can post a reply, but it cannot resolve a thread or show the thread of a comment. Diffy finds the thread through `pullRequest.reviewThreads` and the comment `node_id`. How much of the GitHub client uses GraphQL goes to Q69. The owner selected the option "Accept the Q48 result". Decided by: Daniel Kindl, 2026-11-25. Record: this line.
+- Q49 S4 OneDev capabilities: Diffy can do each review action through the OneDev 17.2.4 REST API. Each action has a read call that confirms it before a retry. Comments and replies are found by the marker. A resolve is confirmed by the `resolved` field, and an approval or a change request by the status of the user in the reviews. Diffy sends a note that ends with the marker on each resolve, because each status change adds a reply. OneDev does not show the marker, so ADR 0003 needs no amendment. The follow-up questions are Q70 and Q71. The owner selected the option "Accept the Q49 result". Decided by: Daniel Kindl, 2026-11-25. Record: this line.
 
 ## Open questions
-
-### Q49: S4 OneDev capabilities
-
-Type: prototype
-Blocked by: Q40
-
-Find out which review actions the latest stable OneDev REST API supports. Check inline comments, replies, resolution and approval. Check that the Q34 marker is invisible in OneDev. Define how Diffy confirms each OneDev operation (comment, approval, change request) before a retry. See ADR 0003. Run a smoke test against the Q14 homelab instance on the latest stable version (Q17). The test authenticates, retrieves a pull request and does each supported review action.
-
-Charter question: Which review actions can Diffy do through the latest stable OneDev REST API, and how does Diffy confirm each one?
-
-Evidence:
-
-- The OneDev version in the CI container and on the Q14 homelab instance.
-- A table with one row for each action: authenticate, get a pull request, inline comment, reply, resolve, approve and request changes. Each row has the endpoint and a source, or "not supported".
-- A comment with the Q34 marker, examined in the OneDev web UI. Screenshots stay on the prototype branch or its pull request.
-- For each supported comment and reply: the read call that finds it by its marker before a retry (ADR 0003).
-- For each supported review action, for example approve, request changes and resolve: the read call that returns the state before a retry. The state is of the pull request or of the thread. ADR 0003 says that a marker does not confirm a review action.
-- A smoke test against the homelab instance that does each supported action.
-
-Stop when:
-
-- Each row has a source and a live result. An action with no API is recorded as not supported (Q35).
-- The homelab instance is not on the latest stable version. Ask the owner to upgrade it (Q17).
 
 ### Q50: S6 updater pre-release channel
 
@@ -294,6 +279,20 @@ Blocked by: none
 
 Q48 shows that M3a needs GraphQL to resolve a thread. REST covers the batched review (ADR 0003) and the replies. Decide whether the GitHub client uses GraphQL only for the threads and REST for the rest, or GraphQL for each call.
 
+### Q70: Findings outside a OneDev hunk
+
+Type: owner
+Blocked by: none
+
+OneDev accepts an inline comment only inside a OneDev diff hunk, and OneDev ignores trailing whitespace by default (Q49). A comment on another line gets an error. So does a comment on a line that only the canonical diff changes. Decide what Diffy does with such a finding. Examples are a pull request comment with the path and the line, or a block before publication.
+
+### Q71: Review actions when the user is not a reviewer
+
+Type: owner
+Blocked by: none
+
+On OneDev, only a reviewer of the pull request can approve or request changes (Q49). The submitter never can. Decide what Diffy does when the user is not a reviewer. Examples are no review action in the dialog, or a pull request comment. Another example: Diffy adds the user as a reviewer first, if the user has the permission.
+
 ## Not yet clear
 
 - The rules that mark a file as generated (R-02).
@@ -374,6 +373,13 @@ Q48 shows that M3a needs GraphQL to resolve a thread. REST covers the batched re
 - Result: the change list target is met on each fixture. The cancel target is met for the line counts and missed for the open of a 50 MB file.
 - Picked: the owner accepted the result.
 - Branch: `prototype/diffy-v0.1-q46` at `d569d85`. Tag: `prototype/diffy-v0.1-q46`. Not merged.
+
+### Q49: S4 OneDev capabilities
+
+- Options: none. Q49 checks each review action through the OneDev 17.2.4 REST API on the Q14 homelab instance.
+- Result: each action passes and has a read call that confirms it. The marker is not visible.
+- Picked: the owner accepted the result.
+- Branch: `prototype/diffy-v0.1-q49` at `4bcc767`. Tag: `prototype/diffy-v0.1-q49`. Not merged.
 
 ## Hand-off
 
