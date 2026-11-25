@@ -60,7 +60,7 @@ def sign(path, key, version=None):
     env = dict(os.environ)
     env.pop("TAURI_SIGNING_PRIVATE_KEY", None)
     subprocess.run(cmd + [path], check=True, capture_output=True, env=env,
-                   shell=WIN)
+                   shell=WIN, timeout=120)
     return read(path + ".sig")
 
 
@@ -118,6 +118,7 @@ class Env:
     """One test installation: the app, its data folder and its config."""
 
     def __init__(self, name):
+        step(f"{name}: set up")
         self.root = os.path.join(WORK, name)
         shutil.rmtree(self.root, ignore_errors=True)
         os.makedirs(self.root)
@@ -127,10 +128,13 @@ class Env:
             self.exe = os.path.join(self.install_dir, "q55-updater.exe")
             uninstall = os.path.join(self.install_dir, "uninstall.exe")
             if os.path.exists(uninstall):
-                subprocess.run([uninstall, "/S"], check=False)
+                kill_installers()
+                step(f"{name}: uninstall")
+                subprocess.run([uninstall, "/S"], check=False, timeout=120)
                 time.sleep(3)
             shutil.rmtree(self.data, ignore_errors=True)
-            subprocess.run([art("0.1.0"), "/S"], check=True)
+            step(f"{name}: install 0.1.0")
+            subprocess.run([art("0.1.0"), "/S"], check=True, timeout=180)
             for _ in range(60):
                 if os.path.exists(self.exe):
                     break
@@ -170,6 +174,7 @@ class Env:
             signal.signal(signal.SIGXFSZ, signal.SIG_IGN)
             resource.setrlimit(resource.RLIMIT_FSIZE, (fsize, fsize))
 
+        step(f"{os.path.basename(self.root)}: run app")
         t0 = time.time()
         p = subprocess.Popen([self.exe], env=env, cwd=self.root,
                              preexec_fn=limit if fsize else None)
@@ -184,6 +189,8 @@ class Env:
             time.sleep(0.5)
         else:
             p.kill()
+            step("app run timed out")
+            kill_installers()
         return {"exit_code": code, "seconds": round(time.time() - t0, 1),
                 "events": self.events()[before:]}
 
@@ -222,11 +229,19 @@ def unlock_file(h):
     ctypes.windll.kernel32.CloseHandle(ctypes.c_void_p(h))
 
 
+def step(msg):
+    print(f"  {time.strftime('%H:%M:%S')} {msg}", flush=True)
+
+
 def kill_installers():
+    """Stops each leftover installer or app process, and lists what it stopped."""
     if WIN:
-        subprocess.run(["powershell", "-NoProfile", "-Command",
-                        "Get-Process | Where-Object { $_.Path -like \"$env:TEMP*\" } | Stop-Process -Force"],
-                       check=False)
+        r = subprocess.run(["powershell", "-NoProfile", "-Command",
+                            "Get-Process | Where-Object { $_.Path -like \"$env:TEMP*\" -or $_.Name -like 'q55-updater*' -or $_.Name -like 'Un_*' -or $_.Name -like 'uninstall*' } | "
+                            "ForEach-Object { \"$($_.Name) $($_.Path)\"; Stop-Process -Force -Id $_.Id }"],
+                           check=False, capture_output=True, text=True, timeout=60)
+        if r.stdout.strip():
+            step("stopped: " + r.stdout.strip().replace("\n", " | "))
 
 
 def good_manifests(sigs):
@@ -324,7 +339,7 @@ def t_not_writable(sigs):
     e.config()
     if WIN:
         user = os.environ["USERNAME"]
-        subprocess.run(["icacls", e.install_dir, "/deny", f"{user}:(OI)(CI)(W,D,DC)"], check=True)
+        subprocess.run(["icacls", e.install_dir, "/deny", f"{user}:(OI)(CI)(W,D,DC)"], check=True, timeout=60)
     else:
         os.chmod(e.install_dir, 0o555)
     try:
@@ -332,7 +347,7 @@ def t_not_writable(sigs):
     finally:
         kill_installers()
         if WIN:
-            subprocess.run(["icacls", e.install_dir, "/remove:d", os.environ["USERNAME"]], check=True)
+            subprocess.run(["icacls", e.install_dir, "/remove:d", os.environ["USERNAME"]], check=True, timeout=60)
         else:
             os.chmod(e.install_dir, 0o755)
     s = e.state()
@@ -413,6 +428,8 @@ def main():
                 if os.path.exists(log) else []
             results["tests"][name] = {"pass": ok, **detail}
             print(f"{name}: {'pass' if ok else 'FAIL'}", flush=True)
+            with open(RESULT, "w", encoding="utf-8") as f:
+                json.dump(results, f, indent=1)
     finally:
         srv.kill()
         hang.close()
