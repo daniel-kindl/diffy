@@ -2,7 +2,7 @@
 
 Status: open
 Destination: Each v0.1 milestone (M0 to M4) has a plan and issues with acceptance criteria. Each spike has a verdict, and no open question blocks the first M0 issue.
-Next: Q44
+Next: Q45
 
 ## Notes
 
@@ -43,6 +43,13 @@ Next: Q44
 - A patch to gix-imara-diff 0.3.4 changes these four steps. With the patch and `postprocess_lines`, the crate passes 5 of 5 S1, 20 of 20 edge and 3,732 of 3,732 real Q43 pairs. Without any one of the four changes, 1 to 3 real pairs fail. Source: https://github.com/daniel-kindl/diffy/blob/3c0ae71/prototypes/q60-parity-cause/README.md
 - With the patch, the histogram diff and the indent heuristic take 180.6 ms on the `50mb-stress` fixture, against 165.9 ms without the patch. Source: https://github.com/daniel-kindl/diffy/blob/3c0ae71/prototypes/q60-parity-cause/README.md
 - The published gix-imara-diff 0.3.4 crate has no `src/tests.rs`, so its tests do not compile from the crate. Source: gix-imara-diff 0.3.4 `src/lib.rs:167`
+- The Q44 run compared gix 0.91.0 and git2 0.21.0 (libgit2 1.9.7) with Git 2.55.0 as the oracle, on 7 fixtures with 58 operations. gix gave the same answer as Git for 58 operations, and git2 for 57. Source: https://github.com/daniel-kindl/diffy/blob/e8867f4/prototypes/q44-git-backend/README.md
+- libgit2 reports an intent-to-add file (`git add -N`) as `AM`. Git reports `.A`. Source: https://github.com/daniel-kindl/diffy/blob/e8867f4/prototypes/q44-git-backend/results/git2.json
+- With its default trust, gix status runs a filter driver command (`filter.<name>.clean`) from the repository configuration. Git also runs it. libgit2 has no external filter drivers. Source: https://github.com/daniel-kindl/diffy/blob/e8867f4/prototypes/q44-git-backend/results/gix-filters-trust.json and https://github.com/daniel-kindl/diffy/blob/e8867f4/prototypes/q44-git-backend/results/control-git-status.json
+- When gix refuses the repository configuration sections, its status creates and removes a symbolic link in the worktree root, to probe the file system. Source: https://github.com/daniel-kindl/diffy/blob/e8867f4/prototypes/q44-git-backend/results/gix-filters-section-filter.json
+- gix with the filter sections removed in memory wrote nothing and ran no command, also on a copy with no write permission. Source: https://github.com/daniel-kindl/diffy/blob/e8867f4/prototypes/q44-git-backend/results/gix.json and https://github.com/daniel-kindl/diffy/blob/e8867f4/prototypes/q44-git-backend/results/gix-no-write.json
+- In a bubblewrap container with no `git` executable, the build of both backends and each check started no `git` process. Source: https://github.com/daniel-kindl/diffy/blob/e8867f4/prototypes/q44-git-backend/results/traces.json
+- The gix build compiles no C. The git2 build compiles libgit2 and links the system zlib. Both build for `x86_64-pc-windows-gnu`, but neither ran on Windows. Source: https://github.com/daniel-kindl/diffy/blob/e8867f4/prototypes/q44-git-backend/results/build.json
 
 ## Decisions
 
@@ -94,32 +101,9 @@ Next: Q44
 - Q43 Diff crate with histogram parity: no crate is identical to Git on each pair. The closest is gix-imara-diff 0.3.4 with `postprocess_lines`, with 5 fails in 3,732 real pairs. The oracle is Git 2.55.0, `git diff --no-index --histogram -U3 --inter-hunk-context=0 --indent-heuristic --no-color --no-ext-diff --no-renames --no-textconv`, with `GIT_CONFIG_NOSYSTEM=1` and `GIT_CONFIG_GLOBAL=/dev/null`, in a folder outside each repository. The cause of the fails goes to Q60 and the fix to Q61. The owner selected the option "Accept the Q43 result". Decided by: Daniel Kindl, 2026-11-25. Record: this line.
 - Q60 Cause of the histogram parity fails: gix-imara-diff 0.3.4 differs from Git 2.55.0 in four steps. They are the skip after a match, the limit of 63 copies, the strip of the common ends and no re-diff after a slide. A patch that changes the four steps passes each Q43 pair. The owner selected the option "Accept the Q60 result". Decided by: Daniel Kindl, 2026-11-25. Record: this line.
 - Q61 Path to histogram parity: Diffy proposes the Q60 patch to gitoxide. Until a gitoxide release has the fix, Diffy keeps a copy of gix-imara-diff 0.3.4 with the Q60 patch and keeps its Apache-2.0 license notice. Diffy drops the copy when a gitoxide release has the fix and passes the parity tests. The proposal goes to Q62. The owner selected the option "Upstream + patched copy". Decided by: Daniel Kindl, 2026-11-25. Record: this line and ADR 0002.
+- Q44 S3 Git backend: gix. Diffy opens each repository isolated and removes the `filter` sections from the configuration in memory, so no command from the repository configuration runs. gix is the only backend that passes each fixture, the read-only proof and the build with no installed Git. The owner selected the option "gix". Decided by: Daniel Kindl, 2026-11-25. Record: [ADR 0005](../adr/0005-git-backend-gix.md).
 
 ## Open questions
-
-### Q44: S3 Git backend
-
-Type: prototype
-Blocked by: Q40
-
-Compare gix and git2 on the Git fixtures: index and worktree, renames, submodules, unusual paths and detached HEAD. Prove read-only behavior and a build that needs no installed Git.
-
-Charter question: Which Git backend, gix or git2, reads the fixtures correctly, never writes, and builds with no installed Git?
-
-Evidence, for each backend on the branch `prototype/diffy-v0.1-q44`:
-
-- A result for each Git fixture in specification section 19: index and worktree, unusual filenames, renames, detached HEAD, submodules and binary files.
-- The oracle is the `git` CLI with no system or global Git configuration, as in Q43.
-- Read-only proof: the checksum of each file in the fixture repository, `.git` included, is the same before and after each operation. No lock file appears.
-- The same operations pass on a fixture copy that has no write permission.
-- A build and a test run in a container with no `git` executable. A process trace shows that no `git` process starts.
-- Build facts: the native dependencies, the binary size and a Windows x64 build.
-
-Stop when:
-
-- A backend qualifies only when it passes each fixture, the read-only proof and the build with no installed Git.
-- Each backend has a result for each item, and at least one backend qualifies. The owner picks from the qualified backends.
-- No backend qualifies. List the gaps of each backend and ask the owner.
 
 ### Q45: S5 anchor mapping
 
@@ -291,6 +275,13 @@ Blocked by: none
 
 Propose the four Q60 changes to gix-imara-diff in gitoxide (https://github.com/GitoxideLabs/gitoxide). The proposal is outward-facing, so the owner approves it before it is sent. Record the upstream link and the result here. The patch is on the tag `prototype/diffy-v0.1-q60`. Issue #37.
 
+### Q63: Files with a filter driver
+
+Type: owner
+Blocked by: none
+
+Diffy runs no filter driver (ADR 0005), so a file with a `filter=` attribute compares with no filter. For Git LFS, that is the raw file against the pointer blob. Decide how Diffy shows such files, for example as a file with a limitation, or with a built-in LFS pointer check.
+
 ## Not yet clear
 
 - The rules that mark a file as generated (R-02).
@@ -350,6 +341,13 @@ Propose the four Q60 changes to gix-imara-diff in gitoxide (https://github.com/G
 - Result: only the build with all four changes passes each S1, edge and real pair.
 - Picked: the build with all four changes (Q61).
 - Branch: `prototype/diffy-v0.1-q60` at `3c0ae71`. Tag: `prototype/diffy-v0.1-q60`. Not merged.
+
+### Q44: S3 Git backend
+
+- Options: gix 0.91.0 and git2 0.21.0 (libgit2 1.9.7), on the section 19 fixtures and an untrusted configuration fixture. For gix, also three ways to keep filter drivers from running.
+- Result: only gix with the filter sections removed in memory passes each fixture, the read-only proof and the build with no installed Git.
+- Picked: gix, because it is the only backend that qualifies.
+- Branch: `prototype/diffy-v0.1-q44` at `e8867f4`. Tag: `prototype/diffy-v0.1-q44`. Not merged.
 
 ## Hand-off
 
