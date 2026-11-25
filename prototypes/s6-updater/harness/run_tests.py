@@ -327,12 +327,14 @@ def t_not_writable(sigs):
         subprocess.run(["icacls", e.install_dir, "/deny", f"{user}:(OI)(CI)(W,D,DC)"], check=True)
     else:
         os.chmod(e.install_dir, 0o555)
-    r = e.run(timeout=150)
-    kill_installers()
-    if WIN:
-        subprocess.run(["icacls", e.install_dir, "/remove:d", os.environ["USERNAME"]], check=True)
-    else:
-        os.chmod(e.install_dir, 0o755)
+    try:
+        r = e.run(timeout=150)
+    finally:
+        kill_installers()
+        if WIN:
+            subprocess.run(["icacls", e.install_dir, "/remove:d", os.environ["USERNAME"]], check=True)
+        else:
+            os.chmod(e.install_dir, 0o755)
     s = e.state()
     # After the permission is back: the app still starts, then updates.
     r2 = e.run()
@@ -350,9 +352,11 @@ def t_failed_install(sigs):
     e.config()
     if WIN:
         h = lock_file(e.exe)
-        r = e.run(timeout=150)
-        kill_installers()
-        unlock_file(h)
+        try:
+            r = e.run(timeout=150)
+        finally:
+            kill_installers()
+            unlock_file(h)
     else:
         r = e.run(fsize=50 * 1024 * 1024)
     s = e.state()
@@ -402,7 +406,8 @@ def main():
             try:
                 ok, detail = t(sigs)
             except Exception as ex:  # noqa: BLE001
-                ok, detail = False, {"exception": repr(ex)}
+                import traceback
+                ok, detail = False, {"exception": repr(ex), "traceback": traceback.format_exc()}
             log = os.path.join(SERVE, "access.log")
             detail["requests"] = [l.split(" ", 1)[1].strip() for l in open(log).readlines()[access_before:]] \
                 if os.path.exists(log) else []
