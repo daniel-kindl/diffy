@@ -2,7 +2,7 @@
 
 Status: open
 Destination: Each v0.1 milestone (M0 to M4) has a plan and issues with acceptance criteria. Each spike has a verdict, and no open question blocks the first M0 issue.
-Next: Q53
+Next: Q55
 
 ## Notes
 
@@ -178,15 +178,9 @@ Next: Q53
 - Q51 Single instance and CLI forwarding: a second `diffy` exits only after the callback of the running instance returns, on Linux and on Windows. So a callback that reads each input before it returns is safe for `git difftool`. On Windows a timeout loses the input with exit code 0. The follow-up questions are Q74 and Q75. The owner selected the option "Accept the Q51 result". Decided by: Daniel Kindl, 2026-11-25. Record: this line.
 - Q74 Forwarding design for CLI inputs: the single instance callback copies or reads each input into a Diffy snapshot before it returns. The tab then opens from the snapshot. Diffy uses the plugin as it is, with no channel of its own. The helper cannot report an error. A copy that takes more than 10 s on Windows loses the input, so Q75 measures the copy time. The owner selected the option "Copy in the callback". Decided by: Daniel Kindl, 2026-11-25. Record: this line.
 - Q52 Owner setup actions: Q4 has no target dates, so each latest date is a milestone point. Done on 2026-11-25: the rulesets, Renovate, Dependabot alerts, secret scanning with push protection and the approval for fork workflow runs. Before the first release run at the end of M1: a `release` environment with the owner as the required reviewer. Before the v0.0.1 build: the minisign key with a password, in two `release` environment secrets and an offline backup (Q9, Q36). The public key goes to the M1 updater configuration. Before M3a: a GitHub OAuth App with the device flow on, and its client ID (Q32). Before M3b: a OneDev test project and an access token on the homelab (Q14). For each release: the owner starts the workflow and approves the environment. The owner selected the option "Accept the Q52 list". Decided by: Daniel Kindl, 2026-11-25. Record: this line.
+- Q53 Domain glossary: `CONTEXT.md` defines snapshot, comparison, review session, baseline, checkpoint, file review state, finding and publication. The owner selected the option "Approve all 8". Decided by: Daniel Kindl, 2026-11-25. Record: [CONTEXT.md](../../CONTEXT.md).
 
 ## Open questions
-
-### Q53: Domain glossary
-
-Type: owner
-Blocked by: none
-
-Approve the `CONTEXT.md` terms from specification section 07: snapshot, comparison, review session, finding, file review state, publication, baseline and checkpoint.
 
 ### Q55: S6 signed update prototype
 
@@ -316,6 +310,13 @@ Type: task
 Blocked by: none
 
 Run five tests for the Q51 and Q74 unknowns. Does Windows delete a temporary file while Diffy holds it open? Which thread runs the Linux callback, and what is the bus reply timeout? Does the AppImage keep the working folder of the caller? What does a second instance do while the first instance still starts? How long does the Q74 copy of a 50 MB input take in the Windows callback?
+
+### Q76: More domain terms
+
+Type: owner
+Blocked by: none
+
+The map uses more domain words than `CONTEXT.md` defines (Q53). Approve or change the terms anchor, outdated finding, canonical diff, comparison profile and provider.
 
 ## Not yet clear
 
