@@ -23,5 +23,5 @@ The canonical hunks for the same input and the same options are identical to the
 
 - The comparison test suite compares Diffy hunks with `git diff --histogram` output for each fixture. Git is necessary only in the test environment, not at run time.
 - The oracle uses a pinned Git version and explicit hunk options. It runs with no system or global Git configuration, because a setting such as `diff.context` changes the hunks. A repository setting such as `diff.interHunkContext` also changes the hunks. So the oracle runs outside each repository, or in a fixture repository with known local settings. Each hunk option is given on the command line. Map question Q43 records the version and the options.
-- The selection of a diff crate (map question Q43) must show histogram parity on the fixtures. If no crate has parity, Diffy needs its own histogram implementation.
+- The selection of a diff crate (map question Q43) must show histogram parity on the fixtures. No crate has parity (Q43). Diffy keeps a copy of gix-imara-diff 0.3.4 with the Q60 patch, which has parity on each Q43 pair. Diffy proposes the patch to gitoxide and drops the copy when a gitoxide release has the fix and passes the parity tests (Q61).
 - A profile that selects a different display algorithm must not change stored anchors.

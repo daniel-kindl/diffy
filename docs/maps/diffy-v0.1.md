@@ -2,7 +2,7 @@
 
 Status: open
 Destination: Each v0.1 milestone (M0 to M4) has a plan and issues with acceptance criteria. Each spike has a verdict, and no open question blocks the first M0 issue.
-Next: Q61
+Next: Q44
 
 ## Notes
 
@@ -93,6 +93,7 @@ Next: Q61
 - Q47 S7 CodeMirror fallback: skipped. Monaco passes in Q54, and the Q47 charter (Q40) skips the benchmark in that case. Decided by: Daniel Kindl, 2026-11-24. Record: this line.
 - Q43 Diff crate with histogram parity: no crate is identical to Git on each pair. The closest is gix-imara-diff 0.3.4 with `postprocess_lines`, with 5 fails in 3,732 real pairs. The oracle is Git 2.55.0, `git diff --no-index --histogram -U3 --inter-hunk-context=0 --indent-heuristic --no-color --no-ext-diff --no-renames --no-textconv`, with `GIT_CONFIG_NOSYSTEM=1` and `GIT_CONFIG_GLOBAL=/dev/null`, in a folder outside each repository. The cause of the fails goes to Q60 and the fix to Q61. The owner selected the option "Accept the Q43 result". Decided by: Daniel Kindl, 2026-11-25. Record: this line.
 - Q60 Cause of the histogram parity fails: gix-imara-diff 0.3.4 differs from Git 2.55.0 in four steps. They are the skip after a match, the limit of 63 copies, the strip of the common ends and no re-diff after a slide. A patch that changes the four steps passes each Q43 pair. The owner selected the option "Accept the Q60 result". Decided by: Daniel Kindl, 2026-11-25. Record: this line.
+- Q61 Path to histogram parity: Diffy proposes the Q60 patch to gitoxide. Until a gitoxide release has the fix, Diffy keeps a copy of gix-imara-diff 0.3.4 with the Q60 patch and keeps its Apache-2.0 license notice. Diffy drops the copy when a gitoxide release has the fix and passes the parity tests. The proposal goes to Q62. The owner selected the option "Upstream + patched copy". Decided by: Daniel Kindl, 2026-11-25. Record: this line and ADR 0002.
 
 ## Open questions
 
@@ -283,12 +284,12 @@ Blocked by: none
 
 Run the Q54 checks for option B once on the Windows notebook (Q12), with `prototypes/s1-monaco/q54-windows.ps1` from the tag `prototype/diffy-v0.1-q54`. A fail for option B goes to the owner. Issue #30.
 
-### Q61: Path to histogram parity
+### Q62: Propose the Q60 patch to gitoxide
 
-Type: owner
-Blocked by: Q60
+Type: task
+Blocked by: none
 
-Decide how Diffy gets canonical hunks that are identical to Git (ADR 0002). The Q60 patch gives parity on each Q43 pair. Examples are to propose the patch to gitoxide, to keep a patched copy of gix-imara-diff in Diffy, and to write a Diffy histogram implementation. Issue #33.
+Propose the four Q60 changes to gix-imara-diff in gitoxide (https://github.com/GitoxideLabs/gitoxide). The proposal is outward-facing, so the owner approves it before it is sent. Record the upstream link and the result here. The patch is on the tag `prototype/diffy-v0.1-q60`. Issue #37.
 
 ## Not yet clear
 
@@ -340,14 +341,14 @@ Decide how Diffy gets canonical hunks that are identical to Git (ADR 0002). The 
 
 - Options: imara-diff 0.2.0, gix-imara-diff 0.3.4 and similar 3.2.1, each with the histogram algorithm. The imara-diff crates run with no postprocessing, with no slider heuristic and with the indent heuristic.
 - Result: the closest is gix-imara-diff 0.3.4 with the indent heuristic. It passes each S1 and edge pair. It passes 3,727 of 3,732 real pairs from git, tokio and ripgrep.
-- Picked: none. Q61 decides the path to parity.
+- Picked: gix-imara-diff 0.3.4 with the Q60 patch (Q61).
 - Branch: `prototype/diffy-v0.1-q43` at `061a6a3`. Tag: `prototype/diffy-v0.1-q43`. Not merged.
 
 ### Q60: Cause of the histogram parity fails
 
 - Options: gix-imara-diff 0.3.4 with combinations of four changes. The changes are the skip after a match, the limit of 64 copies, no strip of the common ends and the re-diff after a slide.
 - Result: only the build with all four changes passes each S1, edge and real pair.
-- Picked: none. Q61 decides the path to parity.
+- Picked: the build with all four changes (Q61).
 - Branch: `prototype/diffy-v0.1-q60` at `3c0ae71`. Tag: `prototype/diffy-v0.1-q60`. Not merged.
 
 ## Hand-off
