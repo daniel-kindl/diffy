@@ -289,7 +289,7 @@ Run the Q54 checks for option B once on the Windows notebook (Q12), with `protot
 Type: task
 Blocked by: none
 
-Propose the four Q60 changes to gix-imara-diff in gitoxide (https://github.com/GitoxideLabs/gitoxide). The proposal is outward-facing, so the owner approves it before it is sent. Record the upstream link and the result here. The patch is on the tag `prototype/diffy-v0.1-q60`.
+Propose the four Q60 changes to gix-imara-diff in gitoxide (https://github.com/GitoxideLabs/gitoxide). The proposal is outward-facing, so the owner approves it before it is sent. Record the upstream link and the result here. The patch is on the tag `prototype/diffy-v0.1-q60`. Issue #37.
 
 ## Not yet clear
 
