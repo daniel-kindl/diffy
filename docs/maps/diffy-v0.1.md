@@ -2,7 +2,7 @@
 
 Status: open
 Destination: Each v0.1 milestone (M0 to M4) has a plan and issues with acceptance criteria. Each spike has a verdict, and no open question blocks the first M0 issue.
-Next: Q51
+Next: Q74
 
 ## Notes
 
@@ -94,6 +94,18 @@ Next: Q51
 - The NSIS installer copies the new files over the installed files and keeps no backup. So a failed NSIS install can leave a partial installation. Q55 tests it. The default NSIS mode installs for the current user, in a folder that needs no administrator. Source: https://github.com/tauri-apps/tauri/blob/9319e539f34237035cb4693bed9246660bc0a926/crates/tauri-bundler/src/bundle/windows/nsis/installer.nsi#L690-L700 and https://github.com/tauri-apps/tauri/blob/9319e539f34237035cb4693bed9246660bc0a926/crates/tauri-utils/src/config.rs#L826-L832
 - The updater keeps the download in memory. An interrupted download returns an error and writes no file. The download has no resume. The default timeout is none. A reqwest timeout covers the whole request, including the body. Source: https://github.com/tauri-apps/plugins-workspace/blob/128190689dbe59b59d344e01bf07b00862aa3791/plugins/updater/src/updater.rs#L881-L893, https://github.com/tauri-apps/plugins-workspace/blob/128190689dbe59b59d344e01bf07b00862aa3791/plugins/updater/src/updater.rs#L234 and https://docs.rs/reqwest/0.12.28/reqwest/struct.ClientBuilder.html#method.timeout
 - SQLite `VACUUM INTO` writes a copy of a database to a new file. `PRAGMA user_version` stores a schema version in the database header. The SQLite procedure for a schema change runs in one transaction. A recovery path for a failed migration is: copy the database first, run the migration in a transaction and keep the copy after a failure. Source: https://sqlite.org/lang_vacuum.html#vacuuminto, https://sqlite.org/pragma.html#pragma_user_version and https://sqlite.org/lang_altertable.html#otheralter
+- On 2026-11-25 the newest stable releases are tauri-plugin-single-instance 2.5.5 and Git 2.56.1. The Q51 sources are these releases. Git 2.55.0 is installed on the Fedora host. Source: https://github.com/tauri-apps/plugins-workspace/blob/128190689dbe59b59d344e01bf07b00862aa3791/plugins/single-instance/Cargo.toml and https://github.com/git/git/releases/tag/v2.56.1
+- On Linux, the first instance owns the D-Bus session name `<identifier>.SingleInstance`. A second instance calls `ExecuteCallback` with its arguments and its working folder. Source: https://github.com/tauri-apps/plugins-workspace/blob/128190689dbe59b59d344e01bf07b00862aa3791/plugins/single-instance/src/platform_impl/linux.rs#L68-L114
+- On Linux, the method body runs the callback, and the second instance waits for the reply. It exits only after the reply. Source: https://github.com/tauri-apps/plugins-workspace/blob/128190689dbe59b59d344e01bf07b00862aa3791/plugins/single-instance/src/platform_impl/linux.rs#L36-L41 and https://github.com/tauri-apps/plugins-workspace/blob/128190689dbe59b59d344e01bf07b00862aa3791/plugins/single-instance/src/platform_impl/linux.rs#L96-L117
+- On Linux, with no session bus, the plugin logs a warning and the app starts as a second instance. Source: https://github.com/tauri-apps/plugins-workspace/blob/128190689dbe59b59d344e01bf07b00862aa3791/plugins/single-instance/src/platform_impl/linux.rs#L68-L76 and https://github.com/tauri-apps/plugins-workspace/blob/128190689dbe59b59d344e01bf07b00862aa3791/plugins/single-instance/src/platform_impl/linux.rs#L119-L125
+- On Windows, a second instance finds the first instance window for up to 1 s. It sends the working folder and the arguments with `WM_COPYDATA` through `SendMessageTimeoutW`, with a 10 s timeout. Source: https://github.com/tauri-apps/plugins-workspace/blob/128190689dbe59b59d344e01bf07b00862aa3791/plugins/single-instance/src/platform_impl/windows.rs#L37 and https://github.com/tauri-apps/plugins-workspace/blob/128190689dbe59b59d344e01bf07b00862aa3791/plugins/single-instance/src/platform_impl/windows.rs#L88-L146
+- `SendMessageTimeoutW` returns only after the window procedure processed the message, or after the timeout. The window procedure runs the callback. Source: https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-sendmessagetimeoutw and https://github.com/tauri-apps/plugins-workspace/blob/128190689dbe59b59d344e01bf07b00862aa3791/plugins/single-instance/src/platform_impl/windows.rs#L197-L226
+- On Windows, after a timeout or when it finds no window, the second instance logs a warning and exits with code 0. The arguments are lost. Source: https://github.com/tauri-apps/plugins-workspace/blob/128190689dbe59b59d344e01bf07b00862aa3791/plugins/single-instance/src/platform_impl/windows.rs#L147-L160
+- `git difftool` runs `git diff` with `git-difftool--helper` as the external diff, once for each file. Source: https://github.com/git/git/blob/03b41523c576f26ad34085378717a0c1b287470f/builtin/difftool.c#L705 and https://github.com/git/git/blob/03b41523c576f26ad34085378717a0c1b287470f/git-difftool--helper.sh#L104-L107
+- `$LOCAL` is always a temporary file. `$REMOTE` can be the real worktree file, as a relative path from the top of the worktree. Source: https://github.com/git/git/blob/03b41523c576f26ad34085378717a0c1b287470f/diff.c#L4660-L4702 and a Q51 run with Git 2.55.0, 2026-11-25
+- Git removes the temporary files right after the tool command returns. In a Q51 run, `$LOCAL` was gone 1 s after the tool exited, and the worktree `$REMOTE` stayed. Source: https://github.com/git/git/blob/03b41523c576f26ad34085378717a0c1b287470f/diff.c#L4789-L4799 and the Q51 run, 2026-11-25
+- With `--dir-diff`, the left folder is a copy and the right folder has symlinks to the worktree files, or copies. Git removes the whole temporary folder after the tool returns. Source: https://github.com/git/git/blob/03b41523c576f26ad34085378717a0c1b287470f/builtin/difftool.c#L404-L414, https://github.com/git/git/blob/03b41523c576f26ad34085378717a0c1b287470f/builtin/difftool.c#L546-L560 and https://github.com/git/git/blob/03b41523c576f26ad34085378717a0c1b287470f/builtin/difftool.c#L667-L672
+- Git ignores the tool exit code, unless `difftool.trustExitCode` is set. An exit code of 126 or more always stops difftool. Source: https://github.com/git/git/blob/03b41523c576f26ad34085378717a0c1b287470f/git-difftool--helper.sh#L88-L114
 
 ## Decisions
 
@@ -154,15 +166,9 @@ Next: Q51
 - Q50 S6 updater pre-release channel: Diffy selects the channel in Rust, with a separate update endpoint for each channel. The updater checks the minisign signature before it writes a file. An AppImage update restores the old file on failure, and Diffy restarts the app itself. An NSIS update restarts the app only on success, and a failed NSIS install has no rollback. A failed migration keeps a copy of the database from before the migration. Q55 tests each item. The follow-up questions are Q72 and Q73. The owner selected the option "Accept the Q50 result". Decided by: Daniel Kindl, 2026-11-25. Record: this line.
 - Q72 Manifest URL of the pre-release channel: the pre-release manifest is the `latest.json` asset of one GitHub pre-release with a fixed tag, for example `channel-prerelease`. The release workflow replaces the asset on each pre-release. The URL is `/releases/download/<fixed tag>/latest.json`. The fixed-tag release stays marked as a pre-release, so that it never becomes the latest release. The stable channel keeps `/releases/latest/download/latest.json`. The owner selected the option "Fixed-tag release". Decided by: Daniel Kindl, 2026-11-25. Record: this line.
 - Q73 Signed version check: Diffy turns on the updater option `requireSignedVersion` from v0.0.1. The updater then rejects an update when the signed version differs from the manifest version. It also rejects a signature with no version. So a changed manifest cannot install an older signed release. Each update signature comes from `tauri build`, which writes the version. Q55 tests the rejection. The owner selected the option "On from v0.0.1". Decided by: Daniel Kindl, 2026-11-25. Record: this line.
+- Q51 Single instance and CLI forwarding: a second `diffy` exits only after the callback of the running instance returns, on Linux and on Windows. So a callback that reads each input before it returns is safe for `git difftool`. On Windows a timeout loses the input with exit code 0. The follow-up questions are Q74 and Q75. The owner selected the option "Accept the Q51 result". Decided by: Daniel Kindl, 2026-11-25. Record: this line.
 
 ## Open questions
-
-### Q51: Single instance and CLI forwarding
-
-Type: research
-Blocked by: none
-
-Find out how a second `diffy` process forwards its arguments to the running instance on Windows and Linux. Find out how `git difftool` gives temporary files to Diffy. Git can delete a temporary file when the helper process exits. Prove that Diffy has read each input before the helper exits.
 
 ### Q52: Owner setup actions
 
@@ -299,6 +305,20 @@ Type: owner
 Blocked by: none
 
 On OneDev, only a reviewer of the pull request can approve or request changes (Q49). The submitter never can. Decide what Diffy does when the user is not a reviewer. Examples are no review action in the dialog, or a pull request comment. Another example: Diffy adds the user as a reviewer first, if the user has the permission.
+
+### Q74: Forwarding design for CLI inputs
+
+Type: owner
+Blocked by: none
+
+Git deletes the `git difftool` temporary files when `diffy` exits (Q51). Decide how the running instance gets each input in time. Examples are a callback that reads each file before it returns, or a helper that sends the file bytes. Another example is a helper that waits for an acknowledgement and can report an error.
+
+### Q75: Single instance tests
+
+Type: task
+Blocked by: Q74
+
+Run four tests for the Q51 unknowns. Does Windows delete a temporary file while Diffy holds it open? Which thread runs the Linux callback, and what is the bus reply timeout? Does the AppImage keep the working folder of the caller? What does a second instance do while the first instance still starts?
 
 ## Not yet clear
 
