@@ -1,0 +1,279 @@
+{
+  "summary": {
+    "anchors": 10018505,
+    "expected_line": 6700572,
+    "expected_outdated_ambiguous": 115618,
+    "expected_outdated_edited_or_deleted": 3202315,
+    "histories": 100000,
+    "max_edits": 20,
+    "max_old_lines": 200,
+    "methods": {
+      "HunkBrackets": {
+        "anchors": 10018505,
+        "correct": 10010729,
+        "outdated_where_line_expected": 7776,
+        "wrong": 0
+      },
+      "HunkMap": {
+        "anchors": 10018505,
+        "correct": 9893815,
+        "outdated_where_line_expected": 4678,
+        "wrong": 120012
+      },
+      "HunkWindow": {
+        "anchors": 10018505,
+        "correct": 7878129,
+        "outdated_where_line_expected": 2129017,
+        "wrong": 11359
+      }
+    },
+    "profile": "medium",
+    "seeds": "0..100000",
+    "unchanged_histories": 5266,
+    "window_context_lines": 3
+  },
+  "wrong_examples": {
+    "HunkMap": [
+      {
+        "edits": [
+          "insert 3 at 31",
+          "delete 1 at 7"
+        ],
+        "expected": "outdated",
+        "got": 7,
+        "history_survivor": 7,
+        "new": "let v1 = f(8);\nlet v2 = f(0);\nlet v1 = f(8);\n    let v3 = f(9);\nend\n\nlet v1 = f(8);\n        }\n    let v4 = f(6);\n        let v5 = f(1);\nlet v1 = f(8);\nlet v1 = f(8);\n    let v6 = f(8);\n    }\n        break;\nend\n        let v7 = f(8);\n        let v8 = f(0);\nlet v9 = f(2);\n        let v10 = f(5);\n    }\n        break;\nend\n        let v7 = f(8);\n    let v11 = f(5);\n        }\n    let v4 = f(6);\n        }\n    let v4 = f(6);\n        let v17 = f(8);\n        break;\t\n        break;\t\n        let v12 = f(9);\nlet v1 = f(8);\n        break;\n    let v13 = f(8);\n\nlet v14 = f(6);\n    let v15 = f(8);\nend\n        let v16 = f(3);\n    }\n        break;\nend\n        let v7 = f(8);\n        }\n    let v4 = f(6);\nlet v1 = f(8);\nlet v1 = f(8);\n",
+        "old": "let v1 = f(8);\nlet v2 = f(0);\nlet v1 = f(8);\n    let v3 = f(9);\nend\n\nlet v1 = f(8);\nlet v1 = f(8);\n        }\n    let v4 = f(6);\n        let v5 = f(1);\nlet v1 = f(8);\nlet v1 = f(8);\n    let v6 = f(8);\n    }\n        break;\nend\n        let v7 = f(8);\n        let v8 = f(0);\nlet v9 = f(2);\n        let v10 = f(5);\n    }\n        break;\nend\n        let v7 = f(8);\n    let v11 = f(5);\n        }\n    let v4 = f(6);\n        }\n    let v4 = f(6);\n        let v12 = f(9);\nlet v1 = f(8);\n        break;\n    let v13 = f(8);\n\nlet v14 = f(6);\n    let v15 = f(8);\nend\n        let v16 = f(3);\n    }\n        break;\nend\n        let v7 = f(8);\n        }\n    let v4 = f(6);\nlet v1 = f(8);\nlet v1 = f(8);\n",
+        "old_line": 8,
+        "seed": 1
+      },
+      {
+        "edits": [
+          "insert 2 at 42",
+          "delete 4 at 83",
+          "insert 3 at 105",
+          "delete 3 at 39",
+          "edit 2",
+          "delete 1 at 2",
+          "no newline at end",
+          "delete 4 at 34",
+          "insert 2 at 7",
+          "insert 2 at 10",
+          "insert 3 at 70",
+          "delete 2 at 5",
+          "insert 2 at 3",
+          "delete 3 at 102"
+        ],
+        "expected": "outdated",
+        "got": 80,
+        "history_survivor": 80,
+        "new": "    let v1 = f(9);\n        let v2 = f(5);\n \n    let v45 = f(5);\n    let v1 = f(9);\nend\n        let v38 = f(1);\n    return; \nend\n        let v39 = f(2);\n    let v41 = f(4);\n        break;\n    let v1 = f(9);\nend\nlet v4 = f(7);\nlet v5 = f(3);\n    let v1 = f(9);\nend\nlet v6 = f(8);\n\n    let v7 = f(3);\nlet v8 = f(9);\nend\nlet v6 = f(8);\n\nlet v6 = f(8);\n\nlet v9 = f(4);\n    let v1 = f(9);\nend\n    let v1 = f(9);\nend\nlet v10 = f(7);\n    let v1 = f(9);\nend\n    let v1 = f(9);\nend\nlet v33 = f(1);\nlet v34 = f(3);\r\nlet v6 = f(8);\n\n        }\n\n}\n        }\n    let v14 = f(0);\n        break;\nlet v6 = f(8);\n\n        }\n\n}\n        }\nlet v15 = f(4);\nlet v16 = f(9);\n    let v1 = f(9);\nend\n        let v17 = f(0);\n    let v1 = f(9);\nend\n    let v18 = f(1);\nlet v19 = f(7);\nlet v20 = f(1);\n        let v21 = f(0);\nlet v22 = f(3);\nend\n    }\n        let v23 = f(6);\n        }\n    } \n    return; \n    let v43 = f(8);\n\n}\n        }\n    let v24 = f(4);\n    }\n        let v25 = f(8);\n    let v26 = f(9);\n        }\n\n}\n        }\n    let v27 = f(9);\n        }\n\n}\n        }\n        }\n\n}\n        }\nlet v28 = f(4);\nlet v29 = f(9);\n        }\n\n}\n        }\n    return;\nlet v6 = f(8);\n\n    \n    let v37 = f(8);\n}\n    let v30 = f(2);\n        }\n\n}\n        }\n    let v1 = f(9);\nend\n    let v31 = f(8);\n}\n        }\n\n}\n        }\nlet v32 = f(9);",
+        "old": "    let v1 = f(9);\nend\n        let v2 = f(5);\n    let v1 = f(9);\nend\n        let v3 = f(0);\n    let v1 = f(9);\nend\n        break;\n    let v1 = f(9);\nend\nlet v4 = f(7);\nlet v5 = f(3);\n    let v1 = f(9);\nend\nlet v6 = f(8);\n\n    let v7 = f(3);\nlet v8 = f(9);\nend\nlet v6 = f(8);\n\nlet v6 = f(8);\n\nlet v9 = f(4);\n    let v1 = f(9);\nend\n    let v1 = f(9);\nend\nlet v10 = f(7);\n    let v1 = f(9);\nend\n    let v1 = f(9);\nend\n        let v11 = f(4);\n        let v12 = f(8);\n        }\n\n}\n        }\nlet v13 = f(6);\nlet v6 = f(8);\n\n        }\n\n}\n        }\n    let v14 = f(0);\n        break;\nlet v6 = f(8);\n\n        }\n\n}\n        }\nlet v15 = f(4);\nlet v16 = f(9);\n    let v1 = f(9);\nend\n        let v17 = f(0);\n    let v1 = f(9);\nend\n    let v18 = f(1);\nlet v19 = f(7);\nlet v20 = f(1);\n        let v21 = f(0);\nlet v22 = f(3);\nend\n    }\n        let v23 = f(6);\n        }\n\n}\n        }\n    let v24 = f(4);\n    }\n        let v25 = f(8);\n    let v26 = f(9);\n        }\n\n}\n        }\n        }\n\n}\n        }\n    let v27 = f(9);\n        }\n\n}\n        }\n        }\n\n}\n        }\nlet v28 = f(4);\nlet v29 = f(9);\n        }\n\n}\n        }\n    return;\nlet v6 = f(8);\n\n    let v1 = f(9);\nend\n}\n    let v30 = f(2);\n        }\n\n}\n        }\n    let v1 = f(9);\nend\n    let v31 = f(8);\n}\n        }\n\n}\n        }\nlet v32 = f(9);\n",
+        "old_line": 79,
+        "seed": 2
+      },
+      {
+        "edits": [
+          "insert 2 at 42",
+          "delete 4 at 83",
+          "insert 3 at 105",
+          "delete 3 at 39",
+          "edit 2",
+          "delete 1 at 2",
+          "no newline at end",
+          "delete 4 at 34",
+          "insert 2 at 7",
+          "insert 2 at 10",
+          "insert 3 at 70",
+          "delete 2 at 5",
+          "insert 2 at 3",
+          "delete 3 at 102"
+        ],
+        "expected": "outdated",
+        "got": 81,
+        "history_survivor": 81,
+        "new": "    let v1 = f(9);\n        let v2 = f(5);\n \n    let v45 = f(5);\n    let v1 = f(9);\nend\n        let v38 = f(1);\n    return; \nend\n        let v39 = f(2);\n    let v41 = f(4);\n        break;\n    let v1 = f(9);\nend\nlet v4 = f(7);\nlet v5 = f(3);\n    let v1 = f(9);\nend\nlet v6 = f(8);\n\n    let v7 = f(3);\nlet v8 = f(9);\nend\nlet v6 = f(8);\n\nlet v6 = f(8);\n\nlet v9 = f(4);\n    let v1 = f(9);\nend\n    let v1 = f(9);\nend\nlet v10 = f(7);\n    let v1 = f(9);\nend\n    let v1 = f(9);\nend\nlet v33 = f(1);\nlet v34 = f(3);\r\nlet v6 = f(8);\n\n        }\n\n}\n        }\n    let v14 = f(0);\n        break;\nlet v6 = f(8);\n\n        }\n\n}\n        }\nlet v15 = f(4);\nlet v16 = f(9);\n    let v1 = f(9);\nend\n        let v17 = f(0);\n    let v1 = f(9);\nend\n    let v18 = f(1);\nlet v19 = f(7);\nlet v20 = f(1);\n        let v21 = f(0);\nlet v22 = f(3);\nend\n    }\n        let v23 = f(6);\n        }\n    } \n    return; \n    let v43 = f(8);\n\n}\n        }\n    let v24 = f(4);\n    }\n        let v25 = f(8);\n    let v26 = f(9);\n        }\n\n}\n        }\n    let v27 = f(9);\n        }\n\n}\n        }\n        }\n\n}\n        }\nlet v28 = f(4);\nlet v29 = f(9);\n        }\n\n}\n        }\n    return;\nlet v6 = f(8);\n\n    \n    let v37 = f(8);\n}\n    let v30 = f(2);\n        }\n\n}\n        }\n    let v1 = f(9);\nend\n    let v31 = f(8);\n}\n        }\n\n}\n        }\nlet v32 = f(9);",
+        "old": "    let v1 = f(9);\nend\n        let v2 = f(5);\n    let v1 = f(9);\nend\n        let v3 = f(0);\n    let v1 = f(9);\nend\n        break;\n    let v1 = f(9);\nend\nlet v4 = f(7);\nlet v5 = f(3);\n    let v1 = f(9);\nend\nlet v6 = f(8);\n\n    let v7 = f(3);\nlet v8 = f(9);\nend\nlet v6 = f(8);\n\nlet v6 = f(8);\n\nlet v9 = f(4);\n    let v1 = f(9);\nend\n    let v1 = f(9);\nend\nlet v10 = f(7);\n    let v1 = f(9);\nend\n    let v1 = f(9);\nend\n        let v11 = f(4);\n        let v12 = f(8);\n        }\n\n}\n        }\nlet v13 = f(6);\nlet v6 = f(8);\n\n        }\n\n}\n        }\n    let v14 = f(0);\n        break;\nlet v6 = f(8);\n\n        }\n\n}\n        }\nlet v15 = f(4);\nlet v16 = f(9);\n    let v1 = f(9);\nend\n        let v17 = f(0);\n    let v1 = f(9);\nend\n    let v18 = f(1);\nlet v19 = f(7);\nlet v20 = f(1);\n        let v21 = f(0);\nlet v22 = f(3);\nend\n    }\n        let v23 = f(6);\n        }\n\n}\n        }\n    let v24 = f(4);\n    }\n        let v25 = f(8);\n    let v26 = f(9);\n        }\n\n}\n        }\n        }\n\n}\n        }\n    let v27 = f(9);\n        }\n\n}\n        }\n        }\n\n}\n        }\nlet v28 = f(4);\nlet v29 = f(9);\n        }\n\n}\n        }\n    return;\nlet v6 = f(8);\n\n    let v1 = f(9);\nend\n}\n    let v30 = f(2);\n        }\n\n}\n        }\n    let v1 = f(9);\nend\n    let v31 = f(8);\n}\n        }\n\n}\n        }\nlet v32 = f(9);\n",
+        "old_line": 80,
+        "seed": 2
+      },
+      {
+        "edits": [
+          "insert 2 at 42",
+          "delete 4 at 83",
+          "insert 3 at 105",
+          "delete 3 at 39",
+          "edit 2",
+          "delete 1 at 2",
+          "no newline at end",
+          "delete 4 at 34",
+          "insert 2 at 7",
+          "insert 2 at 10",
+          "insert 3 at 70",
+          "delete 2 at 5",
+          "insert 2 at 3",
+          "delete 3 at 102"
+        ],
+        "expected": "outdated",
+        "got": 82,
+        "history_survivor": 82,
+        "new": "    let v1 = f(9);\n        let v2 = f(5);\n \n    let v45 = f(5);\n    let v1 = f(9);\nend\n        let v38 = f(1);\n    return; \nend\n        let v39 = f(2);\n    let v41 = f(4);\n        break;\n    let v1 = f(9);\nend\nlet v4 = f(7);\nlet v5 = f(3);\n    let v1 = f(9);\nend\nlet v6 = f(8);\n\n    let v7 = f(3);\nlet v8 = f(9);\nend\nlet v6 = f(8);\n\nlet v6 = f(8);\n\nlet v9 = f(4);\n    let v1 = f(9);\nend\n    let v1 = f(9);\nend\nlet v10 = f(7);\n    let v1 = f(9);\nend\n    let v1 = f(9);\nend\nlet v33 = f(1);\nlet v34 = f(3);\r\nlet v6 = f(8);\n\n        }\n\n}\n        }\n    let v14 = f(0);\n        break;\nlet v6 = f(8);\n\n        }\n\n}\n        }\nlet v15 = f(4);\nlet v16 = f(9);\n    let v1 = f(9);\nend\n        let v17 = f(0);\n    let v1 = f(9);\nend\n    let v18 = f(1);\nlet v19 = f(7);\nlet v20 = f(1);\n        let v21 = f(0);\nlet v22 = f(3);\nend\n    }\n        let v23 = f(6);\n        }\n    } \n    return; \n    let v43 = f(8);\n\n}\n        }\n    let v24 = f(4);\n    }\n        let v25 = f(8);\n    let v26 = f(9);\n        }\n\n}\n        }\n    let v27 = f(9);\n        }\n\n}\n        }\n        }\n\n}\n        }\nlet v28 = f(4);\nlet v29 = f(9);\n        }\n\n}\n        }\n    return;\nlet v6 = f(8);\n\n    \n    let v37 = f(8);\n}\n    let v30 = f(2);\n        }\n\n}\n        }\n    let v1 = f(9);\nend\n    let v31 = f(8);\n}\n        }\n\n}\n        }\nlet v32 = f(9);",
+        "old": "    let v1 = f(9);\nend\n        let v2 = f(5);\n    let v1 = f(9);\nend\n        let v3 = f(0);\n    let v1 = f(9);\nend\n        break;\n    let v1 = f(9);\nend\nlet v4 = f(7);\nlet v5 = f(3);\n    let v1 = f(9);\nend\nlet v6 = f(8);\n\n    let v7 = f(3);\nlet v8 = f(9);\nend\nlet v6 = f(8);\n\nlet v6 = f(8);\n\nlet v9 = f(4);\n    let v1 = f(9);\nend\n    let v1 = f(9);\nend\nlet v10 = f(7);\n    let v1 = f(9);\nend\n    let v1 = f(9);\nend\n        let v11 = f(4);\n        let v12 = f(8);\n        }\n\n}\n        }\nlet v13 = f(6);\nlet v6 = f(8);\n\n        }\n\n}\n        }\n    let v14 = f(0);\n        break;\nlet v6 = f(8);\n\n        }\n\n}\n        }\nlet v15 = f(4);\nlet v16 = f(9);\n    let v1 = f(9);\nend\n        let v17 = f(0);\n    let v1 = f(9);\nend\n    let v18 = f(1);\nlet v19 = f(7);\nlet v20 = f(1);\n        let v21 = f(0);\nlet v22 = f(3);\nend\n    }\n        let v23 = f(6);\n        }\n\n}\n        }\n    let v24 = f(4);\n    }\n        let v25 = f(8);\n    let v26 = f(9);\n        }\n\n}\n        }\n        }\n\n}\n        }\n    let v27 = f(9);\n        }\n\n}\n        }\n        }\n\n}\n        }\nlet v28 = f(4);\nlet v29 = f(9);\n        }\n\n}\n        }\n    return;\nlet v6 = f(8);\n\n    let v1 = f(9);\nend\n}\n    let v30 = f(2);\n        }\n\n}\n        }\n    let v1 = f(9);\nend\n    let v31 = f(8);\n}\n        }\n\n}\n        }\nlet v32 = f(9);\n",
+        "old_line": 85,
+        "seed": 2
+      },
+      {
+        "edits": [
+          "insert 2 at 42",
+          "delete 4 at 83",
+          "insert 3 at 105",
+          "delete 3 at 39",
+          "edit 2",
+          "delete 1 at 2",
+          "no newline at end",
+          "delete 4 at 34",
+          "insert 2 at 7",
+          "insert 2 at 10",
+          "insert 3 at 70",
+          "delete 2 at 5",
+          "insert 2 at 3",
+          "delete 3 at 102"
+        ],
+        "expected": "outdated",
+        "got": 83,
+        "history_survivor": 83,
+        "new": "    let v1 = f(9);\n        let v2 = f(5);\n \n    let v45 = f(5);\n    let v1 = f(9);\nend\n        let v38 = f(1);\n    return; \nend\n        let v39 = f(2);\n    let v41 = f(4);\n        break;\n    let v1 = f(9);\nend\nlet v4 = f(7);\nlet v5 = f(3);\n    let v1 = f(9);\nend\nlet v6 = f(8);\n\n    let v7 = f(3);\nlet v8 = f(9);\nend\nlet v6 = f(8);\n\nlet v6 = f(8);\n\nlet v9 = f(4);\n    let v1 = f(9);\nend\n    let v1 = f(9);\nend\nlet v10 = f(7);\n    let v1 = f(9);\nend\n    let v1 = f(9);\nend\nlet v33 = f(1);\nlet v34 = f(3);\r\nlet v6 = f(8);\n\n        }\n\n}\n        }\n    let v14 = f(0);\n        break;\nlet v6 = f(8);\n\n        }\n\n}\n        }\nlet v15 = f(4);\nlet v16 = f(9);\n    let v1 = f(9);\nend\n        let v17 = f(0);\n    let v1 = f(9);\nend\n    let v18 = f(1);\nlet v19 = f(7);\nlet v20 = f(1);\n        let v21 = f(0);\nlet v22 = f(3);\nend\n    }\n        let v23 = f(6);\n        }\n    } \n    return; \n    let v43 = f(8);\n\n}\n        }\n    let v24 = f(4);\n    }\n        let v25 = f(8);\n    let v26 = f(9);\n        }\n\n}\n        }\n    let v27 = f(9);\n        }\n\n}\n        }\n        }\n\n}\n        }\nlet v28 = f(4);\nlet v29 = f(9);\n        }\n\n}\n        }\n    return;\nlet v6 = f(8);\n\n    \n    let v37 = f(8);\n}\n    let v30 = f(2);\n        }\n\n}\n        }\n    let v1 = f(9);\nend\n    let v31 = f(8);\n}\n        }\n\n}\n        }\nlet v32 = f(9);",
+        "old": "    let v1 = f(9);\nend\n        let v2 = f(5);\n    let v1 = f(9);\nend\n        let v3 = f(0);\n    let v1 = f(9);\nend\n        break;\n    let v1 = f(9);\nend\nlet v4 = f(7);\nlet v5 = f(3);\n    let v1 = f(9);\nend\nlet v6 = f(8);\n\n    let v7 = f(3);\nlet v8 = f(9);\nend\nlet v6 = f(8);\n\nlet v6 = f(8);\n\nlet v9 = f(4);\n    let v1 = f(9);\nend\n    let v1 = f(9);\nend\nlet v10 = f(7);\n    let v1 = f(9);\nend\n    let v1 = f(9);\nend\n        let v11 = f(4);\n        let v12 = f(8);\n        }\n\n}\n        }\nlet v13 = f(6);\nlet v6 = f(8);\n\n        }\n\n}\n        }\n    let v14 = f(0);\n        break;\nlet v6 = f(8);\n\n        }\n\n}\n        }\nlet v15 = f(4);\nlet v16 = f(9);\n    let v1 = f(9);\nend\n        let v17 = f(0);\n    let v1 = f(9);\nend\n    let v18 = f(1);\nlet v19 = f(7);\nlet v20 = f(1);\n        let v21 = f(0);\nlet v22 = f(3);\nend\n    }\n        let v23 = f(6);\n        }\n\n}\n        }\n    let v24 = f(4);\n    }\n        let v25 = f(8);\n    let v26 = f(9);\n        }\n\n}\n        }\n        }\n\n}\n        }\n    let v27 = f(9);\n        }\n\n}\n        }\n        }\n\n}\n        }\nlet v28 = f(4);\nlet v29 = f(9);\n        }\n\n}\n        }\n    return;\nlet v6 = f(8);\n\n    let v1 = f(9);\nend\n}\n    let v30 = f(2);\n        }\n\n}\n        }\n    let v1 = f(9);\nend\n    let v31 = f(8);\n}\n        }\n\n}\n        }\nlet v32 = f(9);\n",
+        "old_line": 86,
+        "seed": 2
+      }
+    ],
+    "HunkWindow": [
+      {
+        "edits": [
+          "insert 2 at 42",
+          "delete 4 at 83",
+          "insert 3 at 105",
+          "delete 3 at 39",
+          "edit 2",
+          "delete 1 at 2",
+          "no newline at end",
+          "delete 4 at 34",
+          "insert 2 at 7",
+          "insert 2 at 10",
+          "insert 3 at 70",
+          "delete 2 at 5",
+          "insert 2 at 3",
+          "delete 3 at 102"
+        ],
+        "expected": "outdated",
+        "got": 80,
+        "history_survivor": 80,
+        "new": "    let v1 = f(9);\n        let v2 = f(5);\n \n    let v45 = f(5);\n    let v1 = f(9);\nend\n        let v38 = f(1);\n    return; \nend\n        let v39 = f(2);\n    let v41 = f(4);\n        break;\n    let v1 = f(9);\nend\nlet v4 = f(7);\nlet v5 = f(3);\n    let v1 = f(9);\nend\nlet v6 = f(8);\n\n    let v7 = f(3);\nlet v8 = f(9);\nend\nlet v6 = f(8);\n\nlet v6 = f(8);\n\nlet v9 = f(4);\n    let v1 = f(9);\nend\n    let v1 = f(9);\nend\nlet v10 = f(7);\n    let v1 = f(9);\nend\n    let v1 = f(9);\nend\nlet v33 = f(1);\nlet v34 = f(3);\r\nlet v6 = f(8);\n\n        }\n\n}\n        }\n    let v14 = f(0);\n        break;\nlet v6 = f(8);\n\n        }\n\n}\n        }\nlet v15 = f(4);\nlet v16 = f(9);\n    let v1 = f(9);\nend\n        let v17 = f(0);\n    let v1 = f(9);\nend\n    let v18 = f(1);\nlet v19 = f(7);\nlet v20 = f(1);\n        let v21 = f(0);\nlet v22 = f(3);\nend\n    }\n        let v23 = f(6);\n        }\n    } \n    return; \n    let v43 = f(8);\n\n}\n        }\n    let v24 = f(4);\n    }\n        let v25 = f(8);\n    let v26 = f(9);\n        }\n\n}\n        }\n    let v27 = f(9);\n        }\n\n}\n        }\n        }\n\n}\n        }\nlet v28 = f(4);\nlet v29 = f(9);\n        }\n\n}\n        }\n    return;\nlet v6 = f(8);\n\n    \n    let v37 = f(8);\n}\n    let v30 = f(2);\n        }\n\n}\n        }\n    let v1 = f(9);\nend\n    let v31 = f(8);\n}\n        }\n\n}\n        }\nlet v32 = f(9);",
+        "old": "    let v1 = f(9);\nend\n        let v2 = f(5);\n    let v1 = f(9);\nend\n        let v3 = f(0);\n    let v1 = f(9);\nend\n        break;\n    let v1 = f(9);\nend\nlet v4 = f(7);\nlet v5 = f(3);\n    let v1 = f(9);\nend\nlet v6 = f(8);\n\n    let v7 = f(3);\nlet v8 = f(9);\nend\nlet v6 = f(8);\n\nlet v6 = f(8);\n\nlet v9 = f(4);\n    let v1 = f(9);\nend\n    let v1 = f(9);\nend\nlet v10 = f(7);\n    let v1 = f(9);\nend\n    let v1 = f(9);\nend\n        let v11 = f(4);\n        let v12 = f(8);\n        }\n\n}\n        }\nlet v13 = f(6);\nlet v6 = f(8);\n\n        }\n\n}\n        }\n    let v14 = f(0);\n        break;\nlet v6 = f(8);\n\n        }\n\n}\n        }\nlet v15 = f(4);\nlet v16 = f(9);\n    let v1 = f(9);\nend\n        let v17 = f(0);\n    let v1 = f(9);\nend\n    let v18 = f(1);\nlet v19 = f(7);\nlet v20 = f(1);\n        let v21 = f(0);\nlet v22 = f(3);\nend\n    }\n        let v23 = f(6);\n        }\n\n}\n        }\n    let v24 = f(4);\n    }\n        let v25 = f(8);\n    let v26 = f(9);\n        }\n\n}\n        }\n        }\n\n}\n        }\n    let v27 = f(9);\n        }\n\n}\n        }\n        }\n\n}\n        }\nlet v28 = f(4);\nlet v29 = f(9);\n        }\n\n}\n        }\n    return;\nlet v6 = f(8);\n\n    let v1 = f(9);\nend\n}\n    let v30 = f(2);\n        }\n\n}\n        }\n    let v1 = f(9);\nend\n    let v31 = f(8);\n}\n        }\n\n}\n        }\nlet v32 = f(9);\n",
+        "old_line": 79,
+        "seed": 2
+      },
+      {
+        "edits": [
+          "insert 2 at 42",
+          "delete 4 at 83",
+          "insert 3 at 105",
+          "delete 3 at 39",
+          "edit 2",
+          "delete 1 at 2",
+          "no newline at end",
+          "delete 4 at 34",
+          "insert 2 at 7",
+          "insert 2 at 10",
+          "insert 3 at 70",
+          "delete 2 at 5",
+          "insert 2 at 3",
+          "delete 3 at 102"
+        ],
+        "expected": "outdated",
+        "got": 83,
+        "history_survivor": 83,
+        "new": "    let v1 = f(9);\n        let v2 = f(5);\n \n    let v45 = f(5);\n    let v1 = f(9);\nend\n        let v38 = f(1);\n    return; \nend\n        let v39 = f(2);\n    let v41 = f(4);\n        break;\n    let v1 = f(9);\nend\nlet v4 = f(7);\nlet v5 = f(3);\n    let v1 = f(9);\nend\nlet v6 = f(8);\n\n    let v7 = f(3);\nlet v8 = f(9);\nend\nlet v6 = f(8);\n\nlet v6 = f(8);\n\nlet v9 = f(4);\n    let v1 = f(9);\nend\n    let v1 = f(9);\nend\nlet v10 = f(7);\n    let v1 = f(9);\nend\n    let v1 = f(9);\nend\nlet v33 = f(1);\nlet v34 = f(3);\r\nlet v6 = f(8);\n\n        }\n\n}\n        }\n    let v14 = f(0);\n        break;\nlet v6 = f(8);\n\n        }\n\n}\n        }\nlet v15 = f(4);\nlet v16 = f(9);\n    let v1 = f(9);\nend\n        let v17 = f(0);\n    let v1 = f(9);\nend\n    let v18 = f(1);\nlet v19 = f(7);\nlet v20 = f(1);\n        let v21 = f(0);\nlet v22 = f(3);\nend\n    }\n        let v23 = f(6);\n        }\n    } \n    return; \n    let v43 = f(8);\n\n}\n        }\n    let v24 = f(4);\n    }\n        let v25 = f(8);\n    let v26 = f(9);\n        }\n\n}\n        }\n    let v27 = f(9);\n        }\n\n}\n        }\n        }\n\n}\n        }\nlet v28 = f(4);\nlet v29 = f(9);\n        }\n\n}\n        }\n    return;\nlet v6 = f(8);\n\n    \n    let v37 = f(8);\n}\n    let v30 = f(2);\n        }\n\n}\n        }\n    let v1 = f(9);\nend\n    let v31 = f(8);\n}\n        }\n\n}\n        }\nlet v32 = f(9);",
+        "old": "    let v1 = f(9);\nend\n        let v2 = f(5);\n    let v1 = f(9);\nend\n        let v3 = f(0);\n    let v1 = f(9);\nend\n        break;\n    let v1 = f(9);\nend\nlet v4 = f(7);\nlet v5 = f(3);\n    let v1 = f(9);\nend\nlet v6 = f(8);\n\n    let v7 = f(3);\nlet v8 = f(9);\nend\nlet v6 = f(8);\n\nlet v6 = f(8);\n\nlet v9 = f(4);\n    let v1 = f(9);\nend\n    let v1 = f(9);\nend\nlet v10 = f(7);\n    let v1 = f(9);\nend\n    let v1 = f(9);\nend\n        let v11 = f(4);\n        let v12 = f(8);\n        }\n\n}\n        }\nlet v13 = f(6);\nlet v6 = f(8);\n\n        }\n\n}\n        }\n    let v14 = f(0);\n        break;\nlet v6 = f(8);\n\n        }\n\n}\n        }\nlet v15 = f(4);\nlet v16 = f(9);\n    let v1 = f(9);\nend\n        let v17 = f(0);\n    let v1 = f(9);\nend\n    let v18 = f(1);\nlet v19 = f(7);\nlet v20 = f(1);\n        let v21 = f(0);\nlet v22 = f(3);\nend\n    }\n        let v23 = f(6);\n        }\n\n}\n        }\n    let v24 = f(4);\n    }\n        let v25 = f(8);\n    let v26 = f(9);\n        }\n\n}\n        }\n        }\n\n}\n        }\n    let v27 = f(9);\n        }\n\n}\n        }\n        }\n\n}\n        }\nlet v28 = f(4);\nlet v29 = f(9);\n        }\n\n}\n        }\n    return;\nlet v6 = f(8);\n\n    let v1 = f(9);\nend\n}\n    let v30 = f(2);\n        }\n\n}\n        }\n    let v1 = f(9);\nend\n    let v31 = f(8);\n}\n        }\n\n}\n        }\nlet v32 = f(9);\n",
+        "old_line": 86,
+        "seed": 2
+      },
+      {
+        "edits": [
+          "edit 139",
+          "delete 2 at 2",
+          "insert 2 at 87",
+          "edit 87",
+          "insert 1 at 136",
+          "insert 2 at 168",
+          "insert 4 at 100",
+          "delete 2 at 24",
+          "delete 2 at 149",
+          "insert 2 at 104",
+          "insert 1 at 116",
+          "delete 5 at 9",
+          "edit 154",
+          "delete 1 at 27"
+        ],
+        "expected": "outdated",
+        "got": 7,
+        "history_survivor": "outdated",
+        "new": "    let v1 = f(9);\n        break;\n        }\nlet v3 = f(4);\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\nlet v4 = f(4);\n        let v5 = f(7);\nlet v6 = f(1);\nlet v7 = f(8);\n        }\n        let v5 = f(7);\n        let v5 = f(7);\n        let v8 = f(6);\n    let v9 = f(8);\n        let v5 = f(7);\n    let v10 = f(5);\n        let v5 = f(7);\n    let v11 = f(2);\n        }\n        let v12 = f(8);\n        }\nlet v2 = f(5);\n        }\nlet v3 = f(4);\n        let v13 = f(3);\n    let v14 = f(5);\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\n        let v15 = f(9);\n        let v5 = f(7);\n    let v16 = f(1);\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\n        let v17 = f(4);\n    }\nend\n        let v17 = f(4);\n        let v17 = f(4);\n        let v5 = f(7);\n        let v18 = f(7);\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\n    let v19 = f(3);\n        let v17 = f(4);\n    let v20 = f(9);\n        let v21 = f(9);\n        break;\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\n    return;\nend\nlet v22 = f(1);\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\nlet v23 = f(7);\n        }\nlet v2 = f(5);\n        break;\n        }\n    let v51 = f(2);\n        let v52 = f(1);\nlet v3 = f(4);\n        let v5 = f(7);\nlet v24 = f(1);\n        let v25 = f(5);\n        let v17 = f(4);\nlet v26 = f(1);\n        let v17 = f(4);\nlet v27 = f(0);\n        let v17 = f(4);\n        let v17 = f(4);\n        let v5 = f(7);\n        break;\r\n        break; \nlet v55 = f(9);\r\n            let v56 = f(9);\n        }\nlet v2 = f(5);\n    } \n    }\t\n        break;\n        }\nlet v3 = f(4);\nlet v28 = f(4);\n        let v17 = f(4);\n    let v29 = f(4);\n\n    let v30 = f(2);\n        let v17 = f(4);\n        let v5 = f(7);\n    \n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\n        let v31 = f(0);\n        break;\n        let v32 = f(4);\n\nlet v33 = f(5);\n\n        let v34 = f(2);\n        let v17 = f(4);\n        let v5 = f(7);\n    let v35 = f(5);\n}\n        let v5 = f(7);\n        let v5 = f(7);\n    let v36 = f(8);\n    let v37 = f(0);\n        let v38 = f(8);\nlet v39 = f(4);\n\n        let v40 = f(3);\n        } \n        let v17 = f(4);\n        }\nlet v2 = f(5);\nlet v50 = f(9);\n        }\nlet v3 = f(4);\n        }\nlet v2 = f(5);\n        break;\n        }\nend\n    let v42 = f(6);\n        let v43 = f(2);\nend\n        let v17 = f(4);\n}\n        let v17 = f(4);\n        } \n    let v44 = f(1);\n        let v5 = f(7);\n    let v45 = f(5);\n    return;\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\n        let v5 = f(7);\n        let v17 = f(4);\n} \n        let v54 = f(8);\n    }\n    return;\nend\nlet v46 = f(1);\n        let v47 = f(1);\n    let v48 = f(4);\n        let v49 = f(2);\n        }\nlet v2 = f(5);\n        break;\n        }\n",
+        "old": "    let v1 = f(9);\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\nlet v4 = f(4);\n        let v5 = f(7);\nlet v6 = f(1);\nlet v7 = f(8);\n        }\n        let v5 = f(7);\n        let v5 = f(7);\n        let v8 = f(6);\n    let v9 = f(8);\n        break;\n        }\n        let v5 = f(7);\n    let v10 = f(5);\n        let v5 = f(7);\n    let v11 = f(2);\n        }\n        let v12 = f(8);\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\n        let v13 = f(3);\n    let v14 = f(5);\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\n        let v15 = f(9);\n        let v5 = f(7);\n    let v16 = f(1);\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\n        let v17 = f(4);\n    }\nend\n        let v17 = f(4);\n        let v17 = f(4);\n        let v5 = f(7);\n        let v18 = f(7);\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\n    let v19 = f(3);\n        let v17 = f(4);\n    let v20 = f(9);\n        let v21 = f(9);\n        break;\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\n    return;\nend\nlet v22 = f(1);\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\nlet v23 = f(7);\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\n        let v5 = f(7);\nlet v24 = f(1);\n        let v25 = f(5);\n        let v17 = f(4);\nlet v26 = f(1);\n        let v17 = f(4);\nlet v27 = f(0);\n        let v17 = f(4);\n        let v17 = f(4);\n        let v5 = f(7);\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\nlet v28 = f(4);\n        let v17 = f(4);\n    let v29 = f(4);\n\n    let v30 = f(2);\n        let v17 = f(4);\n        let v5 = f(7);\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\n        let v31 = f(0);\n        break;\n        let v32 = f(4);\n\nlet v33 = f(5);\n\n        let v34 = f(2);\n        let v17 = f(4);\n        let v5 = f(7);\n    let v35 = f(5);\n}\n        let v5 = f(7);\n        let v5 = f(7);\n    let v36 = f(8);\n    let v37 = f(0);\n        let v38 = f(8);\nlet v39 = f(4);\n\n        let v40 = f(3);\n        let v17 = f(4);\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\nlet v41 = f(0);\nend\n    let v42 = f(6);\n        let v43 = f(2);\nend\n        let v17 = f(4);\n}\n        let v17 = f(4);\n        }\n    let v44 = f(1);\n        let v5 = f(7);\n    let v45 = f(5);\n    return;\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\n        let v5 = f(7);\n        let v17 = f(4);\n    }\n    return;\nend\nlet v46 = f(1);\n        let v47 = f(1);\n    let v48 = f(4);\n        let v49 = f(2);\n        }\nlet v2 = f(5);\n        break;\n        }\n",
+        "old_line": 14,
+        "seed": 25
+      },
+      {
+        "edits": [
+          "edit 139",
+          "delete 2 at 2",
+          "insert 2 at 87",
+          "edit 87",
+          "insert 1 at 136",
+          "insert 2 at 168",
+          "insert 4 at 100",
+          "delete 2 at 24",
+          "delete 2 at 149",
+          "insert 2 at 104",
+          "insert 1 at 116",
+          "delete 5 at 9",
+          "edit 154",
+          "delete 1 at 27"
+        ],
+        "expected": "outdated",
+        "got": 8,
+        "history_survivor": "outdated",
+        "new": "    let v1 = f(9);\n        break;\n        }\nlet v3 = f(4);\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\nlet v4 = f(4);\n        let v5 = f(7);\nlet v6 = f(1);\nlet v7 = f(8);\n        }\n        let v5 = f(7);\n        let v5 = f(7);\n        let v8 = f(6);\n    let v9 = f(8);\n        let v5 = f(7);\n    let v10 = f(5);\n        let v5 = f(7);\n    let v11 = f(2);\n        }\n        let v12 = f(8);\n        }\nlet v2 = f(5);\n        }\nlet v3 = f(4);\n        let v13 = f(3);\n    let v14 = f(5);\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\n        let v15 = f(9);\n        let v5 = f(7);\n    let v16 = f(1);\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\n        let v17 = f(4);\n    }\nend\n        let v17 = f(4);\n        let v17 = f(4);\n        let v5 = f(7);\n        let v18 = f(7);\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\n    let v19 = f(3);\n        let v17 = f(4);\n    let v20 = f(9);\n        let v21 = f(9);\n        break;\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\n    return;\nend\nlet v22 = f(1);\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\nlet v23 = f(7);\n        }\nlet v2 = f(5);\n        break;\n        }\n    let v51 = f(2);\n        let v52 = f(1);\nlet v3 = f(4);\n        let v5 = f(7);\nlet v24 = f(1);\n        let v25 = f(5);\n        let v17 = f(4);\nlet v26 = f(1);\n        let v17 = f(4);\nlet v27 = f(0);\n        let v17 = f(4);\n        let v17 = f(4);\n        let v5 = f(7);\n        break;\r\n        break; \nlet v55 = f(9);\r\n            let v56 = f(9);\n        }\nlet v2 = f(5);\n    } \n    }\t\n        break;\n        }\nlet v3 = f(4);\nlet v28 = f(4);\n        let v17 = f(4);\n    let v29 = f(4);\n\n    let v30 = f(2);\n        let v17 = f(4);\n        let v5 = f(7);\n    \n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\n        let v31 = f(0);\n        break;\n        let v32 = f(4);\n\nlet v33 = f(5);\n\n        let v34 = f(2);\n        let v17 = f(4);\n        let v5 = f(7);\n    let v35 = f(5);\n}\n        let v5 = f(7);\n        let v5 = f(7);\n    let v36 = f(8);\n    let v37 = f(0);\n        let v38 = f(8);\nlet v39 = f(4);\n\n        let v40 = f(3);\n        } \n        let v17 = f(4);\n        }\nlet v2 = f(5);\nlet v50 = f(9);\n        }\nlet v3 = f(4);\n        }\nlet v2 = f(5);\n        break;\n        }\nend\n    let v42 = f(6);\n        let v43 = f(2);\nend\n        let v17 = f(4);\n}\n        let v17 = f(4);\n        } \n    let v44 = f(1);\n        let v5 = f(7);\n    let v45 = f(5);\n    return;\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\n        let v5 = f(7);\n        let v17 = f(4);\n} \n        let v54 = f(8);\n    }\n    return;\nend\nlet v46 = f(1);\n        let v47 = f(1);\n    let v48 = f(4);\n        let v49 = f(2);\n        }\nlet v2 = f(5);\n        break;\n        }\n",
+        "old": "    let v1 = f(9);\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\nlet v4 = f(4);\n        let v5 = f(7);\nlet v6 = f(1);\nlet v7 = f(8);\n        }\n        let v5 = f(7);\n        let v5 = f(7);\n        let v8 = f(6);\n    let v9 = f(8);\n        break;\n        }\n        let v5 = f(7);\n    let v10 = f(5);\n        let v5 = f(7);\n    let v11 = f(2);\n        }\n        let v12 = f(8);\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\n        let v13 = f(3);\n    let v14 = f(5);\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\n        let v15 = f(9);\n        let v5 = f(7);\n    let v16 = f(1);\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\n        let v17 = f(4);\n    }\nend\n        let v17 = f(4);\n        let v17 = f(4);\n        let v5 = f(7);\n        let v18 = f(7);\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\n    let v19 = f(3);\n        let v17 = f(4);\n    let v20 = f(9);\n        let v21 = f(9);\n        break;\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\n    return;\nend\nlet v22 = f(1);\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\nlet v23 = f(7);\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\n        let v5 = f(7);\nlet v24 = f(1);\n        let v25 = f(5);\n        let v17 = f(4);\nlet v26 = f(1);\n        let v17 = f(4);\nlet v27 = f(0);\n        let v17 = f(4);\n        let v17 = f(4);\n        let v5 = f(7);\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\nlet v28 = f(4);\n        let v17 = f(4);\n    let v29 = f(4);\n\n    let v30 = f(2);\n        let v17 = f(4);\n        let v5 = f(7);\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\n        let v31 = f(0);\n        break;\n        let v32 = f(4);\n\nlet v33 = f(5);\n\n        let v34 = f(2);\n        let v17 = f(4);\n        let v5 = f(7);\n    let v35 = f(5);\n}\n        let v5 = f(7);\n        let v5 = f(7);\n    let v36 = f(8);\n    let v37 = f(0);\n        let v38 = f(8);\nlet v39 = f(4);\n\n        let v40 = f(3);\n        let v17 = f(4);\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\nlet v41 = f(0);\nend\n    let v42 = f(6);\n        let v43 = f(2);\nend\n        let v17 = f(4);\n}\n        let v17 = f(4);\n        }\n    let v44 = f(1);\n        let v5 = f(7);\n    let v45 = f(5);\n    return;\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\n        let v5 = f(7);\n        let v17 = f(4);\n    }\n    return;\nend\nlet v46 = f(1);\n        let v47 = f(1);\n    let v48 = f(4);\n        let v49 = f(2);\n        }\nlet v2 = f(5);\n        break;\n        }\n",
+        "old_line": 15,
+        "seed": 25
+      },
+      {
+        "edits": [
+          "edit 139",
+          "delete 2 at 2",
+          "insert 2 at 87",
+          "edit 87",
+          "insert 1 at 136",
+          "insert 2 at 168",
+          "insert 4 at 100",
+          "delete 2 at 24",
+          "delete 2 at 149",
+          "insert 2 at 104",
+          "insert 1 at 116",
+          "delete 5 at 9",
+          "edit 154",
+          "delete 1 at 27"
+        ],
+        "expected": "outdated",
+        "got": 9,
+        "history_survivor": 9,
+        "new": "    let v1 = f(9);\n        break;\n        }\nlet v3 = f(4);\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\nlet v4 = f(4);\n        let v5 = f(7);\nlet v6 = f(1);\nlet v7 = f(8);\n        }\n        let v5 = f(7);\n        let v5 = f(7);\n        let v8 = f(6);\n    let v9 = f(8);\n        let v5 = f(7);\n    let v10 = f(5);\n        let v5 = f(7);\n    let v11 = f(2);\n        }\n        let v12 = f(8);\n        }\nlet v2 = f(5);\n        }\nlet v3 = f(4);\n        let v13 = f(3);\n    let v14 = f(5);\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\n        let v15 = f(9);\n        let v5 = f(7);\n    let v16 = f(1);\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\n        let v17 = f(4);\n    }\nend\n        let v17 = f(4);\n        let v17 = f(4);\n        let v5 = f(7);\n        let v18 = f(7);\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\n    let v19 = f(3);\n        let v17 = f(4);\n    let v20 = f(9);\n        let v21 = f(9);\n        break;\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\n    return;\nend\nlet v22 = f(1);\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\nlet v23 = f(7);\n        }\nlet v2 = f(5);\n        break;\n        }\n    let v51 = f(2);\n        let v52 = f(1);\nlet v3 = f(4);\n        let v5 = f(7);\nlet v24 = f(1);\n        let v25 = f(5);\n        let v17 = f(4);\nlet v26 = f(1);\n        let v17 = f(4);\nlet v27 = f(0);\n        let v17 = f(4);\n        let v17 = f(4);\n        let v5 = f(7);\n        break;\r\n        break; \nlet v55 = f(9);\r\n            let v56 = f(9);\n        }\nlet v2 = f(5);\n    } \n    }\t\n        break;\n        }\nlet v3 = f(4);\nlet v28 = f(4);\n        let v17 = f(4);\n    let v29 = f(4);\n\n    let v30 = f(2);\n        let v17 = f(4);\n        let v5 = f(7);\n    \n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\n        let v31 = f(0);\n        break;\n        let v32 = f(4);\n\nlet v33 = f(5);\n\n        let v34 = f(2);\n        let v17 = f(4);\n        let v5 = f(7);\n    let v35 = f(5);\n}\n        let v5 = f(7);\n        let v5 = f(7);\n    let v36 = f(8);\n    let v37 = f(0);\n        let v38 = f(8);\nlet v39 = f(4);\n\n        let v40 = f(3);\n        } \n        let v17 = f(4);\n        }\nlet v2 = f(5);\nlet v50 = f(9);\n        }\nlet v3 = f(4);\n        }\nlet v2 = f(5);\n        break;\n        }\nend\n    let v42 = f(6);\n        let v43 = f(2);\nend\n        let v17 = f(4);\n}\n        let v17 = f(4);\n        } \n    let v44 = f(1);\n        let v5 = f(7);\n    let v45 = f(5);\n    return;\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\n        let v5 = f(7);\n        let v17 = f(4);\n} \n        let v54 = f(8);\n    }\n    return;\nend\nlet v46 = f(1);\n        let v47 = f(1);\n    let v48 = f(4);\n        let v49 = f(2);\n        }\nlet v2 = f(5);\n        break;\n        }\n",
+        "old": "    let v1 = f(9);\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\nlet v4 = f(4);\n        let v5 = f(7);\nlet v6 = f(1);\nlet v7 = f(8);\n        }\n        let v5 = f(7);\n        let v5 = f(7);\n        let v8 = f(6);\n    let v9 = f(8);\n        break;\n        }\n        let v5 = f(7);\n    let v10 = f(5);\n        let v5 = f(7);\n    let v11 = f(2);\n        }\n        let v12 = f(8);\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\n        let v13 = f(3);\n    let v14 = f(5);\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\n        let v15 = f(9);\n        let v5 = f(7);\n    let v16 = f(1);\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\n        let v17 = f(4);\n    }\nend\n        let v17 = f(4);\n        let v17 = f(4);\n        let v5 = f(7);\n        let v18 = f(7);\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\n    let v19 = f(3);\n        let v17 = f(4);\n    let v20 = f(9);\n        let v21 = f(9);\n        break;\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\n    return;\nend\nlet v22 = f(1);\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\nlet v23 = f(7);\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\n        let v5 = f(7);\nlet v24 = f(1);\n        let v25 = f(5);\n        let v17 = f(4);\nlet v26 = f(1);\n        let v17 = f(4);\nlet v27 = f(0);\n        let v17 = f(4);\n        let v17 = f(4);\n        let v5 = f(7);\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\nlet v28 = f(4);\n        let v17 = f(4);\n    let v29 = f(4);\n\n    let v30 = f(2);\n        let v17 = f(4);\n        let v5 = f(7);\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\n        let v31 = f(0);\n        break;\n        let v32 = f(4);\n\nlet v33 = f(5);\n\n        let v34 = f(2);\n        let v17 = f(4);\n        let v5 = f(7);\n    let v35 = f(5);\n}\n        let v5 = f(7);\n        let v5 = f(7);\n    let v36 = f(8);\n    let v37 = f(0);\n        let v38 = f(8);\nlet v39 = f(4);\n\n        let v40 = f(3);\n        let v17 = f(4);\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\nlet v41 = f(0);\nend\n    let v42 = f(6);\n        let v43 = f(2);\nend\n        let v17 = f(4);\n}\n        let v17 = f(4);\n        }\n    let v44 = f(1);\n        let v5 = f(7);\n    let v45 = f(5);\n    return;\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\n        let v5 = f(7);\n        let v17 = f(4);\n    }\n    return;\nend\nlet v46 = f(1);\n        let v47 = f(1);\n    let v48 = f(4);\n        let v49 = f(2);\n        }\nlet v2 = f(5);\n        break;\n        }\n",
+        "old_line": 16,
+        "seed": 25
+      }
+    ]
+  }
+}

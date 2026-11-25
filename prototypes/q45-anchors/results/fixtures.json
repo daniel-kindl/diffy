@@ -1,0 +1,651 @@
+{
+  "fixtures": [
+    {
+      "expected": "1:1 2:2 3:3 4:4 5:5 6:6 7:7",
+      "fixture": "line-unchanged",
+      "lcs_rule_agrees": true,
+      "methods": {
+        "HunkBrackets": {
+          "differences": [],
+          "pass": true
+        },
+        "HunkMap": {
+          "differences": [],
+          "pass": true
+        },
+        "HunkWindow": {
+          "differences": [],
+          "pass": true
+        }
+      },
+      "new_path": "src/a.rs",
+      "old_lines": 7,
+      "old_path": "src/a.rs"
+    },
+    {
+      "expected": "1:4 2:5 3:6 4:7 5:8 6:9",
+      "fixture": "lines-added-above",
+      "lcs_rule_agrees": true,
+      "methods": {
+        "HunkBrackets": {
+          "differences": [],
+          "pass": true
+        },
+        "HunkMap": {
+          "differences": [],
+          "pass": true
+        },
+        "HunkWindow": {
+          "differences": [
+            {
+              "expected": 4,
+              "got": "outdated",
+              "old_line": 1
+            },
+            {
+              "expected": 5,
+              "got": "outdated",
+              "old_line": 2
+            },
+            {
+              "expected": 6,
+              "got": "outdated",
+              "old_line": 3
+            }
+          ],
+          "pass": false
+        }
+      },
+      "new_path": "src/a.rs",
+      "old_lines": 6,
+      "old_path": "src/a.rs"
+    },
+    {
+      "expected": "1:1 2:2 3:3 4:5 5:6 6:7",
+      "fixture": "line-added-directly-above",
+      "lcs_rule_agrees": true,
+      "methods": {
+        "HunkBrackets": {
+          "differences": [],
+          "pass": true
+        },
+        "HunkMap": {
+          "differences": [],
+          "pass": true
+        },
+        "HunkWindow": {
+          "differences": [
+            {
+              "expected": 1,
+              "got": "outdated",
+              "old_line": 1
+            },
+            {
+              "expected": 2,
+              "got": "outdated",
+              "old_line": 2
+            },
+            {
+              "expected": 3,
+              "got": "outdated",
+              "old_line": 3
+            },
+            {
+              "expected": 5,
+              "got": "outdated",
+              "old_line": 4
+            },
+            {
+              "expected": 6,
+              "got": "outdated",
+              "old_line": 5
+            },
+            {
+              "expected": 7,
+              "got": "outdated",
+              "old_line": 6
+            }
+          ],
+          "pass": false
+        }
+      },
+      "new_path": "src/a.rs",
+      "old_lines": 6,
+      "old_path": "src/a.rs"
+    },
+    {
+      "expected": "1:1 2:2 3:- 4:4 5:5",
+      "fixture": "line-edited",
+      "lcs_rule_agrees": true,
+      "methods": {
+        "HunkBrackets": {
+          "differences": [],
+          "pass": true
+        },
+        "HunkMap": {
+          "differences": [],
+          "pass": true
+        },
+        "HunkWindow": {
+          "differences": [
+            {
+              "expected": 1,
+              "got": "outdated",
+              "old_line": 1
+            },
+            {
+              "expected": 2,
+              "got": "outdated",
+              "old_line": 2
+            },
+            {
+              "expected": 4,
+              "got": "outdated",
+              "old_line": 4
+            },
+            {
+              "expected": 5,
+              "got": "outdated",
+              "old_line": 5
+            }
+          ],
+          "pass": false
+        }
+      },
+      "new_path": "src/a.rs",
+      "old_lines": 5,
+      "old_path": "src/a.rs"
+    },
+    {
+      "expected": "1:1 2:2 3:- 4:3 5:4",
+      "fixture": "line-deleted",
+      "lcs_rule_agrees": true,
+      "methods": {
+        "HunkBrackets": {
+          "differences": [],
+          "pass": true
+        },
+        "HunkMap": {
+          "differences": [],
+          "pass": true
+        },
+        "HunkWindow": {
+          "differences": [
+            {
+              "expected": 1,
+              "got": "outdated",
+              "old_line": 1
+            },
+            {
+              "expected": 2,
+              "got": "outdated",
+              "old_line": 2
+            },
+            {
+              "expected": 3,
+              "got": "outdated",
+              "old_line": 4
+            },
+            {
+              "expected": 4,
+              "got": "outdated",
+              "old_line": 5
+            }
+          ],
+          "pass": false
+        }
+      },
+      "new_path": "src/a.rs",
+      "old_lines": 5,
+      "old_path": "src/a.rs"
+    },
+    {
+      "expected": "1:1 2:- 3:- 4:- 5:- 6:- 7:- 8:5",
+      "fixture": "duplicate-blocks-one-deleted",
+      "lcs_rule_agrees": true,
+      "methods": {
+        "HunkBrackets": {
+          "differences": [],
+          "pass": true
+        },
+        "HunkMap": {
+          "differences": [
+            {
+              "expected": "outdated",
+              "got": 2,
+              "old_line": 2
+            },
+            {
+              "expected": "outdated",
+              "got": 3,
+              "old_line": 3
+            },
+            {
+              "expected": "outdated",
+              "got": 4,
+              "old_line": 7
+            }
+          ],
+          "pass": false
+        },
+        "HunkWindow": {
+          "differences": [],
+          "pass": true
+        }
+      },
+      "new_path": "src/a.rs",
+      "old_lines": 8,
+      "old_path": "src/a.rs"
+    },
+    {
+      "expected": "1:1 2:- 3:- 4:- 5:8",
+      "fixture": "duplicate-blocks-copy-inserted",
+      "lcs_rule_agrees": true,
+      "methods": {
+        "HunkBrackets": {
+          "differences": [],
+          "pass": true
+        },
+        "HunkMap": {
+          "differences": [
+            {
+              "expected": "outdated",
+              "got": 2,
+              "old_line": 2
+            },
+            {
+              "expected": "outdated",
+              "got": 3,
+              "old_line": 3
+            },
+            {
+              "expected": "outdated",
+              "got": 7,
+              "old_line": 4
+            }
+          ],
+          "pass": false
+        },
+        "HunkWindow": {
+          "differences": [],
+          "pass": true
+        }
+      },
+      "new_path": "src/a.rs",
+      "old_lines": 5,
+      "old_path": "src/a.rs"
+    },
+    {
+      "expected": "1:1 2:2 3:- 4:4 5:5 6:6 7:7 8:8 9:9",
+      "fixture": "duplicate-blocks-one-edited",
+      "lcs_rule_agrees": true,
+      "methods": {
+        "HunkBrackets": {
+          "differences": [],
+          "pass": true
+        },
+        "HunkMap": {
+          "differences": [],
+          "pass": true
+        },
+        "HunkWindow": {
+          "differences": [
+            {
+              "expected": 1,
+              "got": "outdated",
+              "old_line": 1
+            },
+            {
+              "expected": 2,
+              "got": "outdated",
+              "old_line": 2
+            },
+            {
+              "expected": 4,
+              "got": "outdated",
+              "old_line": 4
+            },
+            {
+              "expected": 5,
+              "got": "outdated",
+              "old_line": 5
+            },
+            {
+              "expected": 6,
+              "got": "outdated",
+              "old_line": 6
+            }
+          ],
+          "pass": false
+        }
+      },
+      "new_path": "src/a.rs",
+      "old_lines": 9,
+      "old_path": "src/a.rs"
+    },
+    {
+      "expected": "1:1 2:- 3:- 4:- 5:- 6:- 7:- 8:- 9:- 10:- 11:6",
+      "fixture": "duplicate-blocks-slide",
+      "lcs_rule_agrees": true,
+      "methods": {
+        "HunkBrackets": {
+          "differences": [],
+          "pass": true
+        },
+        "HunkMap": {
+          "differences": [
+            {
+              "expected": "outdated",
+              "got": 2,
+              "old_line": 2
+            },
+            {
+              "expected": "outdated",
+              "got": 3,
+              "old_line": 3
+            },
+            {
+              "expected": "outdated",
+              "got": 4,
+              "old_line": 4
+            },
+            {
+              "expected": "outdated",
+              "got": 5,
+              "old_line": 5
+            }
+          ],
+          "pass": false
+        },
+        "HunkWindow": {
+          "differences": [
+            {
+              "expected": "outdated",
+              "got": 2,
+              "old_line": 2
+            }
+          ],
+          "pass": false
+        }
+      },
+      "new_path": "src/a.rs",
+      "old_lines": 11,
+      "old_path": "src/a.rs"
+    },
+    {
+      "expected": "1:1 2:2 3:4 4:5",
+      "fixture": "common-line-between-unique",
+      "lcs_rule_agrees": true,
+      "methods": {
+        "HunkBrackets": {
+          "differences": [],
+          "pass": true
+        },
+        "HunkMap": {
+          "differences": [],
+          "pass": true
+        },
+        "HunkWindow": {
+          "differences": [
+            {
+              "expected": 1,
+              "got": "outdated",
+              "old_line": 1
+            },
+            {
+              "expected": 2,
+              "got": "outdated",
+              "old_line": 2
+            },
+            {
+              "expected": 4,
+              "got": "outdated",
+              "old_line": 3
+            },
+            {
+              "expected": 5,
+              "got": "outdated",
+              "old_line": 4
+            }
+          ],
+          "pass": false
+        }
+      },
+      "new_path": "src/a.rs",
+      "old_lines": 4,
+      "old_path": "src/a.rs"
+    },
+    {
+      "expected": "1:2 2:3 3:4",
+      "fixture": "file-renamed",
+      "lcs_rule_agrees": true,
+      "methods": {
+        "HunkBrackets": {
+          "differences": [],
+          "pass": true
+        },
+        "HunkMap": {
+          "differences": [],
+          "pass": true
+        },
+        "HunkWindow": {
+          "differences": [
+            {
+              "expected": 2,
+              "got": "outdated",
+              "old_line": 1
+            },
+            {
+              "expected": 3,
+              "got": "outdated",
+              "old_line": 2
+            },
+            {
+              "expected": 4,
+              "got": "outdated",
+              "old_line": 3
+            }
+          ],
+          "pass": false
+        }
+      },
+      "new_path": "src/new.rs",
+      "old_lines": 3,
+      "old_path": "src/old.rs"
+    },
+    {
+      "expected": "1:- 2:- 3:-",
+      "fixture": "file-deleted",
+      "lcs_rule_agrees": true,
+      "methods": {
+        "HunkBrackets": {
+          "differences": [],
+          "pass": true
+        },
+        "HunkMap": {
+          "differences": [],
+          "pass": true
+        },
+        "HunkWindow": {
+          "differences": [],
+          "pass": true
+        }
+      },
+      "new_path": null,
+      "old_lines": 3,
+      "old_path": "src/a.rs"
+    },
+    {
+      "expected": "1:1 2:2 3:- 4:4",
+      "fixture": "whitespace-on-anchor-line",
+      "lcs_rule_agrees": true,
+      "methods": {
+        "HunkBrackets": {
+          "differences": [],
+          "pass": true
+        },
+        "HunkMap": {
+          "differences": [],
+          "pass": true
+        },
+        "HunkWindow": {
+          "differences": [
+            {
+              "expected": 1,
+              "got": "outdated",
+              "old_line": 1
+            },
+            {
+              "expected": 2,
+              "got": "outdated",
+              "old_line": 2
+            },
+            {
+              "expected": 4,
+              "got": "outdated",
+              "old_line": 4
+            }
+          ],
+          "pass": false
+        }
+      },
+      "new_path": "src/a.rs",
+      "old_lines": 4,
+      "old_path": "src/a.rs"
+    },
+    {
+      "expected": "1:1 2:- 3:3 4:4",
+      "fixture": "whitespace-on-other-line",
+      "lcs_rule_agrees": true,
+      "methods": {
+        "HunkBrackets": {
+          "differences": [],
+          "pass": true
+        },
+        "HunkMap": {
+          "differences": [],
+          "pass": true
+        },
+        "HunkWindow": {
+          "differences": [
+            {
+              "expected": 1,
+              "got": "outdated",
+              "old_line": 1
+            },
+            {
+              "expected": 3,
+              "got": "outdated",
+              "old_line": 3
+            },
+            {
+              "expected": 4,
+              "got": "outdated",
+              "old_line": 4
+            }
+          ],
+          "pass": false
+        }
+      },
+      "new_path": "src/a.rs",
+      "old_lines": 4,
+      "old_path": "src/a.rs"
+    },
+    {
+      "expected": "1:- 2:- 3:-",
+      "fixture": "line-endings-lf-to-crlf",
+      "lcs_rule_agrees": true,
+      "methods": {
+        "HunkBrackets": {
+          "differences": [],
+          "pass": true
+        },
+        "HunkMap": {
+          "differences": [],
+          "pass": true
+        },
+        "HunkWindow": {
+          "differences": [],
+          "pass": true
+        }
+      },
+      "new_path": "src/a.rs",
+      "old_lines": 3,
+      "old_path": "src/a.rs"
+    },
+    {
+      "expected": "1:1 2:- 3:3",
+      "fixture": "line-endings-one-line",
+      "lcs_rule_agrees": true,
+      "methods": {
+        "HunkBrackets": {
+          "differences": [],
+          "pass": true
+        },
+        "HunkMap": {
+          "differences": [],
+          "pass": true
+        },
+        "HunkWindow": {
+          "differences": [
+            {
+              "expected": 1,
+              "got": "outdated",
+              "old_line": 1
+            },
+            {
+              "expected": 3,
+              "got": "outdated",
+              "old_line": 3
+            }
+          ],
+          "pass": false
+        }
+      },
+      "new_path": "src/a.rs",
+      "old_lines": 3,
+      "old_path": "src/a.rs"
+    },
+    {
+      "expected": "1:1 2:2 3:-",
+      "fixture": "no-newline-at-end",
+      "lcs_rule_agrees": true,
+      "methods": {
+        "HunkBrackets": {
+          "differences": [],
+          "pass": true
+        },
+        "HunkMap": {
+          "differences": [],
+          "pass": true
+        },
+        "HunkWindow": {
+          "differences": [
+            {
+              "expected": 1,
+              "got": "outdated",
+              "old_line": 1
+            },
+            {
+              "expected": 2,
+              "got": "outdated",
+              "old_line": 2
+            }
+          ],
+          "pass": false
+        }
+      },
+      "new_path": "src/a.rs",
+      "old_lines": 3,
+      "old_path": "src/a.rs"
+    }
+  ],
+  "summary": {
+    "fixtures": 17,
+    "pass": {
+      "HunkBrackets": 17,
+      "HunkMap": 14,
+      "HunkWindow": 5
+    }
+  }
+}

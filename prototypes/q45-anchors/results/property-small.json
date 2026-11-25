@@ -1,0 +1,192 @@
+{
+  "summary": {
+    "anchors": 19999115,
+    "expected_line": 15350359,
+    "expected_outdated_ambiguous": 442046,
+    "expected_outdated_edited_or_deleted": 4206710,
+    "histories": 1000000,
+    "max_edits": 6,
+    "max_old_lines": 40,
+    "methods": {
+      "HunkBrackets": {
+        "anchors": 19999115,
+        "correct": 19962435,
+        "outdated_where_line_expected": 36680,
+        "wrong": 0
+      },
+      "HunkMap": {
+        "anchors": 19999115,
+        "correct": 19514053,
+        "outdated_where_line_expected": 21316,
+        "wrong": 463746
+      },
+      "HunkWindow": {
+        "anchors": 19999115,
+        "correct": 13997103,
+        "outdated_where_line_expected": 5954755,
+        "wrong": 47257
+      }
+    },
+    "profile": "small",
+    "seeds": "0..1000000",
+    "unchanged_histories": 164803,
+    "window_context_lines": 3
+  },
+  "wrong_examples": {
+    "HunkMap": [
+      {
+        "edits": [
+          "insert 4 at 27",
+          "edit 21",
+          "delete 3 at 36",
+          "delete 3 at 3",
+          "delete 4 at 21",
+          "insert 4 at 24"
+        ],
+        "expected": "outdated",
+        "got": 3,
+        "history_survivor": "outdated",
+        "new": "    }\n\n        break;\nlet v2 = f(7);\n        let v3 = f(2);\nend\nlet v4 = f(4);\nend\n        let v5 = f(8);\n    let v6 = f(0);\nend\n        let v5 = f(8);\n    let v6 = f(0);\n\n    let v7 = f(3);\n    let v8 = f(4);\nlet v9 = f(8);\n        let v16 = f(9);\nend\n        let v5 = f(8);\n}\r\n    let v15 = f(7);\n    \n    end\n \n    let v17 = f(1);\n    return;\t\nlet v12 = f(9);\n        }\n    let v13 = f(1);\n    return;\n        let v1 = f(6);\n",
+        "old": "    }\n\n        break;\n        }\n        let v1 = f(6);\n        break;\nlet v2 = f(7);\n        let v3 = f(2);\nend\nlet v4 = f(4);\nend\n        let v5 = f(8);\n    let v6 = f(0);\nend\n        let v5 = f(8);\n    let v6 = f(0);\n\n    let v7 = f(3);\n    let v8 = f(4);\nlet v9 = f(8);\n    let v10 = f(9);\nend\n        let v5 = f(8);\n    let v6 = f(0);\n    }\nlet v11 = f(3);\nlet v12 = f(9);\n        }\n    let v13 = f(1);\n    return;\n        let v1 = f(6);\n        break;\n        let v1 = f(6);\n        break;\n",
+        "old_line": 3,
+        "seed": 24
+      },
+      {
+        "edits": [
+          "insert 4 at 27",
+          "edit 21",
+          "delete 3 at 36",
+          "delete 3 at 3",
+          "delete 4 at 21",
+          "insert 4 at 24"
+        ],
+        "expected": "outdated",
+        "got": 32,
+        "history_survivor": 32,
+        "new": "    }\n\n        break;\nlet v2 = f(7);\n        let v3 = f(2);\nend\nlet v4 = f(4);\nend\n        let v5 = f(8);\n    let v6 = f(0);\nend\n        let v5 = f(8);\n    let v6 = f(0);\n\n    let v7 = f(3);\n    let v8 = f(4);\nlet v9 = f(8);\n        let v16 = f(9);\nend\n        let v5 = f(8);\n}\r\n    let v15 = f(7);\n    \n    end\n \n    let v17 = f(1);\n    return;\t\nlet v12 = f(9);\n        }\n    let v13 = f(1);\n    return;\n        let v1 = f(6);\n",
+        "old": "    }\n\n        break;\n        }\n        let v1 = f(6);\n        break;\nlet v2 = f(7);\n        let v3 = f(2);\nend\nlet v4 = f(4);\nend\n        let v5 = f(8);\n    let v6 = f(0);\nend\n        let v5 = f(8);\n    let v6 = f(0);\n\n    let v7 = f(3);\n    let v8 = f(4);\nlet v9 = f(8);\n    let v10 = f(9);\nend\n        let v5 = f(8);\n    let v6 = f(0);\n    }\nlet v11 = f(3);\nlet v12 = f(9);\n        }\n    let v13 = f(1);\n    return;\n        let v1 = f(6);\n        break;\n        let v1 = f(6);\n        break;\n",
+        "old_line": 31,
+        "seed": 24
+      },
+      {
+        "edits": [
+          "delete 3 at 3"
+        ],
+        "expected": "outdated",
+        "got": 2,
+        "history_survivor": 2,
+        "new": "    let v1 = f(9);\n        }\nlet v3 = f(4);\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\n        }\nlet v2 = f(5);\n        break;\n        }\n",
+        "old": "    let v1 = f(9);\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\n        }\nlet v2 = f(5);\n        break;\n        }\nlet v3 = f(4);\n        }\nlet v2 = f(5);\n        break;\n        }\n",
+        "old_line": 2,
+        "seed": 25
+      },
+      {
+        "edits": [
+          "insert 2 at 11",
+          "insert 3 at 8",
+          "no newline at end",
+          "delete 3 at 19",
+          "delete 2 at 7"
+        ],
+        "expected": "outdated",
+        "got": 2,
+        "history_survivor": 2,
+        "new": "        let v1 = f(3);\nlet v2 = f(4);\n}\nend\nlet v2 = f(4);\n}\n    let v8 = f(7);\n    return; \nlet v2 = f(4);\n}\nend\n    return; \n    \nlet v2 = f(4);\n}\nend\nlet v2 = f(4);",
+        "old": "        let v1 = f(3);\nlet v2 = f(4);\n}\nend\nlet v2 = f(4);\n}\nend\nlet v2 = f(4);\n}\nend\nlet v2 = f(4);\n}\nend\nlet v2 = f(4);\n}\nend\nlet v2 = f(4);\n",
+        "old_line": 2,
+        "seed": 31
+      },
+      {
+        "edits": [
+          "insert 2 at 11",
+          "insert 3 at 8",
+          "no newline at end",
+          "delete 3 at 19",
+          "delete 2 at 7"
+        ],
+        "expected": "outdated",
+        "got": 3,
+        "history_survivor": 3,
+        "new": "        let v1 = f(3);\nlet v2 = f(4);\n}\nend\nlet v2 = f(4);\n}\n    let v8 = f(7);\n    return; \nlet v2 = f(4);\n}\nend\n    return; \n    \nlet v2 = f(4);\n}\nend\nlet v2 = f(4);",
+        "old": "        let v1 = f(3);\nlet v2 = f(4);\n}\nend\nlet v2 = f(4);\n}\nend\nlet v2 = f(4);\n}\nend\nlet v2 = f(4);\n}\nend\nlet v2 = f(4);\n}\nend\nlet v2 = f(4);\n",
+        "old_line": 3,
+        "seed": 31
+      }
+    ],
+    "HunkWindow": [
+      {
+        "edits": [
+          "insert 2 at 11",
+          "insert 3 at 8",
+          "no newline at end",
+          "delete 3 at 19",
+          "delete 2 at 7"
+        ],
+        "expected": "outdated",
+        "got": 2,
+        "history_survivor": 2,
+        "new": "        let v1 = f(3);\nlet v2 = f(4);\n}\nend\nlet v2 = f(4);\n}\n    let v8 = f(7);\n    return; \nlet v2 = f(4);\n}\nend\n    return; \n    \nlet v2 = f(4);\n}\nend\nlet v2 = f(4);",
+        "old": "        let v1 = f(3);\nlet v2 = f(4);\n}\nend\nlet v2 = f(4);\n}\nend\nlet v2 = f(4);\n}\nend\nlet v2 = f(4);\n}\nend\nlet v2 = f(4);\n}\nend\nlet v2 = f(4);\n",
+        "old_line": 2,
+        "seed": 31
+      },
+      {
+        "edits": [
+          "insert 2 at 11",
+          "insert 3 at 8",
+          "no newline at end",
+          "delete 3 at 19",
+          "delete 2 at 7"
+        ],
+        "expected": "outdated",
+        "got": 3,
+        "history_survivor": 3,
+        "new": "        let v1 = f(3);\nlet v2 = f(4);\n}\nend\nlet v2 = f(4);\n}\n    let v8 = f(7);\n    return; \nlet v2 = f(4);\n}\nend\n    return; \n    \nlet v2 = f(4);\n}\nend\nlet v2 = f(4);",
+        "old": "        let v1 = f(3);\nlet v2 = f(4);\n}\nend\nlet v2 = f(4);\n}\nend\nlet v2 = f(4);\n}\nend\nlet v2 = f(4);\n}\nend\nlet v2 = f(4);\n}\nend\nlet v2 = f(4);\n",
+        "old_line": 3,
+        "seed": 31
+      },
+      {
+        "edits": [
+          "delete 4 at 5",
+          "insert 1 at 21"
+        ],
+        "expected": "outdated",
+        "got": 1,
+        "history_survivor": 1,
+        "new": "end\n}\nend\n    let v1 = f(8);\nlet v2 = f(8);\nlet v3 = f(2);\nlet v4 = f(3);\n        let v5 = f(3);\n    let v6 = f(5);\n    return;\nlet v7 = f(0);\n        let v8 = f(3);\n        let v9 = f(7);\n    }\nend\n}\nend\n    let v1 = f(8);\nend\n}\n            let v10 = f(1);\nend\n",
+        "old": "end\n}\nend\n    let v1 = f(8);\nend\n}\nend\n    let v1 = f(8);\nlet v2 = f(8);\nlet v3 = f(2);\nlet v4 = f(3);\n        let v5 = f(3);\n    let v6 = f(5);\n    return;\nlet v7 = f(0);\n        let v8 = f(3);\n        let v9 = f(7);\n    }\nend\n}\nend\n    let v1 = f(8);\nend\n}\nend\n",
+        "old_line": 1,
+        "seed": 140
+      },
+      {
+        "edits": [
+          "delete 4 at 5",
+          "insert 1 at 21"
+        ],
+        "expected": "outdated",
+        "got": 4,
+        "history_survivor": "outdated",
+        "new": "end\n}\nend\n    let v1 = f(8);\nlet v2 = f(8);\nlet v3 = f(2);\nlet v4 = f(3);\n        let v5 = f(3);\n    let v6 = f(5);\n    return;\nlet v7 = f(0);\n        let v8 = f(3);\n        let v9 = f(7);\n    }\nend\n}\nend\n    let v1 = f(8);\nend\n}\n            let v10 = f(1);\nend\n",
+        "old": "end\n}\nend\n    let v1 = f(8);\nend\n}\nend\n    let v1 = f(8);\nlet v2 = f(8);\nlet v3 = f(2);\nlet v4 = f(3);\n        let v5 = f(3);\n    let v6 = f(5);\n    return;\nlet v7 = f(0);\n        let v8 = f(3);\n        let v9 = f(7);\n    }\nend\n}\nend\n    let v1 = f(8);\nend\n}\nend\n",
+        "old_line": 8,
+        "seed": 140
+      },
+      {
+        "edits": [
+          "delete 2 at 20",
+          "delete 4 at 6",
+          "edit 10",
+          "edit 18"
+        ],
+        "expected": "outdated",
+        "got": 2,
+        "history_survivor": 2,
+        "new": "        let v1 = f(0);\n}\n    let v2 = f(5);\n}\n    let v2 = f(5);\n    let v2 = f(5);\n    let v4 = f(2);\nlet v5 = f(3);\n}\n    let v2 = f(5);\r\nlet v6 = f(7);\nlet v7 = f(4);\n    let v8 = f(0);\n    }\n        let v9 = f(2);\n        let v10 = f(0);\n        let v11 = f(3);\n        let v13 = f(2);\nlet v7 = f(4);\n    let v8 = f(0);\n",
+        "old": "        let v1 = f(0);\n}\n    let v2 = f(5);\n}\n    let v2 = f(5);\n}\n    let v2 = f(5);\n        let v3 = f(0);\n}\n    let v2 = f(5);\n    let v4 = f(2);\nlet v5 = f(3);\n}\n    let v2 = f(5);\nlet v6 = f(7);\nlet v7 = f(4);\n    let v8 = f(0);\n    }\n        let v9 = f(2);\n    }\n    }\n        let v10 = f(0);\n        let v11 = f(3);\nlet v12 = f(0);\nlet v7 = f(4);\n    let v8 = f(0);\n",
+        "old_line": 2,
+        "seed": 225
+      }
+    ]
+  }
+}
