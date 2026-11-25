@@ -1,0 +1,80 @@
+name: q55-windows
+
+# Q55 S6 prototype: builds three NSIS test releases of the minimal app,
+# signed with a throwaway key made in this job, and runs the update tests.
+# Throwaway branch only. It does not tag, release or publish.
+
+on:
+  push:
+    branches: [prototype/diffy-v0.1-q55]
+
+permissions:
+  contents: read
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    timeout-minutes: 90
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+
+      - name: Install the Tauri CLI
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory "$env:RUNNER_TEMP\cli" | Out-Null
+          Set-Location "$env:RUNNER_TEMP\cli"
+          npm init -y | Out-Null
+          npm install --silent @tauri-apps/cli@2.12.6
+          & .\node_modules\.bin\tauri.cmd --version
+
+      - name: Make throwaway signing keys
+        shell: pwsh
+        run: |
+          $rel = "$env:RUNNER_TEMP\rel"
+          New-Item -ItemType Directory $rel | Out-Null
+          $t = "$env:RUNNER_TEMP\cli\node_modules\.bin\tauri.cmd"
+          & $t signer generate --ci -w "$rel\test.key"
+          & $t signer generate --ci -w "$rel\wrong.key"
+          Set-Content -NoNewline "$rel\tauri.txt" $t
+          $pub = (Get-Content -Raw "$rel\test.key.pub").Trim()
+          @{ plugins = @{ updater = @{ pubkey = $pub } } } | ConvertTo-Json -Depth 5 | Set-Content "$env:RUNNER_TEMP\pub.json"
+
+      - name: Build the test releases
+        shell: pwsh
+        working-directory: prototypes/s6-updater/src-tauri
+        run: |
+          $rel = "$env:RUNNER_TEMP\rel"
+          $t = "$env:RUNNER_TEMP\cli\node_modules\.bin\tauri.cmd"
+          $env:TAURI_SIGNING_PRIVATE_KEY = Get-Content -Raw "$rel\test.key"
+          $env:TAURI_SIGNING_PRIVATE_KEY_PASSWORD = ""
+          foreach ($spec in @("0.1.0:1", "0.2.0:2", "0.3.0-pre.1:2")) {
+            $v, $schema = $spec.Split(":")
+            (Get-Content Cargo.toml) -replace '^version = .*', "version = `"$v`"" | Set-Content Cargo.toml
+            $env:Q55_SCHEMA = $schema
+            & $t build --bundles nsis --config "$env:RUNNER_TEMP\pub.json"
+            if ($LASTEXITCODE -ne 0) { exit 1 }
+            Copy-Item "target\release\bundle\nsis\q55-updater_${v}_x64-setup.exe*" $rel
+          }
+          Get-ChildItem $rel
+
+      - name: Run the update tests
+        shell: pwsh
+        working-directory: prototypes/s6-updater/harness
+        run: |
+          python -I run_tests.py "$env:RUNNER_TEMP\rel" "$env:RUNNER_TEMP\work" "$env:RUNNER_TEMP\q55-windows.json"
+          Get-ChildItem "$env:LOCALAPPDATA\q55-updater" -ErrorAction SilentlyContinue
+
+      - name: Upload the results
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: q55-windows
+          path: ${{ runner.temp }}/q55-windows.json
