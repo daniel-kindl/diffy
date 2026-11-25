@@ -2,7 +2,7 @@
 
 Status: open
 Destination: Each v0.1 milestone (M0 to M4) has a plan and issues with acceptance criteria. Each spike has a verdict, and no open question blocks the first M0 issue.
-Next: Q48
+Next: Q49
 
 ## Notes
 
@@ -70,6 +70,11 @@ Next: Q48
 - gitoxide merged the Q62 pull request on 2026-11-25, at merge commit `2bcb31d`. Before the merge, the maintainer added three commits. The commits skip a seed that occurs more than 65 times and keep the Git tail trim for blame. They also count the lines after postprocessing and speed up long common tails. Source: https://github.com/GitoxideLabs/gitoxide/pull/3246
 - On 2026-11-25 the newest gix-imara-diff on crates.io is 0.3.4, from 2026-11-22. No release has the fix yet. Source: https://crates.io/crates/gix-imara-diff
 - The Q60 copy differs from Git on one input from the maintainer review. Each line is one token: `B` 4 times, `A A B A`, then `B` 61 times, against `B A B A`. The Q60 copy removes 66 lines and adds 1. Git 2.55.0 and gitoxide `2bcb31d` remove 65 lines and add none, with the same hunks. The Q43 pairs do not have this case. Source: Q62 run, 2026-11-25.
+- The GitHub REST API has no endpoint that resolves a review thread. The endpoint that edits a review comment accepts only `body`. Source: https://github.com/github/rest-api-description/blob/c9c95fe34ced05fe076001f5c55704742bc8e7f8/descriptions/api.github.com/api.github.com.json#L90543 and https://docs.github.com/en/rest/pulls/comments
+- A REST review comment has no thread ID and no resolved state. Its `node_id` is the GraphQL ID of the comment. Source: https://github.com/github/rest-api-description/blob/c9c95fe34ced05fe076001f5c55704742bc8e7f8/descriptions/api.github.com/api.github.com.json#L176114 and Q48 run on tokio-rs/tokio pull request 8781, 2026-11-25.
+- The REST API can reply to a review comment, with `POST /repos/{owner}/{repo}/pulls/{pull_number}/comments/{comment_id}/replies`. Source: https://github.com/github/rest-api-description/blob/c9c95fe34ced05fe076001f5c55704742bc8e7f8/descriptions/api.github.com/api.github.com.json#L91466
+- The GitHub GraphQL API resolves a review thread with `resolveReviewThread` and reopens it with `unresolveReviewThread`. Each takes the thread ID. Source: https://docs.github.com/en/graphql/reference/mutations#resolvereviewthread and https://docs.github.com/public/fpt/schema.docs.graphql lines 29511, 29848 and 60774, read on 2026-11-25.
+- A GraphQL review thread has `isResolved` and `viewerCanResolve`. `pullRequest.reviewThreads` lists the threads with their comments, so a REST comment maps to its thread by its `node_id`. Source: https://docs.github.com/public/fpt/schema.docs.graphql lines 45960, 47759 and 47824, read on 2026-11-25, and Q48 run on tokio-rs/tokio pull request 8781.
 
 ## Decisions
 
@@ -125,15 +130,9 @@ Next: Q48
 - Q44 S3 Git backend: gix. Diffy opens each repository isolated and removes the `filter` sections from the configuration in memory, so no command from the repository configuration runs. gix is the only backend that passes each fixture, the read-only proof and the build with no installed Git. The owner selected the option "gix". Decided by: Daniel Kindl, 2026-11-25. Record: [ADR 0005](../adr/0005-git-backend-gix.md).
 - Q45 S5 anchor mapping: M3. A finding moves with the canonical diff only when the LCS rule gives the same new line. M3 applies the rule in the segment between the two nearest bracket lines. A bracket is a line that occurs once in each file and that the canonical diff keeps. The start and the end of the file are also brackets. Otherwise the finding is outdated. M3 is the only method with the expected result on each fixture and no wrong mapping in the property test. The owner selected the option "M3". Decided by: Daniel Kindl, 2026-11-25. Record: this line.
 - Q46 S8 scale: each section 18 target has a measured result for option B on the Fedora reference host. The change list target is met on each fixture. The cancel target is met for the line counts and missed for the open of a 50 MB file. The follow-up questions are Q66 and Q67. The owner selected the option "Accept the Q46 result". Decided by: Daniel Kindl, 2026-11-25. Record: this line.
+- Q48 GitHub thread resolution API: only the GraphQL API resolves a review thread, so M3a needs a GraphQL client. REST can post a reply, but it cannot resolve a thread or show the thread of a comment. Diffy finds the thread through `pullRequest.reviewThreads` and the comment `node_id`. How much of the GitHub client uses GraphQL goes to Q69. The owner selected the option "Accept the Q48 result". Decided by: Daniel Kindl, 2026-11-25. Record: this line.
 
 ## Open questions
-
-### Q48: GitHub thread resolution API
-
-Type: research
-Blocked by: none
-
-Find out if GitHub can resolve a review thread through REST, or only through GraphQL (for example `resolveReviewThread`). The answer decides if M3a needs a GraphQL client.
 
 ### Q49: S4 OneDev capabilities
 
@@ -287,6 +286,13 @@ Type: owner
 Blocked by: none
 
 Until a gitoxide release has the fix, Diffy keeps a copy of gix-imara-diff (Q61). The Q60 copy differs from Git on a seed that occurs more than 65 times. The code that gitoxide merged in `2bcb31d` matches Git on that input. Decide what the copy holds until the release. Examples are the Q60 patch with a fix for the seed limit, or the gix-imara-diff source of `2bcb31d`, which then needs the Q43 parity run.
+
+### Q69: GraphQL in the GitHub client
+
+Type: owner
+Blocked by: none
+
+Q48 shows that M3a needs GraphQL to resolve a thread. REST covers the batched review (ADR 0003) and the replies. Decide whether the GitHub client uses GraphQL only for the threads and REST for the rest, or GraphQL for each call.
 
 ## Not yet clear
 
