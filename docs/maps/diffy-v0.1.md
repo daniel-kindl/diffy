@@ -2,7 +2,7 @@
 
 Status: open
 Destination: Each v0.1 milestone (M0 to M4) has a plan and issues with acceptance criteria. Each spike has a verdict, and no open question blocks the first M0 issue.
-Next: Q74
+Next: Q52
 
 ## Notes
 
@@ -167,6 +167,7 @@ Next: Q74
 - Q72 Manifest URL of the pre-release channel: the pre-release manifest is the `latest.json` asset of one GitHub pre-release with a fixed tag, for example `channel-prerelease`. The release workflow replaces the asset on each pre-release. The URL is `/releases/download/<fixed tag>/latest.json`. The fixed-tag release stays marked as a pre-release, so that it never becomes the latest release. The stable channel keeps `/releases/latest/download/latest.json`. The owner selected the option "Fixed-tag release". Decided by: Daniel Kindl, 2026-11-25. Record: this line.
 - Q73 Signed version check: Diffy turns on the updater option `requireSignedVersion` from v0.0.1. The updater then rejects an update when the signed version differs from the manifest version. It also rejects a signature with no version. So a changed manifest cannot install an older signed release. Each update signature comes from `tauri build`, which writes the version. Q55 tests the rejection. The owner selected the option "On from v0.0.1". Decided by: Daniel Kindl, 2026-11-25. Record: this line.
 - Q51 Single instance and CLI forwarding: a second `diffy` exits only after the callback of the running instance returns, on Linux and on Windows. So a callback that reads each input before it returns is safe for `git difftool`. On Windows a timeout loses the input with exit code 0. The follow-up questions are Q74 and Q75. The owner selected the option "Accept the Q51 result". Decided by: Daniel Kindl, 2026-11-25. Record: this line.
+- Q74 Forwarding design for CLI inputs: the single instance callback copies or reads each input into a Diffy snapshot before it returns. The tab then opens from the snapshot. Diffy uses the plugin as it is, with no channel of its own. The helper cannot report an error. A copy that takes more than 10 s on Windows loses the input, so Q75 measures the copy time. The owner selected the option "Copy in the callback". Decided by: Daniel Kindl, 2026-11-25. Record: this line.
 
 ## Open questions
 
@@ -306,19 +307,12 @@ Blocked by: none
 
 On OneDev, only a reviewer of the pull request can approve or request changes (Q49). The submitter never can. Decide what Diffy does when the user is not a reviewer. Examples are no review action in the dialog, or a pull request comment. Another example: Diffy adds the user as a reviewer first, if the user has the permission.
 
-### Q74: Forwarding design for CLI inputs
-
-Type: owner
-Blocked by: none
-
-Git deletes the `git difftool` temporary files when `diffy` exits (Q51). Decide how the running instance gets each input in time. Examples are a callback that reads each file before it returns, or a helper that sends the file bytes. Another example is a helper that waits for an acknowledgement and can report an error.
-
 ### Q75: Single instance tests
 
 Type: task
-Blocked by: Q74
+Blocked by: none
 
-Run four tests for the Q51 unknowns. Does Windows delete a temporary file while Diffy holds it open? Which thread runs the Linux callback, and what is the bus reply timeout? Does the AppImage keep the working folder of the caller? What does a second instance do while the first instance still starts?
+Run five tests for the Q51 and Q74 unknowns. Does Windows delete a temporary file while Diffy holds it open? Which thread runs the Linux callback, and what is the bus reply timeout? Does the AppImage keep the working folder of the caller? What does a second instance do while the first instance still starts? How long does the Q74 copy of a 50 MB input take in the Windows callback?
 
 ## Not yet clear
 
