@@ -2,7 +2,7 @@
 
 Status: open
 Destination: Each v0.1 milestone (M0 to M4) has a plan and issues with acceptance criteria. Each spike has a verdict, and no open question blocks the first M0 issue.
-Next: Q45
+Next: Q46
 
 ## Notes
 
@@ -50,6 +50,13 @@ Next: Q45
 - gix with the filter sections removed in memory wrote nothing and ran no command, also on a copy with no write permission. Source: https://github.com/daniel-kindl/diffy/blob/e8867f4/prototypes/q44-git-backend/results/gix.json and https://github.com/daniel-kindl/diffy/blob/e8867f4/prototypes/q44-git-backend/results/gix-no-write.json
 - In a bubblewrap container with no `git` executable, the build of both backends and each check started no `git` process. Source: https://github.com/daniel-kindl/diffy/blob/e8867f4/prototypes/q44-git-backend/results/traces.json
 - The gix build compiles no C. The git2 build compiles libgit2 and links the system zlib. Both build for `x86_64-pc-windows-gnu`, but neither ran on Windows. Source: https://github.com/daniel-kindl/diffy/blob/e8867f4/prototypes/q44-git-backend/results/build.json
+- In Q45, a line is its bytes with its line terminator. A change of whitespace or of the line ending is an edit. Source: https://github.com/daniel-kindl/diffy/blob/4401b5c/prototypes/q45-anchors/README.md
+- The Q45 expected result is the LCS rule. An old line maps to new line `j` only when each longest common subsequence (LCS) of the two files matches the line to `j`. Otherwise the anchor is outdated. Source: https://github.com/daniel-kindl/diffy/blob/4401b5c/prototypes/q45-anchors/src/core.rs
+- Q45 compares three methods. M1 uses the canonical diff only. M2 adds a unique window of 3 context lines. M3 adds the LCS rule between bracket lines. On the 17 fixtures, M1 passes 14, M2 passes 5 and M3 passes 17. Source: https://github.com/daniel-kindl/diffy/blob/4401b5c/prototypes/q45-anchors/results/fixtures.json
+- In the Q45 property test, M1 has 463,746 wrong mappings and M2 has 47,257, in 19,999,115 anchors of 1,000,000 histories. M3 has 0. In 100,000 larger histories, M1 has 120,012, M2 has 11,359 and M3 has 0. Source: https://github.com/daniel-kindl/diffy/blob/4401b5c/prototypes/q45-anchors/results/property-small.json and https://github.com/daniel-kindl/diffy/blob/4401b5c/prototypes/q45-anchors/results/property-medium.json
+- M3 is outdated for 0.24 % and 0.12 % of the property test anchors where the LCS rule expects a line. Source: https://github.com/daniel-kindl/diffy/blob/4401b5c/prototypes/q45-anchors/README.md
+- On 3,714 of the Q43 real pairs, M3 maps 185 anchors in 46 pairs where the LCS rule gives outdated. Each is at the line where the canonical diff keeps it. An example is `loose.c` in git/git commit `e8bf3190858e`, where part of a function moves into a new function above it. Source: https://github.com/daniel-kindl/diffy/blob/4401b5c/prototypes/q45-anchors/results/real.json and https://github.com/daniel-kindl/diffy/blob/4401b5c/prototypes/q45-anchors/README.md
+- The LCS rule is quadratic in the file length. M3 uses it only in the segment between two bracket lines, and a segment with more than 1,000,000 cells is outdated. Q45 did not measure the time on large files. Source: https://github.com/daniel-kindl/diffy/blob/4401b5c/prototypes/q45-anchors/src/core.rs
 
 ## Decisions
 
@@ -102,32 +109,9 @@ Next: Q45
 - Q60 Cause of the histogram parity fails: gix-imara-diff 0.3.4 differs from Git 2.55.0 in four steps. They are the skip after a match, the limit of 63 copies, the strip of the common ends and no re-diff after a slide. A patch that changes the four steps passes each Q43 pair. The owner selected the option "Accept the Q60 result". Decided by: Daniel Kindl, 2026-11-25. Record: this line.
 - Q61 Path to histogram parity: Diffy proposes the Q60 patch to gitoxide. Until a gitoxide release has the fix, Diffy keeps a copy of gix-imara-diff 0.3.4 with the Q60 patch and keeps its Apache-2.0 license notice. Diffy drops the copy when a gitoxide release has the fix and passes the parity tests. The proposal goes to Q62. The owner selected the option "Upstream + patched copy". Decided by: Daniel Kindl, 2026-11-25. Record: this line and ADR 0002.
 - Q44 S3 Git backend: gix. Diffy opens each repository isolated and removes the `filter` sections from the configuration in memory, so no command from the repository configuration runs. gix is the only backend that passes each fixture, the read-only proof and the build with no installed Git. The owner selected the option "gix". Decided by: Daniel Kindl, 2026-11-25. Record: [ADR 0005](../adr/0005-git-backend-gix.md).
+- Q45 S5 anchor mapping: M3. A finding moves with the canonical diff only when the LCS rule gives the same new line. M3 applies the rule in the segment between the two nearest bracket lines. A bracket is a line that occurs once in each file and that the canonical diff keeps. The start and the end of the file are also brackets. Otherwise the finding is outdated. M3 is the only method with the expected result on each fixture and no wrong mapping in the property test. The owner selected the option "M3". Decided by: Daniel Kindl, 2026-11-25. Record: this line.
 
 ## Open questions
-
-### Q45: S5 anchor mapping
-
-Type: prototype
-Blocked by: Q43
-
-Prove conservative re-anchoring across revisions. An ambiguous mapping must become outdated and never publish to a wrong line.
-
-Charter question: Which method moves a finding to the correct line of a new revision, and marks it outdated when the mapping is not certain?
-
-Evidence, on the branch `prototype/diffy-v0.1-q45`:
-
-- Two or three methods. Examples are a map through the Q43 hunks only, and that map plus an exact match of the line and its context.
-- Fixture revision pairs. Each pair has one expected result for each anchor: an exact new line, or outdated.
-- The cases are: line unchanged, lines added above, line edited, line deleted and duplicate blocks. They also include file renamed, file deleted, whitespace changes and line-ending changes.
-- An anchor on a unique unchanged line must map to its exact new line. An anchor in identical duplicate blocks must be outdated.
-- A property test that generates an edit history. The generator records the expected new line of each anchor, or outdated when the anchor is edited, deleted or ambiguous.
-- In the property test, the method must return the expected line or outdated. Each other line is a wrong mapping.
-- For each method: the number of wrong mappings, and the number of outdated results where the generator expected a line.
-
-Stop when:
-
-- A method qualifies when each fixture gives its expected result and the property test has zero wrong mappings. The owner picks from the qualified methods.
-- No method qualifies. Ask the owner before more work.
 
 ### Q46: S8 scale
 
@@ -282,6 +266,20 @@ Blocked by: none
 
 Diffy runs no filter driver (ADR 0005), so a file with a `filter=` attribute compares with no filter. For Git LFS, that is the raw file against the pointer blob. Decide how Diffy shows such files, for example as a file with a limitation, or with a built-in LFS pointer check.
 
+### Q64: Anchors after whitespace and line-ending changes
+
+Type: owner
+Blocked by: none
+
+In Q45 each byte of a line counts, so a whitespace or line-ending change of the anchor line makes the finding outdated. A file that changes from LF to CRLF makes each finding in it outdated. Decide whether such a change keeps the anchor.
+
+### Q65: Time of the anchor mapping on large files
+
+Type: task
+Blocked by: Q46
+
+Measure the Q45 M3 mapping on the Q46 fixtures. Record the time, and the findings that are outdated because a segment has more than 1,000,000 cells.
+
 ## Not yet clear
 
 - The rules that mark a file as generated (R-02).
@@ -348,6 +346,13 @@ Diffy runs no filter driver (ADR 0005), so a file with a `filter=` attribute com
 - Result: only gix with the filter sections removed in memory passes each fixture, the read-only proof and the build with no installed Git.
 - Picked: gix, because it is the only backend that qualifies.
 - Branch: `prototype/diffy-v0.1-q44` at `e8867f4`. Tag: `prototype/diffy-v0.1-q44`. Not merged.
+
+### Q45: S5 anchor mapping
+
+- Options: M1, the canonical diff only. M2, the canonical diff and an exact match of the line and 3 lines of context that occur once in each file. M3, the canonical diff and the LCS rule in the segment between bracket lines.
+- Result: only M3 passes each fixture and has no wrong mapping in the property test.
+- Picked: M3, because it is the only method that qualifies.
+- Branch: `prototype/diffy-v0.1-q45` at `4401b5c`. Tag: `prototype/diffy-v0.1-q45`. Not merged.
 
 ## Hand-off
 
