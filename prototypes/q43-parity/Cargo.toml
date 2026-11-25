@@ -1,0 +1,9 @@
+[package]
+name = "q43-parity"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+gix-imara-diff = "0.3.4"
+imara-diff = "0.2.0"
+similar = "3.2.1"

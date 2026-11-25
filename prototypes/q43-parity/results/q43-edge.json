@@ -1,0 +1,31 @@
+{
+  "git": "git version 2.55.0",
+  "oracle_args": "diff --no-index --histogram --inter-hunk-context=0 --no-color --no-ext-diff --no-renames --no-textconv",
+  "text_pairs": 20,
+  "binary_pairs_skipped": 0,
+  "git_u0_groups_equal_git_u3_groups": {"pass":20,"fail":0},
+  "results": [
+    {"oracle":"--indent-heuristic","variant":"ImaraRaw","pass":20,"fail":0},
+    {"oracle":"--indent-heuristic","variant":"ImaraNoHeuristic","pass":20,"fail":0},
+    {"oracle":"--indent-heuristic","variant":"ImaraIndentHeuristic","pass":19,"fail":1},
+    {"oracle":"--indent-heuristic","variant":"SimilarHistogram","pass":18,"fail":2},
+    {"oracle":"--indent-heuristic","variant":"GixRaw","pass":20,"fail":0},
+    {"oracle":"--indent-heuristic","variant":"GixNoHeuristic","pass":20,"fail":0},
+    {"oracle":"--indent-heuristic","variant":"GixIndentHeuristic","pass":20,"fail":0},
+    {"oracle":"--no-indent-heuristic","variant":"ImaraRaw","pass":20,"fail":0},
+    {"oracle":"--no-indent-heuristic","variant":"ImaraNoHeuristic","pass":20,"fail":0},
+    {"oracle":"--no-indent-heuristic","variant":"ImaraIndentHeuristic","pass":19,"fail":1},
+    {"oracle":"--no-indent-heuristic","variant":"SimilarHistogram","pass":18,"fail":2},
+    {"oracle":"--no-indent-heuristic","variant":"GixRaw","pass":20,"fail":0},
+    {"oracle":"--no-indent-heuristic","variant":"GixNoHeuristic","pass":20,"fail":0},
+    {"oracle":"--no-indent-heuristic","variant":"GixIndentHeuristic","pass":20,"fail":0}
+  ],
+  "first_fails": [
+    {"pair":"edge:moved-block","variant":"SimilarHistogram","oracle":"indent-heuristic","first":"group 0: git Some(Group { left: 0..4, right: 0..0 }), crate Some(Group { left: 0..0, right: 0..4 })"},
+    {"pair":"edge:moved-block","variant":"SimilarHistogram","oracle":"no-indent-heuristic","first":"group 0: git Some(Group { left: 0..4, right: 0..0 }), crate Some(Group { left: 0..0, right: 0..4 })"},
+    {"pair":"edge:swap-two","variant":"SimilarHistogram","oracle":"indent-heuristic","first":"group 0: git Some(Group { left: 0..1, right: 0..0 }), crate Some(Group { left: 0..0, right: 0..1 })"},
+    {"pair":"edge:swap-two","variant":"SimilarHistogram","oracle":"no-indent-heuristic","first":"group 0: git Some(Group { left: 0..1, right: 0..0 }), crate Some(Group { left: 0..0, right: 0..1 })"},
+    {"pair":"edge:whitespace-lines","variant":"ImaraIndentHeuristic","oracle":"indent-heuristic","first":"group 0: git Some(Group { left: 3..4, right: 3..3 }), crate Some(Group { left: 2..3, right: 2..2 })"},
+    {"pair":"edge:whitespace-lines","variant":"ImaraIndentHeuristic","oracle":"no-indent-heuristic","first":"group 0: git Some(Group { left: 3..4, right: 3..3 }), crate Some(Group { left: 2..3, right: 2..2 })"}
+  ]
+}
