@@ -2,7 +2,7 @@
 
 Status: open
 Destination: Each v0.1 milestone (M0 to M4) has a plan and issues with acceptance criteria. Each spike has a verdict, and no open question blocks the first M0 issue.
-Next: Q43
+Next: Q60
 
 ## Notes
 
@@ -28,6 +28,14 @@ Next: Q43
 - The public `diffAlgorithm` option of Monaco 0.58 accepts only `legacy`, `advanced`, `advanced-external` and `advanced-wasm`. A custom diff provider is not possible through it. Source: monaco-editor 0.58.0 `esm/vs/editor/browser/widget/diffEditor/diffEditorOptions.js:167`
 - The `10k-lines` fixture has 26 right lines of 83 characters, so only the right side shows a horizontal scroll bar. Option B then needs the scroll bar pad of Q54. Source: https://github.com/daniel-kindl/diffy/blob/f87a6fb/prototypes/s1-monaco/README.md
 - Monaco keeps the scroll position in pixels when the model changes. A line inserted above the viewport moves the content, unless the refresh code anchors the first visible line. Source: https://github.com/daniel-kindl/diffy/blob/f87a6fb/prototypes/s1-monaco/src/q54.ts
+- Git trims the common tail of the two inputs before the diff when the context is 0 and there is no function context. So `-U0` can place a change group at other lines than `-U3`. In Q43, this happened on 8 of 3,732 real pairs. Source: git 2.55.0 `xdiff-interface.c:127` and https://github.com/daniel-kindl/diffy/blob/061a6a3/prototypes/q43-parity/results/q43-real.json
+- Git turns on the indent heuristic when no configuration sets `diff.indentHeuristic`. Source: git 2.55.0 `diff.c:57`
+- In the histogram diff, Git falls back to the classic diff for a region where each common line has more than 64 copies. Source: git 2.55.0 `xdiff/xhistogram.c:284` and `xdiff/xhistogram.c:334`
+- Git `xdiff/xhistogram.c` has the Eclipse Distribution License 1.0. The other Git `xdiff/` files, for example `xdiffi.c`, have the LGPL 2.1 or later. Source: git 2.55.0 `xdiff/xhistogram.c:6` and `xdiff/xdiffi.c:6`
+- similar 3.2.1 has a histogram algorithm, but no indent heuristic. Source: similar 3.2.1 `src/algorithms/histogram.rs:1` and `src/algorithms/compact.rs:1`
+- gix-imara-diff 0.3.4 is the gitoxide copy of imara-diff, with changes that follow Git. gix-diff 0.71.0 uses it. Source: gix-imara-diff 0.3.4 `src/postprocess.rs:22` and `src/myers.rs:47`, and https://index.crates.io/gi/x-/gix-diff
+- With the Q43 oracle and `--indent-heuristic`, a crate passes a pair when the hunks and the change groups are identical. gix-imara-diff 0.3.4 with `postprocess_lines` passes 5 of 5 S1, 20 of 20 edge and 3,727 of 3,732 real pairs. imara-diff 0.2.0 with `postprocess_lines` passes 5, 19 and 3,726. The similar 3.2.1 histogram passes 1, 18 and 3,490. Source: https://github.com/daniel-kindl/diffy/blob/061a6a3/prototypes/q43-parity/README.md
+- In each of the 5 gix-imara-diff fails, the crate and Git select different common lines, so the change groups have different sizes. Source: https://github.com/daniel-kindl/diffy/blob/061a6a3/prototypes/q43-parity/results/q43-real.json
 
 ## Decisions
 
@@ -76,15 +84,9 @@ Next: Q43
 - Q42 S2 Linux WebKitGTK behavior: both options work on WebKitGTK under Wayland and XWayland, on Fedora and on Ubuntu 24.04. No check has a blocker. The input method preedit goes to Q57, and the Monaco features and font go to Q58. Owner words: "Accept the S2 results". Decided by: Daniel Kindl, 2026-11-24. Record: this line.
 - Q54 S1 renderer verdict: option B, two Monaco editors that show the canonical hunks from Rust. Only option B passes the coordinate check. Owner words: "B". The Windows run of Q12 comes later, in Q59. For the order, the owner selected the option "Record B, Windows later". Decided by: Daniel Kindl, 2026-11-24. Record: [ADR 0004](../adr/0004-renderer-two-monaco-editors-with-canonical-hunks.md).
 - Q47 S7 CodeMirror fallback: skipped. Monaco passes in Q54, and the Q47 charter (Q40) skips the benchmark in that case. Decided by: Daniel Kindl, 2026-11-24. Record: this line.
+- Q43 Diff crate with histogram parity: no crate is identical to Git on each pair. The closest is gix-imara-diff 0.3.4 with `postprocess_lines`, with 5 fails in 3,732 real pairs. The oracle is Git 2.55.0, `git diff --no-index --histogram -U3 --inter-hunk-context=0 --indent-heuristic --no-color --no-ext-diff --no-renames --no-textconv`, with `GIT_CONFIG_NOSYSTEM=1` and `GIT_CONFIG_GLOBAL=/dev/null`, in a folder outside each repository. The cause of the fails goes to Q60 and the fix to Q61. The owner selected the option "Accept the Q43 result". Decided by: Daniel Kindl, 2026-11-25. Record: this line.
 
 ## Open questions
-
-### Q43: Diff crate with histogram parity
-
-Type: research
-Blocked by: Q40
-
-Find a Rust diff crate (for example similar or imara-diff) whose output is identical to `git diff --histogram` on the fixtures. Pin the reference Git version and the hunk options, for example the context lines. Run the oracle command with no system or global Git configuration, for example with `GIT_CONFIG_NOSYSTEM=1` and `GIT_CONFIG_GLOBAL=/dev/null`. Repository settings such as `diff.interHunkContext` also change the hunks. So run `git diff --no-index` in a temporary folder outside each repository, or in a fixture repository with known local settings. Give each hunk option on the command line, for example `-U3` and `--inter-hunk-context=0`. See ADR 0002.
 
 ### Q44: S3 Git backend
 
@@ -273,6 +275,20 @@ Blocked by: none
 
 Run the Q54 checks for option B once on the Windows notebook (Q12), with `prototypes/s1-monaco/q54-windows.ps1` from the tag `prototype/diffy-v0.1-q54`. A fail for option B goes to the owner. Issue #30.
 
+### Q60: Cause of the histogram parity fails
+
+Type: research
+Blocked by: Q43
+
+Find the cause of the 5 Q43 fails of gix-imara-diff 0.3.4. Name the step where the crate and Git first select different lines. Find out if one change to the crate removes each fail and keeps the pairs that pass. Issue #32.
+
+### Q61: Path to histogram parity
+
+Type: owner
+Blocked by: Q60
+
+Decide how Diffy gets canonical hunks that are identical to Git (ADR 0002). Examples are a fix to gix-imara-diff, upstream or in a fork, a Diffy histogram implementation, and a documented gap. Issue #33.
+
 ## Not yet clear
 
 - The rules that mark a file as generated (R-02).
@@ -318,6 +334,13 @@ Run the Q54 checks for option B once on the Windows notebook (Q12), with `protot
 - 50 MB stress: option A opens in 25.7 s, with a peak of 1.63 GB and a longest stall of 1,254 ms. Option B opens in 1.8 s, with a peak of 1.11 GB and a longest stall of 390 ms.
 - Picked: option B, because only option B passes the coordinate check (ADR 0004).
 - Branch: `prototype/diffy-v0.1-q54` at `f87a6fb`. Tag: `prototype/diffy-v0.1-q54`. Not merged.
+
+### Q43: Diff crate with histogram parity
+
+- Options: imara-diff 0.2.0, gix-imara-diff 0.3.4 and similar 3.2.1, each with the histogram algorithm. The imara-diff crates run with no postprocessing, with no slider heuristic and with the indent heuristic.
+- Result: the closest is gix-imara-diff 0.3.4 with the indent heuristic. It passes each S1 and edge pair. It passes 3,727 of 3,732 real pairs from git, tokio and ripgrep.
+- Picked: none. Q61 decides the path to parity.
+- Branch: `prototype/diffy-v0.1-q43` at `061a6a3`. Tag: `prototype/diffy-v0.1-q43`. Not merged.
 
 ## Hand-off
 
