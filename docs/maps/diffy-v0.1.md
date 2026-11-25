@@ -2,7 +2,7 @@
 
 Status: open
 Destination: Each v0.1 milestone (M0 to M4) has a plan and issues with acceptance criteria. Each spike has a verdict, and no open question blocks the first M0 issue.
-Next: Q46
+Next: Q48
 
 ## Notes
 
@@ -58,6 +58,15 @@ Next: Q46
 - On 3,714 of the Q43 real pairs, M3 maps 185 anchors in 46 pairs where the LCS rule gives outdated. Each is at the line where the canonical diff keeps it. An example is `loose.c` in git/git commit `e8bf3190858e`, where part of a function moves into a new function above it. Source: https://github.com/daniel-kindl/diffy/blob/4401b5c/prototypes/q45-anchors/results/real.json and https://github.com/daniel-kindl/diffy/blob/4401b5c/prototypes/q45-anchors/README.md
 - The LCS rule is quadratic in the file length. M3 uses it only in the segment between two bracket lines, and a segment with more than 1,000,000 cells is outdated. Q45 did not measure the time on large files. Source: https://github.com/daniel-kindl/diffy/blob/4401b5c/prototypes/q45-anchors/src/core.rs
 
+- The Q46 fixture repositories are commit to commit comparisons. Two have 1,000 changed files, of 6.2 MB and of 333 MB. Others have 2,000 changed files (668 MB) and 5,000 changed files. The last two have the 10,000 changed lines pair and the 50 MB pair. Source: https://github.com/daniel-kindl/diffy/blob/d569d85/prototypes/s1-monaco/bench-results/q46-fedora-repos.json
+- In Q46, the change list p95 is 65 ms for 1,000 changed files and 241 ms for 5,000. With files of about 110 KB, it is 1,046 ms for 1,000 files and 2,169 ms for 2,000 files. Source: https://github.com/daniel-kindl/diffy/blob/d569d85/prototypes/s1-monaco/bench-results/q46-fedora-list-files-1000.json, https://github.com/daniel-kindl/diffy/blob/d569d85/prototypes/s1-monaco/bench-results/q46-fedora-list-files-5000.json and https://github.com/daniel-kindl/diffy/blob/d569d85/prototypes/s1-monaco/bench-results/q46-fedora-list-files-2000-large.json
+- gix rename detection is most of the change list time on the large fixtures. With no rename detection, the p95 is 32 ms for 1,000 and 33 ms for 2,000 large files. Source: https://github.com/daniel-kindl/diffy/blob/d569d85/prototypes/s1-monaco/bench-results/q46-fedora-list-files-2000-large-no-renames.json
+- In Q46, the line counts of each fixture are equal to `git diff --shortstat --histogram -M`. The counts run in 4 worker threads after the list shows. Source: https://github.com/daniel-kindl/diffy/blob/d569d85/prototypes/s1-monaco/README.md
+- A cancel of the Q46 line counts on 5,000 files is acknowledged in 22 ms at p95. The workers stop within 52 ms. Source: https://github.com/daniel-kindl/diffy/blob/d569d85/prototypes/s1-monaco/bench-results/q46-fedora-cancel-stats.json
+- A cancel of the 50 MB file open is acknowledged in 385 ms at p95 and 441 ms at most. A cancel during the Monaco model creation waits until the page is free, up to 364 ms. Source: https://github.com/daniel-kindl/diffy/blob/d569d85/prototypes/s1-monaco/bench-results/q46-fedora-cancel-open.json
+- In Q46, the WebView RSS is 261 to 270 MB in the list part of each many-file fixture. The Rust working memory of the line counts does not grow from 1,000 to 2,000 large files. The Rust file-backed RSS grows with the pack data that gix reads, from 218 MB to 313 MB. Source: https://github.com/daniel-kindl/diffy/blob/d569d85/prototypes/s1-monaco/README.md
+- While the Q46 list loads, counts or scrolls, no timer callback is more than 50 ms late. No frame gap is more than 50 ms. A file open stalls up to 145 ms for the first editor. It stalls up to 207 ms for 10,000 changed lines and 492 ms for 50 MB. Source: https://github.com/daniel-kindl/diffy/blob/d569d85/prototypes/s1-monaco/README.md
+- The Q46 change list uses the gix feature `parallel`, so a repository can go to a worker thread. Q44 did not use it. Source: https://github.com/daniel-kindl/diffy/blob/d569d85/prototypes/s1-monaco/src-tauri/Cargo.toml
 ## Decisions
 
 - Q1 Independent review: tiered by risk. Safety-critical areas (Git adapter, publication, anchors, updater, IPC and capabilities) need owner review. Other areas merge after agent review and green CI. Decided by: Daniel Kindl, 2026-11-24. Record: this line.
@@ -110,29 +119,9 @@ Next: Q46
 - Q61 Path to histogram parity: Diffy proposes the Q60 patch to gitoxide. Until a gitoxide release has the fix, Diffy keeps a copy of gix-imara-diff 0.3.4 with the Q60 patch and keeps its Apache-2.0 license notice. Diffy drops the copy when a gitoxide release has the fix and passes the parity tests. The proposal goes to Q62. The owner selected the option "Upstream + patched copy". Decided by: Daniel Kindl, 2026-11-25. Record: this line and ADR 0002.
 - Q44 S3 Git backend: gix. Diffy opens each repository isolated and removes the `filter` sections from the configuration in memory, so no command from the repository configuration runs. gix is the only backend that passes each fixture, the read-only proof and the build with no installed Git. The owner selected the option "gix". Decided by: Daniel Kindl, 2026-11-25. Record: [ADR 0005](../adr/0005-git-backend-gix.md).
 - Q45 S5 anchor mapping: M3. A finding moves with the canonical diff only when the LCS rule gives the same new line. M3 applies the rule in the segment between the two nearest bracket lines. A bracket is a line that occurs once in each file and that the canonical diff keeps. The start and the end of the file are also brackets. Otherwise the finding is outdated. M3 is the only method with the expected result on each fixture and no wrong mapping in the property test. The owner selected the option "M3". Decided by: Daniel Kindl, 2026-11-25. Record: this line.
+- Q46 S8 scale: each section 18 target has a measured result for option B on the Fedora reference host. The change list target is met on each fixture. The cancel target is met for the line counts and missed for the open of a 50 MB file. The follow-up questions are Q66 and Q67. The owner selected the option "Accept the Q46 result". Decided by: Daniel Kindl, 2026-11-25. Record: this line.
 
 ## Open questions
-
-### Q46: S8 scale
-
-Type: prototype
-Blocked by: Q44
-
-Measure 1,000 or more changed files with bounded memory and cancellation against the section 18 targets. Measure only option B, the renderer that Q54 selects (ADR 0004).
-
-Charter question: Does Diffy stay responsive with 1,000 or more changed files, with bounded memory and fast cancellation?
-
-Evidence, on the Fedora reference host (Q38) with the selected renderer:
-
-- Generated fixture repositories with 1,000 and with 5,000 changed files, and one with 10,000 changed lines.
-- The p95 time to show the change list of 1,000 files. The target is less than 3 s.
-- The p95 time from a cancel action to its acknowledgement. The target is less than 250 ms.
-- The peak memory of the Rust process and of the WebView process for each fixture. Memory is bounded when it does not grow with the content of files that are not open.
-- The CPU use and the stalls, with the method that specification section 18 asks for.
-
-Stop when:
-
-- Each target has a measured result. A missed target is a finding for the owner. It is not an automatic fail, because the section 18 targets are proposals.
 
 ### Q48: GitHub thread resolution API
 
@@ -280,6 +269,20 @@ Blocked by: Q46
 
 Measure the Q45 M3 mapping on the Q46 fixtures. Record the time, and the findings that are outdated because a segment has more than 1,000,000 cells.
 
+### Q66: Cancel during the open of a large file
+
+Type: owner
+Blocked by: none
+
+In Q46, a cancel during the Monaco model creation of the 50 MB file takes up to 441 ms. The target is 250 ms. Decide whether v0.1 accepts this for large files. The other way is a prototype that creates the models without a long block of the page.
+
+### Q67: Rename detection on large change lists
+
+Type: owner
+Blocked by: none
+
+In Q46, rename detection takes most of the change list time when the changed files are large. For 2,000 files of about 110 KB, the list takes 2,169 ms, against 33 ms without it. Decide how Diffy keeps the change list fast. Examples are a list first and the renames later, or a limit for rename detection.
+
 ## Not yet clear
 
 - The rules that mark a file as generated (R-02).
@@ -353,6 +356,13 @@ Measure the Q45 M3 mapping on the Q46 fixtures. Record the time, and the finding
 - Result: only M3 passes each fixture and has no wrong mapping in the property test.
 - Picked: M3, because it is the only method that qualifies.
 - Branch: `prototype/diffy-v0.1-q45` at `4401b5c`. Tag: `prototype/diffy-v0.1-q45`. Not merged.
+
+### Q46: S8 scale
+
+- Options: none. Q46 measures option B (ADR 0004) with the gix change list of ADR 0005 and the canonical diff of Q61.
+- Result: the change list target is met on each fixture. The cancel target is met for the line counts and missed for the open of a 50 MB file.
+- Picked: the owner accepted the result.
+- Branch: `prototype/diffy-v0.1-q46` at `d569d85`. Tag: `prototype/diffy-v0.1-q46`. Not merged.
 
 ## Hand-off
 
