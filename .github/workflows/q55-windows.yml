@@ -33,17 +33,17 @@ jobs:
           Set-Location "$env:RUNNER_TEMP\cli"
           npm init -y | Out-Null
           npm install --silent @tauri-apps/cli@2.12.6
-          & .\node_modules\.bin\tauri.cmd --version
+          node .\node_modules\@tauri-apps\cli\tauri.js --version
 
       - name: Make throwaway signing keys
         shell: pwsh
         run: |
           $rel = "$env:RUNNER_TEMP\rel"
           New-Item -ItemType Directory $rel | Out-Null
-          $t = "$env:RUNNER_TEMP\cli\node_modules\.bin\tauri.cmd"
-          & $t signer generate --ci -w "$rel\test.key"
-          & $t signer generate --ci -w "$rel\wrong.key"
-          Set-Content -NoNewline "$rel\tauri.txt" $t
+          $cli = "$env:RUNNER_TEMP\cli\node_modules\@tauri-apps\cli\tauri.js"
+          node $cli signer generate --ci -w "$rel\test.key"
+          node $cli signer generate --ci -w "$rel\wrong.key"
+          Set-Content -NoNewline -Path "$rel\tauri.txt" -Value "node $cli"
           $pub = (Get-Content -Raw "$rel\test.key.pub").Trim()
           @{ plugins = @{ updater = @{ pubkey = $pub } } } | ConvertTo-Json -Depth 5 | Set-Content "$env:RUNNER_TEMP\pub.json"
 
@@ -52,14 +52,14 @@ jobs:
         working-directory: prototypes/s6-updater/src-tauri
         run: |
           $rel = "$env:RUNNER_TEMP\rel"
-          $t = "$env:RUNNER_TEMP\cli\node_modules\.bin\tauri.cmd"
+          $cli = "$env:RUNNER_TEMP\cli\node_modules\@tauri-apps\cli\tauri.js"
           $env:TAURI_SIGNING_PRIVATE_KEY = Get-Content -Raw "$rel\test.key"
           $env:TAURI_SIGNING_PRIVATE_KEY_PASSWORD = ""
           foreach ($spec in @("0.1.0:1", "0.2.0:2", "0.3.0-pre.1:2")) {
             $v, $schema = $spec.Split(":")
             (Get-Content Cargo.toml) -replace '^version = .*', "version = `"$v`"" | Set-Content Cargo.toml
             $env:Q55_SCHEMA = $schema
-            & $t build --bundles nsis --config "$env:RUNNER_TEMP\pub.json"
+            node $cli build --bundles nsis --config "$env:RUNNER_TEMP\pub.json"
             if ($LASTEXITCODE -ne 0) { exit 1 }
             Copy-Item "target\release\bundle\nsis\q55-updater_${v}_x64-setup.exe*" $rel
           }
