@@ -67,6 +67,10 @@ Next: Q48
 - In Q46, the WebView RSS is 261 to 270 MB in the list part of each many-file fixture. The Rust working memory of the line counts does not grow from 1,000 to 2,000 large files. The Rust file-backed RSS grows with the pack data that gix reads, from 218 MB to 313 MB. Source: https://github.com/daniel-kindl/diffy/blob/d569d85/prototypes/s1-monaco/README.md
 - While the Q46 list loads, counts or scrolls, no timer callback is more than 50 ms late. No frame gap is more than 50 ms. A file open stalls up to 145 ms for the first editor. It stalls up to 207 ms for 10,000 changed lines and 492 ms for 50 MB. Source: https://github.com/daniel-kindl/diffy/blob/d569d85/prototypes/s1-monaco/README.md
 - The Q46 change list uses the gix feature `parallel`, so a repository can go to a worker thread. Q44 did not use it. Source: https://github.com/daniel-kindl/diffy/blob/d569d85/prototypes/s1-monaco/src-tauri/Cargo.toml
+- gitoxide merged the Q62 pull request on 2026-11-25, at merge commit `2bcb31d`. Before the merge, the maintainer added three commits. The commits skip a seed that occurs more than 65 times and keep the Git tail trim for blame. They also count the lines after postprocessing and speed up long common tails. Source: https://github.com/GitoxideLabs/gitoxide/pull/3246
+- On 2026-11-25 the newest gix-imara-diff on crates.io is 0.3.4, from 2026-11-22. No release has the fix yet. Source: https://crates.io/crates/gix-imara-diff
+- The Q60 copy differs from Git on one input from the maintainer review. Each line is one token: `B` 4 times, `A A B A`, then `B` 61 times, against `B A B A`. The Q60 copy removes 66 lines and adds 1. Git 2.55.0 and gitoxide `2bcb31d` remove 65 lines and add none, with the same hunks. The Q43 pairs do not have this case. Source: Q62 run, 2026-11-25.
+
 ## Decisions
 
 - Q1 Independent review: tiered by risk. Safety-critical areas (Git adapter, publication, anchors, updater, IPC and capabilities) need owner review. Other areas merge after agent review and green CI. Decided by: Daniel Kindl, 2026-11-24. Record: this line.
@@ -117,6 +121,7 @@ Next: Q48
 - Q43 Diff crate with histogram parity: no crate is identical to Git on each pair. The closest is gix-imara-diff 0.3.4 with `postprocess_lines`, with 5 fails in 3,732 real pairs. The oracle is Git 2.55.0, `git diff --no-index --histogram -U3 --inter-hunk-context=0 --indent-heuristic --no-color --no-ext-diff --no-renames --no-textconv`, with `GIT_CONFIG_NOSYSTEM=1` and `GIT_CONFIG_GLOBAL=/dev/null`, in a folder outside each repository. The cause of the fails goes to Q60 and the fix to Q61. The owner selected the option "Accept the Q43 result". Decided by: Daniel Kindl, 2026-11-25. Record: this line.
 - Q60 Cause of the histogram parity fails: gix-imara-diff 0.3.4 differs from Git 2.55.0 in four steps. They are the skip after a match, the limit of 63 copies, the strip of the common ends and no re-diff after a slide. A patch that changes the four steps passes each Q43 pair. The owner selected the option "Accept the Q60 result". Decided by: Daniel Kindl, 2026-11-25. Record: this line.
 - Q61 Path to histogram parity: Diffy proposes the Q60 patch to gitoxide. Until a gitoxide release has the fix, Diffy keeps a copy of gix-imara-diff 0.3.4 with the Q60 patch and keeps its Apache-2.0 license notice. Diffy drops the copy when a gitoxide release has the fix and passes the parity tests. The proposal goes to Q62. The owner selected the option "Upstream + patched copy". Decided by: Daniel Kindl, 2026-11-25. Record: this line and ADR 0002.
+- Q62 Upstream proposal: gitoxide merged the Q60 patch with three maintainer commits, in pull request https://github.com/GitoxideLabs/gitoxide/pull/3246. No gix-imara-diff release has it yet, so the Q61 copy stays. The Q60 copy differs from Git on a seed that occurs more than 65 times, and the merged code does not. What the copy holds until a release goes to Q68. The owner approved the pull request text before it was sent. Decided by: Daniel Kindl, 2026-11-25. Record: this line.
 - Q44 S3 Git backend: gix. Diffy opens each repository isolated and removes the `filter` sections from the configuration in memory, so no command from the repository configuration runs. gix is the only backend that passes each fixture, the read-only proof and the build with no installed Git. The owner selected the option "gix". Decided by: Daniel Kindl, 2026-11-25. Record: [ADR 0005](../adr/0005-git-backend-gix.md).
 - Q45 S5 anchor mapping: M3. A finding moves with the canonical diff only when the LCS rule gives the same new line. M3 applies the rule in the segment between the two nearest bracket lines. A bracket is a line that occurs once in each file and that the canonical diff keeps. The start and the end of the file are also brackets. Otherwise the finding is outdated. M3 is the only method with the expected result on each fixture and no wrong mapping in the property test. The owner selected the option "M3". Decided by: Daniel Kindl, 2026-11-25. Record: this line.
 - Q46 S8 scale: each section 18 target has a measured result for option B on the Fedora reference host. The change list target is met on each fixture. The cancel target is met for the line counts and missed for the open of a 50 MB file. The follow-up questions are Q66 and Q67. The owner selected the option "Accept the Q46 result". Decided by: Daniel Kindl, 2026-11-25. Record: this line.
@@ -241,13 +246,6 @@ Blocked by: none
 
 Run the Q54 checks for option B once on the Windows notebook (Q12), with `prototypes/s1-monaco/q54-windows.ps1` from the tag `prototype/diffy-v0.1-q54`. A fail for option B goes to the owner. Issue #30.
 
-### Q62: Propose the Q60 patch to gitoxide
-
-Type: task
-Blocked by: none
-
-Propose the four Q60 changes to gix-imara-diff in gitoxide (https://github.com/GitoxideLabs/gitoxide). The proposal is outward-facing, so the owner approves it before it is sent. Record the upstream link and the result here. The patch is on the tag `prototype/diffy-v0.1-q60`. Issue #37.
-
 ### Q63: Files with a filter driver
 
 Type: owner
@@ -282,6 +280,13 @@ Type: owner
 Blocked by: none
 
 In Q46, rename detection takes most of the change list time when the changed files are large. For 2,000 files of about 110 KB, the list takes 2,169 ms, against 33 ms without it. Decide how Diffy keeps the change list fast. Examples are a list first and the renames later, or a limit for rename detection.
+
+### Q68: Code of the patched gix-imara-diff copy
+
+Type: owner
+Blocked by: none
+
+Until a gitoxide release has the fix, Diffy keeps a copy of gix-imara-diff (Q61). The Q60 copy differs from Git on a seed that occurs more than 65 times. The code that gitoxide merged in `2bcb31d` matches Git on that input. Decide what the copy holds until the release. Examples are the Q60 patch with a fix for the seed limit, or the gix-imara-diff source of `2bcb31d`, which then needs the Q43 parity run.
 
 ## Not yet clear
 
