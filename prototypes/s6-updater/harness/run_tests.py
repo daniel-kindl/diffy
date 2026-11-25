@@ -237,7 +237,7 @@ def kill_installers():
     """Stops each leftover installer or app process, and lists what it stopped."""
     if WIN:
         r = subprocess.run(["powershell", "-NoProfile", "-Command",
-                            "Get-Process | Where-Object { $_.Path -like \"$env:TEMP*\" -or $_.Name -like 'q55-updater*' -or $_.Name -like 'Un_*' -or $_.Name -like 'uninstall*' } | "
+                            "Get-Process | Where-Object { $_.Name -like 'q55-updater*' -or $_.Name -like 'Au_' -or $_.Name -like 'Un_A' -or $_.Name -eq 'uninstall' } | "
                             "ForEach-Object { \"$($_.Name) $($_.Path)\"; Stop-Process -Force -Id $_.Id }"],
                            check=False, capture_output=True, text=True, timeout=60)
         if r.stdout.strip():
