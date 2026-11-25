@@ -1,0 +1,131 @@
+diff -ruN a/src/histogram/lcs.rs b/src/histogram/lcs.rs
+--- a/src/histogram/lcs.rs
++++ b/src/histogram/lcs.rs
+@@ -132,7 +132,7 @@
+ 
+             loop {
+                 if let Some(next_token_idx) = occurrences_iter.next() {
+-                    if next_token_idx > end2 {
++                    if next_token_idx >= end1 {
+                         token_idx1 = next_token_idx;
+                         break;
+                     }
+diff -ruN a/src/histogram/list_pool.rs b/src/histogram/list_pool.rs
+--- a/src/histogram/list_pool.rs
++++ b/src/histogram/list_pool.rs
+@@ -75,7 +75,7 @@
+     }
+ }
+ 
+-const MAX_SIZE_CLASS: SizeClass = sclass_for_length(super::MAX_CHAIN_LEN - 1);
++const MAX_SIZE_CLASS: SizeClass = sclass_for_length(super::MAX_CHAIN_LEN);
+ const NUM_SIZE_CLASS: usize = MAX_SIZE_CLASS as usize + 1;
+ 
+ /// A memory pool for storing lists of `T`.
+diff -ruN a/src/histogram.rs b/src/histogram.rs
+--- a/src/histogram.rs
++++ b/src/histogram.rs
+@@ -11,7 +11,7 @@
+ 
+ /// Maximum number of occurrences tracked for a single token.
+ /// Tokens appearing more frequently fall back to Myers algorithm.
+-const MAX_CHAIN_LEN: u32 = 63;
++const MAX_CHAIN_LEN: u32 = 64;
+ 
+ /// State for computing histogram-based diffs.
+ struct Histogram {
+diff -ruN a/src/lib.rs b/src/lib.rs
+--- a/src/lib.rs
++++ b/src/lib.rs
+@@ -273,8 +273,9 @@
+         self.added.resize(after.len(), false);
+         match algorithm {
+             Algorithm::Histogram => {
+-                let common_prefix = strip_common_prefix(&mut before, &mut after) as usize;
+-                let common_postfix = strip_common_postfix(&mut before, &mut after);
++                // Q60: Git does not trim the common ends for histogram (xprepare.c:461).
++                let common_prefix = 0usize;
++                let common_postfix = 0u32;
+                 let range = common_prefix..self.removed.len() - common_postfix as usize;
+                 let removed = &mut self.removed[range];
+                 let range = common_prefix..self.added.len() - common_postfix as usize;
+diff -ruN a/src/postprocess.rs b/src/postprocess.rs
+--- a/src/postprocess.rs
++++ b/src/postprocess.rs
+@@ -24,6 +24,7 @@
+             added: &mut self.removed,
+             removed: &mut self.added,
+             tokens: before,
++            other_tokens: after,
+             hunk: Hunk {
+                 before: 0..0,
+                 after: 0..0,
+@@ -35,6 +36,7 @@
+             added: &mut self.added,
+             removed: &mut self.removed,
+             tokens: after,
++            other_tokens: before,
+             hunk: Hunk {
+                 before: 0..0,
+                 after: 0..0,
+@@ -63,9 +65,11 @@
+     /// The mutable array tracking which tokens were added.
+     added: &'a mut [bool],
+     /// The immutable array tracking which tokens were removed.
+-    removed: &'a [bool],
++    removed: &'a mut [bool],
+     /// The token sequence being processed.
+     tokens: &'a [Token],
++    /// Q60: the token sequence of the other side, for the Git re-diff.
++    other_tokens: &'a [Token],
+     /// The current hunk being processed in the iteration.
+     hunk: Hunk,
+     /// The heuristic used to determine optimal hunk positions.
+@@ -80,6 +84,7 @@
+                 break;
+             }
+ 
++            let orig = self.hunk.after.clone();
+             let mut earliest_end;
+             let mut is_modification;
+             loop {
+@@ -103,6 +108,7 @@
+             }
+ 
+             if self.hunk.after.end == earliest_end {
++                self.rediff(&orig);
+                 continue;
+             }
+             if is_modification {
+@@ -122,9 +128,31 @@
+                     debug_assert!(success);
+                 }
+             }
++            self.rediff(&orig);
+         }
+     }
+ 
++    /// Q60: Git re-diffs a group that changed while it slid, when the group on
++    /// the other side is not empty (git 2.55.0 xdiff/xdiffi.c:921-955). The
++    /// re-diff is the classic Myers diff on the two groups, with this side first.
++    fn rediff(&mut self, orig: &std::ops::Range<u32>) {
++        let a = self.hunk.after.clone();
++        let b = self.hunk.before.clone();
++        if b.is_empty() || a == *orig {
++            return;
++        }
++        let (a0, a1, b0, b1) = (a.start as usize, a.end as usize, b.start as usize, b.end as usize);
++        self.added[a0..a1].fill(false);
++        self.removed[b0..b1].fill(false);
++        crate::myers::diff(
++            &self.tokens[a0..a1],
++            &self.other_tokens[b0..b1],
++            &mut self.added[a0..a1],
++            &mut self.removed[b0..b1],
++            false,
++        );
++    }
++
+     /// Slides a hunk down by one token/line, potentially merging it with a subsequent hunk.
+     fn slide_down(&mut self) -> bool {
+         let Some(&next_token) = self.tokens.get(self.hunk.after.end as usize) else {
