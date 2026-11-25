@@ -2,7 +2,7 @@
 
 Status: open
 Destination: Each v0.1 milestone (M0 to M4) has a plan and issues with acceptance criteria. Each spike has a verdict, and no open question blocks the first M0 issue.
-Next: Q60
+Next: Q61
 
 ## Notes
 
@@ -36,6 +36,13 @@ Next: Q60
 - gix-imara-diff 0.3.4 is the gitoxide copy of imara-diff, with changes that follow Git. gix-diff 0.71.0 uses it. Source: gix-imara-diff 0.3.4 `src/postprocess.rs:22` and `src/myers.rs:47`, and https://index.crates.io/gi/x-/gix-diff
 - With the Q43 oracle and `--indent-heuristic`, a crate passes a pair when the hunks and the change groups are identical. gix-imara-diff 0.3.4 with `postprocess_lines` passes 5 of 5 S1, 20 of 20 edge and 3,727 of 3,732 real pairs. imara-diff 0.2.0 with `postprocess_lines` passes 5, 19 and 3,726. The similar 3.2.1 histogram passes 1, 18 and 3,490. Source: https://github.com/daniel-kindl/diffy/blob/061a6a3/prototypes/q43-parity/README.md
 - In each of the 5 gix-imara-diff fails, the crate and Git select different common lines, so the change groups have different sizes. Source: https://github.com/daniel-kindl/diffy/blob/061a6a3/prototypes/q43-parity/results/q43-real.json
+- After a match, gix-imara-diff 0.3.4 skips the next left occurrences of the line up to `end2`, the end on the right side. Git skips up to `ae`, the end on the left side. Source: gix-imara-diff 0.3.4 `src/histogram/lcs.rs:135` and git 2.55.0 `xdiff/xhistogram.c:212`
+- gix-imara-diff 0.3.4 uses a common region only when each line in it has at most 63 copies. Git accepts 64 copies. Source: gix-imara-diff 0.3.4 `src/histogram.rs:14` and `src/histogram/lcs.rs:60`, and git 2.55.0 `xdiff/xhistogram.c:289` and `xdiff/xhistogram.c:294`
+- gix-imara-diff 0.3.4 strips the common prefix and suffix before the histogram diff. Git does not trim the ends for histogram. Source: gix-imara-diff 0.3.4 `src/lib.rs:276` and git 2.55.0 `xdiff/xprepare.c:461`
+- For histogram, Git re-diffs a group with Myers when the group changed while it slid and the group on the other side is not empty. gix-imara-diff 0.3.4 has no such step. Source: git 2.55.0 `xdiff/xdiffi.c:921` and gix-imara-diff 0.3.4 `src/postprocess.rs`
+- A patch to gix-imara-diff 0.3.4 changes these four steps. With the patch and `postprocess_lines`, the crate passes 5 of 5 S1, 20 of 20 edge and 3,732 of 3,732 real Q43 pairs. Without any one of the four changes, 1 to 3 real pairs fail. Source: https://github.com/daniel-kindl/diffy/blob/3c0ae71/prototypes/q60-parity-cause/README.md
+- With the patch, the histogram diff and the indent heuristic take 180.6 ms on the `50mb-stress` fixture, against 165.9 ms without the patch. Source: https://github.com/daniel-kindl/diffy/blob/3c0ae71/prototypes/q60-parity-cause/README.md
+- The published gix-imara-diff 0.3.4 crate has no `src/tests.rs`, so its tests do not compile from the crate. Source: gix-imara-diff 0.3.4 `src/lib.rs:167`
 
 ## Decisions
 
@@ -85,6 +92,7 @@ Next: Q60
 - Q54 S1 renderer verdict: option B, two Monaco editors that show the canonical hunks from Rust. Only option B passes the coordinate check. Owner words: "B". The Windows run of Q12 comes later, in Q59. For the order, the owner selected the option "Record B, Windows later". Decided by: Daniel Kindl, 2026-11-24. Record: [ADR 0004](../adr/0004-renderer-two-monaco-editors-with-canonical-hunks.md).
 - Q47 S7 CodeMirror fallback: skipped. Monaco passes in Q54, and the Q47 charter (Q40) skips the benchmark in that case. Decided by: Daniel Kindl, 2026-11-24. Record: this line.
 - Q43 Diff crate with histogram parity: no crate is identical to Git on each pair. The closest is gix-imara-diff 0.3.4 with `postprocess_lines`, with 5 fails in 3,732 real pairs. The oracle is Git 2.55.0, `git diff --no-index --histogram -U3 --inter-hunk-context=0 --indent-heuristic --no-color --no-ext-diff --no-renames --no-textconv`, with `GIT_CONFIG_NOSYSTEM=1` and `GIT_CONFIG_GLOBAL=/dev/null`, in a folder outside each repository. The cause of the fails goes to Q60 and the fix to Q61. The owner selected the option "Accept the Q43 result". Decided by: Daniel Kindl, 2026-11-25. Record: this line.
+- Q60 Cause of the histogram parity fails: gix-imara-diff 0.3.4 differs from Git 2.55.0 in four steps. They are the skip after a match, the limit of 63 copies, the strip of the common ends and no re-diff after a slide. A patch that changes the four steps passes each Q43 pair. The owner selected the option "Accept the Q60 result". Decided by: Daniel Kindl, 2026-11-25. Record: this line.
 
 ## Open questions
 
@@ -275,19 +283,12 @@ Blocked by: none
 
 Run the Q54 checks for option B once on the Windows notebook (Q12), with `prototypes/s1-monaco/q54-windows.ps1` from the tag `prototype/diffy-v0.1-q54`. A fail for option B goes to the owner. Issue #30.
 
-### Q60: Cause of the histogram parity fails
-
-Type: research
-Blocked by: Q43
-
-Find the cause of the 5 Q43 fails of gix-imara-diff 0.3.4. Name the step where the crate and Git first select different lines. Find out if one change to the crate removes each fail and keeps the pairs that pass. Issue #32.
-
 ### Q61: Path to histogram parity
 
 Type: owner
 Blocked by: Q60
 
-Decide how Diffy gets canonical hunks that are identical to Git (ADR 0002). Examples are a fix to gix-imara-diff, upstream or in a fork, a Diffy histogram implementation, and a documented gap. Issue #33.
+Decide how Diffy gets canonical hunks that are identical to Git (ADR 0002). The Q60 patch gives parity on each Q43 pair. Examples are to propose the patch to gitoxide, to keep a patched copy of gix-imara-diff in Diffy, and to write a Diffy histogram implementation. Issue #33.
 
 ## Not yet clear
 
@@ -341,6 +342,13 @@ Decide how Diffy gets canonical hunks that are identical to Git (ADR 0002). Exam
 - Result: the closest is gix-imara-diff 0.3.4 with the indent heuristic. It passes each S1 and edge pair. It passes 3,727 of 3,732 real pairs from git, tokio and ripgrep.
 - Picked: none. Q61 decides the path to parity.
 - Branch: `prototype/diffy-v0.1-q43` at `061a6a3`. Tag: `prototype/diffy-v0.1-q43`. Not merged.
+
+### Q60: Cause of the histogram parity fails
+
+- Options: gix-imara-diff 0.3.4 with combinations of four changes. The changes are the skip after a match, the limit of 64 copies, no strip of the common ends and the re-diff after a slide.
+- Result: only the build with all four changes passes each S1, edge and real pair.
+- Picked: none. Q61 decides the path to parity.
+- Branch: `prototype/diffy-v0.1-q60` at `3c0ae71`. Tag: `prototype/diffy-v0.1-q60`. Not merged.
 
 ## Hand-off
 
