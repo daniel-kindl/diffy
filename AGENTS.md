@@ -34,7 +34,7 @@ This project has two exceptions:
 - The v0.1 plan and its open questions are in [docs/maps/diffy-v0.1.md](docs/maps/diffy-v0.1.md). The decisions are in [docs/adr/](docs/adr/).
 - The specification `Diffy_Master_Specification.md` is not tracked in Git. The owner keeps it locally. See map decision Q39.
 - The CI workflow `.github/workflows/validate.yml` runs the repository checks. The job name `validate` is the required status check.
-- Run the checks locally with Node.js 24 from the repository root:
+- Run the checks locally with Node.js 26 from the repository root:
   - `node scripts/check-title.mjs "<title>"`
   - `node scripts/local/check-pr-body.mjs body.md`
   - `node --test scripts/local/*.test.mjs`
