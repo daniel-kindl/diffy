@@ -2,7 +2,7 @@
 
 Status: open
 Destination: Each v0.1 milestone (M0 to M4) has a plan and issues with acceptance criteria. Each spike has a verdict, and no open question blocks the first M0 issue.
-Next: Q50
+Next: Q72
 
 ## Notes
 
@@ -82,6 +82,18 @@ Next: Q50
 - OneDev accepts an inline comment only inside a OneDev diff hunk, context rows included. Each comment has the whitespace option `IGNORE_TRAILING`, so a OneDev hunk can differ from a canonical hunk. Source: https://github.com/theonedev/onedev/blob/v17.2.4/server-core/src/main/java/io/onedev/server/rest/resource/CodeCommentResource.java#L237 and https://github.com/daniel-kindl/diffy/blob/4bcc767/prototypes/q49-onedev/results/homelab.json
 - A repeated approve adds a second entry to the pull request activity. A repeated resolve changes nothing. Source: https://github.com/daniel-kindl/diffy/blob/4bcc767/prototypes/q49-onedev/results/homelab.json
 - Each resolve or unresolve adds a reply. With an empty request body, the reply is empty. A note that ends with the marker adds that note, so the marker confirms it. Source: https://github.com/daniel-kindl/diffy/blob/4bcc767/prototypes/q49-onedev/README.md and https://github.com/theonedev/onedev/blob/v17.2.4/server-core/src/main/java/io/onedev/server/service/impl/DefaultCodeCommentStatusChangeService.java#L50
+- On 2026-11-25 the newest stable releases are the updater plugin 2.14.1, Tauri 2.12.7, the Tauri CLI 2.12.6 and the Tauri bundler 2.10.6. The Q50 sources are these releases. Source: https://github.com/tauri-apps/plugins-workspace/releases/tag/updater-v2.14.1 and https://github.com/tauri-apps/tauri/releases/tag/tauri-v2.12.7
+- Rust code sets the update endpoints at run time with `updater_builder().endpoints()`. The Tauri documentation uses this for separate release channels. The frontend `check` command takes headers, a timeout, a proxy and a target, but no endpoints. Source: https://github.com/tauri-apps/plugins-workspace/blob/128190689dbe59b59d344e01bf07b00862aa3791/plugins/updater/src/updater.rs#L277, https://github.com/tauri-apps/tauri-docs/blob/d930b9e2a538d6326de3d92d60604cba69218096/src/content/docs/plugin/updater.mdx#L615-L636 and https://github.com/tauri-apps/plugins-workspace/blob/128190689dbe59b59d344e01bf07b00862aa3791/plugins/updater/src/commands.rs#L42-L49
+- The updater tries the endpoints in order. When each endpoint fails, `check` returns the last request error. With no network, the check gets an error and changes nothing. Source: https://github.com/tauri-apps/plugins-workspace/blob/128190689dbe59b59d344e01bf07b00862aa3791/plugins/updater/src/updater.rs#L644-L661
+- The GitHub latest release is the newest release that is not a pre-release and not a draft. The `/releases/latest/download/<asset>` URL uses that release. So the pre-release channel needs its own manifest URL. Source: https://docs.github.com/en/rest/releases/releases#get-the-latest-release and https://docs.github.com/en/repositories/releasing-projects-on-github/linking-to-releases
+- The updater checks the minisign signature on the downloaded bytes before it returns them. `install` checks the bytes again before it writes a file. An invalid signature or a changed artifact gives an error, and the installed app stays as it was. Source: https://github.com/tauri-apps/plugins-workspace/blob/128190689dbe59b59d344e01bf07b00862aa3791/plugins/updater/src/updater.rs#L891, https://github.com/tauri-apps/plugins-workspace/blob/128190689dbe59b59d344e01bf07b00862aa3791/plugins/updater/src/updater.rs#L921-L925 and https://github.com/tauri-apps/plugins-workspace/blob/128190689dbe59b59d344e01bf07b00862aa3791/plugins/updater/src/updater.rs#L1893-L1916
+- The update manifest is not signed. The option `requireSignedVersion` rejects an update when the version in the signature differs from the version in the manifest. It also rejects a signature with no version. The default is off. `tauri build` writes the version into each signature. Source: https://github.com/tauri-apps/plugins-workspace/blob/128190689dbe59b59d344e01bf07b00862aa3791/plugins/updater/src/config.rs#L135, https://github.com/tauri-apps/plugins-workspace/blob/128190689dbe59b59d344e01bf07b00862aa3791/plugins/updater/src/updater.rs#L1925-L1960 and https://github.com/tauri-apps/tauri/blob/9319e539f34237035cb4693bed9246660bc0a926/crates/tauri-cli/src/bundle.rs#L312
+- On an AppImage, the updater moves the running AppImage to a backup and writes the new file at the `APPIMAGE` path. If the write fails, it moves the backup back. If the AppImage folder is not writable, the first move fails and nothing changes. Source: https://github.com/tauri-apps/plugins-workspace/blob/128190689dbe59b59d344e01bf07b00862aa3791/plugins/updater/src/lib.rs#L115-L116 and https://github.com/tauri-apps/plugins-workspace/blob/128190689dbe59b59d344e01bf07b00862aa3791/plugins/updater/src/updater.rs#L1221-L1316
+- On Linux, the app must restart itself after the install. `app.restart()` starts the `APPIMAGE` path with the same arguments and exits. Before it exits, the single instance plugin releases its lock. Source: https://github.com/tauri-apps/tauri-docs/blob/d930b9e2a538d6326de3d92d60604cba69218096/src/content/docs/plugin/updater.mdx#L572-L573, https://github.com/tauri-apps/tauri/blob/9319e539f34237035cb4693bed9246660bc0a926/crates/tauri/src/process.rs#L48-L88 and https://github.com/tauri-apps/plugins-workspace/blob/128190689dbe59b59d344e01bf07b00862aa3791/plugins/single-instance/src/lib.rs#L55-L65
+- On Windows, the updater starts the NSIS installer with `/UPDATE`, and the app exits. In the default passive mode, it also passes `/R` and the app arguments. The installer starts the app again only after a successful install. Source: https://github.com/tauri-apps/plugins-workspace/blob/128190689dbe59b59d344e01bf07b00862aa3791/plugins/updater/src/updater.rs#L1009-L1080 and https://github.com/tauri-apps/tauri/blob/9319e539f34237035cb4693bed9246660bc0a926/crates/tauri-bundler/src/bundle/windows/nsis/installer.nsi#L788-L799
+- The NSIS installer copies the new files over the installed files and keeps no backup. So a failed NSIS install can leave a partial installation. Q55 tests it. The default NSIS mode installs for the current user, in a folder that needs no administrator. Source: https://github.com/tauri-apps/tauri/blob/9319e539f34237035cb4693bed9246660bc0a926/crates/tauri-bundler/src/bundle/windows/nsis/installer.nsi#L690-L700 and https://github.com/tauri-apps/tauri/blob/9319e539f34237035cb4693bed9246660bc0a926/crates/tauri-utils/src/config.rs#L826-L832
+- The updater keeps the download in memory. An interrupted download returns an error and writes no file. The download has no resume. The default timeout is none. A reqwest timeout covers the whole request, including the body. Source: https://github.com/tauri-apps/plugins-workspace/blob/128190689dbe59b59d344e01bf07b00862aa3791/plugins/updater/src/updater.rs#L881-L893, https://github.com/tauri-apps/plugins-workspace/blob/128190689dbe59b59d344e01bf07b00862aa3791/plugins/updater/src/updater.rs#L234 and https://docs.rs/reqwest/0.12.28/reqwest/struct.ClientBuilder.html#method.timeout
+- SQLite `VACUUM INTO` writes a copy of a database to a new file. `PRAGMA user_version` stores a schema version in the database header. The SQLite procedure for a schema change runs in one transaction. A recovery path for a failed migration is: copy the database first, run the migration in a transaction and keep the copy after a failure. Source: https://sqlite.org/lang_vacuum.html#vacuuminto, https://sqlite.org/pragma.html#pragma_user_version and https://sqlite.org/lang_altertable.html#otheralter
 
 ## Decisions
 
@@ -139,17 +151,9 @@ Next: Q50
 - Q46 S8 scale: each section 18 target has a measured result for option B on the Fedora reference host. The change list target is met on each fixture. The cancel target is met for the line counts and missed for the open of a 50 MB file. The follow-up questions are Q66 and Q67. The owner selected the option "Accept the Q46 result". Decided by: Daniel Kindl, 2026-11-25. Record: this line.
 - Q48 GitHub thread resolution API: only the GraphQL API resolves a review thread, so M3a needs a GraphQL client. REST can post a reply, but it cannot resolve a thread or show the thread of a comment. Diffy finds the thread through `pullRequest.reviewThreads` and the comment `node_id`. How much of the GitHub client uses GraphQL goes to Q69. The owner selected the option "Accept the Q48 result". Decided by: Daniel Kindl, 2026-11-25. Record: this line.
 - Q49 S4 OneDev capabilities: Diffy can do each review action through the OneDev 17.2.4 REST API. Each action has a read call that confirms it before a retry. Comments and replies are found by the marker. A resolve is confirmed by the `resolved` field, and an approval or a change request by the status of the user in the reviews. Diffy sends a note that ends with the marker on each resolve, because each status change adds a reply. OneDev does not show the marker, so ADR 0003 needs no amendment. The follow-up questions are Q70 and Q71. The owner selected the option "Accept the Q49 result". Decided by: Daniel Kindl, 2026-11-25. Record: this line.
+- Q50 S6 updater pre-release channel: Diffy selects the channel in Rust, with a separate update endpoint for each channel. The updater checks the minisign signature before it writes a file. An AppImage update restores the old file on failure, and Diffy restarts the app itself. An NSIS update restarts the app only on success, and a failed NSIS install has no rollback. A failed migration keeps a copy of the database from before the migration. Q55 tests each item. The follow-up questions are Q72 and Q73. The owner selected the option "Accept the Q50 result". Decided by: Daniel Kindl, 2026-11-25. Record: this line.
 
 ## Open questions
-
-### Q50: S6 updater pre-release channel
-
-Type: research
-Blocked by: Q40
-
-Find out how the Tauri Updater can serve a pre-release channel next to the stable channel (for example a separate update endpoint). Include signature checks, restart and migration recovery.
-
-Charter: the S6 charter in Q55. Q50 is its research phase.
 
 ### Q51: Single instance and CLI forwarding
 
@@ -175,7 +179,7 @@ Approve the `CONTEXT.md` terms from specification section 07: snapshot, comparis
 ### Q55: S6 signed update prototype
 
 Type: prototype
-Blocked by: Q50
+Blocked by: Q72, Q73
 
 Run signed updates on Linux and Windows with the design from Q50. Check the restart, the database migration and the recovery from each failure.
 
@@ -292,6 +296,20 @@ Type: owner
 Blocked by: none
 
 On OneDev, only a reviewer of the pull request can approve or request changes (Q49). The submitter never can. Decide what Diffy does when the user is not a reviewer. Examples are no review action in the dialog, or a pull request comment. Another example: Diffy adds the user as a reviewer first, if the user has the permission.
+
+### Q72: Manifest URL of the pre-release channel
+
+Type: owner
+Blocked by: none
+
+The GitHub URL `/releases/latest/download/latest.json` skips pre-releases (Q50). So the pre-release channel needs its own manifest URL. Decide where the manifest of each channel lives. Examples are a GitHub release with a fixed tag whose manifest each pre-release replaces, a file on a branch, or GitHub Pages.
+
+### Q73: Signed version check
+
+Type: owner
+Blocked by: none
+
+The update manifest is not signed (Q50). With `requireSignedVersion`, the updater rejects an update when the signed version differs from the manifest version. Without it, a changed manifest can install an older signed release. `tauri build` writes the version into each signature, so each Diffy release can pass the check. Decide whether Diffy turns it on from v0.0.1.
 
 ## Not yet clear
 
