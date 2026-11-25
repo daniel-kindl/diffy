@@ -2,7 +2,7 @@
 
 Status: open
 Destination: Each v0.1 milestone (M0 to M4) has a plan and issues with acceptance criteria. Each spike has a verdict, and no open question blocks the first M0 issue.
-Next: Q73
+Next: Q51
 
 ## Notes
 
@@ -153,6 +153,7 @@ Next: Q73
 - Q49 S4 OneDev capabilities: Diffy can do each review action through the OneDev 17.2.4 REST API. Each action has a read call that confirms it before a retry. Comments and replies are found by the marker. A resolve is confirmed by the `resolved` field, and an approval or a change request by the status of the user in the reviews. Diffy sends a note that ends with the marker on each resolve, because each status change adds a reply. OneDev does not show the marker, so ADR 0003 needs no amendment. The follow-up questions are Q70 and Q71. The owner selected the option "Accept the Q49 result". Decided by: Daniel Kindl, 2026-11-25. Record: this line.
 - Q50 S6 updater pre-release channel: Diffy selects the channel in Rust, with a separate update endpoint for each channel. The updater checks the minisign signature before it writes a file. An AppImage update restores the old file on failure, and Diffy restarts the app itself. An NSIS update restarts the app only on success, and a failed NSIS install has no rollback. A failed migration keeps a copy of the database from before the migration. Q55 tests each item. The follow-up questions are Q72 and Q73. The owner selected the option "Accept the Q50 result". Decided by: Daniel Kindl, 2026-11-25. Record: this line.
 - Q72 Manifest URL of the pre-release channel: the pre-release manifest is the `latest.json` asset of one GitHub pre-release with a fixed tag, for example `channel-prerelease`. The release workflow replaces the asset on each pre-release. The URL is `/releases/download/<fixed tag>/latest.json`. The fixed-tag release stays marked as a pre-release, so that it never becomes the latest release. The stable channel keeps `/releases/latest/download/latest.json`. The owner selected the option "Fixed-tag release". Decided by: Daniel Kindl, 2026-11-25. Record: this line.
+- Q73 Signed version check: Diffy turns on the updater option `requireSignedVersion` from v0.0.1. The updater then rejects an update when the signed version differs from the manifest version. It also rejects a signature with no version. So a changed manifest cannot install an older signed release. Each update signature comes from `tauri build`, which writes the version. Q55 tests the rejection. The owner selected the option "On from v0.0.1". Decided by: Daniel Kindl, 2026-11-25. Record: this line.
 
 ## Open questions
 
@@ -180,7 +181,7 @@ Approve the `CONTEXT.md` terms from specification section 07: snapshot, comparis
 ### Q55: S6 signed update prototype
 
 Type: prototype
-Blocked by: Q73
+Blocked by: none
 
 Run signed updates on Linux and Windows with the design from Q50. Check the restart, the database migration and the recovery from each failure.
 
@@ -206,6 +207,7 @@ Prototype phase evidence (Q55), on the branch `prototype/diffy-v0.1-q55`:
 - Sign them with a throwaway test key, not with the Q9 release key.
 - Linux: the AppImage on the Fedora host. Windows: the NSIS installer on a Windows CI runner. A manual run on the notebook happens only before a release (Q10).
 - The updater rejects an artifact with an invalid signature, and an artifact that was changed after signing.
+- With `requireSignedVersion` on (Q73), the updater rejects a manifest whose version differs from the version in the signature.
 - The app restarts on the new version, and a test database migration runs at startup.
 - Recovery from an interrupted download, a failed installation, a location that is not writable, no network and a failed migration. The user data stays.
 - The pre-release channel and the stable channel each get only their own updates.
@@ -297,13 +299,6 @@ Type: owner
 Blocked by: none
 
 On OneDev, only a reviewer of the pull request can approve or request changes (Q49). The submitter never can. Decide what Diffy does when the user is not a reviewer. Examples are no review action in the dialog, or a pull request comment. Another example: Diffy adds the user as a reviewer first, if the user has the permission.
-
-### Q73: Signed version check
-
-Type: owner
-Blocked by: none
-
-The update manifest is not signed (Q50). With `requireSignedVersion`, the updater rejects an update when the signed version differs from the manifest version. Without it, a changed manifest can install an older signed release. `tauri build` writes the version into each signature, so each Diffy release can pass the check. Decide whether Diffy turns it on from v0.0.1.
 
 ## Not yet clear
 
