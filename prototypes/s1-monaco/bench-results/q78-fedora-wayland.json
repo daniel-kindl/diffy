@@ -1,0 +1,550 @@
+{
+  "prototype": "Diffy map question Q78. fcitx5 with the preedit on, on WebKitGTK.",
+  "created": "2026-11-26T15:27:09.994Z",
+  "backend": "wayland",
+  "system": {
+    "build": {
+      "profile": "release",
+      "tauri": "2.12.7"
+    },
+    "hardware": {
+      "cpu": "AMD Ryzen 5 3600 6-Core Processor",
+      "gpus": [
+        {
+          "card": "card1",
+          "device": "0x7480",
+          "driver": "amdgpu",
+          "vendor": "0x1002"
+        }
+      ],
+      "logical_cpus": 12,
+      "mem_total_kb": 16263384
+    },
+    "oracle_git": "git version 2.55.0",
+    "os": {
+      "container": true,
+      "kernel": "7.3.4-ogc8.1.fc45.x86_64",
+      "name": "Fedora Linux 44 (Container Image)"
+    },
+    "session": {
+      "DISPLAY": ":0",
+      "GDK_BACKEND": "wayland",
+      "WAYLAND_DISPLAY": "wayland-1",
+      "WEBKIT_DISABLE_COMPOSITING_MODE": null,
+      "WEBKIT_DISABLE_DMABUF_RENDERER": null,
+      "XDG_SESSION_TYPE": "wayland"
+    },
+    "webview": "2.54.2"
+  },
+  "user_agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/60.5 Safari/605.1.15",
+  "im": "",
+  "focus": true,
+  "im_end": "keyboard-us",
+  "passed": 7,
+  "failed": [],
+  "checks": [
+    {
+      "name": "open the small fixture",
+      "pass": true,
+      "facts": {}
+    },
+    {
+      "name": "fcitx5 mozc in the editor: commits Japanese text",
+      "pass": true,
+      "facts": {
+        "target": "editor",
+        "im": "mozc",
+        "value": "日本",
+        "composition_events": 9,
+        "composition": [
+          "compositionstart:",
+          "compositionupdate:ｎ",
+          "compositionupdate:に",
+          "compositionupdate:にｈ",
+          "compositionupdate:にほ",
+          "compositionupdate:にほｎ",
+          "compositionupdate:にほん",
+          "compositionupdate:日本",
+          "compositionend:日本"
+        ],
+        "preedit_after_typing": [
+          "compositionstart:",
+          "compositionupdate:ｎ",
+          "compositionupdate:に",
+          "compositionupdate:にｈ",
+          "compositionupdate:にほ",
+          "compositionupdate:にほｎ"
+        ],
+        "beforeinput": [
+          "insertCompositionText \"ｎ\" composing=true",
+          "insertCompositionText \"に\" composing=true",
+          "insertCompositionText \"にｈ\" composing=true",
+          "insertCompositionText \"にほ\" composing=true",
+          "insertCompositionText \"にほｎ\" composing=true",
+          "insertCompositionText \"にほん\" composing=true",
+          "insertCompositionText \"日本\" composing=true",
+          "deleteCompositionText null composing=true",
+          "insertFromComposition \"日本\" composing=true"
+        ],
+        "app_window": {
+          "cls": "diffy-s1-monaco",
+          "caption": "Diffy S1 prototype (Q41)",
+          "x": 0,
+          "y": 0,
+          "w": 1400,
+          "h": 928,
+          "cx": 0,
+          "cy": 28,
+          "managed": true,
+          "special": false,
+          "popup": false,
+          "active": true,
+          "pid": 2229086
+        },
+        "caret_css": {
+          "x": 775.5,
+          "y": 77,
+          "h": 18
+        },
+        "device_pixel_ratio": 1,
+        "caret_screen": {
+          "x": 776,
+          "y": 105,
+          "bottom": 123
+        },
+        "new_windows": [
+          {
+            "cls": "diffy-s1-monaco",
+            "caption": "",
+            "x": 749,
+            "y": 123,
+            "w": 171,
+            "h": 304,
+            "cx": 749,
+            "cy": 123,
+            "managed": true,
+            "special": false,
+            "popup": true,
+            "active": false,
+            "pid": 2229086
+          }
+        ],
+        "candidate": {
+          "cls": "diffy-s1-monaco",
+          "caption": "",
+          "x": 749,
+          "y": 123,
+          "w": 171,
+          "h": 304,
+          "cx": 749,
+          "cy": 123,
+          "managed": true,
+          "special": false,
+          "popup": true,
+          "active": false,
+          "pid": 2229086
+        },
+        "offset": {
+          "dx": -27,
+          "dy": 0
+        }
+      }
+    },
+    {
+      "name": "fcitx5 mozc in the editor: gets composition events with the preedit",
+      "pass": true,
+      "facts": {
+        "from": "fcitx5 mozc in the editor"
+      }
+    },
+    {
+      "name": "fcitx5 mozc in the editor: the candidate window is next to the caret",
+      "pass": true,
+      "facts": {
+        "from": "fcitx5 mozc in the editor",
+        "rule": "candidate top-left within 60 px right of the caret and 0 to 60 px below the caret bottom",
+        "backend": "wayland"
+      }
+    },
+    {
+      "name": "fcitx5 mozc in a plain textarea: commits Japanese text",
+      "pass": true,
+      "facts": {
+        "target": "textarea",
+        "im": "mozc",
+        "value": "にほん",
+        "composition_events": 9,
+        "composition": [
+          "compositionstart:",
+          "compositionupdate:ｎ",
+          "compositionupdate:に",
+          "compositionupdate:にｈ",
+          "compositionupdate:にほ",
+          "compositionupdate:にほｎ",
+          "compositionupdate:日本",
+          "compositionupdate:にほん",
+          "compositionend:にほん"
+        ],
+        "preedit_after_typing": [
+          "compositionstart:",
+          "compositionupdate:ｎ",
+          "compositionupdate:に",
+          "compositionupdate:にｈ",
+          "compositionupdate:にほ",
+          "compositionupdate:にほｎ"
+        ],
+        "beforeinput": [
+          "insertCompositionText \"ｎ\" composing=true",
+          "insertCompositionText \"に\" composing=true",
+          "insertCompositionText \"にｈ\" composing=true",
+          "insertCompositionText \"にほ\" composing=true",
+          "insertCompositionText \"にほｎ\" composing=true",
+          "insertCompositionText \"日本\" composing=true",
+          "insertCompositionText \"にほん\" composing=true",
+          "deleteCompositionText null composing=true",
+          "insertFromComposition \"にほん\" composing=true"
+        ],
+        "app_window": {
+          "cls": "diffy-s1-monaco",
+          "caption": "Diffy S1 prototype (Q41)",
+          "x": 0,
+          "y": 0,
+          "w": 1400,
+          "h": 928,
+          "cx": 0,
+          "cy": 28,
+          "managed": true,
+          "special": false,
+          "popup": false,
+          "active": true,
+          "pid": 2229086
+        },
+        "caret_css": {
+          "x": 524,
+          "y": 300,
+          "h": 18
+        },
+        "device_pixel_ratio": 1,
+        "caret_screen": {
+          "x": 524,
+          "y": 328,
+          "bottom": 346
+        },
+        "new_windows": [
+          {
+            "cls": "diffy-s1-monaco",
+            "caption": "",
+            "x": 523,
+            "y": 349,
+            "w": 171,
+            "h": 304,
+            "cx": 523,
+            "cy": 349,
+            "managed": true,
+            "special": false,
+            "popup": true,
+            "active": false,
+            "pid": 2229086
+          }
+        ],
+        "candidate": {
+          "cls": "diffy-s1-monaco",
+          "caption": "",
+          "x": 523,
+          "y": 349,
+          "w": 171,
+          "h": 304,
+          "cx": 523,
+          "cy": 349,
+          "managed": true,
+          "special": false,
+          "popup": true,
+          "active": false,
+          "pid": 2229086
+        },
+        "offset": {
+          "dx": -1,
+          "dy": 3
+        }
+      }
+    },
+    {
+      "name": "fcitx5 mozc in a plain textarea: gets composition events with the preedit",
+      "pass": true,
+      "facts": {
+        "from": "fcitx5 mozc in a plain textarea"
+      }
+    },
+    {
+      "name": "fcitx5 mozc in a plain textarea: the candidate window is next to the caret",
+      "pass": true,
+      "facts": {
+        "from": "fcitx5 mozc in a plain textarea",
+        "rule": "candidate top-left within 60 px right of the caret and 0 to 60 px below the caret bottom",
+        "backend": "wayland"
+      }
+    }
+  ],
+  "events": [
+    {
+      "t": 1354,
+      "type": "keydown",
+      "detail": "Unidentified code=Unidentified composing=false"
+    },
+    {
+      "t": 1355,
+      "type": "compositionstart",
+      "detail": ""
+    },
+    {
+      "t": 1358,
+      "type": "compositionupdate",
+      "detail": "ｎ"
+    },
+    {
+      "t": 1369,
+      "type": "beforeinput",
+      "detail": "insertCompositionText \"ｎ\" composing=true"
+    },
+    {
+      "t": 1431,
+      "type": "keydown",
+      "detail": "Unidentified code=Unidentified composing=true"
+    },
+    {
+      "t": 1431,
+      "type": "compositionupdate",
+      "detail": "に"
+    },
+    {
+      "t": 1437,
+      "type": "beforeinput",
+      "detail": "insertCompositionText \"に\" composing=true"
+    },
+    {
+      "t": 1511,
+      "type": "keydown",
+      "detail": "Unidentified code=Unidentified composing=true"
+    },
+    {
+      "t": 1511,
+      "type": "compositionupdate",
+      "detail": "にｈ"
+    },
+    {
+      "t": 1516,
+      "type": "beforeinput",
+      "detail": "insertCompositionText \"にｈ\" composing=true"
+    },
+    {
+      "t": 1591,
+      "type": "keydown",
+      "detail": "Unidentified code=Unidentified composing=true"
+    },
+    {
+      "t": 1592,
+      "type": "compositionupdate",
+      "detail": "にほ"
+    },
+    {
+      "t": 1596,
+      "type": "beforeinput",
+      "detail": "insertCompositionText \"にほ\" composing=true"
+    },
+    {
+      "t": 1671,
+      "type": "keydown",
+      "detail": "Unidentified code=Unidentified composing=true"
+    },
+    {
+      "t": 1672,
+      "type": "compositionupdate",
+      "detail": "にほｎ"
+    },
+    {
+      "t": 1676,
+      "type": "beforeinput",
+      "detail": "insertCompositionText \"にほｎ\" composing=true"
+    },
+    {
+      "t": 2193,
+      "type": "keydown",
+      "detail": "Unidentified code=Unidentified composing=true"
+    },
+    {
+      "t": 2194,
+      "type": "compositionupdate",
+      "detail": "にほん"
+    },
+    {
+      "t": 2197,
+      "type": "beforeinput",
+      "detail": "insertCompositionText \"にほん\" composing=true"
+    },
+    {
+      "t": 2769,
+      "type": "keydown",
+      "detail": "Unidentified code=Unidentified composing=true"
+    },
+    {
+      "t": 2771,
+      "type": "compositionupdate",
+      "detail": "日本"
+    },
+    {
+      "t": 2775,
+      "type": "beforeinput",
+      "detail": "insertCompositionText \"日本\" composing=true"
+    },
+    {
+      "t": 3691,
+      "type": "keydown",
+      "detail": "Unidentified code=Unidentified composing=true"
+    },
+    {
+      "t": 3692,
+      "type": "beforeinput",
+      "detail": "deleteCompositionText null composing=true"
+    },
+    {
+      "t": 3693,
+      "type": "beforeinput",
+      "detail": "insertFromComposition \"日本\" composing=true"
+    },
+    {
+      "t": 3694,
+      "type": "compositionend",
+      "detail": "日本"
+    },
+    {
+      "t": 4784,
+      "type": "keydown",
+      "detail": "Unidentified code=Unidentified composing=false"
+    },
+    {
+      "t": 4785,
+      "type": "compositionstart",
+      "detail": ""
+    },
+    {
+      "t": 4785,
+      "type": "compositionupdate",
+      "detail": "ｎ"
+    },
+    {
+      "t": 4785,
+      "type": "beforeinput",
+      "detail": "insertCompositionText \"ｎ\" composing=true"
+    },
+    {
+      "t": 4864,
+      "type": "keydown",
+      "detail": "Unidentified code=Unidentified composing=true"
+    },
+    {
+      "t": 4865,
+      "type": "compositionupdate",
+      "detail": "に"
+    },
+    {
+      "t": 4865,
+      "type": "beforeinput",
+      "detail": "insertCompositionText \"に\" composing=true"
+    },
+    {
+      "t": 4945,
+      "type": "keydown",
+      "detail": "Unidentified code=Unidentified composing=true"
+    },
+    {
+      "t": 4945,
+      "type": "compositionupdate",
+      "detail": "にｈ"
+    },
+    {
+      "t": 4945,
+      "type": "beforeinput",
+      "detail": "insertCompositionText \"にｈ\" composing=true"
+    },
+    {
+      "t": 5025,
+      "type": "keydown",
+      "detail": "Unidentified code=Unidentified composing=true"
+    },
+    {
+      "t": 5025,
+      "type": "compositionupdate",
+      "detail": "にほ"
+    },
+    {
+      "t": 5025,
+      "type": "beforeinput",
+      "detail": "insertCompositionText \"にほ\" composing=true"
+    },
+    {
+      "t": 5105,
+      "type": "keydown",
+      "detail": "Unidentified code=Unidentified composing=true"
+    },
+    {
+      "t": 5106,
+      "type": "compositionupdate",
+      "detail": "にほｎ"
+    },
+    {
+      "t": 5106,
+      "type": "beforeinput",
+      "detail": "insertCompositionText \"にほｎ\" composing=true"
+    },
+    {
+      "t": 5627,
+      "type": "keydown",
+      "detail": "Unidentified code=Unidentified composing=true"
+    },
+    {
+      "t": 5627,
+      "type": "compositionupdate",
+      "detail": "日本"
+    },
+    {
+      "t": 5627,
+      "type": "beforeinput",
+      "detail": "insertCompositionText \"日本\" composing=true"
+    },
+    {
+      "t": 6109,
+      "type": "keydown",
+      "detail": "Unidentified code=Unidentified composing=true"
+    },
+    {
+      "t": 6110,
+      "type": "compositionupdate",
+      "detail": "にほん"
+    },
+    {
+      "t": 6110,
+      "type": "beforeinput",
+      "detail": "insertCompositionText \"にほん\" composing=true"
+    },
+    {
+      "t": 7094,
+      "type": "keydown",
+      "detail": "Unidentified code=Unidentified composing=true"
+    },
+    {
+      "t": 7095,
+      "type": "beforeinput",
+      "detail": "deleteCompositionText null composing=true"
+    },
+    {
+      "t": 7095,
+      "type": "beforeinput",
+      "detail": "insertFromComposition \"にほん\" composing=true"
+    },
+    {
+      "t": 7096,
+      "type": "compositionend",
+      "detail": "にほん"
+    }
+  ]
+}

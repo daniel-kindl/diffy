@@ -54,3 +54,26 @@ DIFFY_S1_AUTORUN="A:small,A:1mb,B:small,B:1mb" DIFFY_S1_RUNS=5 DIFFY_S1_LABEL=q4
 ## Q41 result
 
 `bench-results/q41-open-fedora.json` is the Q41 run on the Fedora host. Both options opened the `small` and the `1mb` fixture in each of 5 runs, and each check passed. The numbers are build-phase measurements only. Q54 measures on the reference host with its own method and gives the verdict.
+
+## Q78 check: fcitx5 with the preedit on
+
+Map question Q78 checks fcitx5 with an engine that has a preedit, with the preedit on (Q57). It uses option B (ADR 0004).
+
+- `src/q78.ts` runs when `DIFFY_Q78_LABEL` is set. It turns the preedit on, focuses the target, switches fcitx5 to Mozc and types `nihon`, Space, Space and Return. The targets are the modified editor and a plain textarea.
+- `q78-kwin-geo.py` loads a KWin script that returns the screen geometry of each window. The check takes the candidate window as the popup that is new after the typing. It passes when the top-left corner of the candidate window is at most 60 px from the caret on the x axis and 0 to 60 px below the caret bottom.
+- Keys go to the focused window, so the check sends no key unless the window has the focus.
+
+Run, with `fcitx5 -d` and `ydotoold` running and fcitx5 set to `keyboard-us` and `mozc`:
+
+    env GDK_BACKEND=wayland GTK_IM_MODULE=fcitx Q78_GEO=$PWD/q78-kwin-geo.py DIFFY_Q78_LABEL=q78-fedora-wayland src-tauri/target/release/diffy-s1-monaco
+    env GDK_BACKEND=x11 GTK_IM_MODULE=fcitx Q78_GEO=$PWD/q78-kwin-geo.py DIFFY_Q78_LABEL=q78-fedora-x11 src-tauri/target/release/diffy-s1-monaco
+
+### Q78 result
+
+Host: the Bazzite 45 reference host, KWin 6.8.3 on Wayland, two screens at scale 1. The app ran in the Fedora 44 `rust-dev` container with WebKitGTK 2.54.2, fcitx5 5.1.23, fcitx5-gtk3 5.1.7 and fcitx5-mozc 2.30.5618.102. fcitx5 ran in the container with the GTK input method module (`GTK_IM_MODULE=fcitx`), not as the KWin virtual keyboard.
+
+- Wayland (`bench-results/q78-fedora-wayland.json`) and XWayland (`bench-results/q78-fedora-x11.json`): 7 of 7 checks pass.
+- In the editor, the page gets `compositionstart` and a `compositionupdate` for each step of the preedit, `ｎ` to `にほｎ`. Mozc converts to `日本`, and Return commits it. The textarea gets the same events and commits `にほん`.
+- Wayland: fcitx5-gtk draws the candidate window in the app, as a popup. In the editor, its top-left corner is 27 px left of the caret, at the start of the conversion, and 0 px below the caret bottom.
+- XWayland: fcitx5 draws the candidate window as an unmanaged X11 window. In the editor, it is 27 px left of the caret and 1 px below the caret bottom.
+- Not tested: fcitx5 as the KWin virtual keyboard (text-input-v3), Rime, a screen scale other than 1, and GNOME.

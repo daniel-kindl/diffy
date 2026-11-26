@@ -412,3 +412,32 @@ fn analyse(
     out.longest_blank_run_lines = longest as f64 / (line_height * scale);
     Ok(out)
 }
+
+// Q78: fcitx5 with the preedit on. Throwaway code. Never merge.
+
+#[tauri::command]
+pub fn q78_config() -> Option<serde_json::Value> {
+    let label = std::env::var("DIFFY_Q78_LABEL").ok()?;
+    Some(serde_json::json!({ "label": label, "backend": backend() }))
+}
+
+/// Switch fcitx5 to an input method and return the current one.
+#[tauri::command]
+pub fn q78_im(name: String) -> Result<String, String> {
+    if !name.is_empty() {
+        run("fcitx5-remote", &["-s", &name])?;
+        std::thread::sleep(Duration::from_millis(300));
+    }
+    run("fcitx5-remote", &["-n"]).map(|s| s.trim().to_string())
+}
+
+/// The KWin window list as JSON, from the command in Q78_GEO.
+#[tauri::command]
+pub async fn q78_geometry() -> Result<String, String> {
+    tauri::async_runtime::spawn_blocking(|| {
+        let cmd = std::env::var("Q78_GEO").map_err(|_| "Q78_GEO is not set".to_string())?;
+        run("python3", &["-I", &cmd])
+    })
+    .await
+    .map_err(|e| e.to_string())?
+}
