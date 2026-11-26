@@ -12,7 +12,7 @@
     "format:write": "prettier --write ."
   },
   "dependencies": {
-    "@tauri-apps/api": "2.11.0",
+    "@tauri-apps/api": "2.12.4",
     "monaco-editor": "0.58.0"
   },
   "devDependencies": {
