@@ -2,7 +2,7 @@
 
 Status: open
 Destination: Each v0.1 milestone (M0 to M4) has a plan and issues with acceptance criteria. Each spike has a verdict, and no open question blocks the first M0 issue.
-Next: Q85
+Next: Q86
 
 ## Notes
 
@@ -209,6 +209,12 @@ Next: Q85
 - In Q84, rusqlite_migration passes 6 of 6 checks. A fail in migration 3 also rolls back migration 2, and the `VACUUM INTO` copy keeps version 1. An older app gets `DatabaseTooFarAhead` and does not change the database. Source: https://github.com/daniel-kindl/diffy/blob/b6b2556/prototypes/q84-migrations/results/q84-rusqlite-migration.jsonl
 - refinery 0.10.0 stores the versions in a table `refinery_schema_history`. Its core crate accepts rusqlite 0.23 to 0.40, so Cargo cannot resolve it with rusqlite 0.43.0. Source: https://docs.rs/crate/refinery-core/0.10.0/source/src/traits/mod.rs#134, https://docs.rs/crate/refinery-core/0.10.0/source/Cargo.toml and https://github.com/daniel-kindl/diffy/blob/b6b2556/prototypes/q84-migrations/results/q84-refinery-resolve.txt
 
+- Q85 read the AT-SPI tree of option B with Monaco 0.58.0 and WebKitGTK 2.54.2, on the Fedora reference host under Wayland and XWayland. Orca reads this tree. Orca itself did not run, because it speaks and grabs keys on the whole host desktop. The results are the same under Wayland and XWayland. Source: https://github.com/daniel-kindl/diffy/blob/5b2765f/prototypes/s1-monaco/README.md#q85-result
+- With the Monaco option `accessibilitySupport` set to `off`, the editor is an entry with the name "The editor is not accessible at this time." and no text. With `on`, it has about 4,000 characters around the caret, and the line at the caret is the caret line in each run. With `auto`, the line at the caret has more than one line. Source: https://github.com/daniel-kindl/diffy/blob/5b2765f/prototypes/s1-monaco/bench-results/q85-summary.json
+- Monaco `readOnly: true` does not reach AT-SPI. The entry has the state `editable`, also with `aria-readonly`. With the HTML `readonly` attribute on the textarea, the entry has no `editable` state, and the caret line stays correct. That run was under Wayland only. Source: https://github.com/daniel-kindl/diffy/blob/5b2765f/prototypes/s1-monaco/bench-results/q85-summary.json
+- No AT-SPI object names the change type of a line. In option B, the change type is only a CSS class of a decoration. Source: https://github.com/daniel-kindl/diffy/blob/5b2765f/prototypes/s1-monaco/README.md#q85-result
+- A polite live region gives AT-SPI its text, for example "Modified, line 5, added". Q85 did not test Orca speech, NVDA, keyboard navigation with the `readonly` attribute or the live region while the caret moves. Source: https://github.com/daniel-kindl/diffy/blob/5b2765f/prototypes/s1-monaco/README.md#q85-result
+
 ## Decisions
 
 - Q1 Independent review: tiered by risk. Safety-critical areas (Git adapter, publication, anchors, updater, IPC and capabilities) need owner review. Other areas merge after agent review and green CI. Decided by: Daniel Kindl, 2026-11-24. Record: this line.
@@ -295,15 +301,9 @@ Next: Q85
 - Q82 Fields of a comparison profile: a profile has three groups of fields. The first is the whitespace mode (exact, trailing, amount or all). It also has the options to ignore a CR at the line end and to ignore blank lines. The second is the intraline refinement (off, word or character), the context lines and the collapse of unchanged regions. The third is the generated-file visibility (shown, collapsed, or hidden but counted) and the user's Q81 glob patterns. A profile has no display algorithm. A profile changes only the view, and the canonical diff, the anchors and the publication do not change. The default profile has exact whitespace and line endings, intraline refinement by word and 3 context lines. It collapses generated files, which stay counted. For the groups, owner words: "idk yuou choose the best". The agent then picked the first three groups. For the default, the owner selected the option "Exact, word, 3, collapsed". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
 - Q83 L-06 and L-07 in v0.1.0: L-06 and L-07 are not in v0.1.0. They go to a later release, and the M2 issues do not include them. The release gate needs only the P0 requirements, and Q4 has a solo owner, so v0.1.0 keeps the smaller scope. The owner delegated the answer to the agent, with the words "test/prototype/aswer all open quetions, review it and merge it". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
 - Q84 SQLite migration tool: Diffy uses rusqlite_migration with `PRAGMA user_version`. Before it runs the pending migrations, Diffy writes a `VACUUM INTO` copy (Q55). The schema version is the number of applied migrations. A released migration is never changed, and new migrations only go at the end. Diffy has no down migrations. An older app that finds a newer database does not open it and does not change it. A test runs `Migrations::validate`. refinery is out, because it does not support rusqlite 0.43. The owner delegated the answer to the agent, with the words "test/prototype/aswer all open quetions, review it and merge it". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
+- Q85 Option B with Orca: M0 sets the Monaco option `accessibilitySupport` to `on` in both editors. It sets the HTML `readonly` attribute on each editor textarea, so AT-SPI does not report an editable editor. A polite live region names the side, the line and the change type of the caret line. The M0 accessibility criteria check these three with an AT-SPI test on Fedora. They also check keyboard navigation with the `readonly` attribute and Orca speech on the reference host (Q37). The owner delegated the answer to the agent, with the words "test/prototype/aswer all open quetions, review it and merge it". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
 
 ## Open questions
-
-### Q85: Option B with Orca
-
-Type: prototype
-Blocked by: none
-
-On the reference host, check what Orca reads in option B: the lines, the change type, the cursor line and the read-only state. NVDA on Windows stays at the release candidate (Q37).
 
 ### Q86: OneDev authentication and instances
 
@@ -442,6 +442,13 @@ Decide how Diffy stores and adds OneDev access. Candidates are one access token 
 - Result: rusqlite_migration passes 6 of 6 checks. refinery does not resolve with rusqlite 0.43.0.
 - Picked: rusqlite_migration, because it supports rusqlite 0.43 and checks a database that is too far ahead.
 - Branch: `prototype/diffy-v0.1-q84` at `b6b2556`. Tag: `prototype/diffy-v0.1-q84`. Not merged.
+
+### Q85: Option B with Orca
+
+- Options: the Monaco option `accessibilitySupport` set to `off`, `on` and `auto`, then `on` with `aria-readonly` and a polite live region. Each ran in both editors of option B, under Wayland and XWayland. The HTML `readonly` attribute in place of `aria-readonly` ran under Wayland only.
+- Result: only `on` gives the caret line. Only the HTML `readonly` attribute removes the `editable` state. Only the live region names the change type.
+- Picked: `on`, the HTML `readonly` attribute and the live region.
+- Branch: `prototype/diffy-v0.1-q85` at `5b2765f`. Tag: `prototype/diffy-v0.1-q85`. Not merged.
 
 ## Hand-off
 
