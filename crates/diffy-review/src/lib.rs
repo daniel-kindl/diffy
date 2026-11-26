@@ -4,6 +4,8 @@
 //! state (what the person did). A change of the source never edits the review
 //! state, and a review action never edits the source.
 
+pub mod explorer;
+
 use diffy_comparison::ContentId;
 use std::collections::BTreeMap;
 

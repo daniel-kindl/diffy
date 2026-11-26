@@ -774,6 +774,7 @@ version = "0.0.0"
 dependencies = [
  "diffy-comparison",
  "diffy-core",
+ "globset",
 ]
 
 [[package]]
