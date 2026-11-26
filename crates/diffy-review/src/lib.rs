@@ -145,6 +145,7 @@ pub struct Finding {
     pub severity: Severity,
     pub category: Category,
     pub notes: String,
+    pub resolved: bool,
 }
 
 /// An edit to the reviewer's own fields. It cannot name the source or the anchor.
@@ -212,6 +213,44 @@ impl ReviewSession {
 }
 
 impl ReviewSession {
+    pub fn set_resolved(&mut self, id: FindingId, resolved: bool) -> bool {
+        match self.review.findings.iter_mut().find(|f| f.id == id) {
+            Some(f) => {
+                f.resolved = resolved;
+                true
+            }
+            None => false,
+        }
+    }
+
+    /// The findings as Markdown for an agent (Q28). `selected` picks findings
+    /// by ID. With `None`, it takes each unresolved finding. Each finding
+    /// shows its file, its 1-based lines, severity, category and notes.
+    pub fn findings_markdown(&self, selected: Option<&[FindingId]>) -> String {
+        let mut out = String::new();
+        for f in self.review.findings.iter().filter(|f| match selected {
+            Some(ids) => ids.contains(&f.id),
+            None => !f.resolved,
+        }) {
+            let (a, b) = (f.anchor.lines.start + 1, f.anchor.lines.end);
+            let lines = if a >= b {
+                format!("{a}")
+            } else {
+                format!("{a}-{b}")
+            };
+            out.push_str(&format!(
+                "- **{:?}** ({:?}) `{}:{}` at `{}`\n",
+                f.severity, f.category, f.anchor.path, lines, f.anchor.revision
+            ));
+            for line in f.notes.lines() {
+                out.push_str(&format!("  {line}\n"));
+            }
+        }
+        out
+    }
+}
+
+impl ReviewSession {
     /// Add a finding. The session gives it the next stable ID.
     pub fn add_finding(
         &mut self,
@@ -228,6 +267,7 @@ impl ReviewSession {
             severity,
             category,
             notes,
+            resolved: false,
         });
         id
     }
@@ -394,5 +434,26 @@ mod tests {
         let mut s = session();
         s.mark_reviewed("a.rs", id("a1"));
         assert!(s.last_checkpoint().is_none());
+    }
+
+    #[test]
+    fn markdown_copies_unresolved_or_selected_findings() {
+        let mut s = session();
+        let a = s.add_finding(
+            anchor(),
+            Severity::Major,
+            Category::Security,
+            "line one\nline two".into(),
+        );
+        let b = s.add_finding(anchor(), Severity::Nit, Category::Style, "tidy".into());
+        s.set_resolved(b, true);
+        let md = s.findings_markdown(None);
+        assert_eq!(
+            md,
+            "- **Major** (Security) `a.rs:4-5` at `aaa`\n  line one\n  line two\n"
+        );
+        let md = s.findings_markdown(Some(&[b]));
+        assert!(md.contains("tidy") && !md.contains("line one"));
+        let _ = a;
     }
 }
