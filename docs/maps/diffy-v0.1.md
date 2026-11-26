@@ -2,7 +2,7 @@
 
 Status: open
 Destination: Each v0.1 milestone (M0 to M4) has a plan and issues with acceptance criteria. Each spike has a verdict, and no open question blocks the first M0 issue.
-Next: Q78
+Next: Q79
 
 ## Notes
 
@@ -182,6 +182,11 @@ Next: Q78
 - NSIS 3.13 gives the file error dialog a default answer for a silent installer. With the default `AllowSkipFiles on`, that answer is Ignore. A silent installer then skips the file with no dialog and goes on. Source: https://github.com/kichik/nsis/blob/a4ba28e60bd9e7c271cd2bfc1558889ce3355653/Source/script.cpp#L5443-L5455, https://github.com/kichik/nsis/blob/a4ba28e60bd9e7c271cd2bfc1558889ce3355653/Source/exehead/exec.c#L561-L574 and https://github.com/kichik/nsis/blob/a4ba28e60bd9e7c271cd2bfc1558889ce3355653/Source/exehead/util.c#L138-L142
 - The Tauri NSIS template starts the app again in `.onInstSuccess`, in the passive and the quiet mode. So a quiet update with a skipped file restarts the app. If the skipped file is the app executable, the old app starts. Source: https://github.com/tauri-apps/tauri/blob/9319e539f34237035cb4693bed9246660bc0a926/crates/tauri-bundler/src/bundle/windows/nsis/installer.nsi#L692-L693 and https://github.com/tauri-apps/tauri/blob/9319e539f34237035cb4693bed9246660bc0a926/crates/tauri-bundler/src/bundle/windows/nsis/installer.nsi#L788-L799
 
+- The Q78 check ran on the Bazzite 45 host with KWin 6.8.3 on Wayland and two screens at scale 1. The app ran in the Fedora 44 container with WebKitGTK 2.54.2, fcitx5 5.1.23, fcitx5-gtk3 5.1.7 and fcitx5-mozc 2.30.5618.102. fcitx5 used the GTK input method module (`GTK_IM_MODULE=fcitx`). Source: https://github.com/daniel-kindl/diffy/blob/c420409/prototypes/s1-monaco/README.md
+- With the preedit on, under Wayland and XWayland, the editor gets a `compositionupdate` for each preedit step of `にほん`. Mozc converts it to `日本`, and Return commits it. A plain textarea gets the same events. Source: https://github.com/daniel-kindl/diffy/blob/c420409/prototypes/s1-monaco/bench-results/q78-fedora-wayland.json and https://github.com/daniel-kindl/diffy/blob/c420409/prototypes/s1-monaco/bench-results/q78-fedora-x11.json
+- Under Wayland, fcitx5-gtk draws the candidate window in the app as a popup. Under XWayland, fcitx5 draws it as an X11 window. In both, its top-left corner is 0 to 1 px below the caret bottom. It is 27 px left of the caret, at the start of the conversion. Source: https://github.com/daniel-kindl/diffy/blob/c420409/prototypes/s1-monaco/bench-results/q78-fedora-wayland.json and https://github.com/daniel-kindl/diffy/blob/c420409/prototypes/s1-monaco/bench-results/q78-fedora-x11.json
+- For KDE Plasma on Wayland, the fcitx5 guide recommends that KWin starts fcitx5 as the virtual keyboard, with no `GTK_IM_MODULE`. Then a GTK 3 app uses text-input-v3. Q78 did not test this setup, Rime, another screen scale or GNOME. Source: https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma
+
 ## Decisions
 
 - Q1 Independent review: tiered by risk. Safety-critical areas (Git adapter, publication, anchors, updater, IPC and capabilities) need owner review. Other areas merge after agent review and green CI. Decided by: Daniel Kindl, 2026-11-24. Record: this line.
@@ -261,15 +266,9 @@ Next: Q78
 - Q75 Single instance tests: the Q74 design is accepted. The CLI forwarding work has three acceptance criteria. The AppImage sets its working folder to `OWD` before the plugin setup. On Windows, no startup step and no callback blocks the main thread for long, because a second instance loses its input after 10 s. Diffy opens an input only with the default Rust share mode. The owner selected the option "Accept, add criteria". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
 - Q76 More domain terms: `CONTEXT.md` defines anchor, outdated finding, canonical diff, comparison profile and provider. The definition of a comparison profile does not list its fields, because C-04 is not yet clear. The owner selected the option "Approve all 5". Decided by: Daniel Kindl, 2026-11-26. Record: [CONTEXT.md](../../CONTEXT.md).
 - Q77 Failed update install on Windows: Diffy keeps the passive install mode. Before the install, Diffy stores the target version. At the next start, if the running version is older, Diffy says that the update did not install and offers a retry. After Abort at the NSIS error dialog, the user starts the app by hand. The release notes list this as a known limitation. The owner selected the option "Passive + version check". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
+- Q78 Preedit with fcitx5: the Q78 result is accepted. With the preedit on, fcitx5 with Mozc works in the editor under Wayland and XWayland, through the GTK input method module. The M0 input method criteria add a check with fcitx5 as the KWin virtual keyboard on the reference host. The owner sets up that host. The owner selected the option "Accept, M0 tests KWin mode". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
 
 ## Open questions
-
-### Q78: Preedit with fcitx5
-
-Type: task
-Blocked by: none
-
-With the preedit on (Q57), check fcitx5 with an engine that has a preedit, for example Mozc or Rime. Run it on the Fedora reference host, under Wayland and XWayland. Check that the editor gets the composition events and that the candidate window is next to the cursor. A fail goes to the owner.
 
 ### Q79: Live refresh time on Windows
 
@@ -400,6 +399,13 @@ Run the Q43 parity check on the gix-imara-diff source of gitoxide `2bcb31d`, wit
 - Result: the AppImage forwards its mount folder, and `OWD` fixes it. On Windows, a main thread blocked for 12 s at the start loses the input. A 50 MB copy takes at most 41 ms. No race loses an input.
 - Picked: the owner accepted the result, with three acceptance criteria for the CLI forwarding work.
 - Branch: `prototype/diffy-v0.1-q75` at `c2690d1`. Tag: `prototype/diffy-v0.1-q75`. Not merged.
+
+### Q78: Preedit with fcitx5
+
+- Options: none. Q78 checks fcitx5 with Mozc and the preedit on (Q57), in option B, under Wayland and XWayland on the Fedora reference host.
+- Result: 7 of 7 checks pass in each session. The editor gets the composition events, and the candidate window is at the caret.
+- Picked: accepted. M0 adds a check with fcitx5 as the KWin virtual keyboard.
+- Branch: `prototype/diffy-v0.1-q78` at `c420409`. Tag: `prototype/diffy-v0.1-q78`. Not merged.
 
 ## Hand-off
 
