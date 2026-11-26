@@ -14,6 +14,14 @@ _Avoid_: Capture, copy
 The differences between a base snapshot and a head snapshot, under one comparison profile. It has the changed files and their canonical hunks.
 _Avoid_: Compare, diff result
 
+**Canonical diff**:
+The diff that gives the canonical hunks. For the same input and the same options, its hunks match `git diff --histogram`. Anchors, checkpoints and publication use it. A view can show another diff.
+_Avoid_: Real diff, Git diff
+
+**Comparison profile**:
+A named, reusable set of comparison options, for example the whitespace and line-ending options. A filter in a profile hides changes, but it never removes them.
+_Avoid_: Preset, settings
+
 ### Review
 
 **Review session**:
@@ -36,8 +44,20 @@ _Avoid_: Viewed flag, seen
 A note of the reviewer on a range of lines in one file of one revision, with a severity, a category and text. It keeps its original position.
 _Avoid_: Annotation, issue, remark
 
+**Anchor**:
+The range of lines that a finding points to, in one file of one revision, in canonical hunk coordinates. The anchor mapping moves it to a later revision or makes the finding outdated.
+_Avoid_: Location, pin
+
+**Outdated finding**:
+A finding whose anchor Diffy cannot map to the current revision without ambiguity. It keeps its original anchor. The person must confirm a new one.
+_Avoid_: Stale finding, orphaned finding
+
 ### Publication
 
 **Publication**:
 One attempt to send findings of a review session to a pull request on a provider, and the reconciled result of that attempt.
 _Avoid_: Push, sync, upload
+
+**Provider**:
+A code hosting service with pull requests, where Diffy reads and publishes reviews. v0.1 has GitHub and OneDev. Capabilities differ by provider, server version and permission.
+_Avoid_: Forge, host, remote
