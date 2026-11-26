@@ -2,7 +2,7 @@
 
 Status: open
 Destination: Each v0.1 milestone (M0 to M4) has a plan and issues with acceptance criteria. Each spike has a verdict, and no open question blocks the first M0 issue.
-Next: Q55
+Next: Q57
 
 ## Notes
 
@@ -116,6 +116,15 @@ Next: Q55
 - A job gets the environment secrets only after the environment rules pass, for example the required reviewers. Source: https://docs.github.com/en/actions/how-tos/deploy/configure-and-manage-deployments/manage-environments
 - An OAuth App must have the device flow enabled in its settings before the device flow works. Source: https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps#device-flow
 - M1 is the universal comparison, M3 is the remote review and M4 has the signed packaging and updates. Source: Diffy_Master_Specification.md lines 382 to 386.
+- The Q55 tests run a minimal Tauri 2.12.7 app with updater plugin 2.14.1 and three test releases, signed with a throwaway key. Linux is a Fedora 44 distrobox on the Bazzite host. Windows is the GitHub `windows-latest` runner with Windows Server 2025 and NSIS 3.13. Source: https://github.com/daniel-kindl/diffy/blob/dffc99a/prototypes/s6-updater/README.md
+- On Linux and on Windows, 0.1.0 updates to 0.2.0, restarts on 0.2.0 and runs migration 2 at startup. The stable channel gets only 0.2.0, and the pre-release channel gets only 0.3.0-pre.1. Source: https://github.com/daniel-kindl/diffy/blob/dffc99a/prototypes/s6-updater/results/q55-linux.json and https://github.com/daniel-kindl/diffy/blob/dffc99a/prototypes/s6-updater/results/q55-windows-core.json
+- On both platforms, the updater rejects a signature from another key and a byte changed after signing. It also rejects a manifest version that differs from the signed version, and a signature with no version. The installed app stays unchanged. Source: https://github.com/daniel-kindl/diffy/blob/dffc99a/prototypes/s6-updater/results/q55-linux.json and https://github.com/daniel-kindl/diffy/blob/dffc99a/prototypes/s6-updater/results/q55-windows-core.json
+- On both platforms, an interrupted download, a refused connection and a server that never answers give an error. The installed app stays unchanged, and the next good check updates it. Source: https://github.com/daniel-kindl/diffy/blob/dffc99a/prototypes/s6-updater/results/q55-linux.json and https://github.com/daniel-kindl/diffy/blob/dffc99a/prototypes/s6-updater/results/q55-windows-core.json
+- On Linux, a read-only AppImage folder and a failed write of the new AppImage each leave the old AppImage unchanged. Source: https://github.com/daniel-kindl/diffy/blob/dffc99a/prototypes/s6-updater/results/q55-linux.json
+- On Windows, when the NSIS installer cannot write a file, it waits at a modal dialog with Abort, Retry and Ignore. After Abort it shows "Installation Aborted" and does not restart the app. The old app is unchanged. Source: https://github.com/daniel-kindl/diffy/blob/dffc99a/prototypes/s6-updater/results/q55-windows-not-writable.json and https://github.com/daniel-kindl/diffy/blob/dffc99a/prototypes/s6-updater/results/q55-not_writable.png
+- On Windows, with `uninstall.exe` locked, the NSIS installer replaces the app, skips the uninstaller with no error and restarts the app. Source: https://github.com/daniel-kindl/diffy/blob/dffc99a/prototypes/s6-updater/results/q55-windows-failed-install.json
+- A failed migration rolls back on both platforms. The database keeps its schema version and the user data, and the copy from before the migration stays. The next start without the fault migrates. Source: https://github.com/daniel-kindl/diffy/blob/dffc99a/prototypes/s6-updater/results/q55-linux.json and https://github.com/daniel-kindl/diffy/blob/dffc99a/prototypes/s6-updater/results/q55-windows-core.json
+
 ## Decisions
 
 - Q1 Independent review: tiered by risk. Safety-critical areas (Git adapter, publication, anchors, updater, IPC and capabilities) need owner review. Other areas merge after agent review and green CI. Decided by: Daniel Kindl, 2026-11-24. Record: this line.
@@ -179,46 +188,9 @@ Next: Q55
 - Q74 Forwarding design for CLI inputs: the single instance callback copies or reads each input into a Diffy snapshot before it returns. The tab then opens from the snapshot. Diffy uses the plugin as it is, with no channel of its own. The helper cannot report an error. A copy that takes more than 10 s on Windows loses the input, so Q75 measures the copy time. The owner selected the option "Copy in the callback". Decided by: Daniel Kindl, 2026-11-25. Record: this line.
 - Q52 Owner setup actions: Q4 has no target dates, so each latest date is a milestone point. Done on 2026-11-25: the rulesets, Renovate, Dependabot alerts, secret scanning with push protection and the approval for fork workflow runs. Before the first release run at the end of M1: a `release` environment with the owner as the required reviewer. Before the v0.0.1 build: the minisign key with a password, in two `release` environment secrets and an offline backup (Q9, Q36). The public key goes to the M1 updater configuration. Before M3a: a GitHub OAuth App with the device flow on, and its client ID (Q32). Before M3b: a OneDev test project and an access token on the homelab (Q14). For each release: the owner starts the workflow and approves the environment. The owner selected the option "Accept the Q52 list". Decided by: Daniel Kindl, 2026-11-25. Record: this line.
 - Q53 Domain glossary: `CONTEXT.md` defines snapshot, comparison, review session, baseline, checkpoint, file review state, finding and publication. The owner selected the option "Approve all 8". Decided by: Daniel Kindl, 2026-11-25. Record: [CONTEXT.md](../../CONTEXT.md).
+- Q55 S6 signed updates: each S6 prototype item passes on Linux and on Windows, except the Windows failed install. There the NSIS installer waits at an error dialog and does not restart the app, and the old app stays. A locked uninstaller leaves a new app with the old uninstaller. Q77 covers the Windows behavior. The owner selected the option "Accept, add Q77". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
 
 ## Open questions
-
-### Q55: S6 signed update prototype
-
-Type: prototype
-Blocked by: none
-
-Run signed updates on Linux and Windows with the design from Q50. Check the restart, the database migration and the recovery from each failure.
-
-S6 charter. Q50 is the research phase and Q55 is the prototype phase.
-
-Charter question: How does the Tauri Updater serve a pre-release channel next to the stable channel? Does a signed update install, restart and recover safely?
-
-Research phase evidence (Q50): a source for each item, as a documentation link or a plugin source file and line:
-
-- How the app selects the update endpoint of a channel at run time.
-- How the updater checks the minisign signature, and what it does with an invalid or changed artifact.
-- How an AppImage and an NSIS installation restart after an update.
-- What happens after an interrupted download, a failed installation, a location that is not writable, and no network.
-- A recovery path for a failed database migration. The specification does not promise automatic rollback.
-
-Research phase stop when:
-
-- Each item has an answer with a source, or is listed as unknown with the test that can answer it. Q55 runs these tests.
-
-Prototype phase evidence (Q55), on the branch `prototype/diffy-v0.1-q55`:
-
-- Two signed test releases of a minimal Tauri app, and an update from the older release to the newer release.
-- Sign them with a throwaway test key, not with the Q9 release key.
-- Linux: the AppImage on the Fedora host. Windows: the NSIS installer on a Windows CI runner. A manual run on the notebook happens only before a release (Q10).
-- The updater rejects an artifact with an invalid signature, and an artifact that was changed after signing.
-- With `requireSignedVersion` on (Q73), the updater rejects a manifest whose version differs from the version in the signature.
-- The app restarts on the new version, and a test database migration runs at startup.
-- Recovery from an interrupted download, a failed installation, a location that is not writable, no network and a failed migration. The user data stays.
-- The pre-release channel and the stable channel each get only their own updates.
-
-Prototype phase stop when:
-
-- Each item has a pass or fail result on both platforms. Each fail has a recovery path, or goes to the owner.
 
 ### Q57: WebKitGTK input method preedit
 
@@ -318,6 +290,13 @@ Blocked by: none
 
 The map uses more domain words than `CONTEXT.md` defines (Q53). Approve or change the terms anchor, outdated finding, canonical diff, comparison profile and provider.
 
+### Q77: Failed update install on Windows
+
+Type: owner
+Blocked by: none
+
+When the NSIS installer cannot write a file, it waits at a modal error dialog, and after Abort the app does not restart (Q55). A locked file other than the app can give a new app with the old file. Decide what v0.1 does. Examples are to accept it with a manual restart, to test the quiet install mode, or to check the installed version at the next start.
+
 ## Not yet clear
 
 - The rules that mark a file as generated (R-02).
@@ -405,6 +384,13 @@ The map uses more domain words than `CONTEXT.md` defines (Q53). Approve or chang
 - Result: each action passes and has a read call that confirms it. The marker is not visible.
 - Picked: the owner accepted the result.
 - Branch: `prototype/diffy-v0.1-q49` at `4bcc767`. Tag: `prototype/diffy-v0.1-q49`. Not merged.
+
+### Q55: S6 signed updates
+
+- Options: none. Q55 tests the Q50 design with the Tauri Updater, on a Linux AppImage and a Windows NSIS installer.
+- Result: each item passes on both platforms, except the Windows failed install, which waits at an NSIS error dialog.
+- Picked: the owner accepted the result and added Q77.
+- Branch: `prototype/diffy-v0.1-q55` at `dffc99a`. Tag: `prototype/diffy-v0.1-q55`. Not merged.
 
 ## Hand-off
 
