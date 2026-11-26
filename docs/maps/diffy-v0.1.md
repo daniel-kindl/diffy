@@ -2,7 +2,7 @@
 
 Status: open
 Destination: Each v0.1 milestone (M0 to M4) has a plan and issues with acceptance criteria. Each spike has a verdict, and no open question blocks the first M0 issue.
-Next: Q68
+Next: Q69
 
 ## Notes
 
@@ -157,6 +157,9 @@ Next: Q68
 - The Q46 fixture with 2,000 large changed files has 80 added, 80 deleted and 40 renamed files. So rename detection has 120 added and 120 deleted files as candidates. Source: https://github.com/daniel-kindl/diffy/blob/d569d85/prototypes/s1-monaco/fixtures/gen-repos.mjs
 - Git limits the exhaustive part of rename detection to 1,000 files by default (`diff.renameLimit`). Source: https://github.com/git/git/blob/master/Documentation/config/diff.adoc
 
+- On 2026-11-26, gix-imara-diff 0.3.4 is the latest release on crates.io. The gitoxide branch `main` is at `2bcb31d`. Source: https://crates.io/crates/gix-imara-diff and https://github.com/GitoxideLabs/gitoxide/commits/main
+- `2bcb31d` has the merged fix and two maintainer commits after it, `f539153` and `8e90d2e`. The `8e90d2e` message says the maintainer did not check the change in full. The maintainer hopes that it resists adversarial input. Source: https://github.com/GitoxideLabs/gitoxide/commit/8e90d2e
+
 ## Decisions
 
 - Q1 Independent review: tiered by risk. Safety-critical areas (Git adapter, publication, anchors, updater, IPC and capabilities) need owner review. Other areas merge after agent review and green CI. Decided by: Daniel Kindl, 2026-11-24. Record: this line.
@@ -229,15 +232,9 @@ Next: Q68
 - Q65 Time of the anchor mapping on large files: the M3 time is accepted. On the Q46 fixtures no anchor is outdated because of the cap. M0 makes a segment with 65,535 lines or more on a side outdated, or maps it with no panic. The pair with 70,000 inserted lines is an M0 test fixture. The owner selected the option "Accept, M0 fixes panic". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
 - Q66 Cancel during the open of a large file: v0.1 accepts a cancel time up to 450 ms for files of 50 MB or more. The release notes list it as a known limitation. The target of 250 ms stays for each other cancel. Q46 measured only the 50 MB stress file. There is no prototype. The owner selected the option "Accept for stress files". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
 - Q67 Rename detection on large change lists: Diffy shows the change list first, with only the exact renames (the same blob ID). The similarity rename detection then runs in the background and can be cancelled. When it ends, an added and a deleted row of a rename become one renamed row. The owner selected the option "List first, renames later". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
+- Q68 Code of the patched gix-imara-diff copy: until a gitoxide release has the fix, the Diffy copy holds the gix-imara-diff source of gitoxide `2bcb31d`. M0 uses the copy only after Q80 passes. Diffy keeps the Apache-2.0 license notice (Q61). The owner selected the option "Source of 2bcb31d + parity run". Decided by: Daniel Kindl, 2026-11-26. Record: this line and ADR 0002.
 
 ## Open questions
-
-### Q68: Code of the patched gix-imara-diff copy
-
-Type: owner
-Blocked by: none
-
-Until a gitoxide release has the fix, Diffy keeps a copy of gix-imara-diff (Q61). The Q60 copy differs from Git on a seed that occurs more than 65 times. The code that gitoxide merged in `2bcb31d` matches Git on that input. Decide what the copy holds until the release. Examples are the Q60 patch with a fix for the seed limit, or the gix-imara-diff source of `2bcb31d`, which then needs the Q43 parity run.
 
 ### Q69: GraphQL in the GitHub client
 
@@ -294,6 +291,13 @@ Type: task
 Blocked by: none
 
 In M0, measure the live refresh of option B on the Windows notebook, with the in-process canonical diff (Q61) and no Git process. Measure the read IPC time on its own. Compare the settled time with the S1 target of 500 ms for a typical refresh (Q59). A fail goes to the owner.
+
+### Q80: Parity of the gitoxide 2bcb31d diff
+
+Type: task
+Blocked by: none
+
+Run the Q43 parity check on the gix-imara-diff source of gitoxide `2bcb31d`, with `postprocess_lines`: the S1, edge and 3,732 real pairs. Also check the Q62 input with a seed of more than 65 copies, and time the `50mb-stress` fixture against the Q60 copy (Q68). A fail goes to the owner.
 
 ## Not yet clear
 
