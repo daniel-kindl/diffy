@@ -1,7 +1,7 @@
 import "./style.css";
 import { invoke } from "@tauri-apps/api/core";
 import { listen } from "@tauri-apps/api/event";
-import { setEditorTheme, showComparison, type ComparisonView } from "./editor";
+import { setEditorTheme, showComparison, showUnified } from "./editor";
 import { nextPreference, parsePreference, resolveTheme, type ThemePreference } from "./theme";
 import { LEGACY_ENCODINGS } from "./encodings";
 import type { Hunk } from "./hunks";
@@ -54,15 +54,29 @@ function describe(side: Side | undefined, fallback: string): string {
 const left = document.getElementById("left");
 const right = document.getElementById("right");
 const status = document.getElementById("status");
-let view: ComparisonView | undefined;
+let view: { dispose(): void } | undefined;
+let last: Comparison | undefined;
+let unifiedMode = false;
 
 function show(c: Comparison): void {
   if (!left || !right) return;
+  last = c;
   view?.dispose();
   if (status) {
     status.textContent = `${describe(c.sides[0], "Base")} ↔ ${describe(c.sides[1], "Head")}`;
   }
-  view = showComparison(left, right, c.base, c.head, c.hunks, c.sides[1]?.label ?? "");
+  const unified = document.getElementById("unified");
+  const app = document.getElementById("app");
+  const path = c.sides[1]?.label ?? "";
+  if (unifiedMode && unified && app) {
+    app.hidden = true;
+    unified.hidden = false;
+    view = showUnified(unified, c.base, c.head, c.hunks, path);
+  } else {
+    if (unified) unified.hidden = true;
+    if (app) app.hidden = false;
+    view = showComparison(left, right, c.base, c.head, c.hunks, path);
+  }
 }
 
 function fail(e: unknown): void {
@@ -311,3 +325,10 @@ document.getElementById("copy-findings")?.addEventListener("click", () => {
 });
 
 refreshFindings();
+
+document.getElementById("view-mode")?.addEventListener("click", (event) => {
+  unifiedMode = !unifiedMode;
+  (event.currentTarget as HTMLElement).textContent =
+    `View: ${unifiedMode ? "unified" : "side by side"}`;
+  if (last) show(last);
+});
