@@ -2,7 +2,7 @@
 
 Status: open
 Destination: Each v0.1 milestone (M0 to M4) has a plan and issues with acceptance criteria. Each spike has a verdict, and no open question blocks the first M0 issue.
-Next: Q77
+Next: Q78
 
 ## Notes
 
@@ -178,6 +178,10 @@ Next: Q77
 - The specification asks for provider-neutral pull request and publication contracts. Capabilities may differ by provider, server version and permission. Source: Diffy_Master_Specification.md sections 04 (R-07) and 06.
 - The specification asks to re-anchor a finding only when the mapping is unambiguous. Otherwise the finding is outdated and needs a manual confirmation. Source: Diffy_Master_Specification.md section 07.
 
+- The updater passes `/P` to the NSIS installer in the passive mode and `/S` in the quiet mode. The passive mode is the default. Source: https://github.com/tauri-apps/plugins-workspace/blob/128190689dbe59b59d344e01bf07b00862aa3791/plugins/updater/src/config.rs#L20-L49
+- NSIS 3.13 gives the file error dialog a default answer for a silent installer. With the default `AllowSkipFiles on`, that answer is Ignore. A silent installer then skips the file with no dialog and goes on. Source: https://github.com/kichik/nsis/blob/a4ba28e60bd9e7c271cd2bfc1558889ce3355653/Source/script.cpp#L5443-L5455, https://github.com/kichik/nsis/blob/a4ba28e60bd9e7c271cd2bfc1558889ce3355653/Source/exehead/exec.c#L561-L574 and https://github.com/kichik/nsis/blob/a4ba28e60bd9e7c271cd2bfc1558889ce3355653/Source/exehead/util.c#L138-L142
+- The Tauri NSIS template starts the app again in `.onInstSuccess`, in the passive and the quiet mode. So a quiet update with a skipped file restarts the app. If the skipped file is the app executable, the old app starts. Source: https://github.com/tauri-apps/tauri/blob/9319e539f34237035cb4693bed9246660bc0a926/crates/tauri-bundler/src/bundle/windows/nsis/installer.nsi#L692-L693 and https://github.com/tauri-apps/tauri/blob/9319e539f34237035cb4693bed9246660bc0a926/crates/tauri-bundler/src/bundle/windows/nsis/installer.nsi#L788-L799
+
 ## Decisions
 
 - Q1 Independent review: tiered by risk. Safety-critical areas (Git adapter, publication, anchors, updater, IPC and capabilities) need owner review. Other areas merge after agent review and green CI. Decided by: Daniel Kindl, 2026-11-24. Record: this line.
@@ -256,15 +260,9 @@ Next: Q77
 - Q71 Review actions when the user is not a reviewer: on OneDev, Diffy reads the reviewers of the pull request before the publish dialog opens. If the user is not a reviewer, the dialog has no approve and no request changes. It shows the comments and a short reason. Diffy does not add the user as a reviewer. The owner selected the option "Comments only". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
 - Q75 Single instance tests: the Q74 design is accepted. The CLI forwarding work has three acceptance criteria. The AppImage sets its working folder to `OWD` before the plugin setup. On Windows, no startup step and no callback blocks the main thread for long, because a second instance loses its input after 10 s. Diffy opens an input only with the default Rust share mode. The owner selected the option "Accept, add criteria". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
 - Q76 More domain terms: `CONTEXT.md` defines anchor, outdated finding, canonical diff, comparison profile and provider. The definition of a comparison profile does not list its fields, because C-04 is not yet clear. The owner selected the option "Approve all 5". Decided by: Daniel Kindl, 2026-11-26. Record: [CONTEXT.md](../../CONTEXT.md).
+- Q77 Failed update install on Windows: Diffy keeps the passive install mode. Before the install, Diffy stores the target version. At the next start, if the running version is older, Diffy says that the update did not install and offers a retry. After Abort at the NSIS error dialog, the user starts the app by hand. The release notes list this as a known limitation. The owner selected the option "Passive + version check". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
 
 ## Open questions
-
-### Q77: Failed update install on Windows
-
-Type: owner
-Blocked by: none
-
-When the NSIS installer cannot write a file, it waits at a modal error dialog, and after Abort the app does not restart (Q55). A locked file other than the app can give a new app with the old file. Decide what v0.1 does. Examples are to accept it with a manual restart, to test the quiet install mode, or to check the installed version at the next start.
 
 ### Q78: Preedit with fcitx5
 
