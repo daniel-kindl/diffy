@@ -7,7 +7,7 @@
 use gix_imara_diff::{Algorithm, Diff, InternedInput, TokenSource, sources};
 use std::ops::Range;
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 pub enum Whitespace {
     Exact,
     Trailing,
@@ -15,14 +15,14 @@ pub enum Whitespace {
     All,
 }
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 pub enum Intraline {
     Off,
     Word,
     Character,
 }
 
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 pub struct Profile {
     pub name: String,
     pub whitespace: Whitespace,

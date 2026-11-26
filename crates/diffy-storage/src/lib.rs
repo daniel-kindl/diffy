@@ -14,6 +14,18 @@ use std::path::{Path, PathBuf};
 const MIGRATION_SQL: &[&str] = &[
     // 1: the first schema. It holds the application metadata only.
     "CREATE TABLE app_meta (key TEXT PRIMARY KEY NOT NULL, value TEXT NOT NULL) STRICT;",
+    // 2: saved comparison sessions (C-08).
+    "CREATE TABLE comparison_sessions (
+        id INTEGER PRIMARY KEY NOT NULL,
+        name TEXT NOT NULL,
+        left_source TEXT NOT NULL,
+        left_content_id TEXT NOT NULL,
+        right_source TEXT NOT NULL,
+        right_content_id TEXT NOT NULL,
+        profile_json TEXT NOT NULL,
+        baseline TEXT NOT NULL,
+        navigation_json TEXT NOT NULL
+    ) STRICT;",
 ];
 
 fn migrations() -> Migrations<'static> {
@@ -84,6 +96,8 @@ pub fn open(path: &Path) -> Result<Connection, StorageError> {
         .map_err(StorageError::Migration)?;
     Ok(conn)
 }
+
+pub mod sessions;
 
 #[cfg(test)]
 mod tests {
@@ -162,17 +176,11 @@ mod tests {
     fn open_writes_no_copy_when_no_migration_is_pending() {
         let dir = tempfile::tempdir().unwrap();
         let path = dir.path().join("diffy.db");
-        {
-            // A database one version behind: simulate with a version of 0
-            // data and a partial migration list.
-            let mut c = Connection::open(&path).unwrap();
-            Migrations::new(vec![M::up(MIGRATION_SQL[0])])
-                .to_latest(&mut c)
-                .unwrap();
-        }
+        open(&path).unwrap();
         // Same version as the app: no pending migration, so no copy.
         open(&path).unwrap();
-        assert!(!backup_path(&path, 1).exists());
+        let latest = MIGRATION_SQL.len() as u32;
+        assert!((1..=latest).all(|v| !backup_path(&path, v).exists()));
     }
 
     #[test]
