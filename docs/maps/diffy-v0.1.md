@@ -1,6 +1,6 @@
 # Map: Diffy v0.1
 
-Status: open
+Status: done
 Destination: Each v0.1 milestone (M0 to M4) has a plan and issues with acceptance criteria. Each spike has a verdict, and no open question blocks the first M0 issue.
 Next: none
 
@@ -452,4 +452,58 @@ Next: none
 
 ## Hand-off
 
-None yet.
+Each milestone has a plan-work plan in its plan issue. Each task issue is a sub-issue of its plan issue, and each acceptance criterion names its source in this map, the specification or an ADR.
+
+- [M0 plan: Foundation](https://github.com/daniel-kindl/diffy/issues/104) (#104):
+  - [F-01: Set up the solution boundaries](https://github.com/daniel-kindl/diffy/issues/109) (#109)
+  - [F-02: Add CI and the engineering standards](https://github.com/daniel-kindl/diffy/issues/110) (#110)
+  - [M0: Build the canonical diff and anchor core](https://github.com/daniel-kindl/diffy/issues/111) (#111)
+  - [F-03: Add the Tauri shell and the renderer](https://github.com/daniel-kindl/diffy/issues/112) (#112)
+  - [F-04: Add the design system tokens](https://github.com/daniel-kindl/diffy/issues/113) (#113)
+  - [F-05: Add the SQLite storage](https://github.com/daniel-kindl/diffy/issues/114) (#114)
+  - [F-06: Add structured logging](https://github.com/daniel-kindl/diffy/issues/115) (#115)
+  - [F-07: Add the benchmarks](https://github.com/daniel-kindl/diffy/issues/116) (#116)
+- [M1 plan: Universal comparison](https://github.com/daniel-kindl/diffy/issues/105) (#105):
+  - [C-01: Add the input and comparison contracts](https://github.com/daniel-kindl/diffy/issues/117) (#117)
+  - [C-02: Open two files or two text inputs](https://github.com/daniel-kindl/diffy/issues/118) (#118)
+  - [C-03: Compare lines deterministically](https://github.com/daniel-kindl/diffy/issues/119) (#119)
+  - [C-04: Add intraline refinement and profiles](https://github.com/daniel-kindl/diffy/issues/120) (#120)
+  - [C-05: Add the side-by-side and unified views](https://github.com/daniel-kindl/diffy/issues/121) (#121)
+  - [C-06: Add navigation and keyboard controls](https://github.com/daniel-kindl/diffy/issues/122) (#122)
+  - [C-07: Add syntax highlighting](https://github.com/daniel-kindl/diffy/issues/123) (#123)
+  - [C-08: Save and restore sessions](https://github.com/daniel-kindl/diffy/issues/124) (#124)
+  - [C-09: Add the CLI and difftool integration](https://github.com/daniel-kindl/diffy/issues/125) (#125)
+  - [M1: Add the basic watcher infrastructure](https://github.com/daniel-kindl/diffy/issues/126) (#126)
+  - [M1: Publish the first AppImage pre-release](https://github.com/daniel-kindl/diffy/issues/127) (#127)
+- [M2 plan: Local review](https://github.com/daniel-kindl/diffy/issues/106) (#106):
+  - [R-01: Read repositories and worktrees](https://github.com/daniel-kindl/diffy/issues/128) (#128)
+  - [R-02: Add the changed-file explorer](https://github.com/daniel-kindl/diffy/issues/129) (#129)
+  - [R-03: Add local review sessions](https://github.com/daniel-kindl/diffy/issues/130) (#130)
+  - [R-04: Add inline findings](https://github.com/daniel-kindl/diffy/issues/131) (#131)
+  - [R-05: Add checkpoints and re-review](https://github.com/daniel-kindl/diffy/issues/132) (#132)
+  - [R-06: Add the review overview](https://github.com/daniel-kindl/diffy/issues/133) (#133)
+  - [R-07: Add the provider-neutral contracts](https://github.com/daniel-kindl/diffy/issues/134) (#134)
+  - [R-08: Copy findings as Markdown](https://github.com/daniel-kindl/diffy/issues/135) (#135)
+  - [L-01: Watch files, the index and refs](https://github.com/daniel-kindl/diffy/issues/136) (#136)
+  - [L-02: Debounce and reconcile events](https://github.com/daniel-kindl/diffy/issues/137) (#137)
+  - [L-03: Publish only complete snapshots](https://github.com/daniel-kindl/diffy/issues/138) (#138)
+  - [L-04: Keep the view state on refresh](https://github.com/daniel-kindl/diffy/issues/139) (#139)
+  - [L-05: Add pause, resume and live status](https://github.com/daniel-kindl/diffy/issues/140) (#140)
+  - [M2: Publish the second AppImage pre-release](https://github.com/daniel-kindl/diffy/issues/141) (#141)
+- [M3 plan: Remote review](https://github.com/daniel-kindl/diffy/issues/107) (#107):
+  - [G-01: Add GitHub sign-in and accounts](https://github.com/daniel-kindl/diffy/issues/142) (#142)
+  - [G-02: List and open GitHub pull requests](https://github.com/daniel-kindl/diffy/issues/143) (#143)
+  - [G-03: Show GitHub discussions and anchors](https://github.com/daniel-kindl/diffy/issues/144) (#144)
+  - [G-04: Draft and publish a GitHub review](https://github.com/daniel-kindl/diffy/issues/145) (#145)
+  - [G-05: Sync and reconcile GitHub revisions](https://github.com/daniel-kindl/diffy/issues/146) (#146)
+  - [O-01: Add OneDev instances and tokens](https://github.com/daniel-kindl/diffy/issues/147) (#147)
+  - [O-02: List and open OneDev pull requests](https://github.com/daniel-kindl/diffy/issues/148) (#148)
+  - [O-03: Map OneDev diffs and comments](https://github.com/daniel-kindl/diffy/issues/149) (#149)
+  - [O-04: Publish findings to OneDev](https://github.com/daniel-kindl/diffy/issues/150) (#150)
+  - [O-05: Sync OneDev revisions](https://github.com/daniel-kindl/diffy/issues/151) (#151)
+  - [O-06: Test against a real OneDev server](https://github.com/daniel-kindl/diffy/issues/152) (#152)
+- [M4 plan: Release readiness](https://github.com/daniel-kindl/diffy/issues/108) (#108):
+  - [D-01: Validate the performance targets](https://github.com/daniel-kindl/diffy/issues/153) (#153)
+  - [D-02: Run accessibility and visual QA](https://github.com/daniel-kindl/diffy/issues/154) (#154)
+  - [D-03: Ship signed packages and updates](https://github.com/daniel-kindl/diffy/issues/155) (#155)
+  - [D-04: Write the docs and validate the release](https://github.com/daniel-kindl/diffy/issues/156) (#156)
