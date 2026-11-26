@@ -39,6 +39,8 @@ pub enum FileReview {
 #[derive(Clone, Debug, Default, PartialEq, Eq)]
 pub struct ReviewState {
     files: BTreeMap<String, ContentId>,
+    findings: Vec<Finding>,
+    next_id: u64,
 }
 
 impl ReviewState {
@@ -100,6 +102,121 @@ impl ReviewSession {
     }
 }
 
+/// How serious a finding is (Q31).
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum Severity {
+    Blocker,
+    Major,
+    Minor,
+    Nit,
+}
+
+/// What kind of problem a finding is (Q31).
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum Category {
+    Correctness,
+    Security,
+    Performance,
+    Design,
+    Tests,
+    Docs,
+    Style,
+}
+
+/// A stable local ID. It never changes after the finding is created.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
+pub struct FindingId(pub u64);
+
+/// The lines a finding points to: one file, one revision, canonical
+/// coordinates. Lines are 0-based, and the range end is exclusive.
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct Anchor {
+    pub path: String,
+    pub revision: String,
+    pub lines: std::ops::Range<u32>,
+}
+
+/// The note of the reviewer. The original anchor never changes.
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct Finding {
+    pub id: FindingId,
+    pub anchor: Anchor,
+    pub severity: Severity,
+    pub category: Category,
+    pub notes: String,
+}
+
+/// An edit to the reviewer's own fields. It cannot name the source or the anchor.
+#[derive(Clone, Debug, Default)]
+pub struct FindingEdit {
+    pub severity: Option<Severity>,
+    pub category: Option<Category>,
+    pub notes: Option<String>,
+}
+
+impl Anchor {
+    /// Move the anchor to a later revision with the M0 mapping (Q45). The
+    /// result is `None` (outdated) when any line of the range is outdated or
+    /// the mapped lines are not one consecutive range. The anchor is not
+    /// changed: a finding keeps its original position.
+    pub fn map_to(&self, old: &[u8], new: &[u8]) -> Option<std::ops::Range<u32>> {
+        if self.lines.is_empty() {
+            return None;
+        }
+        let map = diffy_comparison::anchor::map_anchors(old, new);
+        let mut mapped = Vec::new();
+        for l in self.lines.clone() {
+            mapped.push((*map.get(l as usize)?)? as u32);
+        }
+        mapped
+            .windows(2)
+            .all(|w| w[1] == w[0] + 1)
+            .then(|| mapped[0]..mapped[mapped.len() - 1] + 1)
+    }
+}
+
+impl ReviewSession {
+    /// Add a finding. The session gives it the next stable ID.
+    pub fn add_finding(
+        &mut self,
+        anchor: Anchor,
+        severity: Severity,
+        category: Category,
+        notes: String,
+    ) -> FindingId {
+        let id = FindingId(self.review.next_id);
+        self.review.next_id += 1;
+        self.review.findings.push(Finding {
+            id,
+            anchor,
+            severity,
+            category,
+            notes,
+        });
+        id
+    }
+
+    pub fn edit_finding(&mut self, id: FindingId, edit: FindingEdit) -> bool {
+        let Some(f) = self.review.findings.iter_mut().find(|f| f.id == id) else {
+            return false;
+        };
+        if let Some(v) = edit.severity {
+            f.severity = v;
+        }
+        if let Some(v) = edit.category {
+            f.category = v;
+        }
+        if let Some(v) = edit.notes {
+            f.notes = v;
+        }
+        true
+    }
+
+    pub fn findings(&self) -> &[Finding] {
+        &self.review.findings
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -153,5 +270,67 @@ mod tests {
         s.mark_reviewed("a.rs", id("v1"));
         assert!(!s.needs_review("a.rs", id("v1")));
         assert!(s.needs_review("a.rs", id("v2")));
+    }
+
+    fn anchor() -> Anchor {
+        Anchor {
+            path: "a.rs".into(),
+            revision: "aaa".into(),
+            lines: 3..5,
+        }
+    }
+
+    #[test]
+    fn findings_get_stable_ids_that_survive_edits_and_deletes_of_others() {
+        let mut s = session();
+        let a = s.add_finding(anchor(), Severity::Major, Category::Security, "x".into());
+        let b = s.add_finding(anchor(), Severity::Nit, Category::Style, "y".into());
+        assert_ne!(a, b);
+        assert!(s.edit_finding(
+            a,
+            FindingEdit {
+                notes: Some("z".into()),
+                ..Default::default()
+            }
+        ));
+        assert_eq!(s.findings()[0].id, a);
+        assert_eq!(s.findings()[0].notes, "z");
+        assert_eq!(s.findings()[0].severity, Severity::Major);
+        assert!(!s.edit_finding(FindingId(99), FindingEdit::default()));
+    }
+
+    #[test]
+    fn editing_a_finding_keeps_its_anchor_and_the_source() {
+        let mut s = session();
+        let source = s.source().clone();
+        let id = s.add_finding(
+            anchor(),
+            Severity::Blocker,
+            Category::Correctness,
+            "n".into(),
+        );
+        s.edit_finding(
+            id,
+            FindingEdit {
+                severity: Some(Severity::Minor),
+                category: Some(Category::Docs),
+                notes: None,
+            },
+        );
+        assert_eq!(s.findings()[0].anchor, anchor());
+        assert_eq!(s.source(), &source);
+    }
+
+    #[test]
+    fn an_anchor_maps_to_a_later_revision_or_is_outdated() {
+        let old = b"a\nb\nc\nd\n";
+        let a = Anchor {
+            path: "f".into(),
+            revision: "r1".into(),
+            lines: 1..3,
+        };
+        assert_eq!(a.map_to(old, b"x\na\nb\nc\nd\n"), Some(2..4));
+        assert_eq!(a.map_to(old, b"a\nB\nc\nd\n"), None);
+        assert_eq!(a.lines, 1..3, "the original anchor does not change");
     }
 }
