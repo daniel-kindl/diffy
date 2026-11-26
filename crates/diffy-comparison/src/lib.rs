@@ -7,6 +7,7 @@
 
 pub mod anchor;
 pub mod canonical;
+pub mod text;
 
 use sha2::{Digest, Sha256};
 use std::sync::Arc;
