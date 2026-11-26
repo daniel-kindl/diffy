@@ -13,7 +13,6 @@ license = "Apache-2.0"
 description = "A high performance library for computing diffs, maintained as a modified copy of upstream imara-diff for gitoxide."
 repository = "https://github.com/GitoxideLabs/gitoxide"
 keywords = ["diff", "difference", "myers", "compare", "changes"]
-readme = "README.md"
 include = ["/src/**/*", "/LICENSE", "/README.md", "!/src/tests.rs"]
 
 [dependencies]
