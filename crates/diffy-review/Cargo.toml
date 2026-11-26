@@ -11,3 +11,4 @@ workspace = true
 [dependencies]
 diffy-core = { path = "../diffy-core" }
 diffy-comparison = { path = "../diffy-comparison" }
+globset = "0.4.22"
