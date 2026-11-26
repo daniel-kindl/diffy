@@ -11,3 +11,8 @@ workspace = true
 [dependencies]
 diffy-core = { path = "../diffy-core" }
 diffy-review = { path = "../diffy-review" }
+rusqlite = { version = "0.43.0", features = ["bundled"] }
+rusqlite_migration = "2.9.0"
+
+[dev-dependencies]
+tempfile = "3.27.0"
