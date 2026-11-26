@@ -103,7 +103,7 @@ input:focus-visible {
   margin: 0;
   padding: 0;
 }
-.explorer button {
+.explorer #files button {
   display: block;
   width: 100%;
   text-align: left;
@@ -113,6 +113,34 @@ input:focus-visible {
   border: 0;
   padding: 2px 0;
   cursor: pointer;
+}
+/* The other buttons look like buttons: a border, a background and padding. */
+.explorer section button,
+.bar button {
+  font: inherit;
+  color: var(--c-explorer-fg);
+  background: var(--s-surface-raised);
+  border: 1px solid var(--s-border);
+  border-radius: 3px;
+  padding: 2px 8px;
+  cursor: pointer;
+}
+.explorer section button:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+.explorer #search {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 4px;
+}
+.explorer > label {
+  display: block;
+  margin-bottom: 4px;
+}
+.explorer #findings li {
+  margin: 4px 0;
 }
 
 .explorer h2 {

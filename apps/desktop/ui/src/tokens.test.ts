@@ -77,6 +77,21 @@ describe.each(Object.entries(themes))("%s theme", (_name, resolve) => {
   });
 });
 
+// Monaco draws its own text: black in the light theme, #d4d4d4 in the dark theme
+// (its `vs` and `vs-dark` themes). It sits on our line backgrounds, so the pair
+// is checked here.
+const MONACO_TEXT = { light: "#000000", dark: "#d4d4d4" } as const;
+describe.each(Object.entries(themes))("Monaco text on the %s line backgrounds", (name, resolve) => {
+  it.each(["c-line-added-bg", "c-line-removed-bg", "c-line-modified-bg"])(
+    "%s is at least 4.5:1",
+    (bg) => {
+      expect(contrast(MONACO_TEXT[name as "light" | "dark"], resolve(bg))).toBeGreaterThanOrEqual(
+        4.5,
+      );
+    },
+  );
+});
+
 describe("contrast", () => {
   it("measures the known extremes and rejects a low pair", () => {
     expect(contrast("#000000", "#ffffff")).toBeCloseTo(21, 5);

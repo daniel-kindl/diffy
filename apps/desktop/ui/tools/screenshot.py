@@ -1,0 +1,66 @@
+"""Render the built UI offscreen with WebKit and save a PNG (a developer tool).
+
+The page talks to Rust through Tauri. Here Tauri is replaced by a small stub with
+fixed data, so only the page itself is shown: its layout, its theme and its
+Monaco editors. It is not the app and it does not test the Rust commands.
+
+Needs PyGObject with GTK 3 and WebKit2 4.1, and a display (X11 or XWayland).
+
+    npm run build
+    (cd dist && python3 -m http.server 8765 --bind 127.0.0.1) &
+    DISPLAY=:0 GDK_BACKEND=x11 python3 tools/screenshot.py http://127.0.0.1:8765/ out.png [light|dark]
+"""
+import gi, sys, json
+gi.require_version('Gtk', '3.0'); gi.require_version('WebKit2', '4.1')
+from gi.repository import Gtk, WebKit2, GLib, Gdk, GdkPixbuf
+import cairo
+
+url, out, theme = sys.argv[1], sys.argv[2], (sys.argv[3] if len(sys.argv) > 3 else "")
+STUB = """
+(function () {
+  const base = "fn main() {\\n    let a = 1;\\n    let b = 2;\\n    run(a, b);\\n}\\n";
+  const head = "fn main() {\\n    let a = 1;\\n    let b = 3;\\n    run(a, b);\\n    stop();\\n}\\n";
+  const data = {
+    current_comparison: { base, head, sides: [
+      { label: "HEAD:src/main.rs", encoding: "UTF-8", first_error: null },
+      { label: "src/main.rs", encoding: "UTF-8", first_error: null }],
+      hunks: [ { base: {start: 2, end: 3}, head: {start: 2, end: 3} },
+               { base: {start: 4, end: 4}, head: {start: 4, end: 5} } ] },
+    repository_files: { files: [
+      { path: "src/main.rs", status: "modified", generated: false, reviewed: true },
+      { path: "src/lib.rs", status: "added", generated: false, reviewed: false },
+      { path: "README.md", status: "modified", generated: false, reviewed: false } ],
+      total: 4, hidden: 1, generated: 1 },
+    review_findings: [ { id: 0, path: "src/main.rs", start_line: 3, end_line: 3, severity: "major",
+      category: "correctness", notes: "b changed to 3: is that intended?", resolved: false } ],
+  };
+  window.__TAURI_INTERNALS__ = {
+    transformCallback: () => 0,
+    unregisterCallback: () => {},
+    convertFileSrc: (p) => p,
+    invoke: async (cmd) => {
+      if (cmd in data) return data[cmd];
+      if (cmd.startsWith("plugin:event")) return 0;
+      return null;
+    },
+  };
+  window.__TAURI_EVENT_PLUGIN_INTERNALS__ = { unregisterListener: () => {} };
+  """ + ("try { localStorage.setItem('diffy.theme','%s'); } catch (e) {}" % theme if theme else "") + """
+})();
+"""
+win = Gtk.OffscreenWindow(); win.set_default_size(1280, 720)
+ucm = WebKit2.UserContentManager()
+ucm.add_script(WebKit2.UserScript(STUB, WebKit2.UserContentInjectedFrames.ALL_FRAMES, WebKit2.UserScriptInjectionTime.START, None, None))
+view = WebKit2.WebView.new_with_user_content_manager(ucm)
+win.add(view); win.show_all()
+view.load_uri(url)
+
+def shoot():
+    def done(v, res):
+        surf = v.get_snapshot_finish(res)
+        surf.write_to_png(out); print("saved", out); Gtk.main_quit()
+    view.get_snapshot(WebKit2.SnapshotRegion.FULL_DOCUMENT, WebKit2.SnapshotOptions.NONE, None, done)
+    return False
+GLib.timeout_add(5000, shoot)
+GLib.timeout_add(20000, Gtk.main_quit)
+Gtk.main()
