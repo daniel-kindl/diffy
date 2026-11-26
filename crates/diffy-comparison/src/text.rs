@@ -141,4 +141,20 @@ mod tests {
     fn an_unknown_label_gives_none() {
         assert!(legacy_encoding("no-such-encoding").is_none());
     }
+
+    #[test]
+    fn a_legacy_encoding_reports_where_the_error_starts() {
+        let sjis = legacy_encoding("shift_jis").unwrap();
+        // 0x81 starts a two byte sequence, and 0x20 is not a valid second byte.
+        let d = decode(b"ab\x81 cd", Some(sjis));
+        assert_eq!(d.first_error, Some(2));
+        assert!(d.text.contains('\u{FFFD}'));
+    }
+
+    #[test]
+    fn every_encoding_has_a_label() {
+        assert_eq!(Detected::Utf16Be.label(), "UTF-16 BE (BOM)");
+        assert_eq!(Detected::Utf16Le.label(), "UTF-16 LE (BOM)");
+        assert_eq!(Detected::Utf8.label(), "UTF-8");
+    }
 }

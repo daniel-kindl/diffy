@@ -312,8 +312,3 @@ fn entry(map: &mut BTreeMap<String, WorktreeEntry>, path: String) -> &mut Worktr
         untracked: false,
     })
 }
-
-/// A path as the bytes Git stores.
-pub fn path_bytes(p: &str) -> BString {
-    BString::from(p)
-}
