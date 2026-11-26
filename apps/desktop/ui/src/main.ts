@@ -1,6 +1,7 @@
 import "./style.css";
 import { invoke } from "@tauri-apps/api/core";
-import { showComparison, type ComparisonView } from "./editor";
+import { setEditorTheme, showComparison, type ComparisonView } from "./editor";
+import { nextPreference, parsePreference, resolveTheme, type ThemePreference } from "./theme";
 import { LEGACY_ENCODINGS } from "./encodings";
 import type { Hunk } from "./hunks";
 
@@ -130,3 +131,38 @@ function refreshListing(): void {
 search?.addEventListener("input", refreshListing);
 generated?.addEventListener("change", refreshListing);
 refreshListing();
+
+// The theme follows the system until the user cycles the control. The choice
+// is kept in the browser storage when it works, and the app runs without it.
+const THEME_KEY = "diffy.theme";
+const themeButton = document.getElementById("theme");
+const systemDark = window.matchMedia("(prefers-color-scheme: dark)");
+
+function storedPreference(): ThemePreference {
+  try {
+    return parsePreference(window.localStorage.getItem(THEME_KEY));
+  } catch {
+    return "system";
+  }
+}
+
+function applyTheme(pref: ThemePreference): void {
+  const root = document.documentElement;
+  if (pref === "system") root.removeAttribute("data-theme");
+  else root.setAttribute("data-theme", pref);
+  setEditorTheme(resolveTheme(pref, systemDark.matches) === "dark");
+  if (themeButton) themeButton.textContent = `Theme: ${pref}`;
+}
+
+let preference = storedPreference();
+applyTheme(preference);
+systemDark.addEventListener("change", () => applyTheme(preference));
+themeButton?.addEventListener("click", () => {
+  preference = nextPreference(preference);
+  try {
+    window.localStorage.setItem(THEME_KEY, preference);
+  } catch {
+    // The choice then lasts for this run only.
+  }
+  applyTheme(preference);
+});

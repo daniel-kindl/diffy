@@ -38,6 +38,7 @@ function create(
     links: false,
     hover: { enabled: "off" },
     contextmenu: true,
+    lineDecorationsWidth: 18,
   });
   // The textarea keeps the readonly attribute for assistive technology (Q85).
   editor.getDomNode()?.querySelector("textarea")?.setAttribute("readonly", "readonly");
@@ -47,8 +48,18 @@ function create(
 function toMonaco(ds: LineDecoration[]): monaco.editor.IModelDeltaDecoration[] {
   return ds.map((d) => ({
     range: new monaco.Range(d.startLine, 1, d.endLine, 1),
-    options: { isWholeLine: true, className: `diffy-line-${d.kind}` },
+    options: {
+      isWholeLine: true,
+      className: `diffy-line-${d.kind}`,
+      // A mark in the gutter, so no change relies on color alone.
+      linesDecorationsClassName: `diffy-mark-${d.kind}`,
+    } satisfies monaco.editor.IModelDecorationOptions,
   }));
+}
+
+/** Follow the app theme: Monaco has its own light and dark themes. */
+export function setEditorTheme(dark: boolean): void {
+  monaco.editor.setTheme(dark ? "vs-dark" : "vs");
 }
 
 export interface ComparisonView {
