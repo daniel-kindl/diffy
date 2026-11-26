@@ -1,0 +1,15 @@
+git -U0 groups == git -U3 groups: pass 3724 fail 8
+--indent-heuristic     ImaraRaw pass   3176 fail    556
+--indent-heuristic     ImaraNoHeuristic pass   3596 fail    136
+--indent-heuristic     ImaraIndentHeuristic pass   3726 fail      6
+--indent-heuristic     SimilarHistogram pass   3490 fail    242
+--indent-heuristic     GixRaw pass   3112 fail    620
+--indent-heuristic     GixNoHeuristic pass   3600 fail    132
+--indent-heuristic     GixIndentHeuristic pass   3732 fail      0
+--no-indent-heuristic  ImaraRaw pass   3238 fail    494
+--no-indent-heuristic  ImaraNoHeuristic pass   3726 fail      6
+--no-indent-heuristic  ImaraIndentHeuristic pass   3596 fail    136
+--no-indent-heuristic  SimilarHistogram pass   3600 fail    132
+--no-indent-heuristic  GixRaw pass   3161 fail    571
+--no-indent-heuristic  GixNoHeuristic pass   3732 fail      0
+--no-indent-heuristic  GixIndentHeuristic pass   3600 fail    132
