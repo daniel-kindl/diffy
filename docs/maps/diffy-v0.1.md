@@ -2,7 +2,7 @@
 
 Status: open
 Destination: Each v0.1 milestone (M0 to M4) has a plan and issues with acceptance criteria. Each spike has a verdict, and no open question blocks the first M0 issue.
-Next: Q86
+Next: none
 
 ## Notes
 
@@ -215,6 +215,11 @@ Next: Q86
 - No AT-SPI object names the change type of a line. In option B, the change type is only a CSS class of a decoration. Source: https://github.com/daniel-kindl/diffy/blob/5b2765f/prototypes/s1-monaco/README.md#q85-result
 - A polite live region gives AT-SPI its text, for example "Modified, line 5, added". Q85 did not test Orca speech, NVDA, keyboard navigation with the `readonly` attribute or the live region while the caret moves. Source: https://github.com/daniel-kindl/diffy/blob/5b2765f/prototypes/s1-monaco/README.md#q85-result
 
+- A OneDev 17.2.4 access token belongs to one user. It has an optional expiry date, and it has either the owner's permissions or roles for some projects. Source: https://github.com/theonedev/onedev/blob/v17.2.4/server-core/src/main/java/io/onedev/server/model/AccessToken.java#L47-L79
+- OneDev 17.2.4 is also an OAuth 2 provider, with the authorization code and the refresh token grants only. A public client must use PKCE with S256 and may use a loopback `http` redirect on any port. Source: https://github.com/theonedev/onedev/blob/v17.2.4/server-core/src/main/java/io/onedev/server/oauth/OAuthProtocol.java#L61-L97 and https://github.com/theonedev/onedev/blob/v17.2.4/server-core/src/main/java/io/onedev/server/oauth/DefaultOAuthProviderService.java#L407-L437
+- A OneDev OAuth access token lasts 1 hour, and a refresh grant lasts at most 30 days. A client is an application that a user registers on one instance, so a client ID is valid only on that instance. Source: https://github.com/theonedev/onedev/blob/v17.2.4/server-core/src/main/java/io/onedev/server/oauth/OAuthProtocol.java#L25-L26 and https://github.com/theonedev/onedev/blob/v17.2.4/server-core/src/main/java/io/onedev/server/model/OAuthApplication.java#L18-L35
+- The Q14 homelab instance serves plain `http` on a LAN address. `GET /~api/server/version` gives the version, and `GET /~api/users/me` gives the user of a token. Source: https://github.com/daniel-kindl/diffy/blob/4bcc767/prototypes/q49-onedev/README.md
+
 ## Decisions
 
 - Q1 Independent review: tiered by risk. Safety-critical areas (Git adapter, publication, anchors, updater, IPC and capabilities) need owner review. Other areas merge after agent review and green CI. Decided by: Daniel Kindl, 2026-11-24. Record: this line.
@@ -302,15 +307,9 @@ Next: Q86
 - Q83 L-06 and L-07 in v0.1.0: L-06 and L-07 are not in v0.1.0. They go to a later release, and the M2 issues do not include them. The release gate needs only the P0 requirements, and Q4 has a solo owner, so v0.1.0 keeps the smaller scope. The owner delegated the answer to the agent, with the words "test/prototype/aswer all open quetions, review it and merge it". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
 - Q84 SQLite migration tool: Diffy uses rusqlite_migration with `PRAGMA user_version`. Before it runs the pending migrations, Diffy writes a `VACUUM INTO` copy (Q55). The schema version is the number of applied migrations. A released migration is never changed, and new migrations only go at the end. Diffy has no down migrations. An older app that finds a newer database does not open it and does not change it. A test runs `Migrations::validate`. refinery is out, because it does not support rusqlite 0.43. The owner delegated the answer to the agent, with the words "test/prototype/aswer all open quetions, review it and merge it". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
 - Q85 Option B with Orca: M0 sets the Monaco option `accessibilitySupport` to `on` in both editors. It sets the HTML `readonly` attribute on each editor textarea, so AT-SPI does not report an editable editor. A polite live region names the side, the line and the change type of the caret line. The M0 accessibility criteria check these three with an AT-SPI test on Fedora. They also check keyboard navigation with the `readonly` attribute and Orca speech on the reference host (Q37). The owner delegated the answer to the agent, with the words "test/prototype/aswer all open quetions, review it and merge it". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
+- Q86 OneDev authentication and instances: in v0.1, Diffy signs in to OneDev with a personal access token. The user adds an instance in a dialog with the base URL and a token. The dialog calls `GET /~api/server/version` and `GET /~api/users/me`, then shows the version and the user. Diffy stores the token in the OS credential store under the instance URL, never in SQLite or a log. A 401 marks the instance as signed out and asks for a new token. Diffy has one account for each instance URL and any number of instances. HTTPS always checks the certificate against the OS trust store, so a custom CA goes into the OS store. Diffy has no option to skip the check. Plain `http` works only after an explicit warning in the dialog, and the instance list shows the warning. OneDev OAuth is out of v0.1, because a client ID is valid on one instance only. The owner delegated the answer to the agent, with the words "test/prototype/aswer all open quetions, review it and merge it". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
 
 ## Open questions
-
-### Q86: OneDev authentication and instances
-
-Type: owner
-Blocked by: none
-
-Decide how Diffy stores and adds OneDev access. Candidates are one access token for each instance URL in the OS credential store and a dialog to add an instance. Also decide on a custom CA and on more than one account for each instance.
 
 ## Not yet clear
 
@@ -320,6 +319,7 @@ Decide how Diffy stores and adds OneDev access. Candidates are one access token 
 - Windows 10. Reason: Q18.
 - OneDev versions older than the latest stable. Reason: Q17.
 - L-06 and L-07 in v0.1.0. Reason: Q83.
+- OneDev OAuth and more than one account for each OneDev instance. Reason: Q86.
 - Heuristic encoding detection. Reason: Q26.
 - Reviewed state for each hunk. Reason: Q29.
 - User-defined severity and category lists. Reason: Q31.
