@@ -2,7 +2,7 @@
 
 Status: open
 Destination: Each v0.1 milestone (M0 to M4) has a plan and issues with acceptance criteria. Each spike has a verdict, and no open question blocks the first M0 issue.
-Next: Q80
+Next: none
 
 ## Notes
 
@@ -187,6 +187,12 @@ Next: Q80
 - Under Wayland, fcitx5-gtk draws the candidate window in the app as a popup. Under XWayland, fcitx5 draws it as an X11 window. In both, its top-left corner is 0 to 1 px below the caret bottom. It is 27 px left of the caret, at the start of the conversion. Source: https://github.com/daniel-kindl/diffy/blob/c420409/prototypes/s1-monaco/bench-results/q78-fedora-wayland.json and https://github.com/daniel-kindl/diffy/blob/c420409/prototypes/s1-monaco/bench-results/q78-fedora-x11.json
 - For KDE Plasma on Wayland, the fcitx5 guide recommends that KWin starts fcitx5 as the virtual keyboard, with no `GTK_IM_MODULE`. Then a GTK 3 app uses text-input-v3. Q78 did not test this setup, Rime, another screen scale or GNOME. Source: https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma
 
+- Q80 built the `gix-imara-diff/` folder of gitoxide `2bcb31d` outside the gitoxide workspace. The only change is the removal of `lints.workspace = true` from its `Cargo.toml`. The oracle is the Q43 oracle with Git 2.55.0. Source: https://github.com/daniel-kindl/diffy/blob/39893f4/prototypes/q80-gitoxide-parity/README.md
+- With `postprocess_lines`, the 2bcb31d code passes 5 of 5 S1, 20 of 20 edge and 3,732 of 3,732 real Q43 pairs. With `postprocess_no_heuristic`, it passes each real pair against the `--no-indent-heuristic` oracle. Source: https://github.com/daniel-kindl/diffy/blob/39893f4/prototypes/q80-gitoxide-parity/results/q80-real.log
+- The 2bcb31d code passes the Q62 input and 8 inputs where the seed occurs 64 to 105 times. The Q60 copy fails each of these inputs where the seed occurs more than 65 times. Source: https://github.com/daniel-kindl/diffy/blob/39893f4/prototypes/q80-gitoxide-parity/results/q80-q62.json and https://github.com/daniel-kindl/diffy/blob/39893f4/prototypes/q80-gitoxide-parity/results/q80-q62-control-q60.json
+- The histogram diff with `postprocess_lines` takes 117.0 to 122.4 ms on the `50mb-stress` fixture with the 2bcb31d code. The Q60 copy takes 163.6 to 182.2 ms. The 2bcb31d code is also faster on the other S1 fixtures. Source: https://github.com/daniel-kindl/diffy/blob/39893f4/prototypes/q80-gitoxide-parity/README.md#timing
+- Q80 did not run the tests or the fuzz targets of the crate. They need the gitoxide workspace. Source: https://github.com/daniel-kindl/diffy/blob/39893f4/prototypes/q80-gitoxide-parity/README.md#not-run
+
 ## Decisions
 
 - Q1 Independent review: tiered by risk. Safety-critical areas (Git adapter, publication, anchors, updater, IPC and capabilities) need owner review. Other areas merge after agent review and green CI. Decided by: Daniel Kindl, 2026-11-24. Record: this line.
@@ -268,15 +274,9 @@ Next: Q80
 - Q77 Failed update install on Windows: Diffy keeps the passive install mode. Before the install, Diffy stores the target version. At the next start, if the running version is older, Diffy says that the update did not install and offers a retry. After Abort at the NSIS error dialog, the user starts the app by hand. The release notes list this as a known limitation. The owner selected the option "Passive + version check". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
 - Q78 Preedit with fcitx5: the Q78 result is accepted. With the preedit on, fcitx5 with Mozc works in the editor under Wayland and XWayland, through the GTK input method module. The M0 input method criteria add a check with fcitx5 as the KWin virtual keyboard on the reference host. The owner sets up that host. The owner selected the option "Accept, M0 tests KWin mode". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
 - Q79 Live refresh time on Windows: Diffy measures the refresh in M0, because the in-process canonical diff (Q61) does not exist yet. An M0 acceptance criterion measures the live refresh of option B on the Windows notebook, with the in-process canonical diff and no Git process. It measures the read IPC time on its own and compares the settled time with the S1 target of 500 ms (Q59). A fail goes to the owner. The owner selected the option "M0 criterion". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
+- Q80 Parity of the gitoxide 2bcb31d diff: the Q80 result is accepted. The 2bcb31d code with `postprocess_lines` matches Git on each Q43 pair and on the Q62 input. It is faster than the Q60 copy. So M0 can use the copy of Q68. The owner selected the option "Accept". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
 
 ## Open questions
-
-### Q80: Parity of the gitoxide 2bcb31d diff
-
-Type: task
-Blocked by: none
-
-Run the Q43 parity check on the gix-imara-diff source of gitoxide `2bcb31d`, with `postprocess_lines`: the S1, edge and 3,732 real pairs. Also check the Q62 input with a seed of more than 65 copies, and time the `50mb-stress` fixture against the Q60 copy (Q68). A fail goes to the owner.
 
 ## Not yet clear
 
@@ -400,6 +400,13 @@ Run the Q43 parity check on the gix-imara-diff source of gitoxide `2bcb31d`, wit
 - Result: 7 of 7 checks pass in each session. The editor gets the composition events, and the candidate window is at the caret.
 - Picked: accepted. M0 adds a check with fcitx5 as the KWin virtual keyboard.
 - Branch: `prototype/diffy-v0.1-q78` at `c420409`. Tag: `prototype/diffy-v0.1-q78`. Not merged.
+
+### Q80: Gitoxide 2bcb31d parity
+
+- Options: none. Q80 runs the Q43 harness on the gix-imara-diff source of gitoxide `2bcb31d`, with the Q60 copy as the control.
+- Result: 5 of 5 S1, 20 of 20 edge, 3,732 of 3,732 real and 9 of 9 Q62 inputs pass. It is faster than the Q60 copy on each S1 fixture.
+- Picked: accepted. M0 uses the 2bcb31d copy (Q68).
+- Branch: `prototype/diffy-v0.1-q80` at `39893f4`. Tag: `prototype/diffy-v0.1-q80`. Not merged.
 
 ## Hand-off
 
