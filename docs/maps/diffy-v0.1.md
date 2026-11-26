@@ -2,7 +2,7 @@
 
 Status: open
 Destination: Each v0.1 milestone (M0 to M4) has a plan and issues with acceptance criteria. Each spike has a verdict, and no open question blocks the first M0 issue.
-Next: Q76
+Next: Q77
 
 ## Notes
 
@@ -174,6 +174,10 @@ Next: Q76
 - In the callback, the copy of a 50 MB input takes 19 to 20 ms on Windows and at most 41 ms on Linux. Source: https://github.com/daniel-kindl/diffy/blob/c2690d1/prototypes/q75-single-instance/results/windows.json and https://github.com/daniel-kindl/diffy/blob/c2690d1/prototypes/q75-single-instance/results/linux-binary.json
 - On Windows, Git deletes `$LOCAL` while Diffy holds it open with the default Rust share mode, which has `FILE_SHARE_DELETE`. The open handle still reads the content. Without `FILE_SHARE_DELETE`, Git prints a warning, exits with 0 and leaves the file. Source: https://github.com/daniel-kindl/diffy/blob/c2690d1/prototypes/q75-single-instance/results/windows.json
 
+- The specification asks for reusable comparison profiles with whitespace and line-ending options. Filtering never destroys the underlying changes. Source: Diffy_Master_Specification.md section 03, C-04.
+- The specification asks for provider-neutral pull request and publication contracts. Capabilities may differ by provider, server version and permission. Source: Diffy_Master_Specification.md sections 04 (R-07) and 06.
+- The specification asks to re-anchor a finding only when the mapping is unambiguous. Otherwise the finding is outdated and needs a manual confirmation. Source: Diffy_Master_Specification.md section 07.
+
 ## Decisions
 
 - Q1 Independent review: tiered by risk. Safety-critical areas (Git adapter, publication, anchors, updater, IPC and capabilities) need owner review. Other areas merge after agent review and green CI. Decided by: Daniel Kindl, 2026-11-24. Record: this line.
@@ -251,15 +255,9 @@ Next: Q76
 - Q70 Findings outside a OneDev hunk: OneDev can reject an inline comment with the error 406 "Comment range must be within a diff hunk". Then Diffy posts the finding as a pull request comment. That comment has the path, the line, the text and the marker. The publish result shows the finding as a pull request comment. A pull request comment has no resolved state, so Diffy does not sync a resolve of that finding. The owner selected the option "Fall back to PR comment". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
 - Q71 Review actions when the user is not a reviewer: on OneDev, Diffy reads the reviewers of the pull request before the publish dialog opens. If the user is not a reviewer, the dialog has no approve and no request changes. It shows the comments and a short reason. Diffy does not add the user as a reviewer. The owner selected the option "Comments only". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
 - Q75 Single instance tests: the Q74 design is accepted. The CLI forwarding work has three acceptance criteria. The AppImage sets its working folder to `OWD` before the plugin setup. On Windows, no startup step and no callback blocks the main thread for long, because a second instance loses its input after 10 s. Diffy opens an input only with the default Rust share mode. The owner selected the option "Accept, add criteria". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
+- Q76 More domain terms: `CONTEXT.md` defines anchor, outdated finding, canonical diff, comparison profile and provider. The definition of a comparison profile does not list its fields, because C-04 is not yet clear. The owner selected the option "Approve all 5". Decided by: Daniel Kindl, 2026-11-26. Record: [CONTEXT.md](../../CONTEXT.md).
 
 ## Open questions
-
-### Q76: More domain terms
-
-Type: owner
-Blocked by: none
-
-The map uses more domain words than `CONTEXT.md` defines (Q53). Approve or change the terms anchor, outdated finding, canonical diff, comparison profile and provider.
 
 ### Q77: Failed update install on Windows
 
