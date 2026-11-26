@@ -27,7 +27,7 @@ PORT = 18555
 HANG_PORT = 18556
 SERVE = os.path.join(WORK, "serve")
 BASE = f"http://127.0.0.1:{PORT}"
-TERMINAL = {"no_update", "check_failed", "install_failed", "migration_failed",
+TERMINAL = {"no_update", "update_skipped", "check_failed", "install_failed", "migration_failed",
             "no_endpoint", "updater_error"}
 
 
@@ -163,7 +163,7 @@ class Env:
         except OSError:
             return []
 
-    def run(self, timeout=240, fsize=None):
+    def run(self, timeout=240, fsize=None, on_pause=None):
         before = len(self.events())
         env = dict(os.environ)
         if not WIN:
@@ -179,10 +179,15 @@ class Env:
         p = subprocess.Popen([self.exe], env=env, cwd=self.root,
                              preexec_fn=limit if fsize else None)
         code = None
+        paused = False
         while time.time() - t0 < timeout:
             if code is None:
                 code = p.poll()
             ev = self.events()[before:]
+            if on_pause and not paused and any(x["event"] == "paused" for x in ev):
+                paused = True
+                step("app paused: add the fault")
+                on_pause()
             if ev and ev[-1]["event"] in TERMINAL and code is not None:
                 time.sleep(2)
                 break
@@ -334,53 +339,73 @@ def t_no_network(sigs):
 
 
 def t_not_writable(sigs):
+    """The install folder is made read-only while the app waits to install."""
     e = Env("not_writable")
     good_manifests(sigs)
-    e.config()
-    if WIN:
-        user = os.environ["USERNAME"]
-        subprocess.run(["icacls", e.install_dir, "/deny", f"{user}:(OI)(CI)(W,D,DC)"], check=True, timeout=60)
-    else:
-        os.chmod(e.install_dir, 0o555)
+    e.config(pause_before_install_s=5)
+    user = os.environ.get("USERNAME", "")
+
+    def deny():
+        if WIN:
+            subprocess.run(["icacls", e.install_dir, "/deny", f"{user}:(OI)(CI)(W,D,DC)"],
+                           check=True, timeout=60)
+        else:
+            os.chmod(e.install_dir, 0o555)
+
     try:
-        r = e.run(timeout=150)
+        r = e.run(timeout=150, on_pause=deny)
     finally:
         kill_installers()
         if WIN:
-            subprocess.run(["icacls", e.install_dir, "/remove:d", os.environ["USERNAME"]], check=True, timeout=60)
+            subprocess.run(["icacls", e.install_dir, "/remove:d", user], check=True, timeout=60)
         else:
             os.chmod(e.install_dir, 0o755)
     s = e.state()
-    # After the permission is back: the app still starts, then updates.
-    r2 = e.run()
-    s2 = e.state()
-    ok = s["unchanged"] and "0.2.0" not in versions(r["events"]) and expect_updated(r2, "0.2.0")
-    return ok, {"run": r, "state": s, "recovery_run": r2, "recovery_state": s2}
-
-
-def t_failed_install(sigs):
-    """Linux: the new AppImage write fails (file size limit), so the updater
-    restores the old file. Windows: the installed exe is locked, so the NSIS
-    installer cannot replace it."""
-    e = Env("failed_install")
-    good_manifests(sigs)
-    e.config()
-    if WIN:
-        h = lock_file(e.exe)
-        try:
-            r = e.run(timeout=150)
-        finally:
-            kill_installers()
-            unlock_file(h)
-    else:
-        r = e.run(fsize=50 * 1024 * 1024)
-    s = e.state()
     listing = sorted(os.listdir(e.install_dir))
+    # After the permission is back: the app still starts, then updates.
+    e.config()
     r2 = e.run()
     s2 = e.state()
     ok = s["unchanged"] and "0.2.0" not in versions(r["events"]) and expect_updated(r2, "0.2.0")
     return ok, {"run": r, "state": s, "install_dir": listing, "recovery_run": r2,
-                "recovery_state": s2, "lock_handle_ok": bool(WIN)}
+                "recovery_state": s2}
+
+
+def t_failed_install(sigs):
+    """Linux: the new AppImage write fails (file size limit), so the updater
+    restores the old file. Windows: uninstall.exe is locked while the app
+    waits to install, so the NSIS installer cannot write it."""
+    e = Env("failed_install")
+    good_manifests(sigs)
+    handle = []
+    if WIN:
+        e.config(pause_before_install_s=5)
+        target = os.path.join(e.install_dir, "uninstall.exe")
+        before_hashes = {n: sha(os.path.join(e.install_dir, n)) for n in os.listdir(e.install_dir)}
+        try:
+            r = e.run(timeout=150, on_pause=lambda: handle.append(lock_file(target)))
+        finally:
+            kill_installers()
+            for h in handle:
+                unlock_file(h)
+        after_hashes = {n: sha(os.path.join(e.install_dir, n)) for n in os.listdir(e.install_dir)}
+        changed = sorted(n for n in after_hashes if before_hashes.get(n) != after_hashes[n])
+    else:
+        e.config()
+        r = e.run(fsize=50 * 1024 * 1024)
+        changed = []
+    s = e.state()
+    # The old or partly new app must still start.
+    e.config(install=False)
+    r_start = e.run()
+    e.config()
+    r2 = e.run()
+    s2 = e.state()
+    ok = (s["unchanged"] and "0.2.0" not in versions(r["events"])
+          and last(r_start["events"]) == "update_skipped" and expect_updated(r2, "0.2.0"))
+    return ok, {"run": r, "state": s, "changed_files": changed,
+                "lock_handles": [h for h in handle], "start_after_fail": r_start,
+                "recovery_run": r2, "recovery_state": s2}
 
 
 def t_failed_migration(sigs):

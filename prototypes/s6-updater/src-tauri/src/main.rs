@@ -151,7 +151,13 @@ async fn run(app: AppHandle, dir: PathBuf) -> i32 {
         json!({ "event": "update_found", "channel": channel, "new": update.version }),
     );
     if cfg["install"].as_bool() == Some(false) {
+        log(&dir, json!({ "event": "update_skipped" }));
         return 0;
+    }
+    // A test pause, so the harness can add a fault after the app started.
+    if let Some(p) = cfg["pause_before_install_s"].as_u64() {
+        log(&dir, json!({ "event": "paused", "seconds": p }));
+        tokio::time::sleep(Duration::from_secs(p)).await;
     }
 
     let mut got = 0usize;
