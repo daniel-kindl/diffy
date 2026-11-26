@@ -2,7 +2,7 @@
 
 Status: open
 Destination: Each v0.1 milestone (M0 to M4) has a plan and issues with acceptance criteria. Each spike has a verdict, and no open question blocks the first M0 issue.
-Next: Q71
+Next: Q75
 
 ## Notes
 
@@ -164,6 +164,7 @@ Next: Q71
 
 - A OneDev client cannot set the whitespace option of a code comment. The create call sets only the commits and the pull request of the compare context. The option stays at its default, `IGNORE_TRAILING`. Source: https://github.com/theonedev/onedev/blob/v17.2.4/server-core/src/main/java/io/onedev/server/rest/resource/CodeCommentResource.java#L165 and https://github.com/theonedev/onedev/blob/v17.2.4/server-core/src/main/java/io/onedev/server/model/support/CompareContext.java#L41
 - A OneDev pull request comment is confirmed by the marker in `content`, with `GET /~api/pulls/{id}/comments`. Source: https://github.com/daniel-kindl/diffy/blob/4bcc767/prototypes/q49-onedev/README.md
+- OneDev lists the reviewers of a pull request with their status, with `GET /~api/pulls/{id}/reviews`. Adding a reviewer needs the permission to modify the pull request, and the submitter cannot be a reviewer. Q49 did not add a reviewer. Source: https://github.com/theonedev/onedev/blob/v17.2.4/server-core/src/main/java/io/onedev/server/rest/resource/PullRequestResource.java#L156 and https://github.com/theonedev/onedev/blob/v17.2.4/server-core/src/main/java/io/onedev/server/rest/resource/PullRequestResource.java#L372
 
 ## Decisions
 
@@ -240,15 +241,9 @@ Next: Q71
 - Q68 Code of the patched gix-imara-diff copy: until a gitoxide release has the fix, the Diffy copy holds the gix-imara-diff source of gitoxide `2bcb31d`. M0 uses the copy only after Q80 passes. Diffy keeps the Apache-2.0 license notice (Q61). The owner selected the option "Source of 2bcb31d + parity run". Decided by: Daniel Kindl, 2026-11-26. Record: this line and ADR 0002.
 - Q69 GraphQL in the GitHub client: the GitHub client uses REST for the batched review (ADR 0003), the inline comments, the replies and the reads. It uses GraphQL only to list the review threads and to resolve or reopen a thread. Both use the same token. The owner selected the option "REST + GraphQL for threads". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
 - Q70 Findings outside a OneDev hunk: OneDev can reject an inline comment with the error 406 "Comment range must be within a diff hunk". Then Diffy posts the finding as a pull request comment. That comment has the path, the line, the text and the marker. The publish result shows the finding as a pull request comment. A pull request comment has no resolved state, so Diffy does not sync a resolve of that finding. The owner selected the option "Fall back to PR comment". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
+- Q71 Review actions when the user is not a reviewer: on OneDev, Diffy reads the reviewers of the pull request before the publish dialog opens. If the user is not a reviewer, the dialog has no approve and no request changes. It shows the comments and a short reason. Diffy does not add the user as a reviewer. The owner selected the option "Comments only". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
 
 ## Open questions
-
-### Q71: Review actions when the user is not a reviewer
-
-Type: owner
-Blocked by: none
-
-On OneDev, only a reviewer of the pull request can approve or request changes (Q49). The submitter never can. Decide what Diffy does when the user is not a reviewer. Examples are no review action in the dialog, or a pull request comment. Another example: Diffy adds the user as a reviewer first, if the user has the permission.
 
 ### Q75: Single instance tests
 
