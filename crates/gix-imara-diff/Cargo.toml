@@ -25,3 +25,7 @@ unified_diff = []
 
 [dev-dependencies]
 cov-mark = "2.1.0"
+
+[lib]
+# The upstream doctests need the unified_diff feature and gitoxide dev-dependencies.
+doctest = false
