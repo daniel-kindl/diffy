@@ -10,12 +10,19 @@ import "monaco-editor/editor/contrib/clipboard/browser/clipboard.js";
 import "monaco-editor/editor/contrib/contextmenu/browser/contextmenu.js";
 import "monaco-editor/editor/contrib/readOnlyMessage/browser/contribution.js";
 import { decorations, type Hunk, type LineDecoration } from "./hunks";
+import { languageOf } from "./language";
 
 export const FONT_FAMILY = '"Cascadia Mono", Consolas, monospace';
 
-function create(el: HTMLElement, text: string, label: string): monaco.editor.IStandaloneCodeEditor {
+function create(
+  el: HTMLElement,
+  text: string,
+  label: string,
+  path: string,
+): monaco.editor.IStandaloneCodeEditor {
   const editor = monaco.editor.create(el, {
     value: text,
+    language: languageOf(path),
     readOnly: true,
     readOnlyMessage: { value: "This comparison is read-only." },
     fontFamily: FONT_FAMILY,
@@ -56,9 +63,10 @@ export function showComparison(
   base: string,
   head: string,
   hunks: readonly Hunk[],
+  path = "",
 ): ComparisonView {
-  const left = create(leftEl, base, "Base");
-  const right = create(rightEl, head, "Head");
+  const left = create(leftEl, base, "Base", path);
+  const right = create(rightEl, head, "Head", path);
   const d = decorations(hunks);
   const l = left.createDecorationsCollection(toMonaco(d.left));
   const r = right.createDecorationsCollection(toMonaco(d.right));
