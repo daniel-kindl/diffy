@@ -108,6 +108,8 @@ fn reports_an_unborn_branch() {
     assert_eq!(repo.head().unwrap(), Head::Unborn("main".into()));
 }
 
+// The filter command is `touch`, so this test runs on Unix only.
+#[cfg(unix)]
 #[test]
 fn reading_does_not_change_the_repository_or_run_a_filter() {
     let d = fixture();
