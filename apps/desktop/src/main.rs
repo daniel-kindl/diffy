@@ -20,14 +20,52 @@ fn startup_for(launch: cli::Launch) -> Result<Startup, String> {
     }
 }
 
-fn main() {
-    // An AppImage sets OWD to the folder it was started in. Change to it before
-    // anything else, so relative paths and the plugin setup see that folder (Q75).
-    if let Some(owd) = std::env::var_os("OWD") {
-        let _ = std::env::set_current_dir(owd);
+/// Make each path argument absolute against `cwd`. An option (starting with `-`)
+/// and an absolute path stay as they are.
+#[cfg_attr(not(unix), allow(dead_code))]
+fn absolute_args(args: &[String], cwd: &std::path::Path) -> Vec<String> {
+    args.iter()
+        .map(|a| {
+            if a.starts_with('-') || std::path::Path::new(a).is_absolute() {
+                a.clone()
+            } else {
+                cwd.join(a).to_string_lossy().into_owned()
+            }
+        })
+        .collect()
+}
+
+/// Inside an AppImage the process starts in the AppImage folder, and the single
+/// instance plugin forwards that folder with the arguments. So a relative path
+/// would resolve against the wrong folder in the running instance. Run again
+/// with absolute paths, so the forwarded arguments are right.
+#[cfg(unix)]
+fn reexec_with_absolute_paths(args: &[String], cwd: &std::path::Path) {
+    use std::os::unix::process::CommandExt;
+    let absolute = absolute_args(args, cwd);
+    if absolute == args {
+        return;
     }
+    if let Ok(exe) = std::env::current_exe() {
+        let err = std::process::Command::new(exe).args(&absolute).exec();
+        eprintln!("diffy: could not run again with absolute paths: {err}");
+    }
+}
+
+fn main() {
+    // An AppImage sets OWD to the folder it was started in. Relative paths
+    // resolve against it. The process does not change its working folder: the
+    // AppImage starts in its own `usr` folder, and WebKit finds its helper
+    // process by a path relative to that folder (Q75).
+    let cwd = std::env::var_os("OWD")
+        .map(std::path::PathBuf::from)
+        .or_else(|| std::env::current_dir().ok())
+        .unwrap_or_default();
     let args: Vec<String> = std::env::args().skip(1).collect();
-    let cwd = std::env::current_dir().unwrap_or_default();
+    #[cfg(unix)]
+    if std::env::var_os("OWD").is_some() {
+        reexec_with_absolute_paths(&args, &cwd);
+    }
     match cli::parse(&args, &cwd) {
         Ok(cli::Launch::Help) => println!("usage: diffy [<left> <right> | <repo-path>]"),
         Ok(cli::Launch::Version) => println!("diffy {}", env!("CARGO_PKG_VERSION")),
@@ -155,5 +193,20 @@ mod tests {
         assert!(start.session.is_none() && start.repository.is_none());
         let d = tempfile::tempdir().unwrap();
         assert!(startup_for(cli::Launch::Repository(d.path().join("missing"))).is_err());
+    }
+
+    // The re-run exists on Unix only, and the paths below are Unix paths.
+    #[cfg(unix)]
+    #[test]
+    fn relative_paths_become_absolute_and_options_stay() {
+        let cwd = std::path::Path::new("/work");
+        let args = ["a.txt", "-h", "/abs/b.txt", "sub/c"].map(String::from);
+        assert_eq!(
+            absolute_args(&args, cwd),
+            ["/work/a.txt", "-h", "/abs/b.txt", "/work/sub/c"].map(String::from)
+        );
+        // Absolute arguments give the same list, so the run again happens once.
+        let again = absolute_args(&absolute_args(&args, cwd), cwd);
+        assert_eq!(again, absolute_args(&args, cwd));
     }
 }
