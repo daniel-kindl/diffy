@@ -2,7 +2,7 @@
 
 Status: open
 Destination: Each v0.1 milestone (M0 to M4) has a plan and issues with acceptance criteria. Each spike has a verdict, and no open question blocks the first M0 issue.
-Next: Q58
+Next: Q59
 
 ## Notes
 
@@ -129,6 +129,10 @@ Next: Q58
 - The Q42 input method checks used IBus with the m17n and libpinyin engines only. Q42 did not test fcitx5 or the position of the candidate window. Source: https://github.com/daniel-kindl/diffy/blob/37f9892/prototypes/s1-monaco/src/q42.ts
 - Tauri issue #11412 reports that the Japanese input methods on Linux show the text in their own window, not in the input element. It is open since 2024-10-19. Source: https://github.com/tauri-apps/tauri/issues/11412
 
+- Monaco 0.58.0 has one entry point for each editor feature, `monaco-editor/features/<name>/register.js`. The `monaco-editor/editor` core has none of them. Source: monaco-editor 0.58.0 `esm/vs/features/find/register.js` and `esm/vs/features/register.all.js`
+- Cascadia Mono and Cascadia Code are fonts that Windows 11 added. Consolas is also in the Windows 11 font list. Source: https://learn.microsoft.com/en-us/typography/fonts/windows_11_font_list
+- With Vite and Monaco 0.58.0, the six Q58 features add 211,179 bytes of JavaScript to the 2,790,578 bytes of a read-only core editor. Source: Q58 build, 2026-11-26.
+
 ## Decisions
 
 - Q1 Independent review: tiered by risk. Safety-critical areas (Git adapter, publication, anchors, updater, IPC and capabilities) need owner review. Other areas merge after agent review and green CI. Decided by: Daniel Kindl, 2026-11-24. Record: this line.
@@ -194,15 +198,9 @@ Next: Q58
 - Q53 Domain glossary: `CONTEXT.md` defines snapshot, comparison, review session, baseline, checkpoint, file review state, finding and publication. The owner selected the option "Approve all 8". Decided by: Daniel Kindl, 2026-11-25. Record: [CONTEXT.md](../../CONTEXT.md).
 - Q55 S6 signed updates: each S6 prototype item passes on Linux and on Windows, except the Windows failed install. There the NSIS installer waits at an error dialog and does not restart the app, and the old app stays. A locked uninstaller leaves a new app with the old uninstaller. Q77 covers the Windows behavior. The owner selected the option "Accept, add Q77". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
 - Q57 WebKitGTK input method preedit: on Linux, Diffy turns the preedit on again for each webview. Then the text that is not committed shows in the editor. Q78 checks fcitx5. The owner selected the option "Turn on, add fcitx5 check". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
+- Q58 Monaco features and font for M0: the M0 scaffold imports six Monaco features: find, toggleTabFocusMode, gotoLine, clipboard, contextmenu and readOnlyMessage. It imports no editing feature and no folding, hover or links. The editor font list is `"Cascadia Mono", Consolas, monospace`, and Diffy bundles no font. Q42 tested only find and tab focus, so M0 tests the other four on WebKitGTK and WebView2. The owner selected the option "Accept". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
 
 ## Open questions
-
-### Q58: Monaco features and font for M0
-
-Type: task
-Blocked by: none
-
-List the Monaco contributions that the M0 scaffold imports, at least the find widget and the tab focus mode. Select a font list for the editor, because the Monaco default font is not installed on Fedora or Ubuntu.
 
 ### Q59: S1 checks on the Windows notebook
 
