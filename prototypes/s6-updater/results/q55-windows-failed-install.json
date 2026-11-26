@@ -1,0 +1,211 @@
+{
+ "platform": "windows-x86_64",
+ "tests": {
+  "failed_install": {
+   "pass": false,
+   "run": {
+    "exit_code": 0,
+    "seconds": 8.5,
+    "events": [
+     {
+      "appimage": null,
+      "args": [
+       "C:\\Users\\runneradmin\\AppData\\Local\\q55-updater\\q55-updater.exe"
+      ],
+      "event": "start",
+      "exe": "C:\\Users\\runneradmin\\AppData\\Local\\q55-updater\\q55-updater.exe",
+      "pid": 2772,
+      "schema": 1,
+      "time_ms": 1795655339807,
+      "version": "0.1.0"
+     },
+     {
+      "event": "migrated",
+      "pid": 2772,
+      "result": {
+       "from": 0,
+       "rows": [
+        "user data written by v0.1.0"
+       ],
+       "to": 1
+      },
+      "time_ms": 1795655339828,
+      "version": "0.1.0"
+     },
+     {
+      "channel": "stable",
+      "event": "update_found",
+      "new": "0.2.0",
+      "pid": 2772,
+      "time_ms": 1795655339837,
+      "version": "0.1.0"
+     },
+     {
+      "event": "paused",
+      "pid": 2772,
+      "seconds": 5,
+      "time_ms": 1795655339837,
+      "version": "0.1.0"
+     },
+     {
+      "appimage": null,
+      "args": [
+       "C:\\Users\\runneradmin\\AppData\\Local\\q55-updater\\q55-updater.exe"
+      ],
+      "event": "start",
+      "exe": "C:\\Users\\runneradmin\\AppData\\Local\\q55-updater\\q55-updater.exe",
+      "pid": 5612,
+      "schema": 2,
+      "time_ms": 1795655346068,
+      "version": "0.2.0"
+     },
+     {
+      "event": "migrated",
+      "pid": 5612,
+      "result": {
+       "from": 1,
+       "rows": [
+        "user data written by v0.1.0"
+       ],
+       "to": 2
+      },
+      "time_ms": 1795655346208,
+      "version": "0.2.0"
+     },
+     {
+      "channel": "stable",
+      "event": "no_update",
+      "pid": 5612,
+      "time_ms": 1795655346212,
+      "version": "0.2.0"
+     }
+    ]
+   },
+   "state": {
+    "hash": "07473f0d25a93d9ad8b42b47d6e15e0269fd45f4551d9f150151f476a68b93f4",
+    "unchanged": false,
+    "db": {
+     "data.pre-m2.sqlite": {
+      "user_version": 1,
+      "rows": [
+       "user data written by v0.1.0"
+      ]
+     },
+     "data.sqlite": {
+      "user_version": 2,
+      "rows": [
+       "user data written by v0.1.0"
+      ]
+     }
+    }
+   },
+   "changed_files": [
+    "q55-updater.exe"
+   ],
+   "lock_handles": [
+    656
+   ],
+   "start_after_fail": {
+    "exit_code": 0,
+    "seconds": 2.5,
+    "events": [
+     {
+      "appimage": null,
+      "args": [
+       "C:\\Users\\runneradmin\\AppData\\Local\\q55-updater\\q55-updater.exe"
+      ],
+      "event": "start",
+      "exe": "C:\\Users\\runneradmin\\AppData\\Local\\q55-updater\\q55-updater.exe",
+      "pid": 7632,
+      "schema": 2,
+      "time_ms": 1795655350282,
+      "version": "0.2.0"
+     },
+     {
+      "event": "migrated",
+      "pid": 7632,
+      "result": {
+       "from": 2,
+       "rows": [
+        "user data written by v0.1.0"
+       ],
+       "to": 2
+      },
+      "time_ms": 1795655350283,
+      "version": "0.2.0"
+     },
+     {
+      "channel": "stable",
+      "event": "no_update",
+      "pid": 7632,
+      "time_ms": 1795655350286,
+      "version": "0.2.0"
+     }
+    ]
+   },
+   "recovery_run": {
+    "exit_code": 0,
+    "seconds": 2.5,
+    "events": [
+     {
+      "appimage": null,
+      "args": [
+       "C:\\Users\\runneradmin\\AppData\\Local\\q55-updater\\q55-updater.exe"
+      ],
+      "event": "start",
+      "exe": "C:\\Users\\runneradmin\\AppData\\Local\\q55-updater\\q55-updater.exe",
+      "pid": 5816,
+      "schema": 2,
+      "time_ms": 1795655352786,
+      "version": "0.2.0"
+     },
+     {
+      "event": "migrated",
+      "pid": 5816,
+      "result": {
+       "from": 2,
+       "rows": [
+        "user data written by v0.1.0"
+       ],
+       "to": 2
+      },
+      "time_ms": 1795655352787,
+      "version": "0.2.0"
+     },
+     {
+      "channel": "stable",
+      "event": "no_update",
+      "pid": 5816,
+      "time_ms": 1795655352790,
+      "version": "0.2.0"
+     }
+    ]
+   },
+   "recovery_state": {
+    "hash": "07473f0d25a93d9ad8b42b47d6e15e0269fd45f4551d9f150151f476a68b93f4",
+    "unchanged": false,
+    "db": {
+     "data.pre-m2.sqlite": {
+      "user_version": 1,
+      "rows": [
+       "user data written by v0.1.0"
+      ]
+     },
+     "data.sqlite": {
+      "user_version": 2,
+      "rows": [
+       "user data written by v0.1.0"
+      ]
+     }
+    }
+   },
+   "requests": [
+    "/f/stable.json 200",
+    "/f/app-0.2.0 200",
+    "/f/stable.json 200",
+    "/f/stable.json 200",
+    "/f/stable.json 200"
+   ]
+  }
+ }
+}

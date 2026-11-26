@@ -1,0 +1,1289 @@
+{
+ "platform": "windows-x86_64",
+ "tests": {
+  "update_stable": {
+   "pass": true,
+   "run": {
+    "exit_code": 0,
+    "seconds": 3.5,
+    "events": [
+     {
+      "appimage": null,
+      "args": [
+       "C:\\Users\\runneradmin\\AppData\\Local\\q55-updater\\q55-updater.exe"
+      ],
+      "event": "start",
+      "exe": "C:\\Users\\runneradmin\\AppData\\Local\\q55-updater\\q55-updater.exe",
+      "pid": 7424,
+      "schema": 1,
+      "time_ms": 1795655171315,
+      "version": "0.1.0"
+     },
+     {
+      "event": "migrated",
+      "pid": 7424,
+      "result": {
+       "from": 0,
+       "rows": [
+        "user data written by v0.1.0"
+       ],
+       "to": 1
+      },
+      "time_ms": 1795655171344,
+      "version": "0.1.0"
+     },
+     {
+      "channel": "stable",
+      "event": "update_found",
+      "new": "0.2.0",
+      "pid": 7424,
+      "time_ms": 1795655171357,
+      "version": "0.1.0"
+     },
+     {
+      "appimage": null,
+      "args": [
+       "C:\\Users\\runneradmin\\AppData\\Local\\q55-updater\\q55-updater.exe"
+      ],
+      "event": "start",
+      "exe": "C:\\Users\\runneradmin\\AppData\\Local\\q55-updater\\q55-updater.exe",
+      "pid": 8444,
+      "schema": 2,
+      "time_ms": 1795655172435,
+      "version": "0.2.0"
+     },
+     {
+      "event": "migrated",
+      "pid": 8444,
+      "result": {
+       "from": 1,
+       "rows": [
+        "user data written by v0.1.0"
+       ],
+       "to": 2
+      },
+      "time_ms": 1795655172569,
+      "version": "0.2.0"
+     },
+     {
+      "channel": "stable",
+      "event": "no_update",
+      "pid": 8444,
+      "time_ms": 1795655172571,
+      "version": "0.2.0"
+     }
+    ]
+   },
+   "state": {
+    "hash": "b15c0952304f0d544b4976b33b013fa48a28da2255fb49cb787048f28e87b35e",
+    "unchanged": false,
+    "db": {
+     "data.pre-m2.sqlite": {
+      "user_version": 1,
+      "rows": [
+       "user data written by v0.1.0"
+      ]
+     },
+     "data.sqlite": {
+      "user_version": 2,
+      "rows": [
+       "user data written by v0.1.0"
+      ]
+     }
+    }
+   },
+   "requests": [
+    "/f/stable.json 200",
+    "/f/app-0.2.0 200",
+    "/f/stable.json 200"
+   ]
+  },
+  "channel_pre": {
+   "pass": true,
+   "run": {
+    "exit_code": 0,
+    "seconds": 3.0,
+    "events": [
+     {
+      "appimage": null,
+      "args": [
+       "C:\\Users\\runneradmin\\AppData\\Local\\q55-updater\\q55-updater.exe"
+      ],
+      "event": "start",
+      "exe": "C:\\Users\\runneradmin\\AppData\\Local\\q55-updater\\q55-updater.exe",
+      "pid": 3180,
+      "schema": 1,
+      "time_ms": 1795655183057,
+      "version": "0.1.0"
+     },
+     {
+      "event": "migrated",
+      "pid": 3180,
+      "result": {
+       "from": 0,
+       "rows": [
+        "user data written by v0.1.0"
+       ],
+       "to": 1
+      },
+      "time_ms": 1795655183105,
+      "version": "0.1.0"
+     },
+     {
+      "channel": "pre",
+      "event": "update_found",
+      "new": "0.3.0-pre.1",
+      "pid": 3180,
+      "time_ms": 1795655183108,
+      "version": "0.1.0"
+     },
+     {
+      "appimage": null,
+      "args": [
+       "C:\\Users\\runneradmin\\AppData\\Local\\q55-updater\\q55-updater.exe"
+      ],
+      "event": "start",
+      "exe": "C:\\Users\\runneradmin\\AppData\\Local\\q55-updater\\q55-updater.exe",
+      "pid": 1640,
+      "schema": 2,
+      "time_ms": 1795655183885,
+      "version": "0.3.0-pre.1"
+     },
+     {
+      "event": "migrated",
+      "pid": 1640,
+      "result": {
+       "from": 1,
+       "rows": [
+        "user data written by v0.1.0"
+       ],
+       "to": 2
+      },
+      "time_ms": 1795655183940,
+      "version": "0.3.0-pre.1"
+     },
+     {
+      "channel": "pre",
+      "event": "no_update",
+      "pid": 1640,
+      "time_ms": 1795655183943,
+      "version": "0.3.0-pre.1"
+     }
+    ]
+   },
+   "state": {
+    "hash": "49c30a0323f6f2fa473deb71f86ba310a3e72e8b363462e28d9abd8946b302fa",
+    "unchanged": false,
+    "db": {
+     "data.pre-m2.sqlite": {
+      "user_version": 1,
+      "rows": [
+       "user data written by v0.1.0"
+      ]
+     },
+     "data.sqlite": {
+      "user_version": 2,
+      "rows": [
+       "user data written by v0.1.0"
+      ]
+     }
+    }
+   },
+   "requests": [
+    "/f/pre.json 200",
+    "/f/app-0.3.0-pre.1 200",
+    "/f/pre.json 200"
+   ]
+  },
+  "wrong_key": {
+   "pass": true,
+   "run": {
+    "exit_code": 4,
+    "seconds": 2.5,
+    "events": [
+     {
+      "appimage": null,
+      "args": [
+       "C:\\Users\\runneradmin\\AppData\\Local\\q55-updater\\q55-updater.exe"
+      ],
+      "event": "start",
+      "exe": "C:\\Users\\runneradmin\\AppData\\Local\\q55-updater\\q55-updater.exe",
+      "pid": 7276,
+      "schema": 1,
+      "time_ms": 1795655192036,
+      "version": "0.1.0"
+     },
+     {
+      "event": "migrated",
+      "pid": 7276,
+      "result": {
+       "from": 0,
+       "rows": [
+        "user data written by v0.1.0"
+       ],
+       "to": 1
+      },
+      "time_ms": 1795655192055,
+      "version": "0.1.0"
+     },
+     {
+      "channel": "stable",
+      "event": "update_found",
+      "new": "0.2.0",
+      "pid": 7276,
+      "time_ms": 1795655192058,
+      "version": "0.1.0"
+     },
+     {
+      "bytes": 3664836,
+      "error": "The signature was created with a different key than the one provided",
+      "event": "install_failed",
+      "pid": 7276,
+      "time_ms": 1795655192067,
+      "version": "0.1.0"
+     }
+    ]
+   },
+   "state": {
+    "hash": "9e5755650f1b353e590bb942785725a98b5d9cd7dc1e664cb4f09608dfac0567",
+    "unchanged": true,
+    "db": {
+     "data.sqlite": {
+      "user_version": 1,
+      "rows": [
+       "user data written by v0.1.0"
+      ]
+     }
+    }
+   },
+   "recovery_run": {
+    "exit_code": 0,
+    "seconds": 3.0,
+    "events": [
+     {
+      "appimage": null,
+      "args": [
+       "C:\\Users\\runneradmin\\AppData\\Local\\q55-updater\\q55-updater.exe"
+      ],
+      "event": "start",
+      "exe": "C:\\Users\\runneradmin\\AppData\\Local\\q55-updater\\q55-updater.exe",
+      "pid": 9068,
+      "schema": 1,
+      "time_ms": 1795655194549,
+      "version": "0.1.0"
+     },
+     {
+      "event": "migrated",
+      "pid": 9068,
+      "result": {
+       "from": 1,
+       "rows": [
+        "user data written by v0.1.0"
+       ],
+       "to": 1
+      },
+      "time_ms": 1795655194550,
+      "version": "0.1.0"
+     },
+     {
+      "channel": "stable",
+      "event": "update_found",
+      "new": "0.2.0",
+      "pid": 9068,
+      "time_ms": 1795655194552,
+      "version": "0.1.0"
+     },
+     {
+      "appimage": null,
+      "args": [
+       "C:\\Users\\runneradmin\\AppData\\Local\\q55-updater\\q55-updater.exe"
+      ],
+      "event": "start",
+      "exe": "C:\\Users\\runneradmin\\AppData\\Local\\q55-updater\\q55-updater.exe",
+      "pid": 7324,
+      "schema": 2,
+      "time_ms": 1795655195383,
+      "version": "0.2.0"
+     },
+     {
+      "event": "migrated",
+      "pid": 7324,
+      "result": {
+       "from": 1,
+       "rows": [
+        "user data written by v0.1.0"
+       ],
+       "to": 2
+      },
+      "time_ms": 1795655195423,
+      "version": "0.2.0"
+     },
+     {
+      "channel": "stable",
+      "event": "no_update",
+      "pid": 7324,
+      "time_ms": 1795655195427,
+      "version": "0.2.0"
+     }
+    ]
+   },
+   "requests": [
+    "/f/stable.json 200",
+    "/f/app-0.2.0-wrongkey 200",
+    "/f/stable.json 200",
+    "/f/app-0.2.0 200",
+    "/f/stable.json 200"
+   ]
+  },
+  "changed_artifact": {
+   "pass": true,
+   "run": {
+    "exit_code": 4,
+    "seconds": 2.5,
+    "events": [
+     {
+      "appimage": null,
+      "args": [
+       "C:\\Users\\runneradmin\\AppData\\Local\\q55-updater\\q55-updater.exe"
+      ],
+      "event": "start",
+      "exe": "C:\\Users\\runneradmin\\AppData\\Local\\q55-updater\\q55-updater.exe",
+      "pid": 8116,
+      "schema": 1,
+      "time_ms": 1795655203343,
+      "version": "0.1.0"
+     },
+     {
+      "event": "migrated",
+      "pid": 8116,
+      "result": {
+       "from": 0,
+       "rows": [
+        "user data written by v0.1.0"
+       ],
+       "to": 1
+      },
+      "time_ms": 1795655203362,
+      "version": "0.1.0"
+     },
+     {
+      "channel": "stable",
+      "event": "update_found",
+      "new": "0.2.0",
+      "pid": 8116,
+      "time_ms": 1795655203364,
+      "version": "0.1.0"
+     },
+     {
+      "bytes": 3664836,
+      "error": "The signature verification failed",
+      "event": "install_failed",
+      "pid": 8116,
+      "time_ms": 1795655203378,
+      "version": "0.1.0"
+     }
+    ]
+   },
+   "state": {
+    "hash": "9e5755650f1b353e590bb942785725a98b5d9cd7dc1e664cb4f09608dfac0567",
+    "unchanged": true,
+    "db": {
+     "data.sqlite": {
+      "user_version": 1,
+      "rows": [
+       "user data written by v0.1.0"
+      ]
+     }
+    }
+   },
+   "recovery_run": {
+    "exit_code": 0,
+    "seconds": 3.0,
+    "events": [
+     {
+      "appimage": null,
+      "args": [
+       "C:\\Users\\runneradmin\\AppData\\Local\\q55-updater\\q55-updater.exe"
+      ],
+      "event": "start",
+      "exe": "C:\\Users\\runneradmin\\AppData\\Local\\q55-updater\\q55-updater.exe",
+      "pid": 1636,
+      "schema": 1,
+      "time_ms": 1795655205859,
+      "version": "0.1.0"
+     },
+     {
+      "event": "migrated",
+      "pid": 1636,
+      "result": {
+       "from": 1,
+       "rows": [
+        "user data written by v0.1.0"
+       ],
+       "to": 1
+      },
+      "time_ms": 1795655205860,
+      "version": "0.1.0"
+     },
+     {
+      "channel": "stable",
+      "event": "update_found",
+      "new": "0.2.0",
+      "pid": 1636,
+      "time_ms": 1795655205862,
+      "version": "0.1.0"
+     },
+     {
+      "appimage": null,
+      "args": [
+       "C:\\Users\\runneradmin\\AppData\\Local\\q55-updater\\q55-updater.exe"
+      ],
+      "event": "start",
+      "exe": "C:\\Users\\runneradmin\\AppData\\Local\\q55-updater\\q55-updater.exe",
+      "pid": 6444,
+      "schema": 2,
+      "time_ms": 1795655206582,
+      "version": "0.2.0"
+     },
+     {
+      "event": "migrated",
+      "pid": 6444,
+      "result": {
+       "from": 1,
+       "rows": [
+        "user data written by v0.1.0"
+       ],
+       "to": 2
+      },
+      "time_ms": 1795655206625,
+      "version": "0.2.0"
+     },
+     {
+      "channel": "stable",
+      "event": "no_update",
+      "pid": 6444,
+      "time_ms": 1795655206628,
+      "version": "0.2.0"
+     }
+    ]
+   },
+   "requests": [
+    "/f/stable.json 200",
+    "/f/app-0.2.0-changed 200",
+    "/f/stable.json 200",
+    "/f/app-0.2.0 200",
+    "/f/stable.json 200"
+   ]
+  },
+  "version_mismatch": {
+   "pass": true,
+   "run": {
+    "exit_code": 4,
+    "seconds": 2.5,
+    "events": [
+     {
+      "appimage": null,
+      "args": [
+       "C:\\Users\\runneradmin\\AppData\\Local\\q55-updater\\q55-updater.exe"
+      ],
+      "event": "start",
+      "exe": "C:\\Users\\runneradmin\\AppData\\Local\\q55-updater\\q55-updater.exe",
+      "pid": 8156,
+      "schema": 1,
+      "time_ms": 1795655214728,
+      "version": "0.1.0"
+     },
+     {
+      "event": "migrated",
+      "pid": 8156,
+      "result": {
+       "from": 0,
+       "rows": [
+        "user data written by v0.1.0"
+       ],
+       "to": 1
+      },
+      "time_ms": 1795655214769,
+      "version": "0.1.0"
+     },
+     {
+      "channel": "stable",
+      "event": "update_found",
+      "new": "0.4.0",
+      "pid": 8156,
+      "time_ms": 1795655214772,
+      "version": "0.1.0"
+     },
+     {
+      "bytes": 3664836,
+      "error": "The update was signed for version 0.2.0 but the update endpoint announced version 0.4.0. The endpoint response may have been tampered with to force installing a different release.",
+      "event": "install_failed",
+      "pid": 8156,
+      "time_ms": 1795655214786,
+      "version": "0.1.0"
+     }
+    ]
+   },
+   "state": {
+    "hash": "9e5755650f1b353e590bb942785725a98b5d9cd7dc1e664cb4f09608dfac0567",
+    "unchanged": true,
+    "db": {
+     "data.sqlite": {
+      "user_version": 1,
+      "rows": [
+       "user data written by v0.1.0"
+      ]
+     }
+    }
+   },
+   "recovery_run": {
+    "exit_code": 0,
+    "seconds": 3.0,
+    "events": [
+     {
+      "appimage": null,
+      "args": [
+       "C:\\Users\\runneradmin\\AppData\\Local\\q55-updater\\q55-updater.exe"
+      ],
+      "event": "start",
+      "exe": "C:\\Users\\runneradmin\\AppData\\Local\\q55-updater\\q55-updater.exe",
+      "pid": 3704,
+      "schema": 1,
+      "time_ms": 1795655217245,
+      "version": "0.1.0"
+     },
+     {
+      "event": "migrated",
+      "pid": 3704,
+      "result": {
+       "from": 1,
+       "rows": [
+        "user data written by v0.1.0"
+       ],
+       "to": 1
+      },
+      "time_ms": 1795655217246,
+      "version": "0.1.0"
+     },
+     {
+      "channel": "stable",
+      "event": "update_found",
+      "new": "0.2.0",
+      "pid": 3704,
+      "time_ms": 1795655217251,
+      "version": "0.1.0"
+     },
+     {
+      "appimage": null,
+      "args": [
+       "C:\\Users\\runneradmin\\AppData\\Local\\q55-updater\\q55-updater.exe"
+      ],
+      "event": "start",
+      "exe": "C:\\Users\\runneradmin\\AppData\\Local\\q55-updater\\q55-updater.exe",
+      "pid": 5232,
+      "schema": 2,
+      "time_ms": 1795655218077,
+      "version": "0.2.0"
+     },
+     {
+      "event": "migrated",
+      "pid": 5232,
+      "result": {
+       "from": 1,
+       "rows": [
+        "user data written by v0.1.0"
+       ],
+       "to": 2
+      },
+      "time_ms": 1795655218144,
+      "version": "0.2.0"
+     },
+     {
+      "channel": "stable",
+      "event": "no_update",
+      "pid": 5232,
+      "time_ms": 1795655218147,
+      "version": "0.2.0"
+     }
+    ]
+   },
+   "requests": [
+    "/f/stable.json 200",
+    "/f/app-0.2.0 200",
+    "/f/stable.json 200",
+    "/f/app-0.2.0 200",
+    "/f/stable.json 200"
+   ]
+  },
+  "no_signed_version": {
+   "pass": true,
+   "run": {
+    "exit_code": 4,
+    "seconds": 2.5,
+    "events": [
+     {
+      "appimage": null,
+      "args": [
+       "C:\\Users\\runneradmin\\AppData\\Local\\q55-updater\\q55-updater.exe"
+      ],
+      "event": "start",
+      "exe": "C:\\Users\\runneradmin\\AppData\\Local\\q55-updater\\q55-updater.exe",
+      "pid": 9904,
+      "schema": 1,
+      "time_ms": 1795655226253,
+      "version": "0.1.0"
+     },
+     {
+      "event": "migrated",
+      "pid": 9904,
+      "result": {
+       "from": 0,
+       "rows": [
+        "user data written by v0.1.0"
+       ],
+       "to": 1
+      },
+      "time_ms": 1795655226285,
+      "version": "0.1.0"
+     },
+     {
+      "channel": "stable",
+      "event": "update_found",
+      "new": "0.2.0",
+      "pid": 9904,
+      "time_ms": 1795655226288,
+      "version": "0.1.0"
+     },
+     {
+      "bytes": 3664836,
+      "error": "The update signature does not specify the version it was signed for, which `requireSignedVersion` requires. Re-sign and re-publish this release, or disable `requireSignedVersion`.",
+      "event": "install_failed",
+      "pid": 9904,
+      "time_ms": 1795655226301,
+      "version": "0.1.0"
+     }
+    ]
+   },
+   "state": {
+    "hash": "9e5755650f1b353e590bb942785725a98b5d9cd7dc1e664cb4f09608dfac0567",
+    "unchanged": true,
+    "db": {
+     "data.sqlite": {
+      "user_version": 1,
+      "rows": [
+       "user data written by v0.1.0"
+      ]
+     }
+    }
+   },
+   "recovery_run": {
+    "exit_code": 0,
+    "seconds": 3.0,
+    "events": [
+     {
+      "appimage": null,
+      "args": [
+       "C:\\Users\\runneradmin\\AppData\\Local\\q55-updater\\q55-updater.exe"
+      ],
+      "event": "start",
+      "exe": "C:\\Users\\runneradmin\\AppData\\Local\\q55-updater\\q55-updater.exe",
+      "pid": 4448,
+      "schema": 1,
+      "time_ms": 1795655228767,
+      "version": "0.1.0"
+     },
+     {
+      "event": "migrated",
+      "pid": 4448,
+      "result": {
+       "from": 1,
+       "rows": [
+        "user data written by v0.1.0"
+       ],
+       "to": 1
+      },
+      "time_ms": 1795655228767,
+      "version": "0.1.0"
+     },
+     {
+      "channel": "stable",
+      "event": "update_found",
+      "new": "0.2.0",
+      "pid": 4448,
+      "time_ms": 1795655228770,
+      "version": "0.1.0"
+     },
+     {
+      "appimage": null,
+      "args": [
+       "C:\\Users\\runneradmin\\AppData\\Local\\q55-updater\\q55-updater.exe"
+      ],
+      "event": "start",
+      "exe": "C:\\Users\\runneradmin\\AppData\\Local\\q55-updater\\q55-updater.exe",
+      "pid": 9120,
+      "schema": 2,
+      "time_ms": 1795655229397,
+      "version": "0.2.0"
+     },
+     {
+      "event": "migrated",
+      "pid": 9120,
+      "result": {
+       "from": 1,
+       "rows": [
+        "user data written by v0.1.0"
+       ],
+       "to": 2
+      },
+      "time_ms": 1795655229440,
+      "version": "0.2.0"
+     },
+     {
+      "channel": "stable",
+      "event": "no_update",
+      "pid": 9120,
+      "time_ms": 1795655229443,
+      "version": "0.2.0"
+     }
+    ]
+   },
+   "requests": [
+    "/f/stable.json 200",
+    "/f/app-0.2.0-noversion 200",
+    "/f/stable.json 200",
+    "/f/app-0.2.0 200",
+    "/f/stable.json 200"
+   ]
+  },
+  "interrupted_download": {
+   "pass": true,
+   "run": {
+    "exit_code": 4,
+    "seconds": 2.5,
+    "events": [
+     {
+      "appimage": null,
+      "args": [
+       "C:\\Users\\runneradmin\\AppData\\Local\\q55-updater\\q55-updater.exe"
+      ],
+      "event": "start",
+      "exe": "C:\\Users\\runneradmin\\AppData\\Local\\q55-updater\\q55-updater.exe",
+      "pid": 8752,
+      "schema": 1,
+      "time_ms": 1795655237556,
+      "version": "0.1.0"
+     },
+     {
+      "event": "migrated",
+      "pid": 8752,
+      "result": {
+       "from": 0,
+       "rows": [
+        "user data written by v0.1.0"
+       ],
+       "to": 1
+      },
+      "time_ms": 1795655237576,
+      "version": "0.1.0"
+     },
+     {
+      "channel": "stable",
+      "event": "update_found",
+      "new": "0.2.0",
+      "pid": 8752,
+      "time_ms": 1795655237579,
+      "version": "0.1.0"
+     },
+     {
+      "bytes": 1832418,
+      "error": "error decoding response body",
+      "event": "install_failed",
+      "pid": 8752,
+      "time_ms": 1795655237585,
+      "version": "0.1.0"
+     }
+    ]
+   },
+   "state": {
+    "hash": "9e5755650f1b353e590bb942785725a98b5d9cd7dc1e664cb4f09608dfac0567",
+    "unchanged": true,
+    "db": {
+     "data.sqlite": {
+      "user_version": 1,
+      "rows": [
+       "user data written by v0.1.0"
+      ]
+     }
+    }
+   },
+   "recovery_run": {
+    "exit_code": 0,
+    "seconds": 3.0,
+    "events": [
+     {
+      "appimage": null,
+      "args": [
+       "C:\\Users\\runneradmin\\AppData\\Local\\q55-updater\\q55-updater.exe"
+      ],
+      "event": "start",
+      "exe": "C:\\Users\\runneradmin\\AppData\\Local\\q55-updater\\q55-updater.exe",
+      "pid": 1484,
+      "schema": 1,
+      "time_ms": 1795655240070,
+      "version": "0.1.0"
+     },
+     {
+      "event": "migrated",
+      "pid": 1484,
+      "result": {
+       "from": 1,
+       "rows": [
+        "user data written by v0.1.0"
+       ],
+       "to": 1
+      },
+      "time_ms": 1795655240071,
+      "version": "0.1.0"
+     },
+     {
+      "channel": "stable",
+      "event": "update_found",
+      "new": "0.2.0",
+      "pid": 1484,
+      "time_ms": 1795655240074,
+      "version": "0.1.0"
+     },
+     {
+      "appimage": null,
+      "args": [
+       "C:\\Users\\runneradmin\\AppData\\Local\\q55-updater\\q55-updater.exe"
+      ],
+      "event": "start",
+      "exe": "C:\\Users\\runneradmin\\AppData\\Local\\q55-updater\\q55-updater.exe",
+      "pid": 3272,
+      "schema": 2,
+      "time_ms": 1795655240818,
+      "version": "0.2.0"
+     },
+     {
+      "event": "migrated",
+      "pid": 3272,
+      "result": {
+       "from": 1,
+       "rows": [
+        "user data written by v0.1.0"
+       ],
+       "to": 2
+      },
+      "time_ms": 1795655240927,
+      "version": "0.2.0"
+     },
+     {
+      "channel": "stable",
+      "event": "no_update",
+      "pid": 3272,
+      "time_ms": 1795655240930,
+      "version": "0.2.0"
+     }
+    ]
+   },
+   "requests": [
+    "/f/stable.json 200",
+    "/cut/app-0.2.0 200",
+    "/f/stable.json 200",
+    "/f/app-0.2.0 200",
+    "/f/stable.json 200"
+   ]
+  },
+  "bad_payload": {
+   "pass": true,
+   "run": {
+    "exit_code": 4,
+    "seconds": 2.5,
+    "events": [
+     {
+      "appimage": null,
+      "args": [
+       "C:\\Users\\runneradmin\\AppData\\Local\\q55-updater\\q55-updater.exe"
+      ],
+      "event": "start",
+      "exe": "C:\\Users\\runneradmin\\AppData\\Local\\q55-updater\\q55-updater.exe",
+      "pid": 4752,
+      "schema": 1,
+      "time_ms": 1795655249069,
+      "version": "0.1.0"
+     },
+     {
+      "event": "migrated",
+      "pid": 4752,
+      "result": {
+       "from": 0,
+       "rows": [
+        "user data written by v0.1.0"
+       ],
+       "to": 1
+      },
+      "time_ms": 1795655249094,
+      "version": "0.1.0"
+     },
+     {
+      "channel": "stable",
+      "event": "update_found",
+      "new": "0.2.0",
+      "pid": 4752,
+      "time_ms": 1795655249097,
+      "version": "0.1.0"
+     },
+     {
+      "bytes": 43000,
+      "error": "invalid updater binary format",
+      "event": "install_failed",
+      "pid": 4752,
+      "time_ms": 1795655249098,
+      "version": "0.1.0"
+     }
+    ]
+   },
+   "state": {
+    "hash": "9e5755650f1b353e590bb942785725a98b5d9cd7dc1e664cb4f09608dfac0567",
+    "unchanged": true,
+    "db": {
+     "data.sqlite": {
+      "user_version": 1,
+      "rows": [
+       "user data written by v0.1.0"
+      ]
+     }
+    }
+   },
+   "recovery_run": {
+    "exit_code": 0,
+    "seconds": 3.0,
+    "events": [
+     {
+      "appimage": null,
+      "args": [
+       "C:\\Users\\runneradmin\\AppData\\Local\\q55-updater\\q55-updater.exe"
+      ],
+      "event": "start",
+      "exe": "C:\\Users\\runneradmin\\AppData\\Local\\q55-updater\\q55-updater.exe",
+      "pid": 988,
+      "schema": 1,
+      "time_ms": 1795655251583,
+      "version": "0.1.0"
+     },
+     {
+      "event": "migrated",
+      "pid": 988,
+      "result": {
+       "from": 1,
+       "rows": [
+        "user data written by v0.1.0"
+       ],
+       "to": 1
+      },
+      "time_ms": 1795655251583,
+      "version": "0.1.0"
+     },
+     {
+      "channel": "stable",
+      "event": "update_found",
+      "new": "0.2.0",
+      "pid": 988,
+      "time_ms": 1795655251586,
+      "version": "0.1.0"
+     },
+     {
+      "appimage": null,
+      "args": [
+       "C:\\Users\\runneradmin\\AppData\\Local\\q55-updater\\q55-updater.exe"
+      ],
+      "event": "start",
+      "exe": "C:\\Users\\runneradmin\\AppData\\Local\\q55-updater\\q55-updater.exe",
+      "pid": 8256,
+      "schema": 2,
+      "time_ms": 1795655252291,
+      "version": "0.2.0"
+     },
+     {
+      "event": "migrated",
+      "pid": 8256,
+      "result": {
+       "from": 1,
+       "rows": [
+        "user data written by v0.1.0"
+       ],
+       "to": 2
+      },
+      "time_ms": 1795655252336,
+      "version": "0.2.0"
+     },
+     {
+      "channel": "stable",
+      "event": "no_update",
+      "pid": 8256,
+      "time_ms": 1795655252339,
+      "version": "0.2.0"
+     }
+    ]
+   },
+   "requests": [
+    "/f/stable.json 200",
+    "/f/bad-payload 200",
+    "/f/stable.json 200",
+    "/f/app-0.2.0 200",
+    "/f/stable.json 200"
+   ]
+  },
+  "no_network": {
+   "pass": true,
+   "refused": {
+    "run": {
+     "exit_code": 4,
+     "seconds": 4.5,
+     "events": [
+      {
+       "appimage": null,
+       "args": [
+        "C:\\Users\\runneradmin\\AppData\\Local\\q55-updater\\q55-updater.exe"
+       ],
+       "event": "start",
+       "exe": "C:\\Users\\runneradmin\\AppData\\Local\\q55-updater\\q55-updater.exe",
+       "pid": 2000,
+       "schema": 1,
+       "time_ms": 1795655260397,
+       "version": "0.1.0"
+      },
+      {
+       "event": "migrated",
+       "pid": 2000,
+       "result": {
+        "from": 0,
+        "rows": [
+         "user data written by v0.1.0"
+        ],
+        "to": 1
+       },
+       "time_ms": 1795655260421,
+       "version": "0.1.0"
+      },
+      {
+       "channel": "stable",
+       "error": "error sending request for url (http://127.0.0.1:9/latest.json)",
+       "event": "check_failed",
+       "pid": 2000,
+       "time_ms": 1795655262451,
+       "version": "0.1.0"
+      }
+     ]
+    },
+    "state": {
+     "hash": "9e5755650f1b353e590bb942785725a98b5d9cd7dc1e664cb4f09608dfac0567",
+     "unchanged": true,
+     "db": {
+      "data.sqlite": {
+       "user_version": 1,
+       "rows": [
+        "user data written by v0.1.0"
+       ]
+      }
+     }
+    }
+   },
+   "black_hole": {
+    "run": {
+     "exit_code": 4,
+     "seconds": 7.5,
+     "events": [
+      {
+       "appimage": null,
+       "args": [
+        "C:\\Users\\runneradmin\\AppData\\Local\\q55-updater\\q55-updater.exe"
+       ],
+       "event": "start",
+       "exe": "C:\\Users\\runneradmin\\AppData\\Local\\q55-updater\\q55-updater.exe",
+       "pid": 8596,
+       "schema": 1,
+       "time_ms": 1795655270728,
+       "version": "0.1.0"
+      },
+      {
+       "event": "migrated",
+       "pid": 8596,
+       "result": {
+        "from": 0,
+        "rows": [
+         "user data written by v0.1.0"
+        ],
+        "to": 1
+       },
+       "time_ms": 1795655270750,
+       "version": "0.1.0"
+      },
+      {
+       "channel": "stable",
+       "error": "error sending request for url (http://127.0.0.1:18556/latest.json)",
+       "event": "check_failed",
+       "pid": 8596,
+       "time_ms": 1795655275755,
+       "version": "0.1.0"
+      }
+     ]
+    },
+    "state": {
+     "hash": "9e5755650f1b353e590bb942785725a98b5d9cd7dc1e664cb4f09608dfac0567",
+     "unchanged": true,
+     "db": {
+      "data.sqlite": {
+       "user_version": 1,
+       "rows": [
+        "user data written by v0.1.0"
+       ]
+      }
+     }
+    }
+   },
+   "requests": []
+  },
+  "failed_migration": {
+   "pass": true,
+   "run": {
+    "exit_code": 0,
+    "seconds": 3.5,
+    "events": [
+     {
+      "appimage": null,
+      "args": [
+       "C:\\Users\\runneradmin\\AppData\\Local\\q55-updater\\q55-updater.exe"
+      ],
+      "event": "start",
+      "exe": "C:\\Users\\runneradmin\\AppData\\Local\\q55-updater\\q55-updater.exe",
+      "pid": 5780,
+      "schema": 1,
+      "time_ms": 1795655284226,
+      "version": "0.1.0"
+     },
+     {
+      "event": "migrated",
+      "pid": 5780,
+      "result": {
+       "from": 0,
+       "rows": [
+        "user data written by v0.1.0"
+       ],
+       "to": 1
+      },
+      "time_ms": 1795655284259,
+      "version": "0.1.0"
+     },
+     {
+      "channel": "stable",
+      "event": "update_found",
+      "new": "0.2.0",
+      "pid": 5780,
+      "time_ms": 1795655284264,
+      "version": "0.1.0"
+     },
+     {
+      "appimage": null,
+      "args": [
+       "C:\\Users\\runneradmin\\AppData\\Local\\q55-updater\\q55-updater.exe"
+      ],
+      "event": "start",
+      "exe": "C:\\Users\\runneradmin\\AppData\\Local\\q55-updater\\q55-updater.exe",
+      "pid": 5472,
+      "schema": 2,
+      "time_ms": 1795655285262,
+      "version": "0.2.0"
+     },
+     {
+      "error": "m2: forced failure after the statements ran",
+      "event": "migration_failed",
+      "pid": 5472,
+      "time_ms": 1795655285293,
+      "version": "0.2.0"
+     }
+    ]
+   },
+   "state": {
+    "hash": "b15c0952304f0d544b4976b33b013fa48a28da2255fb49cb787048f28e87b35e",
+    "unchanged": false,
+    "db": {
+     "data.pre-m2.sqlite": {
+      "user_version": 1,
+      "rows": [
+       "user data written by v0.1.0"
+      ]
+     },
+     "data.sqlite": {
+      "user_version": 1,
+      "rows": [
+       "user data written by v0.1.0"
+      ]
+     }
+    }
+   },
+   "recovery_run": {
+    "exit_code": 0,
+    "seconds": 2.5,
+    "events": [
+     {
+      "appimage": null,
+      "args": [
+       "C:\\Users\\runneradmin\\AppData\\Local\\q55-updater\\q55-updater.exe"
+      ],
+      "event": "start",
+      "exe": "C:\\Users\\runneradmin\\AppData\\Local\\q55-updater\\q55-updater.exe",
+      "pid": 1412,
+      "schema": 2,
+      "time_ms": 1795655287742,
+      "version": "0.2.0"
+     },
+     {
+      "event": "migrated",
+      "pid": 1412,
+      "result": {
+       "from": 1,
+       "rows": [
+        "user data written by v0.1.0"
+       ],
+       "to": 2
+      },
+      "time_ms": 1795655287825,
+      "version": "0.2.0"
+     },
+     {
+      "channel": "stable",
+      "event": "no_update",
+      "pid": 1412,
+      "time_ms": 1795655287831,
+      "version": "0.2.0"
+     }
+    ]
+   },
+   "recovery_state": {
+    "hash": "b15c0952304f0d544b4976b33b013fa48a28da2255fb49cb787048f28e87b35e",
+    "unchanged": false,
+    "db": {
+     "data.pre-m2.sqlite": {
+      "user_version": 1,
+      "rows": [
+       "user data written by v0.1.0"
+      ]
+     },
+     "data.sqlite": {
+      "user_version": 2,
+      "rows": [
+       "user data written by v0.1.0"
+      ]
+     }
+    }
+   },
+   "requests": [
+    "/f/stable.json 200",
+    "/f/app-0.2.0 200",
+    "/f/stable.json 200"
+   ]
+  }
+ }
+}

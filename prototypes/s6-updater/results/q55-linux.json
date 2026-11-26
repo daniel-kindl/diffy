@@ -1,0 +1,1806 @@
+{
+ "platform": "linux-x86_64",
+ "tests": {
+  "update_stable": {
+   "pass": true,
+   "run": {
+    "exit_code": 0,
+    "seconds": 3.5,
+    "events": [
+     {
+      "appimage": "/home/dkindl/.local/share/distrobox-homes/rust-dev/.cache/q55-work2/update_stable/app/q55.AppImage",
+      "args": [
+       "q55-updater"
+      ],
+      "event": "start",
+      "exe": "/tmp/.mount_q55.ApdPLlFM/usr/bin/q55-updater",
+      "pid": 953225,
+      "schema": 1,
+      "time_ms": 1795653886922,
+      "version": "0.1.0"
+     },
+     {
+      "event": "migrated",
+      "pid": 953225,
+      "result": {
+       "from": 0,
+       "rows": [
+        "user data written by v0.1.0"
+       ],
+       "to": 1
+      },
+      "time_ms": 1795653886952,
+      "version": "0.1.0"
+     },
+     {
+      "channel": "stable",
+      "event": "update_found",
+      "new": "0.2.0",
+      "pid": 953225,
+      "time_ms": 1795653886965,
+      "version": "0.1.0"
+     },
+     {
+      "bytes": 116353528,
+      "event": "installed",
+      "pid": 953225,
+      "time_ms": 1795653887603,
+      "version": "0.1.0"
+     },
+     {
+      "event": "restarting",
+      "pid": 953225,
+      "time_ms": 1795653887603,
+      "version": "0.1.0"
+     },
+     {
+      "appimage": "/home/dkindl/.local/share/distrobox-homes/rust-dev/.cache/q55-work2/update_stable/app/q55.AppImage",
+      "args": [
+       "q55-updater"
+      ],
+      "event": "start",
+      "exe": "/tmp/.mount_q55.ApcAmbMN/usr/bin/q55-updater",
+      "pid": 953268,
+      "schema": 2,
+      "time_ms": 1795653887934,
+      "version": "0.2.0"
+     },
+     {
+      "event": "migrated",
+      "pid": 953268,
+      "result": {
+       "from": 1,
+       "rows": [
+        "user data written by v0.1.0"
+       ],
+       "to": 2
+      },
+      "time_ms": 1795653887997,
+      "version": "0.2.0"
+     },
+     {
+      "channel": "stable",
+      "event": "no_update",
+      "pid": 953268,
+      "time_ms": 1795653888010,
+      "version": "0.2.0"
+     }
+    ]
+   },
+   "state": {
+    "hash": "d63c21b4180149e61aa6eca639aa8d2b652b01bbc94e72e4596fda243375cef4",
+    "unchanged": false,
+    "db": {
+     "data.pre-m2.sqlite": {
+      "user_version": 1,
+      "rows": [
+       "user data written by v0.1.0"
+      ]
+     },
+     "data.sqlite": {
+      "user_version": 2,
+      "rows": [
+       "user data written by v0.1.0"
+      ]
+     }
+    }
+   },
+   "requests": [
+    "/f/stable.json 200",
+    "/f/app-0.2.0 200",
+    "/f/stable.json 200"
+   ]
+  },
+  "channel_pre": {
+   "pass": true,
+   "run": {
+    "exit_code": 0,
+    "seconds": 3.5,
+    "events": [
+     {
+      "appimage": "/home/dkindl/.local/share/distrobox-homes/rust-dev/.cache/q55-work2/channel_pre/app/q55.AppImage",
+      "args": [
+       "q55-updater"
+      ],
+      "event": "start",
+      "exe": "/tmp/.mount_q55.ApLobJiK/usr/bin/q55-updater",
+      "pid": 953399,
+      "schema": 1,
+      "time_ms": 1795653890812,
+      "version": "0.1.0"
+     },
+     {
+      "event": "migrated",
+      "pid": 953399,
+      "result": {
+       "from": 0,
+       "rows": [
+        "user data written by v0.1.0"
+       ],
+       "to": 1
+      },
+      "time_ms": 1795653890849,
+      "version": "0.1.0"
+     },
+     {
+      "channel": "pre",
+      "event": "update_found",
+      "new": "0.3.0-pre.1",
+      "pid": 953399,
+      "time_ms": 1795653890862,
+      "version": "0.1.0"
+     },
+     {
+      "bytes": 116353528,
+      "event": "installed",
+      "pid": 953399,
+      "time_ms": 1795653891460,
+      "version": "0.1.0"
+     },
+     {
+      "event": "restarting",
+      "pid": 953399,
+      "time_ms": 1795653891460,
+      "version": "0.1.0"
+     },
+     {
+      "appimage": "/home/dkindl/.local/share/distrobox-homes/rust-dev/.cache/q55-work2/channel_pre/app/q55.AppImage",
+      "args": [
+       "q55-updater"
+      ],
+      "event": "start",
+      "exe": "/tmp/.mount_q55.ApjNIabJ/usr/bin/q55-updater",
+      "pid": 953475,
+      "schema": 2,
+      "time_ms": 1795653891790,
+      "version": "0.3.0-pre.1"
+     },
+     {
+      "event": "migrated",
+      "pid": 953475,
+      "result": {
+       "from": 1,
+       "rows": [
+        "user data written by v0.1.0"
+       ],
+       "to": 2
+      },
+      "time_ms": 1795653891852,
+      "version": "0.3.0-pre.1"
+     },
+     {
+      "channel": "pre",
+      "event": "no_update",
+      "pid": 953475,
+      "time_ms": 1795653891865,
+      "version": "0.3.0-pre.1"
+     }
+    ]
+   },
+   "state": {
+    "hash": "36f0f77a94bbd63759f9af39539652053a2e49903de45b53b306f5e25ada64c3",
+    "unchanged": false,
+    "db": {
+     "data.pre-m2.sqlite": {
+      "user_version": 1,
+      "rows": [
+       "user data written by v0.1.0"
+      ]
+     },
+     "data.sqlite": {
+      "user_version": 2,
+      "rows": [
+       "user data written by v0.1.0"
+      ]
+     }
+    }
+   },
+   "requests": [
+    "/f/pre.json 200",
+    "/f/app-0.3.0-pre.1 200",
+    "/f/pre.json 200"
+   ]
+  },
+  "wrong_key": {
+   "pass": true,
+   "run": {
+    "exit_code": 4,
+    "seconds": 3.0,
+    "events": [
+     {
+      "appimage": "/home/dkindl/.local/share/distrobox-homes/rust-dev/.cache/q55-work2/wrong_key/app/q55.AppImage",
+      "args": [
+       "q55-updater"
+      ],
+      "event": "start",
+      "exe": "/tmp/.mount_q55.ApaiKFFF/usr/bin/q55-updater",
+      "pid": 953576,
+      "schema": 1,
+      "time_ms": 1795653894613,
+      "version": "0.1.0"
+     },
+     {
+      "event": "migrated",
+      "pid": 953576,
+      "result": {
+       "from": 0,
+       "rows": [
+        "user data written by v0.1.0"
+       ],
+       "to": 1
+      },
+      "time_ms": 1795653894650,
+      "version": "0.1.0"
+     },
+     {
+      "channel": "stable",
+      "event": "update_found",
+      "new": "0.2.0",
+      "pid": 953576,
+      "time_ms": 1795653894663,
+      "version": "0.1.0"
+     },
+     {
+      "bytes": 116353528,
+      "error": "The signature was created with a different key than the one provided",
+      "event": "install_failed",
+      "pid": 953576,
+      "time_ms": 1795653895095,
+      "version": "0.1.0"
+     }
+    ]
+   },
+   "state": {
+    "hash": "286f5441f87c48c28161ed8797fcc3c24e872c7c8ff29b213dabce3cd0bf2188",
+    "unchanged": true,
+    "db": {
+     "data.sqlite": {
+      "user_version": 1,
+      "rows": [
+       "user data written by v0.1.0"
+      ]
+     }
+    }
+   },
+   "recovery_run": {
+    "exit_code": 0,
+    "seconds": 3.5,
+    "events": [
+     {
+      "appimage": "/home/dkindl/.local/share/distrobox-homes/rust-dev/.cache/q55-work2/wrong_key/app/q55.AppImage",
+      "args": [
+       "q55-updater"
+      ],
+      "event": "start",
+      "exe": "/tmp/.mount_q55.ApiadgJJ/usr/bin/q55-updater",
+      "pid": 953634,
+      "schema": 1,
+      "time_ms": 1795653897746,
+      "version": "0.1.0"
+     },
+     {
+      "event": "migrated",
+      "pid": 953634,
+      "result": {
+       "from": 1,
+       "rows": [
+        "user data written by v0.1.0"
+       ],
+       "to": 1
+      },
+      "time_ms": 1795653897749,
+      "version": "0.1.0"
+     },
+     {
+      "channel": "stable",
+      "event": "update_found",
+      "new": "0.2.0",
+      "pid": 953634,
+      "time_ms": 1795653897762,
+      "version": "0.1.0"
+     },
+     {
+      "bytes": 116353528,
+      "event": "installed",
+      "pid": 953634,
+      "time_ms": 1795653898418,
+      "version": "0.1.0"
+     },
+     {
+      "event": "restarting",
+      "pid": 953634,
+      "time_ms": 1795653898418,
+      "version": "0.1.0"
+     },
+     {
+      "appimage": "/home/dkindl/.local/share/distrobox-homes/rust-dev/.cache/q55-work2/wrong_key/app/q55.AppImage",
+      "args": [
+       "q55-updater"
+      ],
+      "event": "start",
+      "exe": "/tmp/.mount_q55.AphFIPgI/usr/bin/q55-updater",
+      "pid": 953676,
+      "schema": 2,
+      "time_ms": 1795653898751,
+      "version": "0.2.0"
+     },
+     {
+      "event": "migrated",
+      "pid": 953676,
+      "result": {
+       "from": 1,
+       "rows": [
+        "user data written by v0.1.0"
+       ],
+       "to": 2
+      },
+      "time_ms": 1795653898813,
+      "version": "0.2.0"
+     },
+     {
+      "channel": "stable",
+      "event": "no_update",
+      "pid": 953676,
+      "time_ms": 1795653898826,
+      "version": "0.2.0"
+     }
+    ]
+   },
+   "requests": [
+    "/f/stable.json 200",
+    "/f/app-0.2.0-wrongkey 200",
+    "/f/stable.json 200",
+    "/f/app-0.2.0 200",
+    "/f/stable.json 200"
+   ]
+  },
+  "changed_artifact": {
+   "pass": true,
+   "run": {
+    "exit_code": 4,
+    "seconds": 3.0,
+    "events": [
+     {
+      "appimage": "/home/dkindl/.local/share/distrobox-homes/rust-dev/.cache/q55-work2/changed_artifact/app/q55.AppImage",
+      "args": [
+       "q55-updater"
+      ],
+      "event": "start",
+      "exe": "/tmp/.mount_q55.ApdlIhgp/usr/bin/q55-updater",
+      "pid": 953804,
+      "schema": 1,
+      "time_ms": 1795653901413,
+      "version": "0.1.0"
+     },
+     {
+      "event": "migrated",
+      "pid": 953804,
+      "result": {
+       "from": 0,
+       "rows": [
+        "user data written by v0.1.0"
+       ],
+       "to": 1
+      },
+      "time_ms": 1795653901450,
+      "version": "0.1.0"
+     },
+     {
+      "channel": "stable",
+      "event": "update_found",
+      "new": "0.2.0",
+      "pid": 953804,
+      "time_ms": 1795653901464,
+      "version": "0.1.0"
+     },
+     {
+      "bytes": 116353528,
+      "error": "The signature verification failed",
+      "event": "install_failed",
+      "pid": 953804,
+      "time_ms": 1795653902061,
+      "version": "0.1.0"
+     }
+    ]
+   },
+   "state": {
+    "hash": "286f5441f87c48c28161ed8797fcc3c24e872c7c8ff29b213dabce3cd0bf2188",
+    "unchanged": true,
+    "db": {
+     "data.sqlite": {
+      "user_version": 1,
+      "rows": [
+       "user data written by v0.1.0"
+      ]
+     }
+    }
+   },
+   "recovery_run": {
+    "exit_code": 0,
+    "seconds": 3.5,
+    "events": [
+     {
+      "appimage": "/home/dkindl/.local/share/distrobox-homes/rust-dev/.cache/q55-work2/changed_artifact/app/q55.AppImage",
+      "args": [
+       "q55-updater"
+      ],
+      "event": "start",
+      "exe": "/tmp/.mount_q55.ApPPhhpD/usr/bin/q55-updater",
+      "pid": 953998,
+      "schema": 1,
+      "time_ms": 1795653904542,
+      "version": "0.1.0"
+     },
+     {
+      "event": "migrated",
+      "pid": 953998,
+      "result": {
+       "from": 1,
+       "rows": [
+        "user data written by v0.1.0"
+       ],
+       "to": 1
+      },
+      "time_ms": 1795653904546,
+      "version": "0.1.0"
+     },
+     {
+      "channel": "stable",
+      "event": "update_found",
+      "new": "0.2.0",
+      "pid": 953998,
+      "time_ms": 1795653904558,
+      "version": "0.1.0"
+     },
+     {
+      "bytes": 116353528,
+      "event": "installed",
+      "pid": 953998,
+      "time_ms": 1795653905189,
+      "version": "0.1.0"
+     },
+     {
+      "event": "restarting",
+      "pid": 953998,
+      "time_ms": 1795653905189,
+      "version": "0.1.0"
+     },
+     {
+      "appimage": "/home/dkindl/.local/share/distrobox-homes/rust-dev/.cache/q55-work2/changed_artifact/app/q55.AppImage",
+      "args": [
+       "q55-updater"
+      ],
+      "event": "start",
+      "exe": "/tmp/.mount_q55.ApHJIEcC/usr/bin/q55-updater",
+      "pid": 954038,
+      "schema": 2,
+      "time_ms": 1795653905510,
+      "version": "0.2.0"
+     },
+     {
+      "event": "migrated",
+      "pid": 954038,
+      "result": {
+       "from": 1,
+       "rows": [
+        "user data written by v0.1.0"
+       ],
+       "to": 2
+      },
+      "time_ms": 1795653905572,
+      "version": "0.2.0"
+     },
+     {
+      "channel": "stable",
+      "event": "no_update",
+      "pid": 954038,
+      "time_ms": 1795653905585,
+      "version": "0.2.0"
+     }
+    ]
+   },
+   "requests": [
+    "/f/stable.json 200",
+    "/f/app-0.2.0-changed 200",
+    "/f/stable.json 200",
+    "/f/app-0.2.0 200",
+    "/f/stable.json 200"
+   ]
+  },
+  "version_mismatch": {
+   "pass": true,
+   "run": {
+    "exit_code": 4,
+    "seconds": 3.0,
+    "events": [
+     {
+      "appimage": "/home/dkindl/.local/share/distrobox-homes/rust-dev/.cache/q55-work2/version_mismatch/app/q55.AppImage",
+      "args": [
+       "q55-updater"
+      ],
+      "event": "start",
+      "exe": "/tmp/.mount_q55.ApNEkLEi/usr/bin/q55-updater",
+      "pid": 954124,
+      "schema": 1,
+      "time_ms": 1795653908212,
+      "version": "0.1.0"
+     },
+     {
+      "event": "migrated",
+      "pid": 954124,
+      "result": {
+       "from": 0,
+       "rows": [
+        "user data written by v0.1.0"
+       ],
+       "to": 1
+      },
+      "time_ms": 1795653908249,
+      "version": "0.1.0"
+     },
+     {
+      "channel": "stable",
+      "event": "update_found",
+      "new": "0.4.0",
+      "pid": 954124,
+      "time_ms": 1795653908262,
+      "version": "0.1.0"
+     },
+     {
+      "bytes": 116353528,
+      "error": "The update was signed for version 0.2.0 but the update endpoint announced version 0.4.0. The endpoint response may have been tampered with to force installing a different release.",
+      "event": "install_failed",
+      "pid": 954124,
+      "time_ms": 1795653908838,
+      "version": "0.1.0"
+     }
+    ]
+   },
+   "state": {
+    "hash": "286f5441f87c48c28161ed8797fcc3c24e872c7c8ff29b213dabce3cd0bf2188",
+    "unchanged": true,
+    "db": {
+     "data.sqlite": {
+      "user_version": 1,
+      "rows": [
+       "user data written by v0.1.0"
+      ]
+     }
+    }
+   },
+   "recovery_run": {
+    "exit_code": 0,
+    "seconds": 3.5,
+    "events": [
+     {
+      "appimage": "/home/dkindl/.local/share/distrobox-homes/rust-dev/.cache/q55-work2/version_mismatch/app/q55.AppImage",
+      "args": [
+       "q55-updater"
+      ],
+      "event": "start",
+      "exe": "/tmp/.mount_q55.ApojdHOo/usr/bin/q55-updater",
+      "pid": 954209,
+      "schema": 1,
+      "time_ms": 1795653911343,
+      "version": "0.1.0"
+     },
+     {
+      "event": "migrated",
+      "pid": 954209,
+      "result": {
+       "from": 1,
+       "rows": [
+        "user data written by v0.1.0"
+       ],
+       "to": 1
+      },
+      "time_ms": 1795653911347,
+      "version": "0.1.0"
+     },
+     {
+      "channel": "stable",
+      "event": "update_found",
+      "new": "0.2.0",
+      "pid": 954209,
+      "time_ms": 1795653911360,
+      "version": "0.1.0"
+     },
+     {
+      "bytes": 116353528,
+      "event": "installed",
+      "pid": 954209,
+      "time_ms": 1795653911973,
+      "version": "0.1.0"
+     },
+     {
+      "event": "restarting",
+      "pid": 954209,
+      "time_ms": 1795653911973,
+      "version": "0.1.0"
+     },
+     {
+      "appimage": "/home/dkindl/.local/share/distrobox-homes/rust-dev/.cache/q55-work2/version_mismatch/app/q55.AppImage",
+      "args": [
+       "q55-updater"
+      ],
+      "event": "start",
+      "exe": "/tmp/.mount_q55.ApcfCDLk/usr/bin/q55-updater",
+      "pid": 954251,
+      "schema": 2,
+      "time_ms": 1795653912301,
+      "version": "0.2.0"
+     },
+     {
+      "event": "migrated",
+      "pid": 954251,
+      "result": {
+       "from": 1,
+       "rows": [
+        "user data written by v0.1.0"
+       ],
+       "to": 2
+      },
+      "time_ms": 1795653912364,
+      "version": "0.2.0"
+     },
+     {
+      "channel": "stable",
+      "event": "no_update",
+      "pid": 954251,
+      "time_ms": 1795653912377,
+      "version": "0.2.0"
+     }
+    ]
+   },
+   "requests": [
+    "/f/stable.json 200",
+    "/f/app-0.2.0 200",
+    "/f/stable.json 200",
+    "/f/app-0.2.0 200",
+    "/f/stable.json 200"
+   ]
+  },
+  "no_signed_version": {
+   "pass": true,
+   "run": {
+    "exit_code": 4,
+    "seconds": 3.0,
+    "events": [
+     {
+      "appimage": "/home/dkindl/.local/share/distrobox-homes/rust-dev/.cache/q55-work2/no_signed_version/app/q55.AppImage",
+      "args": [
+       "q55-updater"
+      ],
+      "event": "start",
+      "exe": "/tmp/.mount_q55.ApaJPhec/usr/bin/q55-updater",
+      "pid": 954365,
+      "schema": 1,
+      "time_ms": 1795653915015,
+      "version": "0.1.0"
+     },
+     {
+      "event": "migrated",
+      "pid": 954365,
+      "result": {
+       "from": 0,
+       "rows": [
+        "user data written by v0.1.0"
+       ],
+       "to": 1
+      },
+      "time_ms": 1795653915053,
+      "version": "0.1.0"
+     },
+     {
+      "channel": "stable",
+      "event": "update_found",
+      "new": "0.2.0",
+      "pid": 954365,
+      "time_ms": 1795653915065,
+      "version": "0.1.0"
+     },
+     {
+      "bytes": 116353528,
+      "error": "The update signature does not specify the version it was signed for, which `requireSignedVersion` requires. Re-sign and re-publish this release, or disable `requireSignedVersion`.",
+      "event": "install_failed",
+      "pid": 954365,
+      "time_ms": 1795653915666,
+      "version": "0.1.0"
+     }
+    ]
+   },
+   "state": {
+    "hash": "286f5441f87c48c28161ed8797fcc3c24e872c7c8ff29b213dabce3cd0bf2188",
+    "unchanged": true,
+    "db": {
+     "data.sqlite": {
+      "user_version": 1,
+      "rows": [
+       "user data written by v0.1.0"
+      ]
+     }
+    }
+   },
+   "recovery_run": {
+    "exit_code": 0,
+    "seconds": 3.5,
+    "events": [
+     {
+      "appimage": "/home/dkindl/.local/share/distrobox-homes/rust-dev/.cache/q55-work2/no_signed_version/app/q55.AppImage",
+      "args": [
+       "q55-updater"
+      ],
+      "event": "start",
+      "exe": "/tmp/.mount_q55.ApKhGDkg/usr/bin/q55-updater",
+      "pid": 954485,
+      "schema": 1,
+      "time_ms": 1795653918147,
+      "version": "0.1.0"
+     },
+     {
+      "event": "migrated",
+      "pid": 954485,
+      "result": {
+       "from": 1,
+       "rows": [
+        "user data written by v0.1.0"
+       ],
+       "to": 1
+      },
+      "time_ms": 1795653918151,
+      "version": "0.1.0"
+     },
+     {
+      "channel": "stable",
+      "event": "update_found",
+      "new": "0.2.0",
+      "pid": 954485,
+      "time_ms": 1795653918164,
+      "version": "0.1.0"
+     },
+     {
+      "bytes": 116353528,
+      "event": "installed",
+      "pid": 954485,
+      "time_ms": 1795653918794,
+      "version": "0.1.0"
+     },
+     {
+      "event": "restarting",
+      "pid": 954485,
+      "time_ms": 1795653918794,
+      "version": "0.1.0"
+     },
+     {
+      "appimage": "/home/dkindl/.local/share/distrobox-homes/rust-dev/.cache/q55-work2/no_signed_version/app/q55.AppImage",
+      "args": [
+       "q55-updater"
+      ],
+      "event": "start",
+      "exe": "/tmp/.mount_q55.ApcnAGgf/usr/bin/q55-updater",
+      "pid": 954605,
+      "schema": 2,
+      "time_ms": 1795653919118,
+      "version": "0.2.0"
+     },
+     {
+      "event": "migrated",
+      "pid": 954605,
+      "result": {
+       "from": 1,
+       "rows": [
+        "user data written by v0.1.0"
+       ],
+       "to": 2
+      },
+      "time_ms": 1795653919194,
+      "version": "0.2.0"
+     },
+     {
+      "channel": "stable",
+      "event": "no_update",
+      "pid": 954605,
+      "time_ms": 1795653919207,
+      "version": "0.2.0"
+     }
+    ]
+   },
+   "requests": [
+    "/f/stable.json 200",
+    "/f/app-0.2.0-noversion 200",
+    "/f/stable.json 200",
+    "/f/app-0.2.0 200",
+    "/f/stable.json 200"
+   ]
+  },
+  "interrupted_download": {
+   "pass": true,
+   "run": {
+    "exit_code": 4,
+    "seconds": 3.0,
+    "events": [
+     {
+      "appimage": "/home/dkindl/.local/share/distrobox-homes/rust-dev/.cache/q55-work2/interrupted_download/app/q55.AppImage",
+      "args": [
+       "q55-updater"
+      ],
+      "event": "start",
+      "exe": "/tmp/.mount_q55.ApFBPCMN/usr/bin/q55-updater",
+      "pid": 954698,
+      "schema": 1,
+      "time_ms": 1795653921815,
+      "version": "0.1.0"
+     },
+     {
+      "event": "migrated",
+      "pid": 954698,
+      "result": {
+       "from": 0,
+       "rows": [
+        "user data written by v0.1.0"
+       ],
+       "to": 1
+      },
+      "time_ms": 1795653921861,
+      "version": "0.1.0"
+     },
+     {
+      "channel": "stable",
+      "event": "update_found",
+      "new": "0.2.0",
+      "pid": 954698,
+      "time_ms": 1795653921874,
+      "version": "0.1.0"
+     },
+     {
+      "bytes": 58176764,
+      "error": "error decoding response body",
+      "event": "install_failed",
+      "pid": 954698,
+      "time_ms": 1795653922135,
+      "version": "0.1.0"
+     }
+    ]
+   },
+   "state": {
+    "hash": "286f5441f87c48c28161ed8797fcc3c24e872c7c8ff29b213dabce3cd0bf2188",
+    "unchanged": true,
+    "db": {
+     "data.sqlite": {
+      "user_version": 1,
+      "rows": [
+       "user data written by v0.1.0"
+      ]
+     }
+    }
+   },
+   "recovery_run": {
+    "exit_code": 0,
+    "seconds": 3.5,
+    "events": [
+     {
+      "appimage": "/home/dkindl/.local/share/distrobox-homes/rust-dev/.cache/q55-work2/interrupted_download/app/q55.AppImage",
+      "args": [
+       "q55-updater"
+      ],
+      "event": "start",
+      "exe": "/tmp/.mount_q55.ApImhDlb/usr/bin/q55-updater",
+      "pid": 954808,
+      "schema": 1,
+      "time_ms": 1795653924959,
+      "version": "0.1.0"
+     },
+     {
+      "event": "migrated",
+      "pid": 954808,
+      "result": {
+       "from": 1,
+       "rows": [
+        "user data written by v0.1.0"
+       ],
+       "to": 1
+      },
+      "time_ms": 1795653924962,
+      "version": "0.1.0"
+     },
+     {
+      "channel": "stable",
+      "event": "update_found",
+      "new": "0.2.0",
+      "pid": 954808,
+      "time_ms": 1795653924975,
+      "version": "0.1.0"
+     },
+     {
+      "bytes": 116353528,
+      "event": "installed",
+      "pid": 954808,
+      "time_ms": 1795653925594,
+      "version": "0.1.0"
+     },
+     {
+      "event": "restarting",
+      "pid": 954808,
+      "time_ms": 1795653925594,
+      "version": "0.1.0"
+     },
+     {
+      "appimage": "/home/dkindl/.local/share/distrobox-homes/rust-dev/.cache/q55-work2/interrupted_download/app/q55.AppImage",
+      "args": [
+       "q55-updater"
+      ],
+      "event": "start",
+      "exe": "/tmp/.mount_q55.ApeeGJHa/usr/bin/q55-updater",
+      "pid": 954849,
+      "schema": 2,
+      "time_ms": 1795653925921,
+      "version": "0.2.0"
+     },
+     {
+      "event": "migrated",
+      "pid": 954849,
+      "result": {
+       "from": 1,
+       "rows": [
+        "user data written by v0.1.0"
+       ],
+       "to": 2
+      },
+      "time_ms": 1795653925998,
+      "version": "0.2.0"
+     },
+     {
+      "channel": "stable",
+      "event": "no_update",
+      "pid": 954849,
+      "time_ms": 1795653926010,
+      "version": "0.2.0"
+     }
+    ]
+   },
+   "requests": [
+    "/f/stable.json 200",
+    "/cut/app-0.2.0 200",
+    "/f/stable.json 200",
+    "/f/app-0.2.0 200",
+    "/f/stable.json 200"
+   ]
+  },
+  "bad_payload": {
+   "pass": true,
+   "run": {
+    "exit_code": 4,
+    "seconds": 2.5,
+    "events": [
+     {
+      "appimage": "/home/dkindl/.local/share/distrobox-homes/rust-dev/.cache/q55-work2/bad_payload/app/q55.AppImage",
+      "args": [
+       "q55-updater"
+      ],
+      "event": "start",
+      "exe": "/tmp/.mount_q55.ApnJnlEI/usr/bin/q55-updater",
+      "pid": 954908,
+      "schema": 1,
+      "time_ms": 1795653928626,
+      "version": "0.1.0"
+     },
+     {
+      "event": "migrated",
+      "pid": 954908,
+      "result": {
+       "from": 0,
+       "rows": [
+        "user data written by v0.1.0"
+       ],
+       "to": 1
+      },
+      "time_ms": 1795653928672,
+      "version": "0.1.0"
+     },
+     {
+      "channel": "stable",
+      "event": "update_found",
+      "new": "0.2.0",
+      "pid": 954908,
+      "time_ms": 1795653928685,
+      "version": "0.1.0"
+     },
+     {
+      "bytes": 43000,
+      "error": "invalid updater binary format",
+      "event": "install_failed",
+      "pid": 954908,
+      "time_ms": 1795653928696,
+      "version": "0.1.0"
+     }
+    ]
+   },
+   "state": {
+    "hash": "286f5441f87c48c28161ed8797fcc3c24e872c7c8ff29b213dabce3cd0bf2188",
+    "unchanged": true,
+    "db": {
+     "data.sqlite": {
+      "user_version": 1,
+      "rows": [
+       "user data written by v0.1.0"
+      ]
+     }
+    }
+   },
+   "recovery_run": {
+    "exit_code": 0,
+    "seconds": 3.5,
+    "events": [
+     {
+      "appimage": "/home/dkindl/.local/share/distrobox-homes/rust-dev/.cache/q55-work2/bad_payload/app/q55.AppImage",
+      "args": [
+       "q55-updater"
+      ],
+      "event": "start",
+      "exe": "/tmp/.mount_q55.ApoPJEIl/usr/bin/q55-updater",
+      "pid": 955034,
+      "schema": 1,
+      "time_ms": 1795653931259,
+      "version": "0.1.0"
+     },
+     {
+      "event": "migrated",
+      "pid": 955034,
+      "result": {
+       "from": 1,
+       "rows": [
+        "user data written by v0.1.0"
+       ],
+       "to": 1
+      },
+      "time_ms": 1795653931262,
+      "version": "0.1.0"
+     },
+     {
+      "channel": "stable",
+      "event": "update_found",
+      "new": "0.2.0",
+      "pid": 955034,
+      "time_ms": 1795653931275,
+      "version": "0.1.0"
+     },
+     {
+      "bytes": 116353528,
+      "event": "installed",
+      "pid": 955034,
+      "time_ms": 1795653931934,
+      "version": "0.1.0"
+     },
+     {
+      "event": "restarting",
+      "pid": 955034,
+      "time_ms": 1795653931934,
+      "version": "0.1.0"
+     },
+     {
+      "appimage": "/home/dkindl/.local/share/distrobox-homes/rust-dev/.cache/q55-work2/bad_payload/app/q55.AppImage",
+      "args": [
+       "q55-updater"
+      ],
+      "event": "start",
+      "exe": "/tmp/.mount_q55.ApmhlKok/usr/bin/q55-updater",
+      "pid": 955148,
+      "schema": 2,
+      "time_ms": 1795653932271,
+      "version": "0.2.0"
+     },
+     {
+      "event": "migrated",
+      "pid": 955148,
+      "result": {
+       "from": 1,
+       "rows": [
+        "user data written by v0.1.0"
+       ],
+       "to": 2
+      },
+      "time_ms": 1795653932338,
+      "version": "0.2.0"
+     },
+     {
+      "channel": "stable",
+      "event": "no_update",
+      "pid": 955148,
+      "time_ms": 1795653932351,
+      "version": "0.2.0"
+     }
+    ]
+   },
+   "requests": [
+    "/f/stable.json 200",
+    "/f/bad-payload 200",
+    "/f/stable.json 200",
+    "/f/app-0.2.0 200",
+    "/f/stable.json 200"
+   ]
+  },
+  "no_network": {
+   "pass": true,
+   "refused": {
+    "run": {
+     "exit_code": 4,
+     "seconds": 2.5,
+     "events": [
+      {
+       "appimage": "/home/dkindl/.local/share/distrobox-homes/rust-dev/.cache/q55-work2/no_network_refused/app/q55.AppImage",
+       "args": [
+        "q55-updater"
+       ],
+       "event": "start",
+       "exe": "/tmp/.mount_q55.ApPapIlb/usr/bin/q55-updater",
+       "pid": 955269,
+       "schema": 1,
+       "time_ms": 1795653934928,
+       "version": "0.1.0"
+      },
+      {
+       "event": "migrated",
+       "pid": 955269,
+       "result": {
+        "from": 0,
+        "rows": [
+         "user data written by v0.1.0"
+        ],
+        "to": 1
+       },
+       "time_ms": 1795653934974,
+       "version": "0.1.0"
+      },
+      {
+       "channel": "stable",
+       "error": "error sending request for url (http://127.0.0.1:9/latest.json)",
+       "event": "check_failed",
+       "pid": 955269,
+       "time_ms": 1795653934986,
+       "version": "0.1.0"
+      }
+     ]
+    },
+    "state": {
+     "hash": "286f5441f87c48c28161ed8797fcc3c24e872c7c8ff29b213dabce3cd0bf2188",
+     "unchanged": true,
+     "db": {
+      "data.sqlite": {
+       "user_version": 1,
+       "rows": [
+        "user data written by v0.1.0"
+       ]
+      }
+     }
+    }
+   },
+   "black_hole": {
+    "run": {
+     "exit_code": 4,
+     "seconds": 7.5,
+     "events": [
+      {
+       "appimage": "/home/dkindl/.local/share/distrobox-homes/rust-dev/.cache/q55-work2/no_network_black_hole/app/q55.AppImage",
+       "args": [
+        "q55-updater"
+       ],
+       "event": "start",
+       "exe": "/tmp/.mount_q55.ApJlaPnL/usr/bin/q55-updater",
+       "pid": 955345,
+       "schema": 1,
+       "time_ms": 1795653937723,
+       "version": "0.1.0"
+      },
+      {
+       "event": "migrated",
+       "pid": 955345,
+       "result": {
+        "from": 0,
+        "rows": [
+         "user data written by v0.1.0"
+        ],
+        "to": 1
+       },
+       "time_ms": 1795653937769,
+       "version": "0.1.0"
+      },
+      {
+       "channel": "stable",
+       "error": "error sending request for url (http://127.0.0.1:18556/latest.json)",
+       "event": "check_failed",
+       "pid": 955345,
+       "time_ms": 1795653942783,
+       "version": "0.1.0"
+      }
+     ]
+    },
+    "state": {
+     "hash": "286f5441f87c48c28161ed8797fcc3c24e872c7c8ff29b213dabce3cd0bf2188",
+     "unchanged": true,
+     "db": {
+      "data.sqlite": {
+       "user_version": 1,
+       "rows": [
+        "user data written by v0.1.0"
+       ]
+      }
+     }
+    }
+   },
+   "requests": []
+  },
+  "not_writable": {
+   "pass": true,
+   "run": {
+    "exit_code": 4,
+    "seconds": 8.0,
+    "events": [
+     {
+      "appimage": "/home/dkindl/.local/share/distrobox-homes/rust-dev/.cache/q55-work2/not_writable/app/q55.AppImage",
+      "args": [
+       "q55-updater"
+      ],
+      "event": "start",
+      "exe": "/tmp/.mount_q55.ApgcHfMG/usr/bin/q55-updater",
+      "pid": 955516,
+      "schema": 1,
+      "time_ms": 1795653945527,
+      "version": "0.1.0"
+     },
+     {
+      "event": "migrated",
+      "pid": 955516,
+      "result": {
+       "from": 0,
+       "rows": [
+        "user data written by v0.1.0"
+       ],
+       "to": 1
+      },
+      "time_ms": 1795653945573,
+      "version": "0.1.0"
+     },
+     {
+      "channel": "stable",
+      "event": "update_found",
+      "new": "0.2.0",
+      "pid": 955516,
+      "time_ms": 1795653945586,
+      "version": "0.1.0"
+     },
+     {
+      "event": "paused",
+      "pid": 955516,
+      "seconds": 5,
+      "time_ms": 1795653945586,
+      "version": "0.1.0"
+     },
+     {
+      "bytes": 116353528,
+      "error": "Permission denied (os error 13)",
+      "event": "install_failed",
+      "pid": 955516,
+      "time_ms": 1795653951208,
+      "version": "0.1.0"
+     }
+    ]
+   },
+   "state": {
+    "hash": "286f5441f87c48c28161ed8797fcc3c24e872c7c8ff29b213dabce3cd0bf2188",
+    "unchanged": true,
+    "db": {
+     "data.sqlite": {
+      "user_version": 1,
+      "rows": [
+       "user data written by v0.1.0"
+      ]
+     }
+    }
+   },
+   "install_dir": [
+    "q55.AppImage"
+   ],
+   "recovery_run": {
+    "exit_code": 0,
+    "seconds": 3.5,
+    "events": [
+     {
+      "appimage": "/home/dkindl/.local/share/distrobox-homes/rust-dev/.cache/q55-work2/not_writable/app/q55.AppImage",
+      "args": [
+       "q55-updater"
+      ],
+      "event": "start",
+      "exe": "/tmp/.mount_q55.ApimfLmK/usr/bin/q55-updater",
+      "pid": 955750,
+      "schema": 1,
+      "time_ms": 1795653953661,
+      "version": "0.1.0"
+     },
+     {
+      "event": "migrated",
+      "pid": 955750,
+      "result": {
+       "from": 1,
+       "rows": [
+        "user data written by v0.1.0"
+       ],
+       "to": 1
+      },
+      "time_ms": 1795653953664,
+      "version": "0.1.0"
+     },
+     {
+      "channel": "stable",
+      "event": "update_found",
+      "new": "0.2.0",
+      "pid": 955750,
+      "time_ms": 1795653953677,
+      "version": "0.1.0"
+     },
+     {
+      "bytes": 116353528,
+      "event": "installed",
+      "pid": 955750,
+      "time_ms": 1795653954309,
+      "version": "0.1.0"
+     },
+     {
+      "event": "restarting",
+      "pid": 955750,
+      "time_ms": 1795653954309,
+      "version": "0.1.0"
+     },
+     {
+      "appimage": "/home/dkindl/.local/share/distrobox-homes/rust-dev/.cache/q55-work2/not_writable/app/q55.AppImage",
+      "args": [
+       "q55-updater"
+      ],
+      "event": "start",
+      "exe": "/tmp/.mount_q55.ApnNcleJ/usr/bin/q55-updater",
+      "pid": 955833,
+      "schema": 2,
+      "time_ms": 1795653954634,
+      "version": "0.2.0"
+     },
+     {
+      "event": "migrated",
+      "pid": 955833,
+      "result": {
+       "from": 1,
+       "rows": [
+        "user data written by v0.1.0"
+       ],
+       "to": 2
+      },
+      "time_ms": 1795653954698,
+      "version": "0.2.0"
+     },
+     {
+      "channel": "stable",
+      "event": "no_update",
+      "pid": 955833,
+      "time_ms": 1795653954710,
+      "version": "0.2.0"
+     }
+    ]
+   },
+   "recovery_state": {
+    "hash": "d63c21b4180149e61aa6eca639aa8d2b652b01bbc94e72e4596fda243375cef4",
+    "unchanged": false,
+    "db": {
+     "data.pre-m2.sqlite": {
+      "user_version": 1,
+      "rows": [
+       "user data written by v0.1.0"
+      ]
+     },
+     "data.sqlite": {
+      "user_version": 2,
+      "rows": [
+       "user data written by v0.1.0"
+      ]
+     }
+    }
+   },
+   "requests": [
+    "/f/stable.json 200",
+    "/f/app-0.2.0 200",
+    "/f/stable.json 200",
+    "/f/app-0.2.0 200",
+    "/f/stable.json 200"
+   ]
+  },
+  "failed_install": {
+   "pass": true,
+   "run": {
+    "exit_code": 4,
+    "seconds": 3.5,
+    "events": [
+     {
+      "appimage": "/home/dkindl/.local/share/distrobox-homes/rust-dev/.cache/q55-work2/failed_install/app/q55.AppImage",
+      "args": [
+       "q55-updater"
+      ],
+      "event": "start",
+      "exe": "/tmp/.mount_q55.ApDmeDfF/usr/bin/q55-updater",
+      "pid": 955912,
+      "schema": 1,
+      "time_ms": 1795653957475,
+      "version": "0.1.0"
+     },
+     {
+      "event": "migrated",
+      "pid": 955912,
+      "result": {
+       "from": 0,
+       "rows": [
+        "user data written by v0.1.0"
+       ],
+       "to": 1
+      },
+      "time_ms": 1795653957513,
+      "version": "0.1.0"
+     },
+     {
+      "channel": "stable",
+      "event": "update_found",
+      "new": "0.2.0",
+      "pid": 955912,
+      "time_ms": 1795653957526,
+      "version": "0.1.0"
+     },
+     {
+      "bytes": 116353528,
+      "error": "File too large (os error 27)",
+      "event": "install_failed",
+      "pid": 955912,
+      "time_ms": 1795653958260,
+      "version": "0.1.0"
+     }
+    ]
+   },
+   "state": {
+    "hash": "286f5441f87c48c28161ed8797fcc3c24e872c7c8ff29b213dabce3cd0bf2188",
+    "unchanged": true,
+    "db": {
+     "data.sqlite": {
+      "user_version": 1,
+      "rows": [
+       "user data written by v0.1.0"
+      ]
+     }
+    }
+   },
+   "changed_files": [],
+   "lock_handles": [],
+   "start_after_fail": {
+    "exit_code": 0,
+    "seconds": 2.5,
+    "events": [
+     {
+      "appimage": "/home/dkindl/.local/share/distrobox-homes/rust-dev/.cache/q55-work2/failed_install/app/q55.AppImage",
+      "args": [
+       "q55-updater"
+      ],
+      "event": "start",
+      "exe": "/tmp/.mount_q55.ApAdBlmi/usr/bin/q55-updater",
+      "pid": 956040,
+      "schema": 1,
+      "time_ms": 1795653961113,
+      "version": "0.1.0"
+     },
+     {
+      "event": "migrated",
+      "pid": 956040,
+      "result": {
+       "from": 1,
+       "rows": [
+        "user data written by v0.1.0"
+       ],
+       "to": 1
+      },
+      "time_ms": 1795653961117,
+      "version": "0.1.0"
+     },
+     {
+      "channel": "stable",
+      "event": "update_found",
+      "new": "0.2.0",
+      "pid": 956040,
+      "time_ms": 1795653961130,
+      "version": "0.1.0"
+     },
+     {
+      "event": "update_skipped",
+      "pid": 956040,
+      "time_ms": 1795653961130,
+      "version": "0.1.0"
+     }
+    ]
+   },
+   "recovery_run": {
+    "exit_code": 0,
+    "seconds": 3.5,
+    "events": [
+     {
+      "appimage": "/home/dkindl/.local/share/distrobox-homes/rust-dev/.cache/q55-work2/failed_install/app/q55.AppImage",
+      "args": [
+       "q55-updater"
+      ],
+      "event": "start",
+      "exe": "/tmp/.mount_q55.AplgeJIK/usr/bin/q55-updater",
+      "pid": 956156,
+      "schema": 1,
+      "time_ms": 1795653963618,
+      "version": "0.1.0"
+     },
+     {
+      "event": "migrated",
+      "pid": 956156,
+      "result": {
+       "from": 1,
+       "rows": [
+        "user data written by v0.1.0"
+       ],
+       "to": 1
+      },
+      "time_ms": 1795653963622,
+      "version": "0.1.0"
+     },
+     {
+      "channel": "stable",
+      "event": "update_found",
+      "new": "0.2.0",
+      "pid": 956156,
+      "time_ms": 1795653963635,
+      "version": "0.1.0"
+     },
+     {
+      "bytes": 116353528,
+      "event": "installed",
+      "pid": 956156,
+      "time_ms": 1795653964365,
+      "version": "0.1.0"
+     },
+     {
+      "event": "restarting",
+      "pid": 956156,
+      "time_ms": 1795653964365,
+      "version": "0.1.0"
+     },
+     {
+      "appimage": "/home/dkindl/.local/share/distrobox-homes/rust-dev/.cache/q55-work2/failed_install/app/q55.AppImage",
+      "args": [
+       "q55-updater"
+      ],
+      "event": "start",
+      "exe": "/tmp/.mount_q55.ApnMPoFM/usr/bin/q55-updater",
+      "pid": 956275,
+      "schema": 2,
+      "time_ms": 1795653964687,
+      "version": "0.2.0"
+     },
+     {
+      "event": "migrated",
+      "pid": 956275,
+      "result": {
+       "from": 1,
+       "rows": [
+        "user data written by v0.1.0"
+       ],
+       "to": 2
+      },
+      "time_ms": 1795653964741,
+      "version": "0.2.0"
+     },
+     {
+      "channel": "stable",
+      "event": "no_update",
+      "pid": 956275,
+      "time_ms": 1795653964754,
+      "version": "0.2.0"
+     }
+    ]
+   },
+   "recovery_state": {
+    "hash": "d63c21b4180149e61aa6eca639aa8d2b652b01bbc94e72e4596fda243375cef4",
+    "unchanged": false,
+    "db": {
+     "data.pre-m2.sqlite": {
+      "user_version": 1,
+      "rows": [
+       "user data written by v0.1.0"
+      ]
+     },
+     "data.sqlite": {
+      "user_version": 2,
+      "rows": [
+       "user data written by v0.1.0"
+      ]
+     }
+    }
+   },
+   "requests": [
+    "/f/stable.json 200",
+    "/f/app-0.2.0 200",
+    "/f/stable.json 200",
+    "/f/stable.json 200",
+    "/f/app-0.2.0 200",
+    "/f/stable.json 200"
+   ]
+  },
+  "failed_migration": {
+   "pass": true,
+   "run": {
+    "exit_code": 0,
+    "seconds": 5.5,
+    "events": [
+     {
+      "appimage": "/home/dkindl/.local/share/distrobox-homes/rust-dev/.cache/q55-work2/failed_migration/app/q55.AppImage",
+      "args": [
+       "q55-updater"
+      ],
+      "event": "start",
+      "exe": "/tmp/.mount_q55.ApdbAcgE/usr/bin/q55-updater",
+      "pid": 956354,
+      "schema": 1,
+      "time_ms": 1795653967414,
+      "version": "0.1.0"
+     },
+     {
+      "event": "migrated",
+      "pid": 956354,
+      "result": {
+       "from": 0,
+       "rows": [
+        "user data written by v0.1.0"
+       ],
+       "to": 1
+      },
+      "time_ms": 1795653967451,
+      "version": "0.1.0"
+     },
+     {
+      "channel": "stable",
+      "event": "update_found",
+      "new": "0.2.0",
+      "pid": 956354,
+      "time_ms": 1795653967464,
+      "version": "0.1.0"
+     },
+     {
+      "bytes": 116353528,
+      "event": "installed",
+      "pid": 956354,
+      "time_ms": 1795653969872,
+      "version": "0.1.0"
+     },
+     {
+      "event": "restarting",
+      "pid": 956354,
+      "time_ms": 1795653969872,
+      "version": "0.1.0"
+     },
+     {
+      "appimage": "/home/dkindl/.local/share/distrobox-homes/rust-dev/.cache/q55-work2/failed_migration/app/q55.AppImage",
+      "args": [
+       "q55-updater"
+      ],
+      "event": "start",
+      "exe": "/tmp/.mount_q55.ApgfPkel/usr/bin/q55-updater",
+      "pid": 956461,
+      "schema": 2,
+      "time_ms": 1795653970207,
+      "version": "0.2.0"
+     },
+     {
+      "error": "m2: forced failure after the statements ran",
+      "event": "migration_failed",
+      "pid": 956461,
+      "time_ms": 1795653970245,
+      "version": "0.2.0"
+     }
+    ]
+   },
+   "state": {
+    "hash": "d63c21b4180149e61aa6eca639aa8d2b652b01bbc94e72e4596fda243375cef4",
+    "unchanged": false,
+    "db": {
+     "data.pre-m2.sqlite": {
+      "user_version": 1,
+      "rows": [
+       "user data written by v0.1.0"
+      ]
+     },
+     "data.sqlite": {
+      "user_version": 1,
+      "rows": [
+       "user data written by v0.1.0"
+      ]
+     }
+    }
+   },
+   "recovery_run": {
+    "exit_code": 0,
+    "seconds": 2.5,
+    "events": [
+     {
+      "appimage": "/home/dkindl/.local/share/distrobox-homes/rust-dev/.cache/q55-work2/failed_migration/app/q55.AppImage",
+      "args": [
+       "q55-updater"
+      ],
+      "event": "start",
+      "exe": "/tmp/.mount_q55.ApLnlEoh/usr/bin/q55-updater",
+      "pid": 956512,
+      "schema": 2,
+      "time_ms": 1795653973052,
+      "version": "0.2.0"
+     },
+     {
+      "event": "migrated",
+      "pid": 956512,
+      "result": {
+       "from": 1,
+       "rows": [
+        "user data written by v0.1.0"
+       ],
+       "to": 2
+      },
+      "time_ms": 1795653973116,
+      "version": "0.2.0"
+     },
+     {
+      "channel": "stable",
+      "event": "no_update",
+      "pid": 956512,
+      "time_ms": 1795653973128,
+      "version": "0.2.0"
+     }
+    ]
+   },
+   "recovery_state": {
+    "hash": "d63c21b4180149e61aa6eca639aa8d2b652b01bbc94e72e4596fda243375cef4",
+    "unchanged": false,
+    "db": {
+     "data.pre-m2.sqlite": {
+      "user_version": 1,
+      "rows": [
+       "user data written by v0.1.0"
+      ]
+     },
+     "data.sqlite": {
+      "user_version": 2,
+      "rows": [
+       "user data written by v0.1.0"
+      ]
+     }
+    }
+   },
+   "requests": [
+    "/f/stable.json 200",
+    "/f/app-0.2.0 200",
+    "/f/stable.json 200"
+   ]
+  }
+ }
+}
