@@ -158,10 +158,17 @@ class Env:
             json.dump(cfg, f)
 
     def events(self):
+        out = []
         try:
-            return [json.loads(l) for l in read(os.path.join(self.data, "q55-log.jsonl")).splitlines() if l]
+            lines = read(os.path.join(self.data, "q55-log.jsonl")).splitlines()
         except OSError:
-            return []
+            return out
+        for l in lines:
+            try:
+                out.append(json.loads(l))
+            except ValueError:
+                pass  # a line that the app is still writing
+        return out
 
     def run(self, timeout=240, fsize=None, on_pause=None):
         before = len(self.events())
@@ -195,6 +202,7 @@ class Env:
         else:
             p.kill()
             step("app run timed out")
+            screenshot(os.path.basename(self.root))
             kill_installers()
         return {"exit_code": code, "seconds": round(time.time() - t0, 1),
                 "events": self.events()[before:]}
@@ -236,6 +244,26 @@ def unlock_file(h):
 
 def step(msg):
     print(f"  {time.strftime('%H:%M:%S')} {msg}", flush=True)
+
+
+def screenshot(name):
+    """Saves the screen next to the result file (Windows), to show a waiting dialog."""
+    if not WIN:
+        return
+    out = os.path.join(os.path.dirname(RESULT), f"q55-{name}.png")
+    ps = ("Add-Type -AssemblyName System.Windows.Forms,System.Drawing; "
+          "$b = [System.Windows.Forms.SystemInformation]::VirtualScreen; "
+          "$i = New-Object System.Drawing.Bitmap $b.Width, $b.Height; "
+          "$g = [System.Drawing.Graphics]::FromImage($i); "
+          "$g.CopyFromScreen($b.Left, $b.Top, 0, 0, $i.Size); "
+          f"$i.Save('{out}')")
+    r = subprocess.run(["powershell", "-NoProfile", "-Command", ps], check=False,
+                       capture_output=True, text=True, timeout=60)
+    step(f"screenshot {out} rc={r.returncode} {r.stderr.strip()[:200]}")
+    r = subprocess.run(["powershell", "-NoProfile", "-Command",
+                        "Get-Process | Where-Object { $_.MainWindowTitle } | ForEach-Object { \"$($_.Name): $($_.MainWindowTitle)\" }"],
+                       check=False, capture_output=True, text=True, timeout=60)
+    step("windows: " + r.stdout.strip().replace("\n", " | "))
 
 
 def kill_installers():
