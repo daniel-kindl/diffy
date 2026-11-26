@@ -1,0 +1,155 @@
+{
+  "platform": "Linux-7.3.4-ogc8.1.fc45.x86_64-x86_64-with-glibc2.43",
+  "app": "q75-single",
+  "tests": {
+    "thread": {
+      "second": {
+        "exit": 0,
+        "wall_ms": 103,
+        "stderr": ""
+      },
+      "callback": {
+        "argv": [
+          "~/.cache/q75-work/prototypes/q75-single-instance/src-tauri/target/release/q75-single",
+          "x"
+        ],
+        "cwd": "~/.cache/q75-run/bin/thread",
+        "event": "callback",
+        "files": [
+          {
+            "arg": "x",
+            "file": false
+          }
+        ],
+        "main_thread": false,
+        "pid": 2142892,
+        "t": 1795704517676.1902,
+        "t_end": 1795704517676.2395,
+        "thread_id": "ThreadId(6)",
+        "thread_name": "zbus::Connection executor"
+      },
+      "pass": true
+    },
+    "cwd": {
+      "first_cwd_expected": "~/.cache/q75-run/bin/cwd/a",
+      "second_cwd_expected": "~/.cache/q75-run/bin/cwd/b",
+      "starts": [
+        {
+          "appimage": null,
+          "args": [
+            "~/.cache/q75-work/prototypes/q75-single-instance/src-tauri/target/release/q75-single",
+            "first"
+          ],
+          "cwd": "~/.cache/q75-run/bin/cwd/a",
+          "event": "start",
+          "owd": null,
+          "pid": 2142951,
+          "t": 1795704517832.2
+        },
+        {
+          "appimage": null,
+          "args": [
+            "~/.cache/q75-work/prototypes/q75-single-instance/src-tauri/target/release/q75-single",
+            "input.txt"
+          ],
+          "cwd": "~/.cache/q75-run/bin/cwd/b",
+          "event": "start",
+          "owd": null,
+          "pid": 2142963,
+          "t": 1795704517933.3657
+        }
+      ],
+      "callback_cwd": "~/.cache/q75-run/bin/cwd/b",
+      "relative_file_found": true,
+      "second": {
+        "exit": 0,
+        "wall_ms": 83,
+        "stderr": ""
+      },
+      "pass": true
+    },
+    "copy_50mb": {
+      "size": 52428800,
+      "copy_ms": [
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        40.7
+      ],
+      "second_wall_ms": [
+        129,
+        83,
+        84,
+        83,
+        83
+      ],
+      "exits": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "pass": true
+    },
+    "difftool_share": {
+      "hold": "share",
+      "git": {
+        "exit": 0,
+        "stderr": "",
+        "stdout": "",
+        "wall_ms": 105
+      },
+      "callback": {
+        "argv": [
+          "~/.cache/q75-work/prototypes/q75-single-instance/src-tauri/target/release/q75-single",
+          "/tmp/git-blob-DP5tOM/f.txt",
+          "f.txt"
+        ],
+        "cwd": "~/.cache/q75-run/bin/difftool-share/repo",
+        "event": "callback",
+        "files": [
+          {
+            "arg": "/tmp/git-blob-DP5tOM/f.txt",
+            "copy_err": null,
+            "copy_ms": 0.07229999999999999,
+            "copy_ok": true,
+            "file": true,
+            "held": true,
+            "size": 4
+          },
+          {
+            "arg": "f.txt",
+            "copy_err": null,
+            "copy_ms": 0.06648,
+            "copy_ok": true,
+            "file": true,
+            "held": true,
+            "size": 4
+          }
+        ],
+        "main_thread": false,
+        "pid": 2143088,
+        "t": 1795704519029.927,
+        "t_end": 1795704519030.1914,
+        "thread_id": "ThreadId(6)",
+        "thread_name": "zbus::Connection executor"
+      },
+      "exists_after_git": {
+        "/tmp/git-blob-DP5tOM/f.txt": false,
+        "~/.cache/q75-run/bin/difftool-share/repo/f.txt": true
+      },
+      "held_read": [
+        [
+          "/tmp/git-blob-DP5tOM/f.txt",
+          4
+        ],
+        [
+          "~/.cache/q75-run/bin/difftool-share/repo/f.txt",
+          4
+        ]
+      ]
+    }
+  }
+}

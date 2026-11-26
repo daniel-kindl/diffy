@@ -1,0 +1,241 @@
+{
+  "platform": "Linux-7.3.4-ogc8.1.fc45.x86_64-x86_64-with-glibc2.43",
+  "app": "q75-single_0.1.0_amd64.AppImage",
+  "tests": {
+    "thread": {
+      "second": {
+        "exit": 0,
+        "wall_ms": 336,
+        "stderr": ""
+      },
+      "callback": {
+        "argv": [
+          "q75-single",
+          "x"
+        ],
+        "cwd": "/tmp/.mount_q75-silPmifH/usr",
+        "event": "callback",
+        "files": [
+          {
+            "arg": "x",
+            "file": false
+          }
+        ],
+        "main_thread": false,
+        "pid": 2165969,
+        "t": 1795705248700.154,
+        "t_end": 1795705248700.2417,
+        "thread_id": "ThreadId(6)",
+        "thread_name": "zbus::Connection executor"
+      },
+      "pass": true
+    },
+    "cwd": {
+      "first_cwd_expected": "~/.cache/q75-run/appimage/cwd/a",
+      "second_cwd_expected": "~/.cache/q75-run/appimage/cwd/b",
+      "starts": [
+        {
+          "appimage": "~/.cache/q75-run/rel/q75-single_0.1.0_amd64.AppImage",
+          "args": [
+            "q75-single",
+            "first"
+          ],
+          "cwd": "/tmp/.mount_q75-sicgejIo/usr",
+          "event": "start",
+          "owd": "~/.cache/q75-run/appimage/cwd/a",
+          "pid": 2166095,
+          "t": 1795705249300.0684
+        },
+        {
+          "appimage": "~/.cache/q75-run/rel/q75-single_0.1.0_amd64.AppImage",
+          "args": [
+            "q75-single",
+            "input.txt"
+          ],
+          "cwd": "/tmp/.mount_q75-siIhMAkI/usr",
+          "event": "start",
+          "owd": "~/.cache/q75-run/appimage/cwd/b",
+          "pid": 2166124,
+          "t": 1795705249641.4575
+        }
+      ],
+      "callback_cwd": "/tmp/.mount_q75-siIhMAkI/usr",
+      "relative_file_found": false,
+      "second": {
+        "exit": 0,
+        "wall_ms": 338,
+        "stderr": ""
+      },
+      "pass": false
+    },
+    "race_natural": {
+      "start_ms": 0,
+      "setup_ms": 0,
+      "runs": [
+        {
+          "delay_ms": 0,
+          "second": {
+            "exit": null,
+            "wall_ms": 15351
+          },
+          "forwarded": true,
+          "primary": [
+            "second"
+          ],
+          "forwarded_args": [
+            [
+              "first"
+            ]
+          ],
+          "instances_ready": 1,
+          "first_ready_ms": 351
+        },
+        {
+          "delay_ms": 50,
+          "second": {
+            "exit": 0,
+            "wall_ms": 351
+          },
+          "forwarded": true,
+          "primary": [
+            "first"
+          ],
+          "forwarded_args": [
+            [
+              "race-arg"
+            ]
+          ],
+          "instances_ready": 1,
+          "first_ready_ms": 339
+        },
+        {
+          "delay_ms": 100,
+          "second": {
+            "exit": 0,
+            "wall_ms": 351
+          },
+          "forwarded": true,
+          "primary": [
+            "first"
+          ],
+          "forwarded_args": [
+            [
+              "race-arg"
+            ]
+          ],
+          "instances_ready": 1,
+          "first_ready_ms": 329
+        },
+        {
+          "delay_ms": 200,
+          "second": {
+            "exit": 0,
+            "wall_ms": 352
+          },
+          "forwarded": true,
+          "primary": [
+            "first"
+          ],
+          "forwarded_args": [
+            [
+              "race-arg"
+            ]
+          ],
+          "instances_ready": 1,
+          "first_ready_ms": 325
+        },
+        {
+          "delay_ms": 400,
+          "second": {
+            "exit": 0,
+            "wall_ms": 352
+          },
+          "forwarded": true,
+          "primary": [
+            "first"
+          ],
+          "forwarded_args": [
+            [
+              "race-arg"
+            ]
+          ],
+          "instances_ready": 1,
+          "first_ready_ms": 330
+        }
+      ]
+    },
+    "copy_50mb": {
+      "size": 52428800,
+      "copy_ms": [
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        36.4
+      ],
+      "second_wall_ms": [
+        366,
+        323,
+        328,
+        330,
+        331
+      ],
+      "exits": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "pass": true
+    },
+    "difftool_share": {
+      "hold": "share",
+      "git": {
+        "exit": 0,
+        "stderr": "",
+        "stdout": "",
+        "wall_ms": 350
+      },
+      "callback": {
+        "argv": [
+          "q75-single",
+          "/tmp/git-blob-Mi02ga/f.txt",
+          "f.txt"
+        ],
+        "cwd": "/tmp/.mount_q75-siAfPbcF/usr",
+        "event": "callback",
+        "files": [
+          {
+            "arg": "/tmp/git-blob-Mi02ga/f.txt",
+            "copy_err": null,
+            "copy_ms": 0.080331,
+            "copy_ok": true,
+            "file": true,
+            "held": true,
+            "size": 4
+          },
+          {
+            "arg": "f.txt",
+            "file": false
+          }
+        ],
+        "main_thread": false,
+        "pid": 2167561,
+        "t": 1795705277533.2874,
+        "t_end": 1795705277533.5378,
+        "thread_id": "ThreadId(6)",
+        "thread_name": "zbus::Connection executor"
+      },
+      "exists_after_git": {
+        "/tmp/git-blob-Mi02ga/f.txt": false
+      },
+      "held_read": [
+        [
+          "/tmp/git-blob-Mi02ga/f.txt",
+          4
+        ]
+      ]
+    }
+  }
+}

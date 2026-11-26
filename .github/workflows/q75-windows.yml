@@ -1,0 +1,45 @@
+name: q75-windows
+
+# Q75 single instance prototype: builds the minimal app on windows-latest and
+# runs the single instance tests. Throwaway branch only. It does not tag,
+# release or publish.
+
+on:
+  push:
+    branches: [prototype/diffy-v0.1-q75]
+
+permissions:
+  contents: read
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    timeout-minutes: 60
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Build the app
+        shell: pwsh
+        working-directory: prototypes/q75-single-instance/src-tauri
+        run: |
+          rustc --version
+          cargo build --release --locked
+          if ($LASTEXITCODE -ne 0) { exit 1 }
+
+      - name: Run the tests
+        timeout-minutes: 40
+        shell: pwsh
+        working-directory: prototypes/q75-single-instance/harness
+        run: |
+          git --version
+          python -I run_tests.py ..\src-tauri\target\release\q75-single.exe "$env:RUNNER_TEMP\work" "$env:RUNNER_TEMP\q75-windows.json" thread timeout_12s timeout_30s cwd race_natural race_slow_start race_slow_setup_3s race_slow_setup_12s copy_50mb difftool_share difftool_noshare
+
+      - name: Upload the results
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: q75-windows
+          path: ${{ runner.temp }}/q75-windows.json

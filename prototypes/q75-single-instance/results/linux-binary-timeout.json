@@ -1,0 +1,32 @@
+{
+  "platform": "Linux-7.3.4-ogc8.1.fc45.x86_64-x86_64-with-glibc2.43",
+  "app": "q75-single",
+  "tests": {
+    "timeout_30s": {
+      "sleep_ms": 30000,
+      "second": {
+        "exit": 0,
+        "wall_ms": 30088,
+        "stderr": ""
+      },
+      "callback_ms": 30000,
+      "callback_done": true
+    },
+    "timeout_130s": {
+      "sleep_ms": 130000,
+      "second": {
+        "exit": 0,
+        "wall_ms": 130090,
+        "stderr": ""
+      },
+      "callback_ms": 130000,
+      "callback_done": true
+    },
+    "race_natural": {
+      "error": "JSONDecodeError('Expecting property name enclosed in double quotes: line 1 column 2 (char 1)')"
+    },
+    "race_slow_start": {
+      "error": "JSONDecodeError(\"Expecting ':' delimiter: line 1 column 13 (char 12)\")"
+    }
+  }
+}

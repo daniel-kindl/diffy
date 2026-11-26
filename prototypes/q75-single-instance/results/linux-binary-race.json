@@ -1,0 +1,160 @@
+{
+  "platform": "Linux-7.3.4-ogc8.1.fc45.x86_64-x86_64-with-glibc2.43",
+  "app": "q75-single",
+  "tests": {
+    "race_natural": {
+      "start_ms": 0,
+      "runs": [
+        {
+          "delay_ms": 0,
+          "second": {
+            "exit": 0,
+            "wall_ms": 151
+          },
+          "forwarded": true,
+          "primary": [
+            "first"
+          ],
+          "forwarded_args": [
+            [
+              "race-arg"
+            ]
+          ],
+          "instances_ready": 1,
+          "first_ready_ms": 120
+        },
+        {
+          "delay_ms": 50,
+          "second": {
+            "exit": 0,
+            "wall_ms": 101
+          },
+          "forwarded": true,
+          "primary": [
+            "first"
+          ],
+          "forwarded_args": [
+            [
+              "race-arg"
+            ]
+          ],
+          "instances_ready": 1,
+          "first_ready_ms": 81
+        },
+        {
+          "delay_ms": 100,
+          "second": {
+            "exit": 0,
+            "wall_ms": 101
+          },
+          "forwarded": true,
+          "primary": [
+            "first"
+          ],
+          "forwarded_args": [
+            [
+              "race-arg"
+            ]
+          ],
+          "instances_ready": 1,
+          "first_ready_ms": 86
+        },
+        {
+          "delay_ms": 200,
+          "second": {
+            "exit": 0,
+            "wall_ms": 101
+          },
+          "forwarded": true,
+          "primary": [
+            "first"
+          ],
+          "forwarded_args": [
+            [
+              "race-arg"
+            ]
+          ],
+          "instances_ready": 1,
+          "first_ready_ms": 86
+        },
+        {
+          "delay_ms": 400,
+          "second": {
+            "exit": 0,
+            "wall_ms": 101
+          },
+          "forwarded": true,
+          "primary": [
+            "first"
+          ],
+          "forwarded_args": [
+            [
+              "race-arg"
+            ]
+          ],
+          "instances_ready": 1,
+          "first_ready_ms": 84
+        }
+      ]
+    },
+    "race_slow_start": {
+      "start_ms": 2000,
+      "runs": [
+        {
+          "delay_ms": 0,
+          "second": {
+            "exit": null,
+            "wall_ms": 17109
+          },
+          "forwarded": true,
+          "primary": [
+            "second"
+          ],
+          "forwarded_args": [
+            [
+              "first"
+            ]
+          ],
+          "instances_ready": 1,
+          "first_ready_ms": 85
+        },
+        {
+          "delay_ms": 500,
+          "second": {
+            "exit": null,
+            "wall_ms": 16607
+          },
+          "forwarded": true,
+          "primary": [
+            "second"
+          ],
+          "forwarded_args": [
+            [
+              "first"
+            ]
+          ],
+          "instances_ready": 1,
+          "first_ready_ms": 585
+        },
+        {
+          "delay_ms": 1000,
+          "second": {
+            "exit": null,
+            "wall_ms": 16104
+          },
+          "forwarded": true,
+          "primary": [
+            "second"
+          ],
+          "forwarded_args": [
+            [
+              "first"
+            ]
+          ],
+          "instances_ready": 1,
+          "first_ready_ms": 1082
+        }
+      ]
+    }
+  }
+}

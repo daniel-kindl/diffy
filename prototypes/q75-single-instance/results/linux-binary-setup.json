@@ -1,0 +1,54 @@
+{
+  "platform": "Linux-7.3.4-ogc8.1.fc45.x86_64-x86_64-with-glibc2.43",
+  "app": "q75-single",
+  "tests": {
+    "race_slow_setup_3s": {
+      "start_ms": 0,
+      "setup_ms": 3000,
+      "runs": [
+        {
+          "delay_ms": 500,
+          "second": {
+            "exit": 0,
+            "wall_ms": 2611
+          },
+          "forwarded": true,
+          "primary": [
+            "first"
+          ],
+          "forwarded_args": [
+            [
+              "race-arg"
+            ]
+          ],
+          "instances_ready": 1,
+          "first_ready_ms": 3090
+        }
+      ]
+    },
+    "race_slow_setup_12s": {
+      "start_ms": 0,
+      "setup_ms": 12000,
+      "runs": [
+        {
+          "delay_ms": 500,
+          "second": {
+            "exit": 0,
+            "wall_ms": 11603
+          },
+          "forwarded": true,
+          "primary": [
+            "first"
+          ],
+          "forwarded_args": [
+            [
+              "race-arg"
+            ]
+          ],
+          "instances_ready": 1,
+          "first_ready_ms": 12088
+        }
+      ]
+    }
+  }
+}
