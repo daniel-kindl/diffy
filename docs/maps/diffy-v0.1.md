@@ -2,7 +2,7 @@
 
 Status: open
 Destination: Each v0.1 milestone (M0 to M4) has a plan and issues with acceptance criteria. Each spike has a verdict, and no open question blocks the first M0 issue.
-Next: Q79
+Next: Q80
 
 ## Notes
 
@@ -267,15 +267,9 @@ Next: Q79
 - Q76 More domain terms: `CONTEXT.md` defines anchor, outdated finding, canonical diff, comparison profile and provider. The definition of a comparison profile does not list its fields, because C-04 is not yet clear. The owner selected the option "Approve all 5". Decided by: Daniel Kindl, 2026-11-26. Record: [CONTEXT.md](../../CONTEXT.md).
 - Q77 Failed update install on Windows: Diffy keeps the passive install mode. Before the install, Diffy stores the target version. At the next start, if the running version is older, Diffy says that the update did not install and offers a retry. After Abort at the NSIS error dialog, the user starts the app by hand. The release notes list this as a known limitation. The owner selected the option "Passive + version check". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
 - Q78 Preedit with fcitx5: the Q78 result is accepted. With the preedit on, fcitx5 with Mozc works in the editor under Wayland and XWayland, through the GTK input method module. The M0 input method criteria add a check with fcitx5 as the KWin virtual keyboard on the reference host. The owner sets up that host. The owner selected the option "Accept, M0 tests KWin mode". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
+- Q79 Live refresh time on Windows: Diffy measures the refresh in M0, because the in-process canonical diff (Q61) does not exist yet. An M0 acceptance criterion measures the live refresh of option B on the Windows notebook, with the in-process canonical diff and no Git process. It measures the read IPC time on its own and compares the settled time with the S1 target of 500 ms (Q59). A fail goes to the owner. The owner selected the option "M0 criterion". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
 
 ## Open questions
-
-### Q79: Live refresh time on Windows
-
-Type: task
-Blocked by: none
-
-In M0, measure the live refresh of option B on the Windows notebook, with the in-process canonical diff (Q61) and no Git process. Measure the read IPC time on its own. Compare the settled time with the S1 target of 500 ms for a typical refresh (Q59). A fail goes to the owner.
 
 ### Q80: Parity of the gitoxide 2bcb31d diff
 
