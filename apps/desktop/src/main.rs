@@ -195,6 +195,8 @@ mod tests {
         assert!(startup_for(cli::Launch::Repository(d.path().join("missing"))).is_err());
     }
 
+    // The re-run exists on Unix only, and the paths below are Unix paths.
+    #[cfg(unix)]
     #[test]
     fn relative_paths_become_absolute_and_options_stay() {
         let cwd = std::path::Path::new("/work");
