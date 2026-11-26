@@ -76,3 +76,57 @@ document.getElementById("swap")?.addEventListener("click", () => {
 });
 
 load().then(show).catch(fail);
+
+interface FileEntry {
+  path: string;
+  status: string;
+  generated: boolean;
+}
+
+interface Listing {
+  files: FileEntry[];
+  total: number;
+  hidden: number;
+  generated: number;
+}
+
+const explorer = document.getElementById("explorer");
+const search = document.getElementById("search") as HTMLInputElement | null;
+const generated = document.getElementById("generated") as HTMLInputElement | null;
+const list = document.getElementById("files");
+const counts = document.getElementById("counts");
+
+function renderListing(l: Listing): void {
+  if (!explorer || !list) return;
+  explorer.hidden = false;
+  if (counts) {
+    counts.textContent = `${String(l.files.length)} shown, ${String(l.hidden)} hidden, ${String(l.total)} changed, ${String(l.generated)} generated`;
+  }
+  list.replaceChildren(
+    ...l.files.map((f) => {
+      const li = document.createElement("li");
+      const button = document.createElement("button");
+      button.type = "button";
+      button.textContent = `${f.status[0]?.toUpperCase() ?? "?"}  ${f.path}`;
+      button.addEventListener("click", () => {
+        invoke<Comparison | null>("open_repository_file", { path: f.path })
+          .then((c) => c && show(c))
+          .catch(fail);
+      });
+      li.append(button);
+      return li;
+    }),
+  );
+}
+
+function refreshListing(): void {
+  invoke<Listing | null>("repository_files", {
+    input: { search: search?.value ?? "", show_generated: generated?.checked ?? false },
+  })
+    .then((l) => l && renderListing(l))
+    .catch(fail);
+}
+
+search?.addEventListener("input", refreshListing);
+generated?.addEventListener("change", refreshListing);
+refreshListing();

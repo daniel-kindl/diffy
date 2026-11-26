@@ -5,6 +5,8 @@
 use diffy_comparison::Snapshot;
 use diffy_comparison::canonical::canonical_hunks;
 use diffy_comparison::text::{decode, legacy_encoding};
+use diffy_git::{Repo, WorktreeKind};
+use diffy_review::explorer::{self, ChangedFile, Filter, GeneratedRules, Status};
 use encoding_rs::Encoding;
 use serde::{Deserialize, Serialize};
 use std::sync::Mutex;
@@ -192,6 +194,159 @@ pub fn swap_sides(state: tauri::State<'_, Open>) -> Result<Option<Comparison>, S
     })
 }
 
+/// The repository of a `diffy <repo-path>` start. Rust owns it. The frontend
+/// names a file only by its path inside the repository, and Rust checks it.
+pub struct RepoState {
+    /// The path to reopen. A gix repository is not `Send`, so each command
+    /// opens it again, isolated.
+    pub root: std::path::PathBuf,
+    pub files: Vec<ChangedFile>,
+}
+
+impl RepoState {
+    pub fn open(path: &std::path::Path) -> Result<Self, String> {
+        let repo = Repo::discover(path).map_err(|e| e.to_string())?;
+        let files = repo
+            .worktree_status()
+            .map_err(|e| e.to_string())?
+            .into_iter()
+            .map(|e| {
+                let kind = e.unstaged.or(e.staged);
+                ChangedFile {
+                    path: e.path,
+                    status: if e.untracked {
+                        Status::Added
+                    } else {
+                        match kind {
+                            Some(WorktreeKind::Added) => Status::Added,
+                            Some(WorktreeKind::Deleted) => Status::Deleted,
+                            Some(WorktreeKind::Renamed) => Status::Renamed,
+                            _ => Status::Modified,
+                        }
+                    },
+                    generated_attribute: None,
+                    reviewed: false,
+                }
+            })
+            .collect();
+        Ok(Self {
+            root: path.to_owned(),
+            files,
+        })
+    }
+
+    /// The comparison of `HEAD` against the worktree for one changed file.
+    pub fn session_for(&self, path: &str) -> Result<Session, String> {
+        if !self.files.iter().any(|f| f.path == path) {
+            return Err(format!("{path} is not a changed file"));
+        }
+        let repo = Repo::discover(&self.root).map_err(|e| e.to_string())?;
+        let base = repo
+            .read_file("HEAD", path)
+            .map_err(|e| e.to_string())?
+            .unwrap_or_default();
+        let head = repo
+            .read_worktree_file(path)
+            .map_err(|e| e.to_string())?
+            .unwrap_or_default();
+        Ok(Session::new(
+            Snapshot::new(
+                diffy_comparison::Source::GitObject(format!("HEAD:{path}")),
+                base,
+            ),
+            Snapshot::new(diffy_comparison::Source::File(path.to_owned()), head),
+        ))
+    }
+}
+
+#[derive(Debug, Serialize, PartialEq, Eq)]
+pub struct FileDto {
+    pub path: String,
+    pub status: String,
+    pub generated: bool,
+}
+
+#[derive(Debug, Serialize, PartialEq, Eq)]
+pub struct ListingDto {
+    pub files: Vec<FileDto>,
+    pub total: usize,
+    pub hidden: usize,
+    pub generated: usize,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct ListInput {
+    pub search: String,
+    pub show_generated: bool,
+}
+
+pub fn list_files(files: &[ChangedFile], input: &ListInput) -> Result<ListingDto, String> {
+    let rules = GeneratedRules::new(&[]).map_err(|e| e.to_string())?;
+    let filter = Filter {
+        search: input.search.clone(),
+        show_generated: input.show_generated,
+        ..Filter::default()
+    };
+    let l = explorer::list(files, &rules, &filter);
+    Ok(ListingDto {
+        files: l
+            .visible
+            .iter()
+            .map(|f| FileDto {
+                path: f.path.clone(),
+                status: format!("{:?}", f.status).to_lowercase(),
+                generated: rules.is_generated(&f.path, f.generated_attribute),
+            })
+            .collect(),
+        total: l.counts.total,
+        hidden: l.counts.hidden,
+        generated: l.counts.generated,
+    })
+}
+
+#[derive(Default)]
+pub struct Repository(pub Mutex<Option<RepoState>>);
+
+#[tauri::command]
+pub fn repository_files(
+    state: tauri::State<'_, Repository>,
+    input: ListInput,
+) -> Result<Option<ListingDto>, String> {
+    let guard = state
+        .0
+        .lock()
+        .map_err(|_| "the repository is locked".to_owned())?;
+    guard
+        .as_ref()
+        .map(|r| list_files(&r.files, &input))
+        .transpose()
+}
+
+#[tauri::command]
+pub fn open_repository_file(
+    repo: tauri::State<'_, Repository>,
+    open: tauri::State<'_, Open>,
+    path: String,
+) -> Result<Option<Comparison>, String> {
+    let session = {
+        let guard = repo
+            .0
+            .lock()
+            .map_err(|_| "the repository is locked".to_owned())?;
+        match guard.as_ref() {
+            Some(r) => r.session_for(&path)?,
+            None => return Ok(None),
+        }
+    };
+    let comparison = session.comparison()?;
+    *open
+        .0
+        .lock()
+        .map_err(|_| "the session is locked".to_owned())? = Some(session);
+    Ok(Some(comparison))
+}
+
 #[tauri::command]
 pub fn compare_text(input: CompareInput) -> Result<Comparison, String> {
     compare(input)
@@ -274,6 +429,94 @@ mod tests {
         s.swap();
         s.swap();
         assert_eq!(s.comparison().unwrap(), first);
+    }
+
+    fn file(path: &str) -> ChangedFile {
+        ChangedFile {
+            path: path.into(),
+            status: Status::Modified,
+            generated_attribute: None,
+            reviewed: false,
+        }
+    }
+
+    fn git(dir: &std::path::Path, args: &[&str]) {
+        let ok = std::process::Command::new("git")
+            .args(args)
+            .current_dir(dir)
+            .env("GIT_CONFIG_GLOBAL", "/dev/null")
+            .env("GIT_AUTHOR_NAME", "t")
+            .env("GIT_AUTHOR_EMAIL", "t@example.com")
+            .env("GIT_COMMITTER_NAME", "t")
+            .env("GIT_COMMITTER_EMAIL", "t@example.com")
+            .status()
+            .unwrap()
+            .success();
+        assert!(ok, "git {args:?}");
+    }
+
+    #[test]
+    fn a_repository_lists_changes_and_compares_head_with_the_worktree() {
+        let d = tempfile::tempdir().unwrap();
+        git(d.path(), &["init", "-q", "-b", "main"]);
+        std::fs::write(d.path().join("a.txt"), "one\ntwo\n").unwrap();
+        git(d.path(), &["add", "."]);
+        git(d.path(), &["commit", "-q", "-m", "first"]);
+        std::fs::write(d.path().join("a.txt"), "one\nTWO\n").unwrap();
+        std::fs::write(d.path().join("new.txt"), "n\n").unwrap();
+
+        let state = RepoState::open(d.path()).unwrap();
+        let paths: Vec<_> = state.files.iter().map(|f| f.path.as_str()).collect();
+        assert_eq!(paths, vec!["a.txt", "new.txt"]);
+        let c = state.session_for("a.txt").unwrap().comparison().unwrap();
+        assert_eq!(
+            (c.base.as_str(), c.head.as_str()),
+            ("one\ntwo\n", "one\nTWO\n")
+        );
+        assert_eq!(c.sides[0].label, "HEAD:a.txt");
+        let c = state.session_for("new.txt").unwrap().comparison().unwrap();
+        assert_eq!((c.base.as_str(), c.head.as_str()), ("", "n\n"));
+        // The frontend can only open a changed file, and never a path outside.
+        assert!(state.session_for("../secret").is_err());
+        assert!(state.session_for("unchanged-or-unknown.txt").is_err());
+    }
+
+    #[test]
+    fn the_listing_hides_generated_files_but_counts_them() {
+        let files = vec![file("src/a.rs"), file("Cargo.lock")];
+        let l = list_files(
+            &files,
+            &ListInput {
+                search: String::new(),
+                show_generated: false,
+            },
+        )
+        .unwrap();
+        assert_eq!(
+            (l.files.len(), l.total, l.hidden, l.generated),
+            (1, 2, 1, 1)
+        );
+        let l = list_files(
+            &files,
+            &ListInput {
+                search: "cargo".into(),
+                show_generated: true,
+            },
+        )
+        .unwrap();
+        assert_eq!(l.files[0].path, "Cargo.lock");
+        assert!(l.files[0].generated);
+    }
+
+    #[test]
+    fn the_list_input_rejects_unknown_fields() {
+        let ok: Result<ListInput, _> =
+            serde_json::from_str(r#"{"search":"","show_generated":true}"#);
+        assert!(ok.is_ok());
+        assert!(
+            serde_json::from_str::<ListInput>(r#"{"search":"","show_generated":true,"root":"/"}"#)
+                .is_err()
+        );
     }
 
     #[test]
