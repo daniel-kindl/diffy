@@ -1,0 +1,17 @@
+[package]
+name = "diffy-desktop"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+diffy-core = { path = "../../crates/diffy-core" }
+diffy-comparison = { path = "../../crates/diffy-comparison" }
+diffy-git = { path = "../../crates/diffy-git" }
+diffy-review = { path = "../../crates/diffy-review" }
+diffy-providers = { path = "../../crates/diffy-providers" }
+diffy-storage = { path = "../../crates/diffy-storage" }
