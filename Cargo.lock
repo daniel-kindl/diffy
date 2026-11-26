@@ -250,6 +250,7 @@ dependencies = [
  "diffy-providers",
  "diffy-review",
  "diffy-storage",
+ "tempfile",
 ]
 
 [[package]]
