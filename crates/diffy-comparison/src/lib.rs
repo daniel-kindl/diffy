@@ -27,6 +27,18 @@ pub enum Source {
 pub struct ContentId([u8; 32]);
 
 impl ContentId {
+    /// Read an identity back from its hex form. `None` when it is not 64 hex digits.
+    pub fn from_hex(hex: &str) -> Option<Self> {
+        if hex.len() != 64 || !hex.is_ascii() {
+            return None;
+        }
+        let mut out = [0u8; 32];
+        for (i, b) in out.iter_mut().enumerate() {
+            *b = u8::from_str_radix(&hex[2 * i..2 * i + 2], 16).ok()?;
+        }
+        Some(Self(out))
+    }
+
     pub fn to_hex(&self) -> String {
         self.0.iter().map(|b| format!("{b:02x}")).collect()
     }
@@ -160,6 +172,14 @@ mod tests {
         let s = Snapshot::new(Source::File("f".into()), b"a \r\nb".to_vec());
         let v = s.normalized(NormalizeOptions::default());
         assert_eq!(v.lines().concat(), s.raw());
+    }
+
+    #[test]
+    fn an_identity_round_trips_through_hex() {
+        let id = Snapshot::new(Source::Text("t".into()), b"x".to_vec()).id();
+        assert_eq!(ContentId::from_hex(&id.to_hex()), Some(id));
+        assert_eq!(ContentId::from_hex("zz"), None);
+        assert_eq!(ContentId::from_hex(&"g".repeat(64)), None);
     }
 
     #[test]
