@@ -1,0 +1,433 @@
+{
+  "platform": "Windows-2025Server-10.0.26100-SP0",
+  "app": "q75-single.exe",
+  "tests": {
+    "thread": {
+      "second": {
+        "exit": 0,
+        "wall_ms": 22,
+        "stderr": ""
+      },
+      "callback": {
+        "argv": [
+          "D:\\a\\diffy\\diffy\\prototypes\\q75-single-instance\\src-tauri\\target\\release\\q75-single.exe",
+          "x"
+        ],
+        "cwd": "D:\\a\\_temp\\work\\thread",
+        "event": "callback",
+        "files": [
+          {
+            "arg": "x",
+            "file": false
+          }
+        ],
+        "main_thread": true,
+        "pid": 1324,
+        "t": 1795705646594.2222,
+        "t_end": 1795705646594.2703,
+        "thread_id": "ThreadId(1)",
+        "thread_name": "main"
+      },
+      "pass": true
+    },
+    "timeout_30s": {
+      "sleep_ms": 30000,
+      "second": {
+        "exit": 0,
+        "wall_ms": 10020,
+        "stderr": ""
+      },
+      "callback_ms": null,
+      "callback_done": false
+    },
+    "timeout_12s": {
+      "sleep_ms": 12000,
+      "second": {
+        "exit": 0,
+        "wall_ms": 10033,
+        "stderr": ""
+      },
+      "callback_ms": null,
+      "callback_done": false
+    },
+    "cwd": {
+      "first_cwd_expected": "D:\\a\\_temp\\work\\cwd\\a",
+      "second_cwd_expected": "D:\\a\\_temp\\work\\cwd\\b",
+      "starts": [
+        {
+          "appimage": null,
+          "args": [
+            "D:\\a\\diffy\\diffy\\prototypes\\q75-single-instance\\src-tauri\\target\\release\\q75-single.exe",
+            "first"
+          ],
+          "cwd": "D:\\a\\_temp\\work\\cwd\\a",
+          "event": "start",
+          "owd": null,
+          "pid": 8604,
+          "t": 1795705688892.0498
+        },
+        {
+          "appimage": null,
+          "args": [
+            "D:\\a\\diffy\\diffy\\prototypes\\q75-single-instance\\src-tauri\\target\\release\\q75-single.exe",
+            "input.txt"
+          ],
+          "cwd": "D:\\a\\_temp\\work\\cwd\\b",
+          "event": "start",
+          "owd": null,
+          "pid": 7288,
+          "t": 1795705688944.8035
+        }
+      ],
+      "callback_cwd": "D:\\a\\_temp\\work\\cwd\\b",
+      "relative_file_found": true,
+      "second": {
+        "exit": 0,
+        "wall_ms": 20,
+        "stderr": ""
+      },
+      "pass": true
+    },
+    "race_natural": {
+      "start_ms": 0,
+      "setup_ms": 0,
+      "runs": [
+        {
+          "delay_ms": 0,
+          "second": {
+            "exit": 0,
+            "wall_ms": 51
+          },
+          "forwarded": true,
+          "primary": [
+            "first"
+          ],
+          "forwarded_args": [
+            [
+              "race-arg"
+            ]
+          ],
+          "instances_ready": 1,
+          "first_ready_ms": 20
+        },
+        {
+          "delay_ms": 50,
+          "second": {
+            "exit": 0,
+            "wall_ms": 51
+          },
+          "forwarded": true,
+          "primary": [
+            "first"
+          ],
+          "forwarded_args": [
+            [
+              "race-arg"
+            ]
+          ],
+          "instances_ready": 1,
+          "first_ready_ms": 17
+        },
+        {
+          "delay_ms": 100,
+          "second": {
+            "exit": 0,
+            "wall_ms": 51
+          },
+          "forwarded": true,
+          "primary": [
+            "first"
+          ],
+          "forwarded_args": [
+            [
+              "race-arg"
+            ]
+          ],
+          "instances_ready": 1,
+          "first_ready_ms": 17
+        },
+        {
+          "delay_ms": 200,
+          "second": {
+            "exit": 0,
+            "wall_ms": 52
+          },
+          "forwarded": true,
+          "primary": [
+            "first"
+          ],
+          "forwarded_args": [
+            [
+              "race-arg"
+            ]
+          ],
+          "instances_ready": 1,
+          "first_ready_ms": 17
+        },
+        {
+          "delay_ms": 400,
+          "second": {
+            "exit": 0,
+            "wall_ms": 51
+          },
+          "forwarded": true,
+          "primary": [
+            "first"
+          ],
+          "forwarded_args": [
+            [
+              "race-arg"
+            ]
+          ],
+          "instances_ready": 1,
+          "first_ready_ms": 17
+        }
+      ]
+    },
+    "race_slow_start": {
+      "start_ms": 2000,
+      "setup_ms": 0,
+      "runs": [
+        {
+          "delay_ms": 0,
+          "second": {
+            "exit": null,
+            "wall_ms": 17028
+          },
+          "forwarded": true,
+          "primary": [
+            "second"
+          ],
+          "forwarded_args": [
+            [
+              "first"
+            ]
+          ],
+          "instances_ready": 1,
+          "first_ready_ms": 19
+        },
+        {
+          "delay_ms": 500,
+          "second": {
+            "exit": null,
+            "wall_ms": 16521
+          },
+          "forwarded": true,
+          "primary": [
+            "second"
+          ],
+          "forwarded_args": [
+            [
+              "first"
+            ]
+          ],
+          "instances_ready": 1,
+          "first_ready_ms": 521
+        },
+        {
+          "delay_ms": 1000,
+          "second": {
+            "exit": null,
+            "wall_ms": 16015
+          },
+          "forwarded": true,
+          "primary": [
+            "second"
+          ],
+          "forwarded_args": [
+            [
+              "first"
+            ]
+          ],
+          "instances_ready": 1,
+          "first_ready_ms": 1021
+        }
+      ]
+    },
+    "race_slow_setup_3s": {
+      "start_ms": 0,
+      "setup_ms": 3000,
+      "runs": [
+        {
+          "delay_ms": 500,
+          "second": {
+            "exit": 0,
+            "wall_ms": 2534
+          },
+          "forwarded": true,
+          "primary": [
+            "first"
+          ],
+          "forwarded_args": [
+            [
+              "race-arg"
+            ]
+          ],
+          "instances_ready": 1,
+          "first_ready_ms": 3017
+        }
+      ]
+    },
+    "race_slow_setup_12s": {
+      "start_ms": 0,
+      "setup_ms": 12000,
+      "runs": [
+        {
+          "delay_ms": 500,
+          "second": {
+            "exit": 0,
+            "wall_ms": 31561
+          },
+          "forwarded": false,
+          "primary": [
+            "first"
+          ],
+          "forwarded_args": [],
+          "instances_ready": 1,
+          "first_ready_ms": 12018
+        }
+      ]
+    },
+    "copy_50mb": {
+      "size": 52428800,
+      "copy_ms": [
+        18.8,
+        19.0,
+        19.1,
+        19.6,
+        19.7
+      ],
+      "second_wall_ms": [
+        40,
+        40,
+        42,
+        40,
+        41
+      ],
+      "exits": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "pass": true
+    },
+    "difftool_share": {
+      "hold": "share",
+      "git": {
+        "exit": 0,
+        "stderr": "",
+        "stdout": "",
+        "wall_ms": 261
+      },
+      "callback": {
+        "argv": [
+          "D:\\a\\diffy\\diffy\\prototypes\\q75-single-instance\\src-tauri\\target\\release\\q75-single.exe",
+          "C:\\Users\\RUNNER~1\\AppData\\Local\\Temp/git-blob-vEZahK/f.txt",
+          "f.txt"
+        ],
+        "cwd": "D:\\a\\_temp\\work\\difftool-share\\repo",
+        "event": "callback",
+        "files": [
+          {
+            "arg": "C:\\Users\\RUNNER~1\\AppData\\Local\\Temp/git-blob-vEZahK/f.txt",
+            "copy_err": null,
+            "copy_ms": 0.8432,
+            "copy_ok": true,
+            "file": true,
+            "held": true,
+            "size": 5
+          },
+          {
+            "arg": "f.txt",
+            "copy_err": null,
+            "copy_ms": 0.2958,
+            "copy_ok": true,
+            "file": true,
+            "held": true,
+            "size": 5
+          }
+        ],
+        "main_thread": true,
+        "pid": 7364,
+        "t": 1795705787291.7163,
+        "t_end": 1795705787293.3096,
+        "thread_id": "ThreadId(1)",
+        "thread_name": "main"
+      },
+      "exists_after_git": {
+        "C:\\Users\\RUNNER~1\\AppData\\Local\\Temp/git-blob-vEZahK/f.txt": false,
+        "D:\\a\\_temp\\work\\difftool-share\\repo\\f.txt": true
+      },
+      "held_read": [
+        [
+          "C:\\Users\\RUNNER~1\\AppData\\Local\\Temp/git-blob-vEZahK/f.txt",
+          5
+        ],
+        [
+          "D:\\a\\_temp\\work\\difftool-share\\repo\\f.txt",
+          5
+        ]
+      ]
+    },
+    "difftool_noshare": {
+      "hold": "noshare",
+      "git": {
+        "exit": 0,
+        "stderr": "warning: unable to unlink 'C:\\Users\\RUNNER~1\\AppData\\Local\\Temp/git-blob-2SAX17/f.txt': Invalid argument\nwarning: unable to rmdir 'C:\\Users\\RUNNER~1\\AppData\\Local\\Temp/git-blob-2SAX17': Directory not empty\n",
+        "stdout": "",
+        "wall_ms": 317
+      },
+      "callback": {
+        "argv": [
+          "D:\\a\\diffy\\diffy\\prototypes\\q75-single-instance\\src-tauri\\target\\release\\q75-single.exe",
+          "C:\\Users\\RUNNER~1\\AppData\\Local\\Temp/git-blob-2SAX17/f.txt",
+          "f.txt"
+        ],
+        "cwd": "D:\\a\\_temp\\work\\difftool-noshare\\repo",
+        "event": "callback",
+        "files": [
+          {
+            "arg": "C:\\Users\\RUNNER~1\\AppData\\Local\\Temp/git-blob-2SAX17/f.txt",
+            "copy_err": null,
+            "copy_ms": 0.8585,
+            "copy_ok": true,
+            "file": true,
+            "held": true,
+            "size": 5
+          },
+          {
+            "arg": "f.txt",
+            "copy_err": null,
+            "copy_ms": 0.307,
+            "copy_ok": true,
+            "file": true,
+            "held": true,
+            "size": 5
+          }
+        ],
+        "main_thread": true,
+        "pid": 1376,
+        "t": 1795705789813.5151,
+        "t_end": 1795705789815.1277,
+        "thread_id": "ThreadId(1)",
+        "thread_name": "main"
+      },
+      "exists_after_git": {
+        "C:\\Users\\RUNNER~1\\AppData\\Local\\Temp/git-blob-2SAX17/f.txt": true,
+        "D:\\a\\_temp\\work\\difftool-noshare\\repo\\f.txt": true
+      },
+      "held_read": [
+        [
+          "C:\\Users\\RUNNER~1\\AppData\\Local\\Temp/git-blob-2SAX17/f.txt",
+          5
+        ],
+        [
+          "D:\\a\\_temp\\work\\difftool-noshare\\repo\\f.txt",
+          5
+        ]
+      ]
+    }
+  }
+}
