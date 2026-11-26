@@ -767,6 +767,8 @@ version = "0.0.0"
 dependencies = [
  "diffy-core",
  "diffy-review",
+ "serde",
+ "serde_json",
 ]
 
 [[package]]
