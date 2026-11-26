@@ -6,7 +6,18 @@
     <title>Diffy</title>
   </head>
   <body>
-    <p id="status" class="status" role="status"></p>
+    <header class="bar">
+      <label
+        >Base encoding
+        <select id="enc-left" data-side="left"></select
+      ></label>
+      <button id="swap" type="button">Swap sides</button>
+      <label
+        >Head encoding
+        <select id="enc-right" data-side="right"></select
+      ></label>
+      <p id="status" class="status" role="status"></p>
+    </header>
     <div id="app" class="app">
       <section id="left" aria-label="Base"></section>
       <section id="right" aria-label="Head"></section>

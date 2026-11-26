@@ -742,6 +742,7 @@ dependencies = [
  "diffy-providers",
  "diffy-review",
  "diffy-storage",
+ "encoding_rs",
  "serde",
  "serde_json",
  "tauri",

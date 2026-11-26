@@ -16,9 +16,9 @@ fn main() {
             // here checks the inputs before the app starts.
             let initial = cli::read_snapshots(&left, &right)
                 .map_err(|e| e.to_string())
-                .and_then(|(l, r)| ipc::compare_snapshots(&l, &r));
+                .map(|(l, r)| ipc::Session::new(l, r));
             match initial {
-                Ok(c) => run_app(Some(c)),
+                Ok(s) => run_app(Some(s)),
                 Err(e) => {
                     eprintln!("diffy: {e}");
                     std::process::exit(1);
@@ -33,12 +33,14 @@ fn main() {
     }
 }
 
-fn run_app(initial: Option<ipc::Comparison>) {
+fn run_app(initial: Option<ipc::Session>) {
     tauri::Builder::default()
-        .manage(ipc::Initial(std::sync::Mutex::new(initial)))
+        .manage(ipc::Open(std::sync::Mutex::new(initial)))
         .invoke_handler(tauri::generate_handler![
             ipc::compare_text,
-            ipc::initial_comparison
+            ipc::current_comparison,
+            ipc::select_encoding,
+            ipc::swap_sides
         ])
         .run(tauri::generate_context!())
         .expect("the Diffy window failed to start");
