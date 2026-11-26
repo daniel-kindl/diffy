@@ -21,7 +21,13 @@ The host has an AMD Ryzen 5 3600 and runs in the `rust-dev` container. The build
 | 100,000 lines, 10,000 changed lines | 10,000 | 1,282 ms | 1,320 ms | 60 MB |
 | 50 MB, 1,000 changes | 1,000 | 791 ms | 1,162 ms | 400 MB |
 
-The 10,000 changed lines case takes much longer than the 36 ms that Q65 measured for its own 10,000 changed lines pair. The shapes differ: this input is 100,000 unique lines with a single changed line every 10 lines. The cause is not known yet. It needs a profile before the target of spec section 18 is judged.
+The 10,000 changed lines case is slower than the 36 ms that Q65 measured for its own pair. The shapes differ. This input is 100,000 unique lines with a changed line every 10 lines.
+
+The time is in the histogram algorithm, not in the postprocessing: the histogram step takes 1.33 s and `postprocess_lines` takes 0.3 ms.
+
+Git 2.55.0 with `git diff --no-index --histogram -U0` takes 4.0 s on the same two files, and `--patience` takes 0.08 s. So the canonical diff is about three times faster than Git on this shape. The cost comes from the histogram algorithm that ADR 0002 requires, and it is not a defect of the copy.
+
+A target of spec section 18 for this shape needs an owner decision on whether the canonical diff may change the algorithm for such inputs. A change would break the parity with Git.
 
 ## Not measured yet
 
