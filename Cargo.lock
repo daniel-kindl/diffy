@@ -742,6 +742,7 @@ dependencies = [
  "diffy-providers",
  "diffy-review",
  "diffy-storage",
+ "encoding_rs",
  "serde",
  "serde_json",
  "tauri",
@@ -766,6 +767,8 @@ version = "0.0.0"
 dependencies = [
  "diffy-core",
  "diffy-review",
+ "serde",
+ "serde_json",
 ]
 
 [[package]]
@@ -774,6 +777,7 @@ version = "0.0.0"
 dependencies = [
  "diffy-comparison",
  "diffy-core",
+ "globset",
 ]
 
 [[package]]

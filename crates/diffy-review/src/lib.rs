@@ -4,6 +4,9 @@
 //! state (what the person did). A change of the source never edits the review
 //! state, and a review action never edits the source.
 
+pub mod explorer;
+pub mod overview;
+
 use diffy_comparison::ContentId;
 use std::collections::BTreeMap;
 
@@ -60,7 +63,45 @@ pub struct ReviewSession {
     review: ReviewState,
 }
 
+/// The stored form of a session, to save and to restore it.
+#[derive(Clone, Debug)]
+pub struct SessionParts {
+    pub repository: RepositoryId,
+    pub baseline: Baseline,
+    pub source: SourceState,
+    pub files: BTreeMap<String, ContentId>,
+    pub findings: Vec<Finding>,
+    pub next_finding_id: u64,
+    pub checkpoints: Vec<Checkpoint>,
+}
+
 impl ReviewSession {
+    pub fn from_parts(p: SessionParts) -> Self {
+        Self {
+            repository: p.repository,
+            baseline: p.baseline,
+            source: p.source,
+            review: ReviewState {
+                files: p.files,
+                findings: p.findings,
+                next_id: p.next_finding_id,
+                checkpoints: p.checkpoints,
+            },
+        }
+    }
+
+    pub fn to_parts(&self) -> SessionParts {
+        SessionParts {
+            repository: self.repository.clone(),
+            baseline: self.baseline.clone(),
+            source: self.source.clone(),
+            files: self.review.files.clone(),
+            findings: self.review.findings.clone(),
+            next_finding_id: self.review.next_id,
+            checkpoints: self.review.checkpoints.clone(),
+        }
+    }
+
     pub fn new(repository: RepositoryId, baseline: Baseline, source: SourceState) -> Self {
         Self {
             repository,

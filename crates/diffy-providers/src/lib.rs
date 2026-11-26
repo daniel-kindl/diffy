@@ -2,6 +2,8 @@
 //! publications. A provider adapter implements [`Provider`]. Nothing here
 //! names GitHub or OneDev, and nothing here holds a credential.
 
+pub mod github;
+
 use diffy_review::Finding;
 
 /// The capabilities differ by provider, server version and permission.
@@ -36,13 +38,23 @@ pub struct Revision {
 }
 
 /// A remote comment thread, anchored to a file and a line range of a revision.
+/// Which side of the diff the lines are on.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum Side {
+    Base,
+    Head,
+}
+
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Discussion {
     pub remote_id: String,
     pub path: String,
     pub revision: Revision,
     pub lines: std::ops::Range<u32>,
+    pub side: Side,
     pub resolved: bool,
+    /// The provider says the lines no longer exist at the current head.
+    pub outdated: bool,
     pub comments: Vec<Comment>,
 }
 

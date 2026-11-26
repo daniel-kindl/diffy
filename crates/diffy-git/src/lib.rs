@@ -8,6 +8,7 @@ pub mod watch;
 
 use gix::bstr::{BString, ByteSlice};
 use gix::object::tree::diff::Change as TreeChange;
+use std::collections::BTreeMap;
 use std::path::Path;
 
 #[derive(Debug)]
@@ -175,6 +176,101 @@ impl Repo {
         Ok(out)
     }
 
+    /// The staged, unstaged and untracked files. It only reads. It runs no
+    /// filter, because the `filter` sections are removed when the repository
+    /// opens. A bare repository has no worktree and returns an error.
+    pub fn worktree_status(&self) -> Result<Vec<WorktreeEntry>, GitError> {
+        use gix::status::{Item, UntrackedFiles, index_worktree::iter::Summary};
+        let iter = self
+            .inner
+            .status(gix::progress::Discard)
+            .map_err(err)?
+            .untracked_files(UntrackedFiles::Files)
+            .into_iter(Vec::<BString>::new())
+            .map_err(err)?;
+        let mut map: BTreeMap<String, WorktreeEntry> = BTreeMap::new();
+        for item in iter {
+            match item.map_err(err)? {
+                Item::TreeIndex(change) => {
+                    use gix::diff::index::ChangeRef as C;
+                    let (path, kind) = match change {
+                        C::Addition { location, .. } => (location.to_string(), WorktreeKind::Added),
+                        C::Deletion { location, .. } => {
+                            (location.to_string(), WorktreeKind::Deleted)
+                        }
+                        C::Modification { location, .. } => {
+                            (location.to_string(), WorktreeKind::Modified)
+                        }
+                        C::Rewrite { location, .. } => {
+                            (location.to_string(), WorktreeKind::Renamed)
+                        }
+                    };
+                    entry(&mut map, path).staged = Some(kind);
+                }
+                Item::IndexWorktree(item) => {
+                    let path = item.rela_path().to_str_lossy().into_owned();
+                    match item.summary() {
+                        Some(Summary::Added) => entry(&mut map, path).untracked = true,
+                        Some(Summary::IntentToAdd) => {
+                            entry(&mut map, path).staged = Some(WorktreeKind::Added)
+                        }
+                        Some(Summary::Removed) => {
+                            entry(&mut map, path).unstaged = Some(WorktreeKind::Deleted)
+                        }
+                        Some(Summary::Modified | Summary::TypeChange) => {
+                            entry(&mut map, path).unstaged = Some(WorktreeKind::Modified);
+                        }
+                        Some(Summary::Renamed | Summary::Copied) => {
+                            entry(&mut map, path).unstaged = Some(WorktreeKind::Renamed);
+                        }
+                        Some(Summary::Conflict) => {
+                            entry(&mut map, path).unstaged = Some(WorktreeKind::Conflict)
+                        }
+                        None => {}
+                    }
+                }
+            }
+        }
+        Ok(map.into_values().collect())
+    }
+
+    /// The worktree folder, or `None` for a bare repository.
+    pub fn workdir(&self) -> Option<&Path> {
+        self.inner.workdir()
+    }
+
+    /// The raw bytes of a worktree file, or `None` when it does not exist. The
+    /// path must be relative and stay inside the worktree: a `..` component,
+    /// an absolute path, or a symbolic link that leaves the worktree is an
+    /// error. A file is read as it is, with no filter.
+    pub fn read_worktree_file(&self, rel: &str) -> Result<Option<Vec<u8>>, GitError> {
+        let root = self
+            .workdir()
+            .ok_or_else(|| GitError("a bare repository has no worktree".into()))?
+            .canonicalize()
+            .map_err(err)?;
+        let rel_path = Path::new(rel);
+        let safe = rel_path
+            .components()
+            .all(|c| matches!(c, std::path::Component::Normal(_)));
+        if rel.is_empty() || !safe {
+            return Err(GitError(format!("not a path inside the worktree: {rel}")));
+        }
+        let full = root.join(rel_path);
+        match full.canonicalize() {
+            Ok(real) if real.starts_with(&root) => {
+                if real.is_file() {
+                    std::fs::read(real).map(Some).map_err(err)
+                } else {
+                    Ok(None)
+                }
+            }
+            Ok(_) => Err(GitError(format!("{rel} leaves the worktree"))),
+            Err(e) if e.kind() == std::io::ErrorKind::NotFound => Ok(None),
+            Err(e) => Err(err(e)),
+        }
+    }
+
     /// The raw bytes of a file at a revision, or `None` when it is absent.
     pub fn read_file(&self, rev: &str, path: &str) -> Result<Option<Vec<u8>>, GitError> {
         let tree = self.tree(rev)?;
@@ -184,6 +280,37 @@ impl Repo {
         let obj = entry.object().map_err(err)?;
         Ok(Some(obj.data.clone()))
     }
+}
+
+/// What happened to a path between two states.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum WorktreeKind {
+    Added,
+    Deleted,
+    Modified,
+    Renamed,
+    Conflict,
+}
+
+/// One path in the worktree state.
+#[derive(Debug, PartialEq, Eq)]
+pub struct WorktreeEntry {
+    pub path: String,
+    /// The change between `HEAD` and the index (staged).
+    pub staged: Option<WorktreeKind>,
+    /// The change between the index and the worktree (unstaged).
+    pub unstaged: Option<WorktreeKind>,
+    /// The path is not tracked.
+    pub untracked: bool,
+}
+
+fn entry(map: &mut BTreeMap<String, WorktreeEntry>, path: String) -> &mut WorktreeEntry {
+    map.entry(path.clone()).or_insert(WorktreeEntry {
+        path,
+        staged: None,
+        unstaged: None,
+        untracked: false,
+    })
 }
 
 /// A path as the bytes Git stores.

@@ -26,6 +26,48 @@ const MIGRATION_SQL: &[&str] = &[
         baseline TEXT NOT NULL,
         navigation_json TEXT NOT NULL
     ) STRICT;",
+    // 3: review sessions, reviewed files, findings and checkpoints (R-03 to R-05).
+    "CREATE TABLE review_sessions (
+        id INTEGER PRIMARY KEY NOT NULL,
+        repository TEXT NOT NULL,
+        baseline_kind TEXT NOT NULL,
+        baseline_value TEXT NOT NULL,
+        head_revision TEXT NOT NULL,
+        next_finding_id INTEGER NOT NULL,
+        UNIQUE (repository, baseline_kind, baseline_value)
+    ) STRICT;
+    CREATE TABLE review_files (
+        session_id INTEGER NOT NULL REFERENCES review_sessions(id) ON DELETE CASCADE,
+        path TEXT NOT NULL,
+        content_id TEXT NOT NULL,
+        PRIMARY KEY (session_id, path)
+    ) STRICT;
+    CREATE TABLE findings (
+        session_id INTEGER NOT NULL REFERENCES review_sessions(id) ON DELETE CASCADE,
+        id INTEGER NOT NULL,
+        path TEXT NOT NULL,
+        revision TEXT NOT NULL,
+        line_start INTEGER NOT NULL,
+        line_end INTEGER NOT NULL,
+        severity TEXT NOT NULL,
+        category TEXT NOT NULL,
+        notes TEXT NOT NULL,
+        resolved INTEGER NOT NULL,
+        PRIMARY KEY (session_id, id)
+    ) STRICT;
+    CREATE TABLE checkpoints (
+        session_id INTEGER NOT NULL REFERENCES review_sessions(id) ON DELETE CASCADE,
+        number INTEGER NOT NULL,
+        PRIMARY KEY (session_id, number)
+    ) STRICT;
+    CREATE TABLE checkpoint_files (
+        session_id INTEGER NOT NULL,
+        number INTEGER NOT NULL,
+        path TEXT NOT NULL,
+        content_id TEXT NOT NULL,
+        PRIMARY KEY (session_id, number, path),
+        FOREIGN KEY (session_id, number) REFERENCES checkpoints(session_id, number) ON DELETE CASCADE
+    ) STRICT;",
 ];
 
 fn migrations() -> Migrations<'static> {
@@ -97,6 +139,7 @@ pub fn open(path: &Path) -> Result<Connection, StorageError> {
     Ok(conn)
 }
 
+pub mod review_store;
 pub mod sessions;
 
 #[cfg(test)]

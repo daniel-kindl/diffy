@@ -14,13 +14,31 @@ fn main() {
         Ok(cli::Launch::Files { left, right }) => {
             // The shell will open a tab from these snapshots. Reading them
             // here checks the inputs before the app starts.
-            if let Err(e) = cli::read_snapshots(&left, &right) {
+            let initial = cli::read_snapshots(&left, &right)
+                .map_err(|e| e.to_string())
+                .map(|(l, r)| ipc::Session::new(l, r));
+            match initial {
+                Ok(s) => run_app(Startup {
+                    session: Some(s),
+                    repository: None,
+                }),
+                Err(e) => {
+                    eprintln!("diffy: {e}");
+                    std::process::exit(1);
+                }
+            }
+        }
+        Ok(cli::Launch::Repository(path)) => match ipc::RepoState::open(&path) {
+            Ok(r) => run_app(Startup {
+                session: None,
+                repository: Some(r),
+            }),
+            Err(e) => {
                 eprintln!("diffy: {e}");
                 std::process::exit(1);
             }
-            run_app();
-        }
-        Ok(_launch) => run_app(),
+        },
+        Ok(_launch) => run_app(Startup::default()),
         Err(e) => {
             eprintln!("diffy: {e}");
             std::process::exit(2);
@@ -28,9 +46,24 @@ fn main() {
     }
 }
 
-fn run_app() {
+#[derive(Default)]
+struct Startup {
+    session: Option<ipc::Session>,
+    repository: Option<ipc::RepoState>,
+}
+
+fn run_app(start: Startup) {
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![ipc::compare_text])
+        .manage(ipc::Open(std::sync::Mutex::new(start.session)))
+        .manage(ipc::Repository(std::sync::Mutex::new(start.repository)))
+        .invoke_handler(tauri::generate_handler![
+            ipc::compare_text,
+            ipc::current_comparison,
+            ipc::select_encoding,
+            ipc::swap_sides,
+            ipc::repository_files,
+            ipc::open_repository_file
+        ])
         .run(tauri::generate_context!())
         .expect("the Diffy window failed to start");
 }

@@ -6,6 +6,24 @@
     <title>Diffy</title>
   </head>
   <body>
+    <header class="bar">
+      <label
+        >Base encoding
+        <select id="enc-left" data-side="left"></select
+      ></label>
+      <button id="swap" type="button">Swap sides</button>
+      <label
+        >Head encoding
+        <select id="enc-right" data-side="right"></select
+      ></label>
+      <p id="status" class="status" role="status"></p>
+    </header>
+    <nav id="explorer" class="explorer" aria-label="Changed files" hidden>
+      <input id="search" type="search" placeholder="Search files" aria-label="Search files" />
+      <label><input id="generated" type="checkbox" /> Show generated files</label>
+      <p id="counts" role="status"></p>
+      <ul id="files"></ul>
+    </nav>
     <div id="app" class="app">
       <section id="left" aria-label="Base"></section>
       <section id="right" aria-label="Head"></section>

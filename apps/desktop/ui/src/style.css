@@ -9,10 +9,19 @@ body {
   margin: 0;
   height: 100%;
 }
+.status {
+  margin: 0;
+  padding: 4px 8px;
+  font:
+    13px system-ui,
+    sans-serif;
+  height: 24px;
+  box-sizing: border-box;
+}
 .app {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  height: 100vh;
+  height: calc(100vh - 32px);
 }
 .app > section {
   min-width: 0;
@@ -25,4 +34,39 @@ body {
 }
 .diffy-line-modified {
   background: var(--modified);
+}
+.explorer {
+  position: fixed;
+  top: 32px;
+  bottom: 0;
+  left: 0;
+  width: 260px;
+  overflow: auto;
+  box-sizing: border-box;
+  padding: 4px 8px;
+  font:
+    13px system-ui,
+    sans-serif;
+  border-right: 1px solid color-mix(in srgb, currentColor 25%, transparent);
+}
+.explorer:not([hidden]) ~ .app {
+  margin-left: 260px;
+}
+.explorer ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.explorer button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  background: none;
+  border: 0;
+  padding: 2px 0;
+  cursor: pointer;
+}
+.explorer button:focus-visible {
+  outline: 2px solid currentColor;
 }
