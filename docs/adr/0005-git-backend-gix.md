@@ -1,9 +1,9 @@
 # ADR 0005: Diffy reads Git repositories with gix
 
-Status: Proposed
-Affects: docs/maps/diffy-v0.1.md
+Status: Accepted
+Affects: crates/diffy-git
 
-The owner decided this on 2026-11-25. The Status stays Proposed until M0 creates the Git backend. That pull request changes the Affects line to the backend paths and sets the Status to Accepted.
+The owner decided this on 2026-11-25. The Git backend exists, so the Status is Accepted.
 
 ## Context
 
