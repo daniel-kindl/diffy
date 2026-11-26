@@ -43,11 +43,9 @@ pub fn overview(
             .filter(|f| f.severity == Severity::Blocker)
             .count(),
         outdated: unresolved.iter().filter(|f| is_outdated(f)).count(),
-        progress_percent: if files_total == 0 {
-            100
-        } else {
-            (files_reviewed * 100 / files_total) as u32
-        },
+        progress_percent: (files_reviewed * 100)
+            .checked_div(files_total)
+            .map_or(100, |p| p as u32),
     }
 }
 
