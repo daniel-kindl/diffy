@@ -2,7 +2,7 @@
 
 Status: open
 Destination: Each v0.1 milestone (M0 to M4) has a plan and issues with acceptance criteria. Each spike has a verdict, and no open question blocks the first M0 issue.
-Next: Q65
+Next: Q66
 
 ## Notes
 
@@ -146,6 +146,12 @@ Next: Q65
 - The specification asks the line comparison to keep the CRLF and LF information and a missing final newline. Source: Diffy_Master_Specification.md section 03, requirement C-03.
 - The specification asks for a conservative anchor mapping. Diffy maps a finding again only when the mapping is unambiguous. Otherwise the finding is outdated. Source: Diffy_Master_Specification.md section 07.
 
+- In Q65, M3 maps each old line of the 8,282 modified or renamed files of the Q46 fixtures. No anchor is outdated because of the cap of 1,000,000 cells. The largest segment has 225 cells, because the fixture lines are almost all unique. Source: https://github.com/daniel-kindl/diffy/blob/9f5033a/prototypes/q45-anchors/results/q65-timing.json
+- In Q65, the M3 time with the canonical diff is at most 2.41 ms for each file of the many-file fixtures. On one thread, the 1,840 files of 2,000 large files take 1,579 ms in total. Source: https://github.com/daniel-kindl/diffy/blob/9f5033a/prototypes/q45-anchors/results/q65-timing.json
+- In Q65, the 50 MB pair takes 1,380 ms at p50. The canonical diff takes 581 ms of it. The 10,000 changed lines pair takes 36 ms. Source: https://github.com/daniel-kindl/diffy/blob/9f5033a/prototypes/q45-anchors/results/q65-timing.json
+- The segments at the cap have 4 line texts. One takes 6 ms for 1,000 by 1,000 lines and 7 ms for 100 by 10,000 lines. Source: https://github.com/daniel-kindl/diffy/blob/9f5033a/prototypes/q45-anchors/results/q65-segment-bound.json
+- The Q45 LCS rule panics when a side of a segment has 65,535 lines or more, also under the cap. A pair with 70,000 lines inserted between two bracket lines of a 10 line file panics. Source: https://github.com/daniel-kindl/diffy/blob/9f5033a/prototypes/q45-anchors/results/q65-insert-70k.json
+
 ## Decisions
 
 - Q1 Independent review: tiered by risk. Safety-critical areas (Git adapter, publication, anchors, updater, IPC and capabilities) need owner review. Other areas merge after agent review and green CI. Decided by: Daniel Kindl, 2026-11-24. Record: this line.
@@ -215,15 +221,9 @@ Next: Q65
 - Q59 S1 checks on the Windows notebook: option B passes each correctness check on Windows, and option B stays the pick (ADR 0004). The live refresh misses the S1 target of 500 ms for 1 MB and 10 MB. The Git oracle process and the read IPC cause most of the time. Q79 measures the refresh in M0. The owner selected the option "Accept, add refresh task". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
 - Q63 Files with a filter driver: for a `filter=lfs` file, Diffy builds the LFS pointer of the worktree file in-process, from its SHA-256 and size. It compares that pointer with the stored pointer, so the file is unchanged or changed. A changed LFS file shows no content diff and shows a limitation. A file with another filter shows a limitation and no content diff. The owner selected the option "LFS pointer check". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
 - Q64 Anchors after whitespace and line-ending changes: the anchor mapping compares each line without its line terminator. So LF, CRLF and a missing final newline give the same line, and a file that changes from LF to CRLF keeps its anchors. Any other whitespace change still makes the finding outdated. The canonical diff and the stored coordinates keep each byte. M0 runs the Q45 fixtures and property test again with this comparison. The owner selected the option "Line endings only". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
+- Q65 Time of the anchor mapping on large files: the M3 time is accepted. On the Q46 fixtures no anchor is outdated because of the cap. M0 makes a segment with 65,535 lines or more on a side outdated, or maps it with no panic. The pair with 70,000 inserted lines is an M0 test fixture. The owner selected the option "Accept, M0 fixes panic". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
 
 ## Open questions
-
-### Q65: Time of the anchor mapping on large files
-
-Type: task
-Blocked by: Q46
-
-Measure the Q45 M3 mapping on the Q46 fixtures. Record the time, and the findings that are outdated because a segment has more than 1,000,000 cells.
 
 ### Q66: Cancel during the open of a large file
 
@@ -403,6 +403,13 @@ In M0, measure the live refresh of option B on the Windows notebook, with the in
 - Result: option B passes each correctness check. Its live refresh p95 is 481 to 661 ms for 1 MB and 1,325 to 1,671 ms for 10 MB. Option A fails the coordinate check on 1 MB and 10 MB.
 - Picked: option B stays the pick (ADR 0004). Q79 measures the refresh in M0.
 - Branch: `prototype/diffy-v0.1-q59` at `8e3cab7`. Tag: `prototype/diffy-v0.1-q59`. Not merged.
+
+### Q65: M3 time on the Q46 fixtures
+
+- Options: M3 from Q45, on each modified or renamed file of the Q46 fixtures, and one segment at the cap.
+- Result: no anchor is outdated because of the cap. The 50 MB pair takes 1,380 ms, and each other file takes at most 42 ms. A segment side with 65,535 lines or more panics.
+- Picked: the M3 time is accepted. M0 removes the panic.
+- Branch: `prototype/diffy-v0.1-q65` at `9f5033a`. Tag: `prototype/diffy-v0.1-q65`. Not merged.
 
 ## Hand-off
 
