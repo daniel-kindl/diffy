@@ -11,12 +11,14 @@ use notify::{Event, RecommendedWatcher, RecursiveMode, Watcher};
 use std::collections::BTreeSet;
 use std::path::{Path, PathBuf};
 use std::sync::{Arc, Condvar, Mutex};
-use std::time::Duration;
+use std::time::{Duration, Instant};
 
 #[derive(Default)]
 struct State {
     paths: BTreeSet<PathBuf>,
     overflow: bool,
+    /// The time of the last push, for the debounce.
+    last_push: Option<Instant>,
 }
 
 /// What the consumer takes from the queue.
@@ -45,6 +47,7 @@ impl CoalescingQueue {
     pub fn push(&self, path: PathBuf) {
         let (lock, cv) = &*self.state;
         let mut s = lock.lock().unwrap();
+        s.last_push = Some(Instant::now());
         if s.overflow {
             // Already a full rescan: the path adds nothing.
         } else if s.paths.contains(&path) {
@@ -64,6 +67,47 @@ impl CoalescingQueue {
         let mut s = lock.lock().unwrap();
         if s.paths.is_empty() && !s.overflow {
             s = cv.wait_timeout(s, timeout).unwrap().0;
+        }
+        let batch = Batch {
+            paths: std::mem::take(&mut s.paths).into_iter().collect(),
+            overflow: s.overflow,
+        };
+        s.overflow = false;
+        batch
+    }
+
+    /// Wait for a burst to settle, then take it. It returns once no event
+    /// arrived for `quiet` (200 to 500 ms), or after `max_wait` since the
+    /// first event, so a steady stream still refreshes. If nothing happens for
+    /// `reconcile_every`, it returns an overflow batch, so the consumer
+    /// reconciles with a full rescan. A burst gives one batch.
+    pub fn take_settled(
+        &self,
+        quiet: Duration,
+        max_wait: Duration,
+        reconcile_every: Duration,
+    ) -> Batch {
+        let (lock, cv) = &*self.state;
+        let mut s = lock.lock().unwrap();
+        let idle_end = Instant::now() + reconcile_every;
+        while s.paths.is_empty() && !s.overflow {
+            let now = Instant::now();
+            if now >= idle_end {
+                return Batch {
+                    paths: Vec::new(),
+                    overflow: true,
+                };
+            }
+            s = cv.wait_timeout(s, idle_end - now).unwrap().0;
+        }
+        let first = Instant::now();
+        loop {
+            let since_last = s.last_push.map_or(quiet, |t| t.elapsed());
+            if since_last >= quiet || first.elapsed() >= max_wait {
+                break;
+            }
+            let wait = (quiet - since_last).min(max_wait.saturating_sub(first.elapsed()));
+            s = cv.wait_timeout(s, wait).unwrap().0;
         }
         let batch = Batch {
             paths: std::mem::take(&mut s.paths).into_iter().collect(),
