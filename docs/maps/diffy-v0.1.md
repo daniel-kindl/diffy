@@ -2,7 +2,7 @@
 
 Status: open
 Destination: Each v0.1 milestone (M0 to M4) has a plan and issues with acceptance criteria. Each spike has a verdict, and no open question blocks the first M0 issue.
-Next: Q75
+Next: Q76
 
 ## Notes
 
@@ -166,6 +166,14 @@ Next: Q75
 - A OneDev pull request comment is confirmed by the marker in `content`, with `GET /~api/pulls/{id}/comments`. Source: https://github.com/daniel-kindl/diffy/blob/4bcc767/prototypes/q49-onedev/README.md
 - OneDev lists the reviewers of a pull request with their status, with `GET /~api/pulls/{id}/reviews`. Adding a reviewer needs the permission to modify the pull request, and the submitter cannot be a reviewer. Q49 did not add a reviewer. Source: https://github.com/theonedev/onedev/blob/v17.2.4/server-core/src/main/java/io/onedev/server/rest/resource/PullRequestResource.java#L156 and https://github.com/theonedev/onedev/blob/v17.2.4/server-core/src/main/java/io/onedev/server/rest/resource/PullRequestResource.java#L372
 
+- The Q75 tests ran a minimal Tauri 2.12.7 app with tauri-plugin-single-instance 2.5.5. Linux is the Fedora 44 distrobox with the dbus-broker session bus, as a binary and as an AppImage. Windows is the GitHub `windows-latest` runner with Windows Server 2025 and Git 2.56.1.windows.1, not the Windows notebook. Source: https://github.com/daniel-kindl/diffy/blob/c2690d1/prototypes/q75-single-instance/README.md
+- On Linux, the callback runs on the `zbus::Connection executor` thread. A second instance waited for a callback of 130 s and exited with 0, so the bus call has no reply timeout. On Windows, the callback runs on the main thread. Source: https://github.com/daniel-kindl/diffy/blob/c2690d1/prototypes/q75-single-instance/results/linux-binary.json, https://github.com/daniel-kindl/diffy/blob/c2690d1/prototypes/q75-single-instance/results/linux-binary-timeout.json and https://github.com/daniel-kindl/diffy/blob/c2690d1/prototypes/q75-single-instance/results/windows.json
+- The AppImage starts the app in its mount folder and keeps the folder of the caller in `OWD`. So the plugin forwards the mount folder, and a relative argument such as the `git difftool` worktree `$REMOTE` is not found. With `set_current_dir` to `OWD` at the start of `main`, the callback gets the folder of the caller. Source: https://github.com/daniel-kindl/diffy/blob/c2690d1/prototypes/q75-single-instance/results/linux-appimage-owd.json
+- On Windows, when the app setup hook blocks the main thread for 12 s, the second instance exits with 0, and the callback never runs. With 3 s, the callback runs after the setup. On Linux, the second instance waits for a setup of 12 s. Source: https://github.com/daniel-kindl/diffy/blob/c2690d1/prototypes/q75-single-instance/results/windows.json and https://github.com/daniel-kindl/diffy/blob/c2690d1/prototypes/q75-single-instance/results/linux-binary-setup.json
+- When a second process starts while the first one starts, no arguments are lost on either platform. If the first process is slow before the plugin setup, the later process becomes the running instance, and the first one forwards to it. Source: https://github.com/daniel-kindl/diffy/blob/c2690d1/prototypes/q75-single-instance/results/windows.json and https://github.com/daniel-kindl/diffy/blob/c2690d1/prototypes/q75-single-instance/results/linux-binary-race.json
+- In the callback, the copy of a 50 MB input takes 19 to 20 ms on Windows and at most 41 ms on Linux. Source: https://github.com/daniel-kindl/diffy/blob/c2690d1/prototypes/q75-single-instance/results/windows.json and https://github.com/daniel-kindl/diffy/blob/c2690d1/prototypes/q75-single-instance/results/linux-binary.json
+- On Windows, Git deletes `$LOCAL` while Diffy holds it open with the default Rust share mode, which has `FILE_SHARE_DELETE`. The open handle still reads the content. Without `FILE_SHARE_DELETE`, Git prints a warning, exits with 0 and leaves the file. Source: https://github.com/daniel-kindl/diffy/blob/c2690d1/prototypes/q75-single-instance/results/windows.json
+
 ## Decisions
 
 - Q1 Independent review: tiered by risk. Safety-critical areas (Git adapter, publication, anchors, updater, IPC and capabilities) need owner review. Other areas merge after agent review and green CI. Decided by: Daniel Kindl, 2026-11-24. Record: this line.
@@ -242,15 +250,9 @@ Next: Q75
 - Q69 GraphQL in the GitHub client: the GitHub client uses REST for the batched review (ADR 0003), the inline comments, the replies and the reads. It uses GraphQL only to list the review threads and to resolve or reopen a thread. Both use the same token. The owner selected the option "REST + GraphQL for threads". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
 - Q70 Findings outside a OneDev hunk: OneDev can reject an inline comment with the error 406 "Comment range must be within a diff hunk". Then Diffy posts the finding as a pull request comment. That comment has the path, the line, the text and the marker. The publish result shows the finding as a pull request comment. A pull request comment has no resolved state, so Diffy does not sync a resolve of that finding. The owner selected the option "Fall back to PR comment". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
 - Q71 Review actions when the user is not a reviewer: on OneDev, Diffy reads the reviewers of the pull request before the publish dialog opens. If the user is not a reviewer, the dialog has no approve and no request changes. It shows the comments and a short reason. Diffy does not add the user as a reviewer. The owner selected the option "Comments only". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
+- Q75 Single instance tests: the Q74 design is accepted. The CLI forwarding work has three acceptance criteria. The AppImage sets its working folder to `OWD` before the plugin setup. On Windows, no startup step and no callback blocks the main thread for long, because a second instance loses its input after 10 s. Diffy opens an input only with the default Rust share mode. The owner selected the option "Accept, add criteria". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
 
 ## Open questions
-
-### Q75: Single instance tests
-
-Type: task
-Blocked by: none
-
-Run five tests for the Q51 and Q74 unknowns. Does Windows delete a temporary file while Diffy holds it open? Which thread runs the Linux callback, and what is the bus reply timeout? Does the AppImage keep the working folder of the caller? What does a second instance do while the first instance still starts? How long does the Q74 copy of a 50 MB input take in the Windows callback?
 
 ### Q76: More domain terms
 
@@ -395,6 +397,13 @@ Run the Q43 parity check on the gix-imara-diff source of gitoxide `2bcb31d`, wit
 - Result: no anchor is outdated because of the cap. The 50 MB pair takes 1,380 ms, and each other file takes at most 42 ms. A segment side with 65,535 lines or more panics.
 - Picked: the M3 time is accepted. M0 removes the panic.
 - Branch: `prototype/diffy-v0.1-q65` at `9f5033a`. Tag: `prototype/diffy-v0.1-q65`. Not merged.
+
+### Q75: Single instance tests
+
+- Options: none. Q75 tests the Q51 and Q74 unknowns on Linux, as a binary and an AppImage, and on the Windows runner.
+- Result: the AppImage forwards its mount folder, and `OWD` fixes it. On Windows, a main thread blocked for 12 s at the start loses the input. A 50 MB copy takes at most 41 ms. No race loses an input.
+- Picked: the owner accepted the result, with three acceptance criteria for the CLI forwarding work.
+- Branch: `prototype/diffy-v0.1-q75` at `c2690d1`. Tag: `prototype/diffy-v0.1-q75`. Not merged.
 
 ## Hand-off
 
