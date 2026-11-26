@@ -5,6 +5,8 @@
 //! is derived from a snapshot and never written back, so normalization (line
 //! endings, whitespace) cannot change the original content.
 
+pub mod canonical;
+
 use sha2::{Digest, Sha256};
 use std::sync::Arc;
 
