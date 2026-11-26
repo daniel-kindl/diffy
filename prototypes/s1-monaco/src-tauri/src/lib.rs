@@ -420,7 +420,8 @@ pub fn run() {
             q42::snapshot_check,
             q42::q78_config,
             q42::q78_im,
-            q42::q78_geometry
+            q42::q78_geometry,
+            q42::q85_config
         ])
         .run(tauri::generate_context!())
         .expect("error while running the prototype");

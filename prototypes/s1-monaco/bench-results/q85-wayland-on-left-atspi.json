@@ -1,0 +1,208 @@
+{
+  "label": "q85-wayland-on-left",
+  "pid": 11350,
+  "app_found": true,
+  "ready": true,
+  "focused": [
+    {
+      "role": "document web",
+      "name": "Q85 ready q85-wayland-on-left",
+      "description": "",
+      "states": [
+        "enabled",
+        "focusable",
+        "focused",
+        "sensitive",
+        "showing",
+        "visible"
+      ],
+      "attributes": {
+        "toolkit": "WebKitGTK"
+      },
+      "text": null,
+      "ancestors": [
+        {
+          "role": "scroll pane",
+          "name": ""
+        },
+        {
+          "role": "filler",
+          "name": ""
+        },
+        {
+          "role": "filler",
+          "name": ""
+        },
+        {
+          "role": "filler",
+          "name": ""
+        },
+        {
+          "role": "frame",
+          "name": "Diffy S1 prototype (Q41)"
+        },
+        {
+          "role": "application",
+          "name": "diffy-s1-monaco"
+        },
+        {
+          "role": "desktop frame",
+          "name": "main"
+        }
+      ]
+    },
+    {
+      "role": "entry",
+      "name": "Editor content",
+      "description": "",
+      "states": [
+        "editable",
+        "enabled",
+        "focusable",
+        "focused",
+        "multi-line",
+        "selectable-text",
+        "sensitive",
+        "showing",
+        "visible"
+      ],
+      "attributes": {
+        "autocomplete": "none",
+        "tag": "textarea",
+        "toolkit": "WebKitGTK",
+        "computed-role": "textbox",
+        "xml-roles": "textbox",
+        "roledescription": "editor"
+      },
+      "text": {
+        "character_count": 3956,
+        "caret_offset": 871,
+        "text": "    // finding entry entry 273\n    if token > 61283 { return Err(Error::anchor); }\n\nfn anchor_left_3(buffer: u32) -> u32 { review + 13893 }\n    let state_4 = right.buffer(39461);\n    let snapshot_5 = state.right(42738);\n    if finding > 65812 { return Err(Error::state); }\n    if review > 72094 { return Err(Error::state); }\n\n    hunk.push(anchor_1);\n    if token > 15208 { return Err(Error::snapshot); }\n    let value_11 = offset.error(26465);\n    if token > 98937 { return Err(Error::anchor); }\n    if entry > 67721 { return Err(Error::path); }\n    result.push(path_29);\n    let error_15 = right.error(3944);\n    // token buffer range 93589\n\n\nfn anchor_hunk_19(range: u32) -> u32 { finding + 11759 }\n    // result error right 7611\n    let error_21 = right.index(30325);\n    // hunk index index 54906\n    let range_23 = range.index(30082);\n    // left state right 52323\n\n\n    if entry > 2835 { return Err(Error::hunk); }\n    count.push(right_16);\n\n    count.push(index_61);\nfn right_error_31(hunk: u32) -> u32 { path + 54255 }\n\n    line.push(hunk_78);\n    if path > 26494 { return Err(Error::entry); }\n    let count_35 = value.state(32966);\nfn index_result_36(hunk: u32) -> u32 { error + 24372 }\n    // range hunk left 42783\n    // state count left 76239\n    // value hunk anchor 64596\n\nfn offset_value_41(path: u32) -> u32 { finding + 35459 }\n    // index count result 64254\n    let right_43 = offset.right(71057);\n    // count index buffer 92555\n    finding.push(line_81);\n    count.push(entry_14);\n\n\nfn finding_line_49(token: u32) -> u32 { index + 60745 }\n    if offset > 96589 { return Err(Error::finding); }\n    let offset_51 = left.buffer(16363);\n    // value count value 61174\nfn range_state_53(offset: u32) -> u32 { range + 67662 }\n\n\n    let finding_56 = snapshot.line(82359);\n    let range_57 = line.value(8361);\n    // range error review 55066\n    line.push(token_43);\n    if state > 87495 { return Err(Error::count); }\n    if value > 70244 { return Err(Error::result); }\n\n\n    // snapshot",
+        "line_at_caret": {
+          "text": "\n",
+          "start": 871,
+          "end": 872
+        }
+      },
+      "ancestors": [
+        {
+          "role": "section",
+          "name": ""
+        },
+        {
+          "role": "landmark",
+          "name": ""
+        }
+      ]
+    }
+  ],
+  "change_type_named": [],
+  "live_regions": [
+    {
+      "role": "notification",
+      "name": "",
+      "description": "",
+      "states": [
+        "enabled",
+        "sensitive",
+        "visible"
+      ],
+      "attributes": {
+        "tag": "div",
+        "atomic": "true",
+        "live": "assertive",
+        "xml-roles": "alert",
+        "container-relevant": "additions text",
+        "container-live": "assertive",
+        "computed-role": "alert",
+        "toolkit": "WebKitGTK",
+        "container-atomic": "true",
+        "container-live-role": "alert",
+        "relevant": "additions text"
+      }
+    },
+    {
+      "role": "notification",
+      "name": "",
+      "description": "",
+      "states": [
+        "enabled",
+        "sensitive",
+        "visible"
+      ],
+      "attributes": {
+        "tag": "div",
+        "atomic": "true",
+        "live": "assertive",
+        "xml-roles": "alert",
+        "container-relevant": "additions text",
+        "container-live": "assertive",
+        "computed-role": "alert",
+        "toolkit": "WebKitGTK",
+        "container-atomic": "true",
+        "container-live-role": "alert",
+        "relevant": "additions text"
+      }
+    },
+    {
+      "role": "section",
+      "name": "",
+      "description": "",
+      "states": [
+        "enabled",
+        "sensitive",
+        "visible"
+      ],
+      "attributes": {
+        "tag": "div",
+        "atomic": "true",
+        "live": "polite",
+        "container-relevant": "additions text",
+        "container-live": "polite",
+        "computed-role": "generic",
+        "toolkit": "WebKitGTK",
+        "container-atomic": "true",
+        "container-live-role": "generic",
+        "relevant": "additions text"
+      }
+    },
+    {
+      "role": "section",
+      "name": "",
+      "description": "",
+      "states": [
+        "enabled",
+        "sensitive",
+        "visible"
+      ],
+      "attributes": {
+        "tag": "div",
+        "atomic": "true",
+        "live": "polite",
+        "container-relevant": "additions text",
+        "container-live": "polite",
+        "computed-role": "generic",
+        "toolkit": "WebKitGTK",
+        "container-atomic": "true",
+        "container-live-role": "generic",
+        "relevant": "additions text"
+      }
+    }
+  ],
+  "document": {
+    "role": "document web",
+    "name": "Q85 ready q85-wayland-on-left",
+    "description": "",
+    "states": [
+      "enabled",
+      "focusable",
+      "focused",
+      "sensitive",
+      "showing",
+      "visible"
+    ],
+    "attributes": {
+      "toolkit": "WebKitGTK"
+    }
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "opened": {
+    "option": "B",
+    "fixture": "small",
+    "ok": true,
+    "phases": {
+      "load_ms": 4,
+      "oracle_ms": 1.948627,
+      "model_ms": 13,
+      "setup_ms": 84,
+      "paint_ms": 81,
+      "total_ms": 182
+    },
+    "checks": {
+      "left_model_lines": 121,
+      "right_model_lines": 123,
+      "expected_left_lines": 121,
+      "expected_right_lines": 123,
+      "rendered_view_lines_left": 45,
+      "rendered_view_lines_right": 48,
+      "canonical_blocks": 6,
+      "canonical_hunks": 6,
+      "canonical_added": 10,
+      "canonical_removed": 8,
+      "aligned_rows_left": 128,
+      "aligned_rows_right": 128,
+      "content_height_left": 2304,
+      "content_height_right": 2304,
+      "oracle_cached": false
+    },
+    "memory": {
+      "processes": [
+        {
+          "name": "WebKitNetworkPr",
+          "pid": 12468,
+          "rss_kb": 55940
+        },
+        {
+          "name": "WebKitWebProces",
+          "pid": 12487,
+          "rss_kb": 287560
+        },
+        {
+          "name": "diffy-s1-monaco",
+          "pid": 12456,
+          "rss_kb": 141920
+        }
+      ],
+      "total_rss_kb": 485420
+    }
+  },
+  "target": "left",
+  "accessibility_support": "auto",
+  "line": 26,
+  "line_text": "",
+  "line_decorations": [
+    "line-removed"
+  ],
+  "editor_read_only": true,
+  "textarea": {
+    "focused": true,
+    "role": "textbox",
+    "aria_label": "Editor content",
+    "aria_roledescription": "editor",
+    "aria_readonly": null,
+    "readonly": false,
+    "aria_multiline": "true",
+    "value": " { return Err(Error::snapshot); }\n    let value_11 = offset.error(26465);\n    if token > 98937 { return Err(Error::anchor); }\n    if entry > 67721 { return Err(Error::path); }\n    result.push(path_29);\n    let error_15 = right.error(3944);\n    // token buffer range 93589\n\n\nfn anchor_hunk_19(range: u32) -> u32 { finding + 11759 }\n    // result error right 7611\n    let error_21 = right.index(30325);\n    // hunk index index 54906\n    let range_23 = range.index(30082);\n    // left state right 52323\n\n\n    if entry > 2835 { return Err(Error::hunk); }\n    count.push(right_16);\n\n    count.push(index_61);\nfn right_error_31(hunk: u32) -> u32 { path + 54255 }\n\n    line.push(hunk_78);\n    if path > 26494 { return Err(Error::entry); }\n    let count_35 = value.state(32966);\nfn index_result_36(hunk: u32) -> u32 { error + 24372 }\n    // range hunk left 42783\n    // state count left 76239\n    // value hunk anchor 64596\n\nfn offset_value_41(path: u32) -> u32 { finding + 35459 }\n    // index count result ",
+    "selection": [
+      500,
+      500
+    ]
+  },
+  "live_regions": [
+    {
+      "live": "polite",
+      "text": ""
+    },
+    {
+      "live": "polite",
+      "text": ""
+    }
+  ]
+}

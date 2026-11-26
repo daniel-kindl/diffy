@@ -1,0 +1,84 @@
+{
+  "opened": {
+    "option": "B",
+    "fixture": "small",
+    "ok": true,
+    "phases": {
+      "load_ms": 4,
+      "oracle_ms": 1.855758,
+      "model_ms": 12,
+      "setup_ms": 84,
+      "paint_ms": 80,
+      "total_ms": 180
+    },
+    "checks": {
+      "left_model_lines": 121,
+      "right_model_lines": 123,
+      "expected_left_lines": 121,
+      "expected_right_lines": 123,
+      "rendered_view_lines_left": 45,
+      "rendered_view_lines_right": 48,
+      "canonical_blocks": 6,
+      "canonical_hunks": 6,
+      "canonical_added": 10,
+      "canonical_removed": 8,
+      "aligned_rows_left": 128,
+      "aligned_rows_right": 128,
+      "content_height_left": 2304,
+      "content_height_right": 2304,
+      "oracle_cached": false
+    },
+    "memory": {
+      "processes": [
+        {
+          "name": "diffy-s1-monaco",
+          "pid": 12171,
+          "rss_kb": 141420
+        },
+        {
+          "name": "WebKitWebProces",
+          "pid": 12202,
+          "rss_kb": 288404
+        },
+        {
+          "name": "WebKitNetworkPr",
+          "pid": 12183,
+          "rss_kb": 56564
+        }
+      ],
+      "total_rss_kb": 486388
+    }
+  },
+  "target": "left",
+  "accessibility_support": "on",
+  "line": 26,
+  "line_text": "",
+  "line_decorations": [
+    "line-removed"
+  ],
+  "editor_read_only": true,
+  "textarea": {
+    "focused": true,
+    "role": "textbox",
+    "aria_label": "Editor content",
+    "aria_roledescription": "editor",
+    "aria_readonly": null,
+    "readonly": false,
+    "aria_multiline": "true",
+    "value": "    // finding entry entry 273\n    if token > 61283 { return Err(Error::anchor); }\n\nfn anchor_left_3(buffer: u32) -> u32 { review + 13893 }\n    let state_4 = right.buffer(39461);\n    let snapshot_5 = state.right(42738);\n    if finding > 65812 { return Err(Error::state); }\n    if review > 72094 { return Err(Error::state); }\n\n    hunk.push(anchor_1);\n    if token > 15208 { return Err(Error::snapshot); }\n    let value_11 = offset.error(26465);\n    if token > 98937 { return Err(Error::anchor); }\n    if entry > 67721 { return Err(Error::path); }\n    result.push(path_29);\n    let error_15 = right.error(3944);\n    // token buffer range 93589\n\n\nfn anchor_hunk_19(range: u32) -> u32 { finding + 11759 }\n    // result error right 7611\n    let error_21 = right.index(30325);\n    // hunk index index 54906\n    let range_23 = range.index(30082);\n    // left state right 52323\n\n\n    if entry > 2835 { return Err(Error::hunk); }\n    count.push(right_16);\n\n    count.push(index_61);\nfn right_error_31(hunk: u32) -> u32 { path + 54255 }\n\n    line.push(hunk_78);\n    if path > 26494 { return Err(Error::entry); }\n    let count_35 = value.state(32966);\nfn index_result_36(hunk: u32) -> u32 { error + 24372 }\n    // range hunk left 42783\n    // state count left 76239\n    // value hunk anchor 64596\n\nfn offset_value_41(path: u32) -> u32 { finding + 35459 }\n    // index count result 64254\n    let right_43 = offset.right(71057);\n    // count index buffer 92555\n    finding.push(line_81);\n    count.push(entry_14);\n\n\nfn finding_line_49(token: u32) -> u32 { index + 60745 }\n    if offset > 96589 { return Err(Error::finding); }\n    let offset_51 = left.buffer(16363);\n    // value count value 61174\nfn range_state_53(offset: u32) -> u32 { range + 67662 }\n\n\n    let finding_56 = snapshot.line(82359);\n    let range_57 = line.value(8361);\n    // range error review 55066\n    line.push(token_43);\n    if state > 87495 { return Err(Error::count); }\n    if value > 70244 { return Err(Error::result); }\n\n\n    // snapshot anchor left 46827\n    let offset_65 = value.snapshot(93839);\n    // buffer entry right 15663\n    let hunk_67 = entry.offset(49495);\nfn offset_value_68(state: u32) -> u32 { entry + 274 }\n    if error > 64754 { return Err(Error::snapshot); }\n    // offset snapshot state 40551\n\n    left.push(buffer_55);\n\n\n    // index state offset 42983\n    value.push(state_59);\n    hunk.push(token_93);\n    let count_78 = hunk.path(23451);\n    if range > 40768 { return Err(Error::index); }\n    // range review index 79458\nfn review_path_81(entry: u32) -> u32 { offset + 91582 }\n    if offset > 63869 { return Err(Error::snapshot); }\n\n\nfn value_finding_85(review: u32) -> u32 { state + 24314 }\n    if path > 80890 { return Err(Error::anchor); }\n    if finding > 55427 { return Err(Error::line); }\n\n    // value anchor buffer 48441\n    // snapshot hunk snapshot 3749\n    if right > 13887 { return Err(Error::hunk); }\n    if snapshot > 62910 { return Err(Error::count); }\nfn state_finding_93(left: u32) -> u32 { review + 17002 }\n    let line_94 = snapshot.entry(14563);\nfn finding_anchor_95(line: u32) -> u32 { count + 60840 }\n    // finding value hunk 65044\n    let entry_97 = path.review(63314);\n    value.push(right_2);\n\nfn error_line_100(state: u32) -> u32 { result + 83879 }\n    // count buffer offset 17994\nfn review_hunk_102(offset: u32) -> u32 { state + 51116 }\n    error.push(finding_77);\nfn finding_line_104(line: u32) -> u32 { result + 87484 }\n    // left error anchor 84905\n    right.push(hunk_35);\n    finding.push(review_14);\nfn range_entry_108(count: u32) -> u32 { entry + 70901 }\n    if line > 9808 { return Err(Error::range); }\nfn line_token_110(path: u32) -> u32 { token + 53013 }\n    let right_111 = buffer.finding(32610);\n    let hunk_112 = anchor.right(7235);\n    value.push(range_31);\n    // result line review 97658\n    // count offset line 64299\n    if error > 75017 { return Err(Error::hunk); }\n    entry.push(result_0);\n    anchor.push(left_81);\n\n",
+    "selection": [
+      871,
+      871
+    ]
+  },
+  "live_regions": [
+    {
+      "live": "polite",
+      "text": ""
+    },
+    {
+      "live": "polite",
+      "text": ""
+    }
+  ]
+}

@@ -1,0 +1,248 @@
+[
+  {
+    "run": "q85-wayland-auto-left",
+    "role": "entry",
+    "name": "Editor content",
+    "editable": true,
+    "read_only_state": false,
+    "readonly_attribute": null,
+    "characters": 1000,
+    "caret_offset": 500,
+    "line_at_caret": "\n\n    if entry > 2835 { return Err(Error::hunk); }\n    count.push(right_16);\n\n    count.push(index_61);\nfn right_error_31(hunk: u32) -> u32 { path + 54255 }\n\n    line.push(hunk_78);\n    if path > 26494 { return Err(Error::entry); }\n    let count_35 = value.state(32966);\nfn index_result_36(hunk: u32) -> u32 { error + 24372 }\n    // range hunk left 42783\n    // state count left 76239\n    // value hunk anchor 64596\n\nfn offset_value_41(path: u32) -> u32 { finding + 35459 }\n",
+    "change_type_named": 0,
+    "live_text": []
+  },
+  {
+    "run": "q85-wayland-auto-right",
+    "role": "entry",
+    "name": "Editor content",
+    "editable": true,
+    "read_only_state": false,
+    "readonly_attribute": null,
+    "characters": 640,
+    "caret_offset": 140,
+    "line_at_caret": "    let added_4_0 = 47619;\n    let added_4_1 = 227818;\n    let added_4_2 = 45186;\n    let state_4 = right.buffer(39461);\n    let snapshot_5 = state.right(42738);\n    if finding > 65812 { return Err(Error::state); }\n    if review > 72094 { return Err(Error::state); }\n\n    hunk.push(anchor_1);\n    if token > 15208 { return Err(Error::snapshot); }\n    let value_11 = offset.error(26465);\n    if token > 98937 { return Err(Error::anchor); }\n    if entry > 67721 { return Err(Error::path); }\n",
+    "change_type_named": 0,
+    "live_text": []
+  },
+  {
+    "run": "q85-wayland-off-left",
+    "role": "entry",
+    "name": "The editor is not accessible at this time.",
+    "editable": true,
+    "read_only_state": false,
+    "readonly_attribute": null,
+    "characters": 0,
+    "caret_offset": 0,
+    "line_at_caret": "",
+    "change_type_named": 0,
+    "live_text": []
+  },
+  {
+    "run": "q85-wayland-off-right",
+    "role": "entry",
+    "name": "The editor is not accessible at this time.",
+    "editable": true,
+    "read_only_state": false,
+    "readonly_attribute": null,
+    "characters": 0,
+    "caret_offset": 0,
+    "line_at_caret": "",
+    "change_type_named": 0,
+    "live_text": []
+  },
+  {
+    "run": "q85-wayland-on-fix-left",
+    "role": "entry",
+    "name": "Editor content",
+    "editable": true,
+    "read_only_state": false,
+    "readonly_attribute": "true",
+    "characters": 3956,
+    "caret_offset": 871,
+    "line_at_caret": "\n",
+    "change_type_named": 0,
+    "live_text": [
+      "Original, line 26, removed"
+    ]
+  },
+  {
+    "run": "q85-wayland-on-fix-right",
+    "role": "entry",
+    "name": "Editor content",
+    "editable": true,
+    "read_only_state": false,
+    "readonly_attribute": "true",
+    "characters": 4059,
+    "caret_offset": 140,
+    "line_at_caret": "    let added_4_0 = 47619;\n",
+    "change_type_named": 0,
+    "live_text": [
+      "Modified, line 5, added"
+    ]
+  },
+  {
+    "run": "q85-wayland-on-fixro-left",
+    "role": "entry",
+    "name": "Editor content",
+    "editable": false,
+    "read_only_state": false,
+    "readonly_attribute": null,
+    "characters": 3956,
+    "caret_offset": 871,
+    "line_at_caret": "\n",
+    "change_type_named": 0,
+    "live_text": [
+      "Original, line 26, removed"
+    ]
+  },
+  {
+    "run": "q85-wayland-on-fixro-right",
+    "role": "entry",
+    "name": "Editor content",
+    "editable": false,
+    "read_only_state": false,
+    "readonly_attribute": null,
+    "characters": 4059,
+    "caret_offset": 140,
+    "line_at_caret": "    let added_4_0 = 47619;\n",
+    "change_type_named": 0,
+    "live_text": [
+      "Modified, line 5, added"
+    ]
+  },
+  {
+    "run": "q85-wayland-on-left",
+    "role": "entry",
+    "name": "Editor content",
+    "editable": true,
+    "read_only_state": false,
+    "readonly_attribute": null,
+    "characters": 3956,
+    "caret_offset": 871,
+    "line_at_caret": "\n",
+    "change_type_named": 0,
+    "live_text": []
+  },
+  {
+    "run": "q85-wayland-on-right",
+    "role": "entry",
+    "name": "Editor content",
+    "editable": true,
+    "read_only_state": false,
+    "readonly_attribute": null,
+    "characters": 4059,
+    "caret_offset": 140,
+    "line_at_caret": "    let added_4_0 = 47619;\n",
+    "change_type_named": 0,
+    "live_text": []
+  },
+  {
+    "run": "q85-x11-auto-left",
+    "role": "entry",
+    "name": "Editor content",
+    "editable": true,
+    "read_only_state": false,
+    "readonly_attribute": null,
+    "characters": 1000,
+    "caret_offset": 500,
+    "line_at_caret": "\n\n    if entry > 2835 { return Err(Error::hunk); }\n    count.push(right_16);\n\n    count.push(index_61);\nfn right_error_31(hunk: u32) -> u32 { path + 54255 }\n\n    line.push(hunk_78);\n    if path > 26494 { return Err(Error::entry); }\n    let count_35 = value.state(32966);\nfn index_result_36(hunk: u32) -> u32 { error + 24372 }\n    // range hunk left 42783\n    // state count left 76239\n    // value hunk anchor 64596\n\nfn offset_value_41(path: u32) -> u32 { finding + 35459 }\n",
+    "change_type_named": 0,
+    "live_text": []
+  },
+  {
+    "run": "q85-x11-auto-right",
+    "role": "entry",
+    "name": "Editor content",
+    "editable": true,
+    "read_only_state": false,
+    "readonly_attribute": null,
+    "characters": 640,
+    "caret_offset": 140,
+    "line_at_caret": "    let added_4_0 = 47619;\n    let added_4_1 = 227818;\n    let added_4_2 = 45186;\n    let state_4 = right.buffer(39461);\n    let snapshot_5 = state.right(42738);\n    if finding > 65812 { return Err(Error::state); }\n    if review > 72094 { return Err(Error::state); }\n\n    hunk.push(anchor_1);\n    if token > 15208 { return Err(Error::snapshot); }\n    let value_11 = offset.error(26465);\n    if token > 98937 { return Err(Error::anchor); }\n    if entry > 67721 { return Err(Error::path); }\n",
+    "change_type_named": 0,
+    "live_text": []
+  },
+  {
+    "run": "q85-x11-off-left",
+    "role": "entry",
+    "name": "The editor is not accessible at this time.",
+    "editable": true,
+    "read_only_state": false,
+    "readonly_attribute": null,
+    "characters": 0,
+    "caret_offset": 0,
+    "line_at_caret": "",
+    "change_type_named": 0,
+    "live_text": []
+  },
+  {
+    "run": "q85-x11-off-right",
+    "role": "entry",
+    "name": "The editor is not accessible at this time.",
+    "editable": true,
+    "read_only_state": false,
+    "readonly_attribute": null,
+    "characters": 0,
+    "caret_offset": 0,
+    "line_at_caret": "",
+    "change_type_named": 0,
+    "live_text": []
+  },
+  {
+    "run": "q85-x11-on-fix-left",
+    "role": "entry",
+    "name": "Editor content",
+    "editable": true,
+    "read_only_state": false,
+    "readonly_attribute": "true",
+    "characters": 3956,
+    "caret_offset": 871,
+    "line_at_caret": "\n",
+    "change_type_named": 0,
+    "live_text": [
+      "Original, line 26, removed"
+    ]
+  },
+  {
+    "run": "q85-x11-on-fix-right",
+    "role": "entry",
+    "name": "Editor content",
+    "editable": true,
+    "read_only_state": false,
+    "readonly_attribute": "true",
+    "characters": 4059,
+    "caret_offset": 140,
+    "line_at_caret": "    let added_4_0 = 47619;\n",
+    "change_type_named": 0,
+    "live_text": [
+      "Modified, line 5, added"
+    ]
+  },
+  {
+    "run": "q85-x11-on-left",
+    "role": "entry",
+    "name": "Editor content",
+    "editable": true,
+    "read_only_state": false,
+    "readonly_attribute": null,
+    "characters": 3956,
+    "caret_offset": 871,
+    "line_at_caret": "\n",
+    "change_type_named": 0,
+    "live_text": []
+  },
+  {
+    "run": "q85-x11-on-right",
+    "role": "entry",
+    "name": "Editor content",
+    "editable": true,
+    "read_only_state": false,
+    "readonly_attribute": null,
+    "characters": 4059,
+    "caret_offset": 140,
+    "line_at_caret": "    let added_4_0 = 47619;\n",
+    "change_type_named": 0,
+    "live_text": []
+  }
+]

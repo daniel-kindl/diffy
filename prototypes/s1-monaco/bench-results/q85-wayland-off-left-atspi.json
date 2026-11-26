@@ -1,0 +1,208 @@
+{
+  "label": "q85-wayland-off-left",
+  "pid": 11022,
+  "app_found": true,
+  "ready": true,
+  "focused": [
+    {
+      "role": "document web",
+      "name": "Q85 ready q85-wayland-off-left",
+      "description": "",
+      "states": [
+        "enabled",
+        "focusable",
+        "focused",
+        "sensitive",
+        "showing",
+        "visible"
+      ],
+      "attributes": {
+        "toolkit": "WebKitGTK"
+      },
+      "text": null,
+      "ancestors": [
+        {
+          "role": "scroll pane",
+          "name": ""
+        },
+        {
+          "role": "filler",
+          "name": ""
+        },
+        {
+          "role": "filler",
+          "name": ""
+        },
+        {
+          "role": "filler",
+          "name": ""
+        },
+        {
+          "role": "frame",
+          "name": "Diffy S1 prototype (Q41)"
+        },
+        {
+          "role": "application",
+          "name": "diffy-s1-monaco"
+        },
+        {
+          "role": "desktop frame",
+          "name": "main"
+        }
+      ]
+    },
+    {
+      "role": "entry",
+      "name": "The editor is not accessible at this time.",
+      "description": "",
+      "states": [
+        "editable",
+        "enabled",
+        "focusable",
+        "focused",
+        "multi-line",
+        "selectable-text",
+        "sensitive",
+        "showing",
+        "visible"
+      ],
+      "attributes": {
+        "autocomplete": "none",
+        "tag": "textarea",
+        "toolkit": "WebKitGTK",
+        "computed-role": "textbox",
+        "xml-roles": "textbox",
+        "roledescription": "editor"
+      },
+      "text": {
+        "character_count": 0,
+        "caret_offset": 0,
+        "text": "",
+        "line_at_caret": {
+          "text": "",
+          "start": 0,
+          "end": 0
+        }
+      },
+      "ancestors": [
+        {
+          "role": "section",
+          "name": ""
+        },
+        {
+          "role": "landmark",
+          "name": ""
+        }
+      ]
+    }
+  ],
+  "change_type_named": [],
+  "live_regions": [
+    {
+      "role": "notification",
+      "name": "",
+      "description": "",
+      "states": [
+        "enabled",
+        "sensitive",
+        "visible"
+      ],
+      "attributes": {
+        "tag": "div",
+        "atomic": "true",
+        "live": "assertive",
+        "xml-roles": "alert",
+        "container-relevant": "additions text",
+        "container-live": "assertive",
+        "computed-role": "alert",
+        "toolkit": "WebKitGTK",
+        "container-atomic": "true",
+        "container-live-role": "alert",
+        "relevant": "additions text"
+      }
+    },
+    {
+      "role": "notification",
+      "name": "",
+      "description": "",
+      "states": [
+        "enabled",
+        "sensitive",
+        "visible"
+      ],
+      "attributes": {
+        "tag": "div",
+        "atomic": "true",
+        "live": "assertive",
+        "xml-roles": "alert",
+        "container-relevant": "additions text",
+        "container-live": "assertive",
+        "computed-role": "alert",
+        "toolkit": "WebKitGTK",
+        "container-atomic": "true",
+        "container-live-role": "alert",
+        "relevant": "additions text"
+      }
+    },
+    {
+      "role": "section",
+      "name": "",
+      "description": "",
+      "states": [
+        "enabled",
+        "sensitive",
+        "visible"
+      ],
+      "attributes": {
+        "tag": "div",
+        "atomic": "true",
+        "live": "polite",
+        "container-relevant": "additions text",
+        "container-live": "polite",
+        "computed-role": "generic",
+        "toolkit": "WebKitGTK",
+        "container-atomic": "true",
+        "container-live-role": "generic",
+        "relevant": "additions text"
+      }
+    },
+    {
+      "role": "section",
+      "name": "",
+      "description": "",
+      "states": [
+        "enabled",
+        "sensitive",
+        "visible"
+      ],
+      "attributes": {
+        "tag": "div",
+        "atomic": "true",
+        "live": "polite",
+        "container-relevant": "additions text",
+        "container-live": "polite",
+        "computed-role": "generic",
+        "toolkit": "WebKitGTK",
+        "container-atomic": "true",
+        "container-live-role": "generic",
+        "relevant": "additions text"
+      }
+    }
+  ],
+  "document": {
+    "role": "document web",
+    "name": "Q85 ready q85-wayland-off-left",
+    "description": "",
+    "states": [
+      "enabled",
+      "focusable",
+      "focused",
+      "sensitive",
+      "showing",
+      "visible"
+    ],
+    "attributes": {
+      "toolkit": "WebKitGTK"
+    }
+  }
+}

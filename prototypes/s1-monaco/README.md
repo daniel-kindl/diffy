@@ -77,3 +77,26 @@ Host: the Bazzite 45 reference host, KWin 6.8.3 on Wayland, two screens at scale
 - Wayland: fcitx5-gtk draws the candidate window in the app, as a popup. In the editor, its top-left corner is 27 px left of the caret, at the start of the conversion, and 0 px below the caret bottom.
 - XWayland: fcitx5 draws the candidate window as an unmanaged X11 window. In the editor, it is 27 px left of the caret and 1 px below the caret bottom.
 - Not tested: fcitx5 as the KWin virtual keyboard (text-input-v3), Rime, a screen scale other than 1, and GNOME.
+
+## Q85 check: what Orca gets from option B
+
+Map question Q85 checks what the AT-SPI tree gives Orca for option B (ADR 0004) on the Fedora reference host. Orca itself did not run: it speaks and grabs keys across the whole desktop of the host. The check reads the same AT-SPI objects that Orca reads.
+
+- `src/q85.ts` runs when `DIFFY_Q85_LABEL` is set. It opens option B on the `small` fixture and sets the Monaco option `accessibilitySupport` to `DIFFY_Q85_SR` (`off`, `on` or `auto`). It focuses the left or the right editor (`DIFFY_Q85_TARGET`) at the first line of the first change on that side. Then it sets the document title to `Q85 ready <label>`, and it saves the DOM facts in `bench-results/<label>-dom.json`.
+- With `DIFFY_Q85_FIX`, it also sets `aria-readonly`, or with `DIFFY_Q85_FIX_ATTR=readonly` the HTML `readonly` attribute, on each editor textarea. It adds a polite live region that names the side, the line and the change type of the caret line.
+- `q85-atspi.py` waits for the title in the AT-SPI tree of the app process. It records the focused object, its states, attributes and text, the line at the caret, each object whose name has a change word and each live region.
+- `q85-run.sh <label> <wayland|x11> <off|on|auto> <left|right>` runs one check. Set `Q85_FIX=1` for the fixes.
+
+### Q85 result
+
+Monaco 0.58.0, WebKitGTK 2.54.2 (webkit2gtk4.1), Fedora 44 container on Bazzite 45 with KWin 6.8.3. The results are the same under Wayland and XWayland. `bench-results/q85-summary.json` has one row for each run.
+
+- The focused object is an `entry` with the attribute `roledescription: editor`.
+- `accessibilitySupport: off`: the name is "The editor is not accessible at this time." The entry has no text.
+- `on`: the name is "Editor content". The entry has about 4,000 characters around the caret. The caret offset and the line at the caret match the caret line in each run.
+- `auto`: the name is "Editor content". The entry has 640 or 1,000 characters, and the line at the caret has more than one line in each run.
+- Read-only: Monaco has `readOnly: true`, but the entry has the state `editable` in each mode. With `aria-readonly`, the entry gets the attribute `readonly: true` and keeps `editable`. With the HTML `readonly` attribute, the entry has no `editable` state, and the caret offset and the line at the caret are still correct. No run has the state `read-only`.
+- Change type: no object names the change type of a line. The change type is only a CSS class of a decoration.
+- With the fix, the polite live region has the text, for example "Modified, line 5, added".
+
+Not tested: Orca speech, NVDA (Q37), keyboard navigation with the HTML `readonly` attribute, and the live region while the caret moves.

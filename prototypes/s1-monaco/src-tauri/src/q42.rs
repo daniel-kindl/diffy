@@ -441,3 +441,14 @@ pub async fn q78_geometry() -> Result<String, String> {
     .await
     .map_err(|e| e.to_string())?
 }
+
+// Q85: what the AT-SPI tree gives for option B. Throwaway code. Never merge.
+
+#[tauri::command]
+pub fn q85_config() -> Option<serde_json::Value> {
+    let label = std::env::var("DIFFY_Q85_LABEL").ok()?;
+    let sr = std::env::var("DIFFY_Q85_SR").unwrap_or_else(|_| "auto".into());
+    let target = std::env::var("DIFFY_Q85_TARGET").unwrap_or_else(|_| "right".into());
+    let fix = std::env::var("DIFFY_Q85_FIX").is_ok();
+    Some(serde_json::json!({ "label": label, "sr": sr, "target": target, "fix": fix, "fixAttr": std::env::var("DIFFY_Q85_FIX_ATTR").ok() }))
+}

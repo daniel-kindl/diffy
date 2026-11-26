@@ -8,6 +8,7 @@ import EditorWorker from "monaco-editor/editor/editor.worker?worker";
 import { invoke } from "@tauri-apps/api/core";
 import { q42 } from "./q42";
 import { q78 } from "./q78";
+import { q85 } from "./q85";
 declare const __MONACO_VERSION__: string;
 
 (self as unknown as { MonacoEnvironment: monaco.Environment }).MonacoEnvironment = {
@@ -361,6 +362,7 @@ async function main() {
   if (await autorun()) return;
   if (await q42(open)) return;
   if (await q78(open)) return;
+  if (await q85(open)) return;
   const option = () => $<HTMLSelectElement>("option").value as Option;
   $("open").addEventListener("click", async () => {
     status(`Opening ${select.value} with option ${option()}.`);
