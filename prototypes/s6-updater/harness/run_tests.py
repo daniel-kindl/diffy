@@ -170,7 +170,7 @@ class Env:
                 pass  # a line that the app is still writing
         return out
 
-    def run(self, timeout=240, fsize=None, on_pause=None):
+    def run(self, timeout=240, fsize=None, on_pause=None, before_kill=None):
         before = len(self.events())
         env = dict(os.environ)
         if not WIN:
@@ -203,6 +203,8 @@ class Env:
             p.kill()
             step("app run timed out")
             screenshot(os.path.basename(self.root))
+            if before_kill:
+                before_kill()
             kill_installers()
         return {"exit_code": code, "seconds": round(time.time() - t0, 1),
                 "events": self.events()[before:]}
@@ -380,8 +382,34 @@ def t_not_writable(sigs):
         else:
             os.chmod(e.install_dir, 0o555)
 
+    abort = {}
+
+    def press_abort():
+        """Presses the default button (Abort) of the NSIS error dialog, then
+        waits for the installer to exit."""
+        ps = ("$w = New-Object -ComObject WScript.Shell; "
+              "$ok = $w.AppActivate('q55-updater Setup'); Start-Sleep 1; "
+              "$w.SendKeys('{ENTER}'); \"activated=$ok\"")
+        r = subprocess.run(["powershell", "-NoProfile", "-Command", ps], check=False,
+                           capture_output=True, text=True, timeout=60)
+        abort["send"] = r.stdout.strip()
+        t0 = time.time()
+        while time.time() - t0 < 60:
+            q = subprocess.run(["powershell", "-NoProfile", "-Command",
+                                "@(Get-Process | Where-Object { $_.Name -like '*installer*' }).Count"],
+                               check=False, capture_output=True, text=True, timeout=60)
+            if q.stdout.strip() == "0":
+                break
+            time.sleep(2)
+        abort["installer_exit_s"] = round(time.time() - t0, 1)
+        abort["installer_running"] = q.stdout.strip() != "0"
+        time.sleep(10)
+        screenshot("not_writable_after_abort")
+        abort["events_after_abort"] = e.events()
+
     try:
-        r = e.run(timeout=150, on_pause=deny)
+        r = e.run(timeout=60 if WIN else 150, on_pause=deny,
+                  before_kill=press_abort if WIN else None)
     finally:
         kill_installers()
         if WIN:
@@ -395,8 +423,8 @@ def t_not_writable(sigs):
     r2 = e.run()
     s2 = e.state()
     ok = s["unchanged"] and "0.2.0" not in versions(r["events"]) and expect_updated(r2, "0.2.0")
-    return ok, {"run": r, "state": s, "install_dir": listing, "recovery_run": r2,
-                "recovery_state": s2}
+    return ok, {"run": r, "state": s, "install_dir": listing, "abort": abort,
+                "recovery_run": r2, "recovery_state": s2}
 
 
 def t_failed_install(sigs):
