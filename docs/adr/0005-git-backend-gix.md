@@ -25,4 +25,4 @@ Diffy reads Git repositories with gix. It opens each repository with `gix::open:
 - The Git backend tests compare gix answers with the `git` CLI on the fixtures, with no system or global configuration. Git is necessary only in the test environment.
 - Each operation test checks that the fixture repository is unchanged, and that no command from the repository configuration runs.
 - A configuration section filter that refuses the repository configuration is not a replacement. gix then probes the file system with a symbolic link in the worktree, which is a write.
-- A file with a `filter=` attribute, for example a Git LFS file, compares with no filter. Map question Q63 asks how Diffy shows such files.
+- A file with a `filter=` attribute, for example a Git LFS file, compares with no filter. Map decision Q63 says how Diffy shows such files.
