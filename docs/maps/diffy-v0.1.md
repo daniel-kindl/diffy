@@ -2,7 +2,7 @@
 
 Status: open
 Destination: Each v0.1 milestone (M0 to M4) has a plan and issues with acceptance criteria. Each spike has a verdict, and no open question blocks the first M0 issue.
-Next: Q63
+Next: Q64
 
 ## Notes
 
@@ -140,6 +140,9 @@ Next: Q63
 - In the Windows live refresh, the median time of the Git oracle is 122 to 181 ms on the small and 1 MB fixtures. The read IPC takes 119 to 157 ms for 1 MB and 540 ms for 10 MB. On Fedora both are at most 15 ms for 1 MB. Source: https://github.com/daniel-kindl/diffy/blob/8e3cab7/prototypes/s1-monaco/bench-results/q54-windows-checks-B.json and https://github.com/daniel-kindl/diffy/blob/f87a6fb/prototypes/s1-monaco/bench-results/q54-fedora-checks-B.json
 - On Windows, option A fails the coordinate check on the 1 MB and 10 MB fixtures, as on Fedora. Source: https://github.com/daniel-kindl/diffy/blob/8e3cab7/prototypes/s1-monaco/bench-results/q54-windows-checks-A.json
 
+- A Git LFS pointer file has the keys `version`, `oid` and `size`. The `oid` is `sha256:` and the lower case hexadecimal SHA-256 of the file content. The `size` is in bytes. A pointer file is less than 1024 bytes. Source: https://github.com/git-lfs/git-lfs/blob/main/docs/spec.md
+- An empty file is the LFS pointer for an empty file. Source: https://github.com/git-lfs/git-lfs/blob/main/docs/spec.md
+
 ## Decisions
 
 - Q1 Independent review: tiered by risk. Safety-critical areas (Git adapter, publication, anchors, updater, IPC and capabilities) need owner review. Other areas merge after agent review and green CI. Decided by: Daniel Kindl, 2026-11-24. Record: this line.
@@ -207,15 +210,9 @@ Next: Q63
 - Q57 WebKitGTK input method preedit: on Linux, Diffy turns the preedit on again for each webview. Then the text that is not committed shows in the editor. Q78 checks fcitx5. The owner selected the option "Turn on, add fcitx5 check". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
 - Q58 Monaco features and font for M0: the M0 scaffold imports six Monaco features: find, toggleTabFocusMode, gotoLine, clipboard, contextmenu and readOnlyMessage. It imports no editing feature and no folding, hover or links. The editor font list is `"Cascadia Mono", Consolas, monospace`, and Diffy bundles no font. Q42 tested only find and tab focus, so M0 tests the other four on WebKitGTK and WebView2. The owner selected the option "Accept". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
 - Q59 S1 checks on the Windows notebook: option B passes each correctness check on Windows, and option B stays the pick (ADR 0004). The live refresh misses the S1 target of 500 ms for 1 MB and 10 MB. The Git oracle process and the read IPC cause most of the time. Q79 measures the refresh in M0. The owner selected the option "Accept, add refresh task". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
+- Q63 Files with a filter driver: for a `filter=lfs` file, Diffy builds the LFS pointer of the worktree file in-process, from its SHA-256 and size. It compares that pointer with the stored pointer, so the file is unchanged or changed. A changed LFS file shows no content diff and shows a limitation. A file with another filter shows a limitation and no content diff. The owner selected the option "LFS pointer check". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
 
 ## Open questions
-
-### Q63: Files with a filter driver
-
-Type: owner
-Blocked by: none
-
-Diffy runs no filter driver (ADR 0005), so a file with a `filter=` attribute compares with no filter. For Git LFS, that is the raw file against the pointer blob. Decide how Diffy shows such files, for example as a file with a limitation, or with a built-in LFS pointer check.
 
 ### Q64: Anchors after whitespace and line-ending changes
 
