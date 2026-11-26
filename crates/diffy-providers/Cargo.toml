@@ -1,0 +1,13 @@
+[package]
+name = "diffy-providers"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+diffy-core = { path = "../diffy-core" }
+diffy-review = { path = "../diffy-review" }
