@@ -137,6 +137,11 @@ impl ReviewSession {
         self.review.files.insert(path.to_owned(), content);
     }
 
+    /// The files that were marked reviewed, with the content they had then.
+    pub fn reviewed_files(&self) -> impl Iterator<Item = (&str, ContentId)> {
+        self.review.files.iter().map(|(p, id)| (p.as_str(), *id))
+    }
+
     /// A file needs review when it was never reviewed, or when its content
     /// differs from the content that was reviewed.
     pub fn needs_review(&self, path: &str, current: ContentId) -> bool {

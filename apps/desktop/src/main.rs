@@ -1,5 +1,6 @@
 mod cli;
 mod ipc;
+mod review;
 
 /// Turn a launch request into the state to show. It reads the inputs into
 /// snapshots, so the caller can return at once (Q74).
@@ -83,6 +84,21 @@ struct Startup {
     repository: Option<ipc::RepoState>,
 }
 
+/// Give a repository the review database in the app data folder.
+fn attach_db(app: &tauri::AppHandle, repo: &mut ipc::RepoState) {
+    use tauri::Manager;
+    match app.path().app_data_dir() {
+        Ok(dir) => {
+            if let Err(e) = std::fs::create_dir_all(&dir) {
+                eprintln!("diffy: cannot create {}: {e}", dir.display());
+                return;
+            }
+            repo.db = Some(dir.join("diffy.db"));
+        }
+        Err(e) => eprintln!("diffy: no app data folder: {e}"),
+    }
+}
+
 /// A second `diffy` forwards its arguments and its working folder here. The
 /// inputs are read into snapshots before this returns, because on Windows a
 /// second instance loses its input after 10 s (Q74, Q75). The helper cannot
@@ -102,9 +118,10 @@ fn forward(app: &tauri::AppHandle, argv: Vec<String>, cwd: String) {
             if let (Some(s), Ok(mut open)) = (start.session, app.state::<ipc::Open>().0.lock()) {
                 *open = Some(s);
             }
-            if let (Some(r), Ok(mut repo)) =
+            if let (Some(mut r), Ok(mut repo)) =
                 (start.repository, app.state::<ipc::Repository>().0.lock())
             {
+                attach_db(app, &mut r);
                 *repo = Some(r);
             }
             let _ = app.emit("diffy-changed", ());
@@ -140,17 +157,26 @@ fn run_app(launch: cli::Launch) {
                 *open = start.session;
             }
             if let Ok(mut repo) = app.state::<ipc::Repository>().0.lock() {
-                *repo = start.repository;
+                *repo = start.repository.map(|mut r| {
+                    attach_db(app.handle(), &mut r);
+                    r
+                });
             }
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![
             ipc::compare_text,
+            ipc::report_ui_error,
             ipc::current_comparison,
             ipc::select_encoding,
             ipc::swap_sides,
             ipc::repository_files,
-            ipc::open_repository_file
+            ipc::open_repository_file,
+            review::mark_file_reviewed,
+            review::add_review_finding,
+            review::review_findings,
+            review::resolve_finding,
+            review::findings_markdown
         ])
         .run(tauri::generate_context!())
         .expect("the Diffy window failed to start");
@@ -208,5 +234,14 @@ mod tests {
         // Absolute arguments give the same list, so the run again happens once.
         let again = absolute_args(&absolute_args(&args, cwd), cwd);
         assert_eq!(again, absolute_args(&args, cwd));
+    }
+
+    #[test]
+    fn the_config_keeps_the_prototype_unfrozen() {
+        // With "freezePrototype": true, the page never ran: no command reached
+        // Rust, and not even the error report did. Do not turn it on without
+        // running the app and checking that the page loads its comparison.
+        let config = include_str!("../tauri.conf.json");
+        assert!(config.contains(r#""freezePrototype": false"#));
     }
 }
