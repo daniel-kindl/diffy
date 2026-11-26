@@ -8,6 +8,7 @@ members = [
     "crates/diffy-review",
     "crates/diffy-providers",
     "crates/diffy-storage",
+    "crates/gix-imara-diff",
 ]
 
 [workspace.package]

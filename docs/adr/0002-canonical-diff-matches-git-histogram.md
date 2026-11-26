@@ -1,9 +1,9 @@
 # ADR 0002: Canonical hunks match git diff --histogram
 
-Status: Proposed
-Affects: docs/maps/diffy-v0.1.md
+Status: Accepted
+Affects: crates/diffy-comparison, crates/gix-imara-diff
 
-The owner decided this on 2026-11-24. The Status stays Proposed until M0 creates the comparison crate. That pull request changes the Affects line to the crate paths and sets the Status to Accepted.
+The owner decided this on 2026-11-24. The comparison crate exists, so the Status is Accepted.
 
 ## Context
 
