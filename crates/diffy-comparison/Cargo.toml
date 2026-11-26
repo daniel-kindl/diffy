@@ -12,4 +12,5 @@ workspace = true
 diffy-core = { path = "../diffy-core" }
 encoding_rs = "0.8.44"
 gix-imara-diff = { version = "0.3.4", path = "../gix-imara-diff" }
+serde = { version = "1.0.229", features = ["derive"] }
 sha2 = "0.11.2"
