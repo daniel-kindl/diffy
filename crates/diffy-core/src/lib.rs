@@ -1,1 +1,3 @@
-//! Diffy core crate. Boundary placeholder.
+//! Diffy core crate: domain types shared by the other crates.
+
+pub mod logging;
