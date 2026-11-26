@@ -3,3 +3,4 @@
 pub mod live;
 pub mod logging;
 pub mod publish;
+pub mod tabs;
