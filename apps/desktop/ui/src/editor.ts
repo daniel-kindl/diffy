@@ -12,7 +12,7 @@ import "monaco-editor/editor/contrib/readOnlyMessage/browser/contribution.js";
 import { decorations, nextHunkLine, type Hunk, type LineDecoration } from "./hunks";
 import { actionFor } from "./keys";
 import { languageOf } from "./language";
-import { changeStarts, lineLabel, nextStart, unifiedLines } from "./unified";
+import { changeStarts, collapseUnchanged, lineLabel, nextStart, unifiedLines } from "./unified";
 
 export const FONT_FAMILY = '"Cascadia Mono", Consolas, monospace';
 
@@ -139,8 +139,11 @@ export function showUnified(
   head: string,
   hunks: readonly Hunk[],
   path = "",
+  collapse = true,
 ): UnifiedView {
-  const lines = unifiedLines(base, head, hunks);
+  const all = unifiedLines(base, head, hunks);
+  // Unchanged runs collapse to a marker line by default (Q82). A change is never hidden.
+  const lines = collapse ? collapseUnchanged(all) : all;
   const editor = create(el, lines.map((l) => l.text).join("\n"), "Unified comparison", path);
   editor.updateOptions({
     // The number column shows the base and the head number of each line.
@@ -153,11 +156,17 @@ export function showUnified(
       : [
           {
             range: new monaco.Range(i + 1, 1, i + 1, 1),
-            options: {
-              isWholeLine: true,
-              className: `diffy-line-${l.kind === "removed" ? "removed" : "added"}`,
-              linesDecorationsClassName: `diffy-mark-${l.kind === "removed" ? "removed" : "added"}`,
-            } satisfies monaco.editor.IModelDecorationOptions,
+            options:
+              l.kind === "collapsed"
+                ? ({
+                    isWholeLine: true,
+                    className: "diffy-line-collapsed",
+                  } satisfies monaco.editor.IModelDecorationOptions)
+                : ({
+                    isWholeLine: true,
+                    className: `diffy-line-${l.kind}`,
+                    linesDecorationsClassName: `diffy-mark-${l.kind}`,
+                  } satisfies monaco.editor.IModelDecorationOptions),
           },
         ],
   );

@@ -60,6 +60,10 @@ input:focus-visible {
 .diffy-line-modified {
   background: var(--c-line-modified-bg);
 }
+.diffy-line-collapsed {
+  background: var(--c-line-collapsed-bg);
+  font-style: italic;
+}
 .diffy-mark-added::before,
 .diffy-mark-removed::before,
 .diffy-mark-modified::before {

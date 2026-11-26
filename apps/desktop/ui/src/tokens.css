@@ -86,6 +86,7 @@
   --c-line-added-bg: var(--s-added-bg);
   --c-line-removed-bg: var(--s-removed-bg);
   --c-line-modified-bg: var(--s-modified-bg);
+  --c-line-collapsed-bg: var(--s-surface-raised);
   --c-mark-added: var(--s-added-fg);
   --c-mark-removed: var(--s-removed-fg);
   --c-mark-modified: var(--s-modified-fg);
@@ -107,6 +108,7 @@
     --c-line-added-bg: transparent;
     --c-line-removed-bg: transparent;
     --c-line-modified-bg: transparent;
+    --c-line-collapsed-bg: transparent;
     --c-mark-added: CanvasText;
     --c-mark-removed: CanvasText;
     --c-mark-modified: CanvasText;

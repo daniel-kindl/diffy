@@ -57,6 +57,7 @@ const status = document.getElementById("status");
 let view: { dispose(): void } | undefined;
 let last: Comparison | undefined;
 let unifiedMode = false;
+let collapseMode = true;
 
 function show(c: Comparison): void {
   if (!left || !right) return;
@@ -71,7 +72,7 @@ function show(c: Comparison): void {
   if (unifiedMode && unified && app) {
     app.hidden = true;
     unified.hidden = false;
-    view = showUnified(unified, c.base, c.head, c.hunks, path);
+    view = showUnified(unified, c.base, c.head, c.hunks, path, collapseMode);
   } else {
     if (unified) unified.hidden = true;
     if (app) app.hidden = false;
@@ -330,5 +331,15 @@ document.getElementById("view-mode")?.addEventListener("click", (event) => {
   unifiedMode = !unifiedMode;
   (event.currentTarget as HTMLElement).textContent =
     `View: ${unifiedMode ? "unified" : "side by side"}`;
+  // The context control applies to the unified view only.
+  const collapseButton = document.getElementById("collapse-mode");
+  if (collapseButton) collapseButton.hidden = !unifiedMode;
+  if (last) show(last);
+});
+
+document.getElementById("collapse-mode")?.addEventListener("click", (event) => {
+  collapseMode = !collapseMode;
+  (event.currentTarget as HTMLElement).textContent =
+    `Context: ${collapseMode ? "collapsed" : "all lines"}`;
   if (last) show(last);
 });
