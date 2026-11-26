@@ -9,7 +9,8 @@ import "monaco-editor/editor/standalone/browser/quickAccess/standaloneGotoLineQu
 import "monaco-editor/editor/contrib/clipboard/browser/clipboard.js";
 import "monaco-editor/editor/contrib/contextmenu/browser/contextmenu.js";
 import "monaco-editor/editor/contrib/readOnlyMessage/browser/contribution.js";
-import { decorations, type Hunk, type LineDecoration } from "./hunks";
+import { decorations, nextHunkLine, type Hunk, type LineDecoration } from "./hunks";
+import { actionFor } from "./keys";
 import { languageOf } from "./language";
 
 export const FONT_FAMILY = '"Cascadia Mono", Consolas, monospace';
@@ -70,10 +71,42 @@ export function showComparison(
   const d = decorations(hunks);
   const l = left.createDecorationsCollection(toMonaco(d.left));
   const r = right.createDecorationsCollection(toMonaco(d.right));
+  let active = right;
+  left.onDidFocusEditorText(() => (active = left));
+  right.onDidFocusEditorText(() => (active = right));
+  const onKey = (e: KeyboardEvent) => {
+    const action = actionFor(e);
+    if (!action) return;
+    e.preventDefault();
+    switch (action) {
+      case "nextChange":
+      case "previousChange": {
+        const from = right.getPosition()?.lineNumber ?? 1;
+        const line = nextHunkLine(hunks, from, action === "nextChange" ? 1 : -1);
+        if (line !== undefined) {
+          right.revealLineInCenter(line);
+          right.setPosition({ lineNumber: line, column: 1 });
+          right.focus();
+        }
+        break;
+      }
+      case "find":
+        void active.getAction("actions.find")?.run();
+        break;
+      case "goToLine":
+        void active.getAction("editor.action.gotoLine")?.run();
+        break;
+      case "switchSide":
+        (active === left ? right : left).focus();
+        break;
+    }
+  };
+  document.addEventListener("keydown", onKey);
   return {
     left,
     right,
     dispose() {
+      document.removeEventListener("keydown", onKey);
       l.clear();
       r.clear();
       left.dispose();
