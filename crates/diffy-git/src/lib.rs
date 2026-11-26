@@ -234,6 +234,43 @@ impl Repo {
         Ok(map.into_values().collect())
     }
 
+    /// The worktree folder, or `None` for a bare repository.
+    pub fn workdir(&self) -> Option<&Path> {
+        self.inner.workdir()
+    }
+
+    /// The raw bytes of a worktree file, or `None` when it does not exist. The
+    /// path must be relative and stay inside the worktree: a `..` component,
+    /// an absolute path, or a symbolic link that leaves the worktree is an
+    /// error. A file is read as it is, with no filter.
+    pub fn read_worktree_file(&self, rel: &str) -> Result<Option<Vec<u8>>, GitError> {
+        let root = self
+            .workdir()
+            .ok_or_else(|| GitError("a bare repository has no worktree".into()))?
+            .canonicalize()
+            .map_err(err)?;
+        let rel_path = Path::new(rel);
+        let safe = rel_path
+            .components()
+            .all(|c| matches!(c, std::path::Component::Normal(_)));
+        if rel.is_empty() || !safe {
+            return Err(GitError(format!("not a path inside the worktree: {rel}")));
+        }
+        let full = root.join(rel_path);
+        match full.canonicalize() {
+            Ok(real) if real.starts_with(&root) => {
+                if real.is_file() {
+                    std::fs::read(real).map(Some).map_err(err)
+                } else {
+                    Ok(None)
+                }
+            }
+            Ok(_) => Err(GitError(format!("{rel} leaves the worktree"))),
+            Err(e) if e.kind() == std::io::ErrorKind::NotFound => Ok(None),
+            Err(e) => Err(err(e)),
+        }
+    }
+
     /// The raw bytes of a file at a revision, or `None` when it is absent.
     pub fn read_file(&self, rev: &str, path: &str) -> Result<Option<Vec<u8>>, GitError> {
         let tree = self.tree(rev)?;

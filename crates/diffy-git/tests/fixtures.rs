@@ -182,3 +182,29 @@ fn worktree_status_lists_staged_unstaged_and_untracked_like_git() {
         before
     );
 }
+
+#[test]
+fn reads_a_worktree_file_and_refuses_paths_that_leave_the_worktree() {
+    let d = fixture();
+    let repo = Repo::discover(d.path()).unwrap();
+    assert_eq!(
+        repo.read_worktree_file("a.txt").unwrap().unwrap(),
+        b"one\nTWO\nthree\n"
+    );
+    assert!(repo.read_worktree_file("missing.txt").unwrap().is_none());
+    assert!(repo.read_worktree_file("../outside").is_err());
+    assert!(repo.read_worktree_file("a/../../outside").is_err());
+    assert!(repo.read_worktree_file("/etc/passwd").is_err());
+    assert!(repo.read_worktree_file("").is_err());
+}
+
+#[cfg(unix)]
+#[test]
+fn a_symbolic_link_out_of_the_worktree_is_refused() {
+    let d = fixture();
+    let outside = tempfile::tempdir().unwrap();
+    fs::write(outside.path().join("secret"), "s").unwrap();
+    std::os::unix::fs::symlink(outside.path().join("secret"), d.path().join("link")).unwrap();
+    let repo = Repo::discover(d.path()).unwrap();
+    assert!(repo.read_worktree_file("link").is_err());
+}
