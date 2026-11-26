@@ -2,7 +2,7 @@
 
 Status: open
 Destination: Each v0.1 milestone (M0 to M4) has a plan and issues with acceptance criteria. Each spike has a verdict, and no open question blocks the first M0 issue.
-Next: Q66
+Next: Q67
 
 ## Notes
 
@@ -152,6 +152,8 @@ Next: Q66
 - The segments at the cap have 4 line texts. One takes 6 ms for 1,000 by 1,000 lines and 7 ms for 100 by 10,000 lines. Source: https://github.com/daniel-kindl/diffy/blob/9f5033a/prototypes/q45-anchors/results/q65-segment-bound.json
 - The Q45 LCS rule panics when a side of a segment has 65,535 lines or more, also under the cap. A pair with 70,000 lines inserted between two bracket lines of a 10 line file panics. Source: https://github.com/daniel-kindl/diffy/blob/9f5033a/prototypes/q45-anchors/results/q65-insert-70k.json
 
+- The specification target for the cancel acknowledgement is under 250 ms. The 50 MB inputs are stress inputs. Source: Diffy_Master_Specification.md section 18.
+
 ## Decisions
 
 - Q1 Independent review: tiered by risk. Safety-critical areas (Git adapter, publication, anchors, updater, IPC and capabilities) need owner review. Other areas merge after agent review and green CI. Decided by: Daniel Kindl, 2026-11-24. Record: this line.
@@ -222,15 +224,9 @@ Next: Q66
 - Q63 Files with a filter driver: for a `filter=lfs` file, Diffy builds the LFS pointer of the worktree file in-process, from its SHA-256 and size. It compares that pointer with the stored pointer, so the file is unchanged or changed. A changed LFS file shows no content diff and shows a limitation. A file with another filter shows a limitation and no content diff. The owner selected the option "LFS pointer check". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
 - Q64 Anchors after whitespace and line-ending changes: the anchor mapping compares each line without its line terminator. So LF, CRLF and a missing final newline give the same line, and a file that changes from LF to CRLF keeps its anchors. Any other whitespace change still makes the finding outdated. The canonical diff and the stored coordinates keep each byte. M0 runs the Q45 fixtures and property test again with this comparison. The owner selected the option "Line endings only". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
 - Q65 Time of the anchor mapping on large files: the M3 time is accepted. On the Q46 fixtures no anchor is outdated because of the cap. M0 makes a segment with 65,535 lines or more on a side outdated, or maps it with no panic. The pair with 70,000 inserted lines is an M0 test fixture. The owner selected the option "Accept, M0 fixes panic". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
+- Q66 Cancel during the open of a large file: for a file of 50 MB or more, v0.1 accepts a cancel time of about 450 ms or less. The release notes list it as a known limitation. The target of 250 ms stays for each other cancel. Q46 measured only the 50 MB stress file. There is no prototype. The owner selected the option "Accept for stress files". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
 
 ## Open questions
-
-### Q66: Cancel during the open of a large file
-
-Type: owner
-Blocked by: none
-
-In Q46, a cancel during the Monaco model creation of the 50 MB file takes up to 441 ms. The target is 250 ms. Decide whether v0.1 accepts this for large files. The other way is a prototype that creates the models without a long block of the page.
 
 ### Q67: Rename detection on large change lists
 
