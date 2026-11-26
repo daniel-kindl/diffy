@@ -2,8 +2,11 @@
 //! and no file system access: it never sends a path. Each input is validated
 //! (spec section 11).
 
+use diffy_comparison::Snapshot;
 use diffy_comparison::canonical::canonical_hunks;
+use diffy_comparison::text::decode;
 use serde::{Deserialize, Serialize};
+use std::sync::Mutex;
 
 /// The most bytes of one side that a command accepts.
 pub const MAX_SIDE_BYTES: usize = 64 * 1024 * 1024;
@@ -32,6 +35,16 @@ pub struct Comparison {
     pub base: String,
     pub head: String,
     pub hunks: Vec<HunkDto>,
+    /// The source labels, the encodings and the decode errors for the UI.
+    pub sides: Vec<SideInfo>,
+}
+
+#[derive(Debug, Serialize, PartialEq, Eq)]
+pub struct SideInfo {
+    pub label: String,
+    pub encoding: String,
+    /// The byte offset of the first invalid sequence, if any.
+    pub first_error: Option<usize>,
 }
 
 pub fn compare(input: CompareInput) -> Result<Comparison, String> {
@@ -55,7 +68,46 @@ pub fn compare(input: CompareInput) -> Result<Comparison, String> {
         base: input.base,
         head: input.head,
         hunks,
+        sides: Vec::new(),
     })
+}
+
+/// The comparison that the command line asked for. Rust reads the files, so
+/// the frontend never names a path. The state holds it until the UI asks.
+#[derive(Default)]
+pub struct Initial(pub Mutex<Option<Comparison>>);
+
+/// Build the comparison of two snapshots. The text is decoded for the view and
+/// the canonical diff runs on the decoded text, so the hunks match the lines
+/// that the editors show. The snapshots keep the raw bytes.
+pub fn compare_snapshots(left: &Snapshot, right: &Snapshot) -> Result<Comparison, String> {
+    let (l, r) = (decode(left.raw(), None), decode(right.raw(), None));
+    let label = |s: &Snapshot| match s.source() {
+        diffy_comparison::Source::File(p) | diffy_comparison::Source::Text(p) => p.clone(),
+        diffy_comparison::Source::GitObject(o) => o.clone(),
+    };
+    let mut c = compare(CompareInput {
+        base: l.text.clone(),
+        head: r.text.clone(),
+    })?;
+    c.sides = vec![
+        SideInfo {
+            label: label(left),
+            encoding: l.encoding.label().into(),
+            first_error: l.first_error,
+        },
+        SideInfo {
+            label: label(right),
+            encoding: r.encoding.label().into(),
+            first_error: r.first_error,
+        },
+    ];
+    Ok(c)
+}
+
+#[tauri::command]
+pub fn initial_comparison(state: tauri::State<'_, Initial>) -> Option<Comparison> {
+    state.0.lock().ok()?.take()
 }
 
 #[tauri::command]
@@ -66,6 +118,33 @@ pub fn compare_text(input: CompareInput) -> Result<Comparison, String> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use diffy_comparison::Source;
+
+    #[test]
+    fn two_snapshots_give_hunks_labels_and_encodings() {
+        let l = Snapshot::new(Source::File("a.txt".into()), b"one\ntwo\n".to_vec());
+        let r = Snapshot::new(
+            Source::File("b.txt".into()),
+            b"\xEF\xBB\xBFone\nTWO\n".to_vec(),
+        );
+        let c = compare_snapshots(&l, &r).unwrap();
+        assert_eq!(c.hunks.len(), 1);
+        assert_eq!(
+            (c.sides[0].label.as_str(), c.sides[0].encoding.as_str()),
+            ("a.txt", "UTF-8")
+        );
+        assert_eq!(c.sides[1].encoding, "UTF-8 (BOM)");
+        assert_eq!(c.head, "one\nTWO\n", "the BOM is not part of the text");
+    }
+
+    #[test]
+    fn an_invalid_side_reports_its_error_and_still_compares() {
+        let l = Snapshot::new(Source::File("a".into()), b"ab\xFF\n".to_vec());
+        let r = Snapshot::new(Source::File("b".into()), b"ab\n".to_vec());
+        let c = compare_snapshots(&l, &r).unwrap();
+        assert_eq!(c.sides[0].first_error, Some(2));
+        assert_eq!(c.sides[1].first_error, None);
+    }
 
     #[test]
     fn returns_the_canonical_hunks() {

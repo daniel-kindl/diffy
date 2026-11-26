@@ -9,10 +9,19 @@ body {
   margin: 0;
   height: 100%;
 }
+.status {
+  margin: 0;
+  padding: 4px 8px;
+  font:
+    13px system-ui,
+    sans-serif;
+  height: 24px;
+  box-sizing: border-box;
+}
 .app {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  height: 100vh;
+  height: calc(100vh - 24px);
 }
 .app > section {
   min-width: 0;
