@@ -2,7 +2,7 @@
 
 Status: open
 Destination: Each v0.1 milestone (M0 to M4) has a plan and issues with acceptance criteria. Each spike has a verdict, and no open question blocks the first M0 issue.
-Next: Q70
+Next: Q71
 
 ## Notes
 
@@ -162,6 +162,9 @@ Next: Q70
 
 - The REST API creates one review with its inline comments and its event (`APPROVE`, `REQUEST_CHANGES` or `COMMENT`), with `POST /repos/{owner}/{repo}/pulls/{pull_number}/reviews`. Q48 did not post a review. Source: https://github.com/github/rest-api-description/blob/c9c95fe34ced05fe076001f5c55704742bc8e7f8/descriptions/api.github.com/api.github.com.json#L92695
 
+- A OneDev client cannot set the whitespace option of a code comment. The create call sets only the commits and the pull request of the compare context. The option stays at its default, `IGNORE_TRAILING`. Source: https://github.com/theonedev/onedev/blob/v17.2.4/server-core/src/main/java/io/onedev/server/rest/resource/CodeCommentResource.java#L165 and https://github.com/theonedev/onedev/blob/v17.2.4/server-core/src/main/java/io/onedev/server/model/support/CompareContext.java#L41
+- A OneDev pull request comment is confirmed by the marker in `content`, with `GET /~api/pulls/{id}/comments`. Source: https://github.com/daniel-kindl/diffy/blob/4bcc767/prototypes/q49-onedev/README.md
+
 ## Decisions
 
 - Q1 Independent review: tiered by risk. Safety-critical areas (Git adapter, publication, anchors, updater, IPC and capabilities) need owner review. Other areas merge after agent review and green CI. Decided by: Daniel Kindl, 2026-11-24. Record: this line.
@@ -236,15 +239,9 @@ Next: Q70
 - Q67 Rename detection on large change lists: Diffy shows the change list first, with only the exact renames (the same blob ID). The similarity rename detection then runs in the background and can be cancelled. When it ends, an added and a deleted row of a rename become one renamed row. The owner selected the option "List first, renames later". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
 - Q68 Code of the patched gix-imara-diff copy: until a gitoxide release has the fix, the Diffy copy holds the gix-imara-diff source of gitoxide `2bcb31d`. M0 uses the copy only after Q80 passes. Diffy keeps the Apache-2.0 license notice (Q61). The owner selected the option "Source of 2bcb31d + parity run". Decided by: Daniel Kindl, 2026-11-26. Record: this line and ADR 0002.
 - Q69 GraphQL in the GitHub client: the GitHub client uses REST for the batched review (ADR 0003), the inline comments, the replies and the reads. It uses GraphQL only to list the review threads and to resolve or reopen a thread. Both use the same token. The owner selected the option "REST + GraphQL for threads". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
+- Q70 Findings outside a OneDev hunk: OneDev can reject an inline comment with the error 406 "Comment range must be within a diff hunk". Then Diffy posts the finding as a pull request comment. That comment has the path, the line, the text and the marker. The publish result shows the finding as a pull request comment. A pull request comment has no resolved state, so Diffy does not sync a resolve of that finding. The owner selected the option "Fall back to PR comment". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
 
 ## Open questions
-
-### Q70: Findings outside a OneDev hunk
-
-Type: owner
-Blocked by: none
-
-OneDev accepts an inline comment only inside a OneDev diff hunk, and OneDev ignores trailing whitespace by default (Q49). A comment on another line gets an error. So does a comment on a line that only the canonical diff changes. Decide what Diffy does with such a finding. Examples are a pull request comment with the path and the line, or a block before publication.
 
 ### Q71: Review actions when the user is not a reviewer
 
