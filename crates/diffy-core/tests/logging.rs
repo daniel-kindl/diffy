@@ -54,3 +54,11 @@ fn writer_masks_sensitive_header_values() {
     let out = capture(|| tracing::error!("headers: Authorization: Bearer abc.def.ghi"));
     assert!(!out.contains("abc.def.ghi"), "{out}");
 }
+
+#[test]
+fn init_installs_the_subscriber_once() {
+    // The global subscriber can be set once per process. This test binary
+    // sets it nowhere else, and the other tests use a scoped subscriber.
+    assert!(diffy_core::logging::init().is_ok());
+    assert!(diffy_core::logging::init().is_err());
+}
