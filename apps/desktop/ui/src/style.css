@@ -21,7 +21,7 @@ body {
 .app {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  height: calc(100vh - 24px);
+  height: calc(100vh - 32px);
 }
 .app > section {
   min-width: 0;
