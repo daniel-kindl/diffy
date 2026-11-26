@@ -41,6 +41,7 @@ pub struct ReviewState {
     files: BTreeMap<String, ContentId>,
     findings: Vec<Finding>,
     next_id: u64,
+    checkpoints: Vec<Checkpoint>,
 }
 
 impl ReviewState {
@@ -172,6 +173,41 @@ impl Anchor {
             .windows(2)
             .all(|w| w[1] == w[0] + 1)
             .then(|| mapped[0]..mapped[mapped.len() - 1] + 1)
+    }
+}
+
+/// A recorded point: the content of each file the person had reviewed.
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct Checkpoint {
+    pub number: u32,
+    pub files: BTreeMap<String, ContentId>,
+}
+
+impl ReviewSession {
+    /// The explicit action that creates a checkpoint (Q30). It records the
+    /// files that are reviewed now. Nothing creates one by itself.
+    pub fn create_checkpoint(&mut self) -> &Checkpoint {
+        let number = self.review.checkpoints.len() as u32 + 1;
+        let files = self.review.files.clone();
+        self.review.checkpoints.push(Checkpoint { number, files });
+        &self.review.checkpoints[number as usize - 1]
+    }
+
+    pub fn last_checkpoint(&self) -> Option<&Checkpoint> {
+        self.review.checkpoints.last()
+    }
+
+    /// The files that need a re-review since the last checkpoint: each file
+    /// whose current content differs from the checkpoint, or that the
+    /// checkpoint does not have. A file with the same content keeps its status.
+    /// With no checkpoint, each file needs review.
+    pub fn files_to_re_review(&self, current: &BTreeMap<String, ContentId>) -> Vec<String> {
+        let reviewed = self.last_checkpoint().map(|c| &c.files);
+        current
+            .iter()
+            .filter(|(path, id)| reviewed.and_then(|r| r.get(*path)) != Some(*id))
+            .map(|(path, _)| path.clone())
+            .collect()
     }
 }
 
@@ -332,5 +368,31 @@ mod tests {
         assert_eq!(a.map_to(old, b"x\na\nb\nc\nd\n"), Some(2..4));
         assert_eq!(a.map_to(old, b"a\nB\nc\nd\n"), None);
         assert_eq!(a.lines, 1..3, "the original anchor does not change");
+    }
+
+    #[test]
+    fn a_checkpoint_keeps_unchanged_files_and_flags_changed_ones() {
+        let mut s = session();
+        let current: BTreeMap<String, ContentId> =
+            [("a.rs".to_owned(), id("a1")), ("b.rs".to_owned(), id("b1"))].into();
+        assert_eq!(s.files_to_re_review(&current), vec!["a.rs", "b.rs"]);
+        s.mark_reviewed("a.rs", id("a1"));
+        s.mark_reviewed("b.rs", id("b1"));
+        assert_eq!(s.create_checkpoint().number, 1);
+        assert!(s.files_to_re_review(&current).is_empty());
+        let later: BTreeMap<String, ContentId> = [
+            ("a.rs".to_owned(), id("a1")),
+            ("b.rs".to_owned(), id("b2")),
+            ("c.rs".to_owned(), id("c1")),
+        ]
+        .into();
+        assert_eq!(s.files_to_re_review(&later), vec!["b.rs", "c.rs"]);
+    }
+
+    #[test]
+    fn no_checkpoint_exists_until_the_user_creates_one() {
+        let mut s = session();
+        s.mark_reviewed("a.rs", id("a1"));
+        assert!(s.last_checkpoint().is_none());
     }
 }
