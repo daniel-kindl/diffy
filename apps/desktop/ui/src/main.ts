@@ -1,5 +1,6 @@
 import "./style.css";
 import { invoke } from "@tauri-apps/api/core";
+import { listen } from "@tauri-apps/api/event";
 import { setEditorTheme, showComparison, type ComparisonView } from "./editor";
 import { nextPreference, parsePreference, resolveTheme, type ThemePreference } from "./theme";
 import { LEGACY_ENCODINGS } from "./encodings";
@@ -166,3 +167,10 @@ themeButton?.addEventListener("click", () => {
   }
   applyTheme(preference);
 });
+
+// A second `diffy` forwards its input to this window. Rust reads it into a
+// snapshot first, so the event only says "look again".
+listen("diffy-changed", () => {
+  load().then(show).catch(fail);
+  refreshListing();
+}).catch(fail);
