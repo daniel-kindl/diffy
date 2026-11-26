@@ -1,4 +1,5 @@
 mod cli;
+mod ipc;
 
 fn main() {
     let args: Vec<String> = std::env::args().skip(1).collect();
@@ -17,11 +18,19 @@ fn main() {
                 eprintln!("diffy: {e}");
                 std::process::exit(1);
             }
+            run_app();
         }
-        Ok(_launch) => {}
+        Ok(_launch) => run_app(),
         Err(e) => {
             eprintln!("diffy: {e}");
             std::process::exit(2);
         }
     }
+}
+
+fn run_app() {
+    tauri::Builder::default()
+        .invoke_handler(tauri::generate_handler![ipc::compare_text])
+        .run(tauri::generate_context!())
+        .expect("the Diffy window failed to start");
 }

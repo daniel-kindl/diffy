@@ -1,13 +1,27 @@
 import "./style.css";
+import { invoke } from "@tauri-apps/api/core";
 import { showComparison } from "./editor";
+import type { Hunk } from "./hunks";
 
-// The shell (F-03, Tauri) passes the real comparison from Rust. Until then the
-// page shows a small fixed example, so the renderer can be checked on its own.
+interface Comparison {
+  base: string;
+  head: string;
+  hunks: Hunk[];
+}
+
+// The frontend sends text only. It never names a file: Rust owns the inputs.
+const input = { base: "one\ntwo\nthree\n", head: "one\nTWO\nthree\nfour\n" };
+
+async function load(): Promise<Comparison> {
+  return invoke<Comparison>("compare_text", { input });
+}
+
 const left = document.getElementById("left");
 const right = document.getElementById("right");
 if (left && right) {
-  showComparison(left, right, "one\ntwo\nthree\n", "one\nTWO\nthree\nfour\n", [
-    { base: { start: 1, end: 2 }, head: { start: 1, end: 2 } },
-    { base: { start: 3, end: 3 }, head: { start: 3, end: 4 } },
-  ]);
+  load()
+    .then((c) => showComparison(left, right, c.base, c.head, c.hunks))
+    .catch((e: unknown) => {
+      right.textContent = `Diffy could not load the comparison: ${String(e)}`;
+    });
 }
