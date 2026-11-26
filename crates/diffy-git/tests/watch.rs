@@ -81,3 +81,63 @@ fn sees_a_change_atomic_replace_and_rename_and_skips_ignored_files() {
     );
     assert!(wait_for(&w, "index"), "the Git index");
 }
+
+#[test]
+fn a_burst_gives_one_settled_batch() {
+    let q = CoalescingQueue::new(100);
+    let q2 = q.clone();
+    let t = std::thread::spawn(move || {
+        for i in 0..20 {
+            q2.push(PathBuf::from(format!("f{}", i % 5)));
+            std::thread::sleep(Duration::from_millis(20));
+        }
+    });
+    let start = Instant::now();
+    let b = q.take_settled(
+        Duration::from_millis(200),
+        Duration::from_secs(5),
+        Duration::from_secs(5),
+    );
+    t.join().unwrap();
+    assert_eq!(b.paths.len(), 5, "the whole burst in one batch");
+    assert!(
+        start.elapsed() >= Duration::from_millis(400),
+        "it waited for the burst to settle"
+    );
+    assert!(q.take(Duration::from_millis(10)).paths.is_empty());
+}
+
+#[test]
+fn a_steady_stream_still_refreshes_after_max_wait() {
+    let q = CoalescingQueue::new(100);
+    let q2 = q.clone();
+    let stop = std::sync::Arc::new(std::sync::atomic::AtomicBool::new(false));
+    let s2 = stop.clone();
+    let t = std::thread::spawn(move || {
+        while !s2.load(std::sync::atomic::Ordering::Relaxed) {
+            q2.push(PathBuf::from("x"));
+            std::thread::sleep(Duration::from_millis(10));
+        }
+    });
+    let start = Instant::now();
+    let b = q.take_settled(
+        Duration::from_millis(200),
+        Duration::from_millis(500),
+        Duration::from_secs(5),
+    );
+    stop.store(true, std::sync::atomic::Ordering::Relaxed);
+    t.join().unwrap();
+    assert_eq!(b.paths, vec![PathBuf::from("x")]);
+    assert!(start.elapsed() < Duration::from_secs(2));
+}
+
+#[test]
+fn an_idle_queue_asks_for_a_periodic_reconcile() {
+    let q = CoalescingQueue::new(10);
+    let b = q.take_settled(
+        Duration::from_millis(50),
+        Duration::from_secs(1),
+        Duration::from_millis(100),
+    );
+    assert!(b.overflow && b.paths.is_empty());
+}
