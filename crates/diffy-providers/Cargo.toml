@@ -11,3 +11,5 @@ workspace = true
 [dependencies]
 diffy-core = { path = "../diffy-core" }
 diffy-review = { path = "../diffy-review" }
+serde = { version = "1.0.229", features = ["derive"] }
+serde_json = "1.0.154"
