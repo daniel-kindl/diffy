@@ -20,7 +20,7 @@ after_load = sys.argv[4] if len(sys.argv) > 4 else ""  # JavaScript to run, for 
 STUB = """
 (function () {
   // A longer file, so the unchanged runs can collapse: line 20 changes and one line is added after line 33.
-  const lines = Array.from({ length: 40 }, (_, i) => "    let value_" + (i + 1) + " = " + (i + 1) + ";");
+  const lines = Array.from({ length: 120 }, (_, i) => "    let value_" + (i + 1) + " = " + (i + 1) + ";");
   const base = lines.join("\\n") + "\\n";
   const headLines = lines.slice();
   headLines[19] = "    let value_20 = 200;";
@@ -41,15 +41,27 @@ STUB = """
       category: "correctness", notes: "b changed to 3: is that intended?", resolved: false } ],
   };
   window.__TAURI_INTERNALS__ = {
-    transformCallback: () => 0,
+    // Keep the callbacks, so a test can fire an event: window.__fire().
+    transformCallback: (cb) => { window.__callbacks = window.__callbacks || []; window.__callbacks.push(cb); return window.__callbacks.length; },
     unregisterCallback: () => {},
     convertFileSrc: (p) => p,
     invoke: async (cmd) => {
+      if (cmd === 'current_comparison') {
+        // The second load is marked, and window.__other = true makes it another comparison.
+        window.__loads = (window.__loads || 0) + 1;
+        if (window.__loads > 1) {
+          const c = JSON.parse(JSON.stringify(data.current_comparison));
+          c.sides[0].encoding = 'REFRESHED';
+          if (window.__other) c.sides[1].label = 'src/other.rs';
+          return c;
+        }
+      }
       if (cmd in data) return data[cmd];
       if (cmd.startsWith("plugin:event")) return 0;
       return null;
     },
   };
+  window.__fire = () => (window.__callbacks || []).forEach((cb) => cb({ event: 'diffy-changed', id: 0, payload: null }));
   window.__TAURI_EVENT_PLUGIN_INTERNALS__ = { unregisterListener: () => {} };
   """ + ("try { localStorage.setItem('diffy.theme','%s'); } catch (e) {}" % theme if theme else "") + """
 })();
@@ -64,7 +76,7 @@ view.load_uri(url)
 def shoot():
     if after_load:
         view.run_javascript(after_load, None, None, None)
-        GLib.timeout_add(1500, shoot_now)
+        GLib.timeout_add(4000, shoot_now)
         return False
     return shoot_now()
 
@@ -76,5 +88,5 @@ def shoot_now():
     view.get_snapshot(WebKit2.SnapshotRegion.FULL_DOCUMENT, WebKit2.SnapshotOptions.NONE, None, done)
     return False
 GLib.timeout_add(5000, shoot)
-GLib.timeout_add(20000, Gtk.main_quit)
+GLib.timeout_add(30000, Gtk.main_quit)
 Gtk.main()

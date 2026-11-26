@@ -66,6 +66,9 @@ export function setEditorTheme(dark: boolean): void {
 export interface ComparisonView {
   left: monaco.editor.IStandaloneCodeEditor;
   right: monaco.editor.IStandaloneCodeEditor;
+  /** The scroll position of the head side. */
+  scrollTop(): number;
+  setScrollTop(top: number): void;
   dispose(): void;
 }
 
@@ -117,6 +120,11 @@ export function showComparison(
   return {
     left,
     right,
+    scrollTop: () => right.getScrollTop(),
+    setScrollTop: (top: number) => {
+      left.setScrollTop(top);
+      right.setScrollTop(top);
+    },
     dispose() {
       document.removeEventListener("keydown", onKey);
       l.clear();
@@ -129,6 +137,8 @@ export function showComparison(
 
 export interface UnifiedView {
   editor: monaco.editor.IStandaloneCodeEditor;
+  scrollTop(): number;
+  setScrollTop(top: number): void;
   dispose(): void;
 }
 
@@ -204,6 +214,8 @@ export function showUnified(
   document.addEventListener("keydown", onKey);
   return {
     editor,
+    scrollTop: () => editor.getScrollTop(),
+    setScrollTop: (top: number) => editor.setScrollTop(top),
     dispose() {
       document.removeEventListener("keydown", onKey);
       collection.clear();

@@ -4,6 +4,7 @@ import { listen } from "@tauri-apps/api/event";
 import { setEditorTheme, showComparison, showUnified } from "./editor";
 import { nextPreference, parsePreference, resolveTheme, type ThemePreference } from "./theme";
 import { LEGACY_ENCODINGS } from "./encodings";
+import { scrollToRestore, viewKey, type ViewMemory } from "./viewMemory";
 import type { Hunk } from "./hunks";
 
 // A page that fails to run leaves a trace on the standard error output of Rust.
@@ -54,7 +55,8 @@ function describe(side: Side | undefined, fallback: string): string {
 const left = document.getElementById("left");
 const right = document.getElementById("right");
 const status = document.getElementById("status");
-let view: { dispose(): void } | undefined;
+let view: { dispose(): void; scrollTop(): number; setScrollTop(top: number): void } | undefined;
+let memory: ViewMemory | undefined;
 let last: Comparison | undefined;
 let unifiedMode = false;
 let collapseMode = true;
@@ -62,6 +64,8 @@ let collapseMode = true;
 function show(c: Comparison): void {
   if (!left || !right) return;
   last = c;
+  // Remember where the user was, so a refresh keeps the place (L-04).
+  if (view) memory = { key: memory?.key ?? "", scrollTop: view.scrollTop() };
   view?.dispose();
   if (status) {
     status.textContent = `${describe(c.sides[0], "Base")} ↔ ${describe(c.sides[1], "Head")}`;
@@ -77,6 +81,17 @@ function show(c: Comparison): void {
     if (unified) unified.hidden = true;
     if (app) app.hidden = false;
     view = showComparison(left, right, c.base, c.head, c.hunks, path);
+  }
+  const key = viewKey(
+    c.sides.map((x) => x.label),
+    unifiedMode,
+  );
+  const top = scrollToRestore(memory, key);
+  memory = { key, scrollTop: 0 };
+  if (top > 0) {
+    const shown = view;
+    // The editors need their first layout before they can scroll.
+    requestAnimationFrame(() => shown.setScrollTop(top));
   }
 }
 
