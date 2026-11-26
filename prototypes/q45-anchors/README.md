@@ -139,3 +139,34 @@ maps 3,104,511 anchors.
 - Mapping across more than one revision. Each run maps the original revision to the new one.
 - Timing on large files, for example the S8 scale fixtures (Q46).
 - An anchor that ignores whitespace or line endings. Each byte change is an edit here.
+
+## Q65: time of M3 on the Q46 fixtures
+
+Map question Q65. `q65-pairs.sh` exports the old and new blob of each modified or renamed file of
+the Q46 fixture repositories (`gen-repos.mjs` on the tag `prototype/diffy-v0.1-q46`, same commits
+as `q46-fedora-repos.json`). `q45-anchors timing` maps each old line of each pair with M3, 5 runs,
+one thread. The time covers the canonical diff, then the line split, the interning and M3. The
+file reads are not timed. rustc 1.98.1, AMD Ryzen 5 3600, the `rust-dev` distrobox container
+(Fedora 44), 2026-11-26.
+
+| Fixture | Pairs | Anchors | Per file p95 | Per file max | Fixture total p50 | Over the cap |
+|---------|-------|---------|--------------|--------------|-------------------|--------------|
+| files-1000 | 920 | 55,200 | 0.03 ms | 0.49 ms | 20 ms | 0 |
+| files-1000-large | 920 | 2,760,000 | 0.96 ms | 1.97 ms | 778 ms | 0 |
+| files-2000-large | 1,840 | 5,520,000 | 1.04 ms | 2.41 ms | 1,579 ms | 0 |
+| files-5000 | 4,600 | 276,000 | 0.03 ms | 0.75 ms | 104 ms | 0 |
+| lines-10k | 1 | 60,000 | 42 ms | 42 ms | 36 ms | 0 |
+| stress-50mb | 1 | 1,412,429 | 1,470 ms | 1,470 ms | 1,380 ms | 0 |
+
+- No anchor is outdated because of the cap. The largest segment has 225 cells. The fixture lines
+  are almost all unique, so each segment is small.
+- For stress-50mb, the canonical diff takes 581 ms (p50) and the rest takes 771 ms. The rest is
+  mostly the split and the interning of 1.4 million lines in each file.
+- `q45-anchors bound` times one segment at the cap with 4 line texts
+  (`results/q65-segment-bound.json`). 1,000 by 1,000 lines takes 6 ms. 100 by 10,000 lines takes
+  7 ms.
+- `lcs_rule` panics when a segment side has 65,535 lines or more ("the LCS tables use u16"), also
+  under the cap. 10 by 100,000 and 1 by 1,000,000 panic. A real pair panics too: 70,000 lines
+  inserted between two bracket lines of a 10 line file (`results/q65-insert-70k.json`). The
+  segment has 0 by 70,000 lines and 0 cells.
+- The 360 deleted files of the fixtures have 374,400 anchors, each outdated with no mapping.

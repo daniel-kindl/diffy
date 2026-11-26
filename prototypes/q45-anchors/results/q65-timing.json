@@ -1,0 +1,163 @@
+{
+  "fixtures": {
+    "files-1000": {
+      "anchors": 55200,
+      "anchors_in_segments_over_cap": 0,
+      "fixture_total_ms_one_thread": {
+        "max": 26.595,
+        "p50": 20.026,
+        "runs": 5
+      },
+      "largest_segment_cells": 9,
+      "m3_mapped": 52483,
+      "m3_outdated": 2717,
+      "of_them_kept_by_canonical_diff": 0,
+      "pairs": 920,
+      "panics": [],
+      "per_file_ms": {
+        "canonical_diff_p50": 0.005,
+        "canonical_diff_p95": 0.009,
+        "m3_after_diff_max": 0.478,
+        "m3_after_diff_p50": 0.015,
+        "m3_after_diff_p95": 0.024,
+        "max": 0.486,
+        "p50": 0.021,
+        "p95": 0.033
+      },
+      "segments_over_cap": 0
+    },
+    "files-1000-large": {
+      "anchors": 2760000,
+      "anchors_in_segments_over_cap": 0,
+      "fixture_total_ms_one_thread": {
+        "max": 822.377,
+        "p50": 777.781,
+        "runs": 5
+      },
+      "largest_segment_cells": 4,
+      "m3_mapped": 2757240,
+      "m3_outdated": 2760,
+      "of_them_kept_by_canonical_diff": 0,
+      "pairs": 920,
+      "panics": [],
+      "per_file_ms": {
+        "canonical_diff_p50": 0.169,
+        "canonical_diff_p95": 0.218,
+        "m3_after_diff_max": 1.588,
+        "m3_after_diff_p50": 0.651,
+        "m3_after_diff_p95": 0.75,
+        "max": 1.971,
+        "p50": 0.82,
+        "p95": 0.962
+      },
+      "segments_over_cap": 0
+    },
+    "files-2000-large": {
+      "anchors": 5520000,
+      "anchors_in_segments_over_cap": 0,
+      "fixture_total_ms_one_thread": {
+        "max": 1664.611,
+        "p50": 1579.182,
+        "runs": 5
+      },
+      "largest_segment_cells": 4,
+      "m3_mapped": 5514481,
+      "m3_outdated": 5519,
+      "of_them_kept_by_canonical_diff": 0,
+      "pairs": 1840,
+      "panics": [],
+      "per_file_ms": {
+        "canonical_diff_p50": 0.169,
+        "canonical_diff_p95": 0.247,
+        "m3_after_diff_max": 2.14,
+        "m3_after_diff_p50": 0.655,
+        "m3_after_diff_p95": 0.825,
+        "max": 2.41,
+        "p50": 0.825,
+        "p95": 1.039
+      },
+      "segments_over_cap": 0
+    },
+    "files-5000": {
+      "anchors": 276000,
+      "anchors_in_segments_over_cap": 0,
+      "fixture_total_ms_one_thread": {
+        "max": 110.768,
+        "p50": 103.953,
+        "runs": 5
+      },
+      "largest_segment_cells": 15,
+      "m3_mapped": 262423,
+      "m3_outdated": 13577,
+      "of_them_kept_by_canonical_diff": 0,
+      "pairs": 4600,
+      "panics": [],
+      "per_file_ms": {
+        "canonical_diff_p50": 0.005,
+        "canonical_diff_p95": 0.008,
+        "m3_after_diff_max": 0.589,
+        "m3_after_diff_p50": 0.015,
+        "m3_after_diff_p95": 0.023,
+        "max": 0.745,
+        "p50": 0.021,
+        "p95": 0.031
+      },
+      "segments_over_cap": 0
+    },
+    "lines-10k": {
+      "anchors": 60000,
+      "anchors_in_segments_over_cap": 0,
+      "fixture_total_ms_one_thread": {
+        "max": 42.458,
+        "p50": 36.212,
+        "runs": 5
+      },
+      "largest_segment_cells": 100,
+      "m3_mapped": 49494,
+      "m3_outdated": 10506,
+      "of_them_kept_by_canonical_diff": 0,
+      "pairs": 1,
+      "panics": [],
+      "per_file_ms": {
+        "canonical_diff_p50": 12.845,
+        "canonical_diff_p95": 14.508,
+        "m3_after_diff_max": 29.39,
+        "m3_after_diff_p50": 23.367,
+        "m3_after_diff_p95": 29.39,
+        "max": 42.458,
+        "p50": 36.212,
+        "p95": 42.458
+      },
+      "segments_over_cap": 0
+    },
+    "stress-50mb": {
+      "anchors": 1412429,
+      "anchors_in_segments_over_cap": 0,
+      "fixture_total_ms_one_thread": {
+        "max": 1469.887,
+        "p50": 1379.708,
+        "runs": 5
+      },
+      "largest_segment_cells": 225,
+      "m3_mapped": 1387952,
+      "m3_outdated": 24477,
+      "of_them_kept_by_canonical_diff": 0,
+      "pairs": 1,
+      "panics": [],
+      "per_file_ms": {
+        "canonical_diff_p50": 580.593,
+        "canonical_diff_p95": 640.598,
+        "m3_after_diff_max": 829.289,
+        "m3_after_diff_p50": 771.37,
+        "m3_after_diff_p95": 829.289,
+        "max": 1469.887,
+        "p50": 1379.708,
+        "p95": 1469.887
+      },
+      "segments_over_cap": 0
+    }
+  },
+  "note": "Q65: M3 (HunkBrackets) on each modified or renamed file of the Q46 fixtures, each old line an anchor. Times: canonical diff, then split, interning and M3. One thread, file reads not timed.",
+  "runs": 5,
+  "segment_cells_cap": 1000000
+}

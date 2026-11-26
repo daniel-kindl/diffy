@@ -1,0 +1,35 @@
+{
+  "fixtures": {
+    "insert-70k": {
+      "anchors": 10,
+      "anchors_in_segments_over_cap": 0,
+      "fixture_total_ms_one_thread": {
+        "max": 13.066,
+        "p50": 13.066,
+        "runs": 1
+      },
+      "largest_segment_cells": 0,
+      "m3_mapped": 0,
+      "m3_outdated": 0,
+      "of_them_kept_by_canonical_diff": 0,
+      "pairs": 1,
+      "panics": [
+        "insert-70k/data.txt"
+      ],
+      "per_file_ms": {
+        "canonical_diff_p50": 3.205,
+        "canonical_diff_p95": 3.205,
+        "m3_after_diff_max": 9.861,
+        "m3_after_diff_p50": 9.861,
+        "m3_after_diff_p95": 9.861,
+        "max": 13.066,
+        "p50": 13.066,
+        "p95": 13.066
+      },
+      "segments_over_cap": 0
+    }
+  },
+  "note": "Q65: M3 (HunkBrackets) on each modified or renamed file of the Q46 fixtures, each old line an anchor. Times: canonical diff, then split, interning and M3. One thread, file reads not timed.",
+  "runs": 1,
+  "segment_cells_cap": 1000000
+}

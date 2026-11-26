@@ -4,10 +4,12 @@
 //!   q45-anchors fixtures <out.json>
 //!   q45-anchors property <small|medium> <histories> <out.json>
 //!   q45-anchors real <pairs.tsv> <out.json>
+//!   q45-anchors timing <pairs.tsv> <runs> <out.json>   (Q65)
 
 mod core;
 mod fixtures;
 mod history;
+mod timing;
 
 use core::{K, METHODS, Pair, canonical_map, lcs_rule, map_all, split};
 use serde_json::{Value, json};
@@ -244,8 +246,10 @@ fn main() {
         ["fixtures", out] => fixtures(out),
         ["property", profile, n, out] => property(profile, n.parse().expect("histories"), out),
         ["real", tsv, out] => real(tsv, out),
+        ["bound", out] => timing::bound(out),
+        ["timing", tsv, runs, out] => timing::run(tsv, runs.parse().expect("runs"), out),
         _ => {
-            eprintln!("usage: q45-anchors fixtures OUT | property small|medium N OUT | real PAIRS.TSV OUT");
+            eprintln!("usage: q45-anchors fixtures OUT | property small|medium N OUT | real PAIRS.TSV OUT | timing PAIRS.TSV RUNS OUT | bound OUT");
             std::process::exit(2);
         }
     }
