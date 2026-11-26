@@ -14,13 +14,18 @@ fn main() {
         Ok(cli::Launch::Files { left, right }) => {
             // The shell will open a tab from these snapshots. Reading them
             // here checks the inputs before the app starts.
-            if let Err(e) = cli::read_snapshots(&left, &right) {
-                eprintln!("diffy: {e}");
-                std::process::exit(1);
+            let initial = cli::read_snapshots(&left, &right)
+                .map_err(|e| e.to_string())
+                .and_then(|(l, r)| ipc::compare_snapshots(&l, &r));
+            match initial {
+                Ok(c) => run_app(Some(c)),
+                Err(e) => {
+                    eprintln!("diffy: {e}");
+                    std::process::exit(1);
+                }
             }
-            run_app();
         }
-        Ok(_launch) => run_app(),
+        Ok(_launch) => run_app(None),
         Err(e) => {
             eprintln!("diffy: {e}");
             std::process::exit(2);
@@ -28,9 +33,13 @@ fn main() {
     }
 }
 
-fn run_app() {
+fn run_app(initial: Option<ipc::Comparison>) {
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![ipc::compare_text])
+        .manage(ipc::Initial(std::sync::Mutex::new(initial)))
+        .invoke_handler(tauri::generate_handler![
+            ipc::compare_text,
+            ipc::initial_comparison
+        ])
         .run(tauri::generate_context!())
         .expect("the Diffy window failed to start");
 }
