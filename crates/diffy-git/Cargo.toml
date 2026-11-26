@@ -11,6 +11,8 @@ workspace = true
 [dependencies]
 diffy-core = { path = "../diffy-core" }
 gix = { version = "0.91.0", default-features = false, features = ["revision", "blob-diff", "index", "status", "sha1"] }
+ignore = "0.4.35"
+notify = "9.0.0"
 
 [dev-dependencies]
 tempfile = "3.27.0"
