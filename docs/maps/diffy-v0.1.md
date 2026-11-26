@@ -2,7 +2,7 @@
 
 Status: open
 Destination: Each v0.1 milestone (M0 to M4) has a plan and issues with acceptance criteria. Each spike has a verdict, and no open question blocks the first M0 issue.
-Next: Q57
+Next: Q58
 
 ## Notes
 
@@ -125,6 +125,10 @@ Next: Q57
 - On Windows, with `uninstall.exe` locked, the NSIS installer replaces the app, skips the uninstaller with no error and restarts the app. Source: https://github.com/daniel-kindl/diffy/blob/dffc99a/prototypes/s6-updater/results/q55-windows-failed-install.json
 - A failed migration rolls back on both platforms. The database keeps its schema version and the user data, and the copy from before the migration stays. The next start without the fault migrates. Source: https://github.com/daniel-kindl/diffy/blob/dffc99a/prototypes/s6-updater/results/q55-linux.json and https://github.com/daniel-kindl/diffy/blob/dffc99a/prototypes/s6-updater/results/q55-windows-core.json
 
+- wry 0.57.3 and 0.57.4 turn off the preedit with the code comment "Disable input preedit,fcitx input editor can anchor at edit cursor position". Source: wry 0.57.4 `src/webkitgtk/mod.rs:429`
+- The Q42 input method checks used IBus with the m17n and libpinyin engines only. Q42 did not test fcitx5 or the position of the candidate window. Source: https://github.com/daniel-kindl/diffy/blob/37f9892/prototypes/s1-monaco/src/q42.ts
+- Tauri issue #11412 reports that the Japanese input methods on Linux show the text in their own window, not in the input element. It is open since 2024-10-19. Source: https://github.com/tauri-apps/tauri/issues/11412
+
 ## Decisions
 
 - Q1 Independent review: tiered by risk. Safety-critical areas (Git adapter, publication, anchors, updater, IPC and capabilities) need owner review. Other areas merge after agent review and green CI. Decided by: Daniel Kindl, 2026-11-24. Record: this line.
@@ -189,15 +193,9 @@ Next: Q57
 - Q52 Owner setup actions: Q4 has no target dates, so each latest date is a milestone point. Done on 2026-11-25: the rulesets, Renovate, Dependabot alerts, secret scanning with push protection and the approval for fork workflow runs. Before the first release run at the end of M1: a `release` environment with the owner as the required reviewer. Before the v0.0.1 build: the minisign key with a password, in two `release` environment secrets and an offline backup (Q9, Q36). The public key goes to the M1 updater configuration. Before M3a: a GitHub OAuth App with the device flow on, and its client ID (Q32). Before M3b: a OneDev test project and an access token on the homelab (Q14). For each release: the owner starts the workflow and approves the environment. The owner selected the option "Accept the Q52 list". Decided by: Daniel Kindl, 2026-11-25. Record: this line.
 - Q53 Domain glossary: `CONTEXT.md` defines snapshot, comparison, review session, baseline, checkpoint, file review state, finding and publication. The owner selected the option "Approve all 8". Decided by: Daniel Kindl, 2026-11-25. Record: [CONTEXT.md](../../CONTEXT.md).
 - Q55 S6 signed updates: each S6 prototype item passes on Linux and on Windows, except the Windows failed install. There the NSIS installer waits at an error dialog and does not restart the app, and the old app stays. A locked uninstaller leaves a new app with the old uninstaller. Q77 covers the Windows behavior. The owner selected the option "Accept, add Q77". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
+- Q57 WebKitGTK input method preedit: on Linux, Diffy turns the preedit on again for each webview. Then the text that is not committed shows in the editor. Q78 checks fcitx5. The owner selected the option "Turn on, add fcitx5 check". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
 
 ## Open questions
-
-### Q57: WebKitGTK input method preedit
-
-Type: owner
-Blocked by: none
-
-wry 0.57.3 turns off the WebKitGTK preedit, so the input method shows the text that is not committed in its own window. Decide if Diffy turns the preedit on again, so that the text shows in the editor. Q42 showed that this works.
 
 ### Q58: Monaco features and font for M0
 
@@ -296,6 +294,13 @@ Type: owner
 Blocked by: none
 
 When the NSIS installer cannot write a file, it waits at a modal error dialog, and after Abort the app does not restart (Q55). A locked file other than the app can give a new app with the old file. Decide what v0.1 does. Examples are to accept it with a manual restart, to test the quiet install mode, or to check the installed version at the next start.
+
+### Q78: Preedit with fcitx5
+
+Type: task
+Blocked by: none
+
+With the preedit on (Q57), check fcitx5 with an engine that has a preedit, for example Mozc or Rime. Run it on the Fedora reference host, under Wayland and XWayland. Check that the editor gets the composition events and that the candidate window is next to the cursor. A fail goes to the owner.
 
 ## Not yet clear
 
