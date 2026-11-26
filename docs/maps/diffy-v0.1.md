@@ -2,7 +2,7 @@
 
 Status: open
 Destination: Each v0.1 milestone (M0 to M4) has a plan and issues with acceptance criteria. Each spike has a verdict, and no open question blocks the first M0 issue.
-Next: Q69
+Next: Q70
 
 ## Notes
 
@@ -160,6 +160,8 @@ Next: Q69
 - On 2026-11-26, gix-imara-diff 0.3.4 is the latest release on crates.io. The gitoxide branch `main` is at `2bcb31d`. Source: https://crates.io/crates/gix-imara-diff and https://github.com/GitoxideLabs/gitoxide/commits/main
 - `2bcb31d` has the merged fix and two maintainer commits after it, `f539153` and `8e90d2e`. The `8e90d2e` message says the maintainer did not check the change in full. The maintainer hopes that it resists adversarial input. Source: https://github.com/GitoxideLabs/gitoxide/commit/8e90d2e
 
+- The REST API creates one review with its inline comments and its event (`APPROVE`, `REQUEST_CHANGES` or `COMMENT`), with `POST /repos/{owner}/{repo}/pulls/{pull_number}/reviews`. Q48 did not post a review. Source: https://github.com/github/rest-api-description/blob/c9c95fe34ced05fe076001f5c55704742bc8e7f8/descriptions/api.github.com/api.github.com.json#L92695
+
 ## Decisions
 
 - Q1 Independent review: tiered by risk. Safety-critical areas (Git adapter, publication, anchors, updater, IPC and capabilities) need owner review. Other areas merge after agent review and green CI. Decided by: Daniel Kindl, 2026-11-24. Record: this line.
@@ -233,15 +235,9 @@ Next: Q69
 - Q66 Cancel during the open of a large file: v0.1 accepts a cancel time up to 450 ms for files of 50 MB or more. The release notes list it as a known limitation. The target of 250 ms stays for each other cancel. Q46 measured only the 50 MB stress file. There is no prototype. The owner selected the option "Accept for stress files". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
 - Q67 Rename detection on large change lists: Diffy shows the change list first, with only the exact renames (the same blob ID). The similarity rename detection then runs in the background and can be cancelled. When it ends, an added and a deleted row of a rename become one renamed row. The owner selected the option "List first, renames later". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
 - Q68 Code of the patched gix-imara-diff copy: until a gitoxide release has the fix, the Diffy copy holds the gix-imara-diff source of gitoxide `2bcb31d`. M0 uses the copy only after Q80 passes. Diffy keeps the Apache-2.0 license notice (Q61). The owner selected the option "Source of 2bcb31d + parity run". Decided by: Daniel Kindl, 2026-11-26. Record: this line and ADR 0002.
+- Q69 GraphQL in the GitHub client: the GitHub client uses REST for the batched review (ADR 0003), the inline comments, the replies and the reads. It uses GraphQL only to list the review threads and to resolve or reopen a thread. Both use the same token. The owner selected the option "REST + GraphQL for threads". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
 
 ## Open questions
-
-### Q69: GraphQL in the GitHub client
-
-Type: owner
-Blocked by: none
-
-Q48 shows that M3a needs GraphQL to resolve a thread. REST covers the batched review (ADR 0003) and the replies. Decide whether the GitHub client uses GraphQL only for the threads and REST for the rest, or GraphQL for each call.
 
 ### Q70: Findings outside a OneDev hunk
 
