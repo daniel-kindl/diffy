@@ -2,7 +2,7 @@
 
 Status: open
 Destination: Each v0.1 milestone (M0 to M4) has a plan and issues with acceptance criteria. Each spike has a verdict, and no open question blocks the first M0 issue.
-Next: none
+Next: Q81
 
 ## Notes
 
@@ -278,14 +278,49 @@ Next: none
 
 ## Open questions
 
-## Not yet clear
+### Q81: Generated-file rules
 
-- The rules that mark a file as generated (R-02).
-- The fields of a comparison profile (C-04).
-- Whether L-06 and L-07 (P1) are in v0.1.0 or later.
-- The SQLite migration tool and the schema version rules.
-- How Monaco works with Orca and NVDA.
-- OneDev authentication details and multi-instance setup.
+Type: owner
+Blocked by: none
+
+Select the rules that mark a file as generated in v0.1 (R-02). Candidates are the `.gitattributes` attribute `linguist-generated` and a built-in path list such as lock files and `dist/`. Others are a header marker in the file and user patterns. A generated file stays counted and discoverable.
+
+### Q82: Fields of a comparison profile
+
+Type: owner
+Blocked by: Q81
+
+Select the fields that a comparison profile holds (C-04). Examples are the whitespace mode, the line-ending option, intraline refinement, the context lines and the generated-file visibility. Select the default profile.
+
+### Q83: L-06 and L-07 in v0.1.0
+
+Type: owner
+Blocked by: none
+
+Decide whether the P1 requirements L-06 (bounded observed snapshot history) and L-07 (follow mode and timeline navigation) are in v0.1.0 or in a later release.
+
+### Q84: SQLite migration tool
+
+Type: research
+Blocked by: none
+
+Compare hand-written migrations with `PRAGMA user_version` against the crates rusqlite_migration and refinery. Include the Q55 recovery copy and the schema version rules. The pick goes to the owner.
+
+### Q85: Option B with Orca
+
+Type: prototype
+Blocked by: none
+
+On the reference host, check what Orca reads in option B: the lines, the change type, the cursor line and the read-only state. NVDA on Windows stays at the release candidate (Q37).
+
+### Q86: OneDev authentication and instances
+
+Type: owner
+Blocked by: none
+
+Decide how Diffy stores and adds OneDev access. Candidates are one access token for each instance URL in the OS credential store and a dialog to add an instance. Also decide on a custom CA and on more than one account for each instance.
+
+## Not yet clear
 
 ## Out of scope
 
