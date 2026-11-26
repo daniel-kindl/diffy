@@ -896,6 +896,7 @@ dependencies = [
  "diffy-review",
  "diffy-storage",
  "encoding_rs",
+ "rusqlite",
  "serde",
  "serde_json",
  "tauri",

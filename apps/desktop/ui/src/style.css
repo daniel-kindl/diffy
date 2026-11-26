@@ -114,3 +114,30 @@ input:focus-visible {
   padding: 2px 0;
   cursor: pointer;
 }
+
+.explorer h2 {
+  font-size: 13px;
+  margin: 12px 0 4px;
+}
+.explorer form label {
+  display: block;
+  margin: 4px 0;
+}
+.explorer textarea,
+.explorer select,
+.explorer input[type="number"] {
+  box-sizing: border-box;
+  font: inherit;
+  color: var(--s-text);
+  background: var(--s-surface);
+  border: 1px solid var(--s-border);
+}
+.explorer textarea {
+  width: 100%;
+}
+.explorer input[type="number"] {
+  width: 5em;
+}
+.explorer .reviewed::before {
+  content: "\2713  ";
+}
