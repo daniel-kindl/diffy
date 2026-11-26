@@ -8,6 +8,7 @@ pub mod watch;
 
 use gix::bstr::{BString, ByteSlice};
 use gix::object::tree::diff::Change as TreeChange;
+use std::collections::BTreeMap;
 use std::path::Path;
 
 #[derive(Debug)]
@@ -175,6 +176,64 @@ impl Repo {
         Ok(out)
     }
 
+    /// The staged, unstaged and untracked files. It only reads. It runs no
+    /// filter, because the `filter` sections are removed when the repository
+    /// opens. A bare repository has no worktree and returns an error.
+    pub fn worktree_status(&self) -> Result<Vec<WorktreeEntry>, GitError> {
+        use gix::status::{Item, UntrackedFiles, index_worktree::iter::Summary};
+        let iter = self
+            .inner
+            .status(gix::progress::Discard)
+            .map_err(err)?
+            .untracked_files(UntrackedFiles::Files)
+            .into_iter(Vec::<BString>::new())
+            .map_err(err)?;
+        let mut map: BTreeMap<String, WorktreeEntry> = BTreeMap::new();
+        for item in iter {
+            match item.map_err(err)? {
+                Item::TreeIndex(change) => {
+                    use gix::diff::index::ChangeRef as C;
+                    let (path, kind) = match change {
+                        C::Addition { location, .. } => (location.to_string(), WorktreeKind::Added),
+                        C::Deletion { location, .. } => {
+                            (location.to_string(), WorktreeKind::Deleted)
+                        }
+                        C::Modification { location, .. } => {
+                            (location.to_string(), WorktreeKind::Modified)
+                        }
+                        C::Rewrite { location, .. } => {
+                            (location.to_string(), WorktreeKind::Renamed)
+                        }
+                    };
+                    entry(&mut map, path).staged = Some(kind);
+                }
+                Item::IndexWorktree(item) => {
+                    let path = item.rela_path().to_str_lossy().into_owned();
+                    match item.summary() {
+                        Some(Summary::Added) => entry(&mut map, path).untracked = true,
+                        Some(Summary::IntentToAdd) => {
+                            entry(&mut map, path).staged = Some(WorktreeKind::Added)
+                        }
+                        Some(Summary::Removed) => {
+                            entry(&mut map, path).unstaged = Some(WorktreeKind::Deleted)
+                        }
+                        Some(Summary::Modified | Summary::TypeChange) => {
+                            entry(&mut map, path).unstaged = Some(WorktreeKind::Modified);
+                        }
+                        Some(Summary::Renamed | Summary::Copied) => {
+                            entry(&mut map, path).unstaged = Some(WorktreeKind::Renamed);
+                        }
+                        Some(Summary::Conflict) => {
+                            entry(&mut map, path).unstaged = Some(WorktreeKind::Conflict)
+                        }
+                        None => {}
+                    }
+                }
+            }
+        }
+        Ok(map.into_values().collect())
+    }
+
     /// The raw bytes of a file at a revision, or `None` when it is absent.
     pub fn read_file(&self, rev: &str, path: &str) -> Result<Option<Vec<u8>>, GitError> {
         let tree = self.tree(rev)?;
@@ -184,6 +243,37 @@ impl Repo {
         let obj = entry.object().map_err(err)?;
         Ok(Some(obj.data.clone()))
     }
+}
+
+/// What happened to a path between two states.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum WorktreeKind {
+    Added,
+    Deleted,
+    Modified,
+    Renamed,
+    Conflict,
+}
+
+/// One path in the worktree state.
+#[derive(Debug, PartialEq, Eq)]
+pub struct WorktreeEntry {
+    pub path: String,
+    /// The change between `HEAD` and the index (staged).
+    pub staged: Option<WorktreeKind>,
+    /// The change between the index and the worktree (unstaged).
+    pub unstaged: Option<WorktreeKind>,
+    /// The path is not tracked.
+    pub untracked: bool,
+}
+
+fn entry(map: &mut BTreeMap<String, WorktreeEntry>, path: String) -> &mut WorktreeEntry {
+    map.entry(path.clone()).or_insert(WorktreeEntry {
+        path,
+        staged: None,
+        unstaged: None,
+        untracked: false,
+    })
 }
 
 /// A path as the bytes Git stores.
