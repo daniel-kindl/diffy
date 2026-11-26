@@ -1,6 +1,13 @@
 import { describe, expect, it } from "vitest";
 import type { Hunk } from "./hunks";
-import { changeStarts, lineLabel, nextStart, splitLines, unifiedLines } from "./unified";
+import {
+  changeStarts,
+  collapseUnchanged,
+  lineLabel,
+  nextStart,
+  splitLines,
+  unifiedLines,
+} from "./unified";
 
 describe("splitLines", () => {
   it("ignores the final newline and keeps empty lines", () => {
@@ -75,5 +82,72 @@ describe("change navigation in the unified view", () => {
     expect(nextStart([2, 6], 6, -1)).toBe(2);
     expect(nextStart([2, 6], 2, -1)).toBe(6);
     expect(nextStart([], 1, 1)).toBeUndefined();
+  });
+});
+
+describe("collapseUnchanged", () => {
+  const numbered = (n: number) =>
+    Array.from({ length: n }, (_, i) => `line ${String(i + 1)}`).join("\n") + "\n";
+  const edited = (n: number, at: number[]) =>
+    Array.from({ length: n }, (_, i) =>
+      at.includes(i) ? `CHANGED ${String(i + 1)}` : `line ${String(i + 1)}`,
+    ).join("\n") + "\n";
+
+  it("keeps the context around a change and collapses the rest", () => {
+    const hunks = [{ base: { start: 19, end: 20 }, head: { start: 19, end: 20 } }];
+    const u = collapseUnchanged(unifiedLines(numbered(40), edited(40, [19]), hunks), 3);
+    expect(u.map((l) => l.kind)).toEqual([
+      "collapsed",
+      "context",
+      "context",
+      "context",
+      "removed",
+      "added",
+      "context",
+      "context",
+      "context",
+      "collapsed",
+    ]);
+    expect(u[0]?.text).toBe("16 unchanged lines");
+    expect(u[9]?.text).toBe("17 unchanged lines");
+  });
+
+  it("never hides a change and keeps each changed line", () => {
+    const hunks = [
+      { base: { start: 2, end: 3 }, head: { start: 2, end: 3 } },
+      { base: { start: 30, end: 31 }, head: { start: 30, end: 31 } },
+    ];
+    const all = unifiedLines(numbered(40), edited(40, [2, 30]), hunks);
+    const u = collapseUnchanged(all, 3);
+    expect(u.filter((l) => l.kind === "removed" || l.kind === "added")).toEqual(
+      all.filter((l) => l.kind === "removed" || l.kind === "added"),
+    );
+  });
+
+  it("does not collapse a run that is too short to save lines", () => {
+    // Two lines hidden would be one marker: 1 line saved. One hidden line is kept.
+    const hunks = [
+      { base: { start: 0, end: 1 }, head: { start: 0, end: 1 } },
+      { base: { start: 8, end: 9 }, head: { start: 8, end: 9 } },
+    ];
+    const all = unifiedLines(numbered(9), edited(9, [0, 8]), hunks);
+    // 7 unchanged lines between the changes, 3 + 3 context, 1 hidden: kept as is.
+    expect(collapseUnchanged(all, 3)).toEqual(all);
+  });
+
+  it("collapses a whole file with no change into one marker", () => {
+    const u = collapseUnchanged(unifiedLines(numbered(30), numbered(30), []), 3);
+    expect(u).toHaveLength(1);
+    expect(u[0]).toMatchObject({ kind: "collapsed", text: "30 unchanged lines" });
+  });
+
+  it("does not count a collapsed marker as a change for the keys", () => {
+    const hunks = [{ base: { start: 19, end: 20 }, head: { start: 19, end: 20 } }];
+    const u = collapseUnchanged(unifiedLines(numbered(40), edited(40, [19]), hunks), 3);
+    expect(changeStarts(u)).toEqual([5]);
+  });
+
+  it("handles an empty file", () => {
+    expect(collapseUnchanged([], 3)).toEqual([]);
   });
 });

@@ -82,7 +82,7 @@ describe.each(Object.entries(themes))("%s theme", (_name, resolve) => {
 // is checked here.
 const MONACO_TEXT = { light: "#000000", dark: "#d4d4d4" } as const;
 describe.each(Object.entries(themes))("Monaco text on the %s line backgrounds", (name, resolve) => {
-  it.each(["c-line-added-bg", "c-line-removed-bg", "c-line-modified-bg"])(
+  it.each(["c-line-added-bg", "c-line-removed-bg", "c-line-modified-bg", "c-line-collapsed-bg"])(
     "%s is at least 4.5:1",
     (bg) => {
       expect(contrast(MONACO_TEXT[name as "light" | "dark"], resolve(bg))).toBeGreaterThanOrEqual(

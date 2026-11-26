@@ -19,14 +19,19 @@ url, out, theme = sys.argv[1], sys.argv[2], (sys.argv[3] if len(sys.argv) > 3 el
 after_load = sys.argv[4] if len(sys.argv) > 4 else ""  # JavaScript to run, for example a click
 STUB = """
 (function () {
-  const base = "fn main() {\\n    let a = 1;\\n    let b = 2;\\n    run(a, b);\\n}\\n";
-  const head = "fn main() {\\n    let a = 1;\\n    let b = 3;\\n    run(a, b);\\n    stop();\\n}\\n";
+  // A longer file, so the unchanged runs can collapse: line 20 changes and one line is added after line 33.
+  const lines = Array.from({ length: 40 }, (_, i) => "    let value_" + (i + 1) + " = " + (i + 1) + ";");
+  const base = lines.join("\\n") + "\\n";
+  const headLines = lines.slice();
+  headLines[19] = "    let value_20 = 200;";
+  headLines.splice(33, 0, "    let extra = 0;");
+  const head = headLines.join("\\n") + "\\n";
   const data = {
     current_comparison: { base, head, sides: [
       { label: "HEAD:src/main.rs", encoding: "UTF-8", first_error: null },
       { label: "src/main.rs", encoding: "UTF-8", first_error: null }],
-      hunks: [ { base: {start: 2, end: 3}, head: {start: 2, end: 3} },
-               { base: {start: 4, end: 4}, head: {start: 4, end: 5} } ] },
+      hunks: [ { base: {start: 19, end: 20}, head: {start: 19, end: 20} },
+               { base: {start: 33, end: 33}, head: {start: 33, end: 34} } ] },
     repository_files: { files: [
       { path: "src/main.rs", status: "modified", generated: false, reviewed: true },
       { path: "src/lib.rs", status: "added", generated: false, reviewed: false },

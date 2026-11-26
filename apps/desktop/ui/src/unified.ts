@@ -3,7 +3,7 @@
 // side-by-side view, so the views never disagree.
 import type { Hunk } from "./hunks";
 
-export type UnifiedKind = "context" | "removed" | "added";
+export type UnifiedKind = "context" | "removed" | "added" | "collapsed";
 
 export interface UnifiedLine {
   kind: UnifiedKind;
@@ -58,7 +58,8 @@ export function lineLabel(line: UnifiedLine | undefined): string {
 export function changeStarts(lines: readonly UnifiedLine[]): number[] {
   const starts: number[] = [];
   lines.forEach((l, i) => {
-    if (l.kind !== "context" && (i === 0 || lines[i - 1]?.kind === "context")) starts.push(i + 1);
+    const changed = (k: UnifiedKind | undefined) => k === "removed" || k === "added";
+    if (changed(l.kind) && (i === 0 || !changed(lines[i - 1]?.kind))) starts.push(i + 1);
   });
   return starts;
 }
@@ -72,4 +73,46 @@ export function nextStart(
   if (starts.length === 0) return undefined;
   if (direction === 1) return starts.find((s) => s > current) ?? starts[0];
   return [...starts].reverse().find((s) => s < current) ?? starts[starts.length - 1];
+}
+
+/** The most unchanged lines that stay visible around a change. Q82 default. */
+export const DEFAULT_CONTEXT = 3;
+
+/**
+ * Collapse each run of unchanged lines that is more than `2 * context` long into
+ * one marker line, and keep `context` lines next to each change. A change is
+ * never hidden. With no change at all, the whole text is one collapsed run.
+ */
+export function collapseUnchanged(
+  lines: readonly UnifiedLine[],
+  context = DEFAULT_CONTEXT,
+): UnifiedLine[] {
+  const out: UnifiedLine[] = [];
+  let i = 0;
+  while (i < lines.length) {
+    if (lines[i]?.kind !== "context") {
+      out.push(lines[i] as UnifiedLine);
+      i++;
+      continue;
+    }
+    let end = i;
+    while (end < lines.length && lines[end]?.kind === "context") end++;
+    const before = i === 0 ? 0 : context;
+    const after = end === lines.length ? 0 : context;
+    const hidden = end - i - before - after;
+    if (hidden > 1) {
+      out.push(...lines.slice(i, i + before));
+      out.push({
+        kind: "collapsed",
+        text: `${String(hidden)} unchanged lines`,
+        base: null,
+        head: null,
+      });
+      out.push(...lines.slice(end - after, end));
+    } else {
+      out.push(...lines.slice(i, end));
+    }
+    i = end;
+  }
+  return out;
 }
