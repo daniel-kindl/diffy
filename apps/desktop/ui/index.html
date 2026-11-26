@@ -12,6 +12,7 @@
         <select id="enc-left" data-side="left"></select
       ></label>
       <button id="swap" type="button">Swap sides</button>
+      <button id="view-mode" type="button" aria-live="polite">View: side by side</button>
       <button id="theme" type="button" aria-live="polite">Theme: system</button>
       <label
         >Head encoding
@@ -62,6 +63,7 @@
         <p id="review-status" role="status"></p>
       </section>
     </nav>
+    <div id="unified" class="unified" hidden aria-label="Unified comparison"></div>
     <div id="app" class="app">
       <section id="left" aria-label="Base"></section>
       <section id="right" aria-label="Head"></section>

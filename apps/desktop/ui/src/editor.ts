@@ -12,6 +12,7 @@ import "monaco-editor/editor/contrib/readOnlyMessage/browser/contribution.js";
 import { decorations, nextHunkLine, type Hunk, type LineDecoration } from "./hunks";
 import { actionFor } from "./keys";
 import { languageOf } from "./language";
+import { changeStarts, lineLabel, nextStart, unifiedLines } from "./unified";
 
 export const FONT_FAMILY = '"Cascadia Mono", Consolas, monospace';
 
@@ -122,6 +123,82 @@ export function showComparison(
       r.clear();
       left.dispose();
       right.dispose();
+    },
+  };
+}
+
+export interface UnifiedView {
+  editor: monaco.editor.IStandaloneCodeEditor;
+  dispose(): void;
+}
+
+/** The unified view: one read-only editor with the removed lines before the added lines. */
+export function showUnified(
+  el: HTMLElement,
+  base: string,
+  head: string,
+  hunks: readonly Hunk[],
+  path = "",
+): UnifiedView {
+  const lines = unifiedLines(base, head, hunks);
+  const editor = create(el, lines.map((l) => l.text).join("\n"), "Unified comparison", path);
+  editor.updateOptions({
+    // The number column shows the base and the head number of each line.
+    lineNumbers: (n: number) => lineLabel(lines[n - 1]),
+    lineNumbersMinChars: 9,
+  });
+  const decorations = lines.flatMap((l, i) =>
+    l.kind === "context"
+      ? []
+      : [
+          {
+            range: new monaco.Range(i + 1, 1, i + 1, 1),
+            options: {
+              isWholeLine: true,
+              className: `diffy-line-${l.kind === "removed" ? "removed" : "added"}`,
+              linesDecorationsClassName: `diffy-mark-${l.kind === "removed" ? "removed" : "added"}`,
+            } satisfies monaco.editor.IModelDecorationOptions,
+          },
+        ],
+  );
+  const collection = editor.createDecorationsCollection(decorations);
+  const starts = changeStarts(lines);
+  const onKey = (e: KeyboardEvent) => {
+    const action = actionFor(e);
+    if (!action) return;
+    e.preventDefault();
+    switch (action) {
+      case "nextChange":
+      case "previousChange": {
+        const line = nextStart(
+          starts,
+          editor.getPosition()?.lineNumber ?? 1,
+          action === "nextChange" ? 1 : -1,
+        );
+        if (line !== undefined) {
+          editor.revealLineInCenter(line);
+          editor.setPosition({ lineNumber: line, column: 1 });
+          editor.focus();
+        }
+        break;
+      }
+      case "find":
+        void editor.getAction("actions.find")?.run();
+        break;
+      case "goToLine":
+        void editor.getAction("editor.action.gotoLine")?.run();
+        break;
+      case "switchSide":
+        break;
+    }
+  };
+  document.addEventListener("keydown", onKey);
+  return {
+    editor,
+    dispose() {
+      document.removeEventListener("keydown", onKey);
+      collection.clear();
+      editor.dispose();
     },
   };
 }

@@ -1,5 +1,10 @@
 @import "./tokens.css";
 
+/* An author rule such as display: grid must not beat the hidden attribute. */
+[hidden] {
+  display: none !important;
+}
+
 html,
 body {
   margin: 0;
@@ -168,4 +173,11 @@ input:focus-visible {
 }
 .explorer .reviewed::before {
   content: "\2713  ";
+}
+
+.unified {
+  height: calc(100vh - 32px);
+}
+.explorer:not([hidden]) ~ .unified:not([hidden]) {
+  margin-left: 260px;
 }

@@ -8,7 +8,7 @@ Needs PyGObject with GTK 3 and WebKit2 4.1, and a display (X11 or XWayland).
 
     npm run build
     (cd dist && python3 -m http.server 8765 --bind 127.0.0.1) &
-    DISPLAY=:0 GDK_BACKEND=x11 python3 tools/screenshot.py http://127.0.0.1:8765/ out.png [light|dark]
+    DISPLAY=:0 GDK_BACKEND=x11 python3 tools/screenshot.py http://127.0.0.1:8765/ out.png [light|dark] [javascript to run after load]
 """
 import gi, sys, json
 gi.require_version('Gtk', '3.0'); gi.require_version('WebKit2', '4.1')
@@ -16,6 +16,7 @@ from gi.repository import Gtk, WebKit2, GLib, Gdk, GdkPixbuf
 import cairo
 
 url, out, theme = sys.argv[1], sys.argv[2], (sys.argv[3] if len(sys.argv) > 3 else "")
+after_load = sys.argv[4] if len(sys.argv) > 4 else ""  # JavaScript to run, for example a click
 STUB = """
 (function () {
   const base = "fn main() {\\n    let a = 1;\\n    let b = 2;\\n    run(a, b);\\n}\\n";
@@ -56,6 +57,14 @@ win.add(view); win.show_all()
 view.load_uri(url)
 
 def shoot():
+    if after_load:
+        view.run_javascript(after_load, None, None, None)
+        GLib.timeout_add(1500, shoot_now)
+        return False
+    return shoot_now()
+
+
+def shoot_now():
     def done(v, res):
         surf = v.get_snapshot_finish(res)
         surf.write_to_png(out); print("saved", out); Gtk.main_quit()
