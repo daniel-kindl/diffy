@@ -1,0 +1,7 @@
+{"test": "validate", "pass": true, "detail": "Ok(())"}
+{"test": "fresh_to_v1", "pass": true, "detail": "user_version 1 journal wal"}
+{"test": "failed_m3_rolls_back_m2", "pass": true, "detail": "err Some(\"rusqlite_migration error while executing query 'CREATE TABLE findings(id INTEGER PRIMARY KEY); SELECT * FROM no_such_table;': no such table: no_such_table\"); user_version 1; tag column 0; rows 1; copy user_version 1"}
+{"test": "retry_to_v3", "pass": true, "detail": "Ok(()) user_version 3"}
+{"test": "older_app_too_far_ahead", "pass": true, "detail": "Err(MigrationDefinition(DatabaseTooFarAhead)) user_version 3"}
+{"test": "same_version_noop", "pass": true, "detail": "Ok(())"}
+{"all_pass": true}

@@ -1,0 +1,8 @@
+[package]
+name = "q84-rm"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+rusqlite = { version = "=0.43.0", features = ["bundled"] }
+rusqlite_migration = "=2.9.0"
