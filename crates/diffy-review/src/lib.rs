@@ -5,6 +5,7 @@
 //! state, and a review action never edits the source.
 
 pub mod explorer;
+pub mod overview;
 
 use diffy_comparison::ContentId;
 use std::collections::BTreeMap;
