@@ -4,6 +4,8 @@
 //! configuration applies. The `filter` sections are removed in memory, so no
 //! filter driver command runs. Nothing here writes to the repository.
 
+pub mod watch;
+
 use gix::bstr::{BString, ByteSlice};
 use gix::object::tree::diff::Change as TreeChange;
 use std::path::Path;
