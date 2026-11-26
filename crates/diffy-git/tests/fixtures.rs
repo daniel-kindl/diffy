@@ -135,3 +135,50 @@ fn reading_does_not_change_the_repository_or_run_a_filter() {
         before
     );
 }
+
+#[test]
+fn worktree_status_lists_staged_unstaged_and_untracked_like_git() {
+    use diffy_git::WorktreeKind::*;
+    let d = fixture();
+    // staged: a new file and an edit; unstaged: a second edit; untracked; deleted.
+    fs::write(d.path().join("staged_new.txt"), "n\n").unwrap();
+    fs::write(d.path().join("a.txt"), "staged edit\n").unwrap();
+    git(d.path(), &["add", "staged_new.txt", "a.txt"]);
+    fs::write(d.path().join("a.txt"), "staged edit\nunstaged edit\n").unwrap();
+    fs::write(d.path().join("untracked.txt"), "u\n").unwrap();
+    fs::remove_file(d.path().join("new.txt")).unwrap();
+    let before = git(d.path(), &["status", "--porcelain=v1", "--ignored"]);
+    let index_before = fs::read(d.path().join(".git/index")).unwrap();
+
+    let repo = Repo::discover(d.path()).unwrap();
+    let got = repo.worktree_status().unwrap();
+    let by = |p: &str| {
+        got.iter()
+            .find(|e| e.path == p)
+            .unwrap_or_else(|| panic!("{p}: {got:?}"))
+    };
+    assert_eq!(
+        (by("a.txt").staged, by("a.txt").unstaged),
+        (Some(Modified), Some(Modified))
+    );
+    assert_eq!(by("staged_new.txt").staged, Some(Added));
+    assert!(by("untracked.txt").untracked);
+    assert_eq!(by("new.txt").unstaged, Some(Deleted));
+    assert_eq!(got.len(), 4, "{got:?}");
+
+    // The same paths as the git CLI.
+    let porcelain = git(d.path(), &["status", "--porcelain=v1"]);
+    for e in &got {
+        assert!(
+            porcelain.lines().any(|l| l[3..] == e.path),
+            "git does not list {}",
+            e.path
+        );
+    }
+    // Reading changed nothing.
+    assert_eq!(fs::read(d.path().join(".git/index")).unwrap(), index_before);
+    assert_eq!(
+        git(d.path(), &["status", "--porcelain=v1", "--ignored"]),
+        before
+    );
+}
