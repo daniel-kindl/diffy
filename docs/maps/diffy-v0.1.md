@@ -2,7 +2,7 @@
 
 Status: open
 Destination: Each v0.1 milestone (M0 to M4) has a plan and issues with acceptance criteria. Each spike has a verdict, and no open question blocks the first M0 issue.
-Next: Q67
+Next: Q68
 
 ## Notes
 
@@ -154,6 +154,9 @@ Next: Q67
 
 - The specification target for the cancel acknowledgement is under 250 ms. The 50 MB inputs are stress inputs. Source: Diffy_Master_Specification.md section 18.
 
+- The Q46 fixture with 2,000 large changed files has 80 added, 80 deleted and 40 renamed files. So rename detection has 120 added and 120 deleted files as candidates. Source: https://github.com/daniel-kindl/diffy/blob/d569d85/prototypes/s1-monaco/fixtures/gen-repos.mjs
+- Git limits the exhaustive part of rename detection to 1,000 files by default (`diff.renameLimit`). Source: https://github.com/git/git/blob/master/Documentation/config/diff.adoc
+
 ## Decisions
 
 - Q1 Independent review: tiered by risk. Safety-critical areas (Git adapter, publication, anchors, updater, IPC and capabilities) need owner review. Other areas merge after agent review and green CI. Decided by: Daniel Kindl, 2026-11-24. Record: this line.
@@ -224,16 +227,10 @@ Next: Q67
 - Q63 Files with a filter driver: for a `filter=lfs` file, Diffy builds the LFS pointer of the worktree file in-process, from its SHA-256 and size. It compares that pointer with the stored pointer, so the file is unchanged or changed. A changed LFS file shows no content diff and shows a limitation. A file with another filter shows a limitation and no content diff. The owner selected the option "LFS pointer check". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
 - Q64 Anchors after whitespace and line-ending changes: the anchor mapping compares each line without its line terminator. So LF, CRLF and a missing final newline give the same line, and a file that changes from LF to CRLF keeps its anchors. Any other whitespace change still makes the finding outdated. The canonical diff and the stored coordinates keep each byte. M0 runs the Q45 fixtures and property test again with this comparison. The owner selected the option "Line endings only". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
 - Q65 Time of the anchor mapping on large files: the M3 time is accepted. On the Q46 fixtures no anchor is outdated because of the cap. M0 makes a segment with 65,535 lines or more on a side outdated, or maps it with no panic. The pair with 70,000 inserted lines is an M0 test fixture. The owner selected the option "Accept, M0 fixes panic". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
-- Q66 Cancel during the open of a large file: for a file of 50 MB or more, v0.1 accepts a cancel time of about 450 ms or less. The release notes list it as a known limitation. The target of 250 ms stays for each other cancel. Q46 measured only the 50 MB stress file. There is no prototype. The owner selected the option "Accept for stress files". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
+- Q66 Cancel during the open of a large file: v0.1 accepts a cancel time up to 450 ms for files of 50 MB or more. The release notes list it as a known limitation. The target of 250 ms stays for each other cancel. Q46 measured only the 50 MB stress file. There is no prototype. The owner selected the option "Accept for stress files". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
+- Q67 Rename detection on large change lists: Diffy shows the change list first, with only the exact renames (the same blob ID). The similarity rename detection then runs in the background and can be cancelled. When it ends, an added and a deleted row of a rename become one renamed row. The owner selected the option "List first, renames later". Decided by: Daniel Kindl, 2026-11-26. Record: this line.
 
 ## Open questions
-
-### Q67: Rename detection on large change lists
-
-Type: owner
-Blocked by: none
-
-In Q46, rename detection takes most of the change list time when the changed files are large. For 2,000 files of about 110 KB, the list takes 2,169 ms, against 33 ms without it. Decide how Diffy keeps the change list fast. Examples are a list first and the renames later, or a limit for rename detection.
 
 ### Q68: Code of the patched gix-imara-diff copy
 
