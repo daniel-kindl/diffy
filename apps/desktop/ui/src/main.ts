@@ -26,6 +26,7 @@ window.addEventListener("unhandledrejection", (e) => {
 interface Side {
   label: string;
   encoding: string;
+  encoding_override: string | null;
   first_error: number | null;
 }
 
@@ -70,6 +71,11 @@ function show(c: Comparison): void {
   if (status) {
     status.textContent = `${describe(c.sides[0], "Base")} ↔ ${describe(c.sides[1], "Head")}`;
   }
+  for (const select of encodingSelectors) {
+    const side = c.sides[select.dataset["side"] === "left" ? 0 : 1];
+    select.disabled = side?.encoding_override == null;
+    select.value = side?.encoding_override ?? "";
+  }
   const unified = document.getElementById("unified");
   const app = document.getElementById("app");
   const path = c.sides[1]?.label ?? "";
@@ -99,7 +105,8 @@ function fail(e: unknown): void {
   if (status) status.textContent = `Diffy could not load the comparison: ${String(e)}`;
 }
 
-for (const select of document.querySelectorAll<HTMLSelectElement>("select[data-side]")) {
+const encodingSelectors = document.querySelectorAll<HTMLSelectElement>("select[data-side]");
+for (const select of encodingSelectors) {
   for (const { label, name } of LEGACY_ENCODINGS) {
     select.append(new Option(name, label));
   }
@@ -114,10 +121,6 @@ for (const select of document.querySelectorAll<HTMLSelectElement>("select[data-s
 }
 
 document.getElementById("swap")?.addEventListener("click", () => {
-  // The encodings go with their inputs, so the selectors swap too.
-  const l = document.querySelector<HTMLSelectElement>("#enc-left");
-  const r = document.querySelector<HTMLSelectElement>("#enc-right");
-  if (l && r) [l.value, r.value] = [r.value, l.value];
   invoke<Comparison | null>("swap_sides")
     .then((c) => c && show(c))
     .catch(fail);

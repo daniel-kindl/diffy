@@ -2,9 +2,9 @@
 //! and no file system access: it never sends a path. Each input is validated
 //! (spec section 11).
 
-use diffy_comparison::Snapshot;
 use diffy_comparison::canonical::canonical_hunks;
-use diffy_comparison::text::{decode, legacy_encoding};
+use diffy_comparison::text::{Detected, decode, legacy_encoding};
+use diffy_comparison::{Snapshot, Source};
 use diffy_git::{Repo, WorktreeKind};
 use diffy_review::explorer::{self, ChangedFile, Filter, GeneratedRules, Status};
 use encoding_rs::Encoding;
@@ -46,6 +46,8 @@ pub struct Comparison {
 pub struct SideInfo {
     pub label: String,
     pub encoding: String,
+    /// None for pasted text, an empty string for automatic file decoding.
+    pub encoding_override: Option<String>,
     /// The byte offset of the first invalid sequence, if any.
     pub first_error: Option<usize>,
 }
@@ -98,15 +100,19 @@ impl Session {
     /// Select the legacy encoding of one side by its label. There is no
     /// heuristic detection. An empty label goes back to the default.
     pub fn set_encoding(&mut self, side: Side, label: &str) -> Result<(), String> {
+        let (snapshot, selected) = match side {
+            Side::Left => (&self.left, &mut self.left_encoding),
+            Side::Right => (&self.right, &mut self.right_encoding),
+        };
+        if matches!(snapshot.source(), Source::Text(_)) {
+            return Ok(());
+        }
         let enc = if label.is_empty() {
             None
         } else {
             Some(legacy_encoding(label).ok_or_else(|| format!("unknown encoding {label}"))?)
         };
-        match side {
-            Side::Left => self.left_encoding = enc,
-            Side::Right => self.right_encoding = enc,
-        }
+        *selected = enc;
         Ok(())
     }
 
@@ -119,31 +125,46 @@ impl Session {
     /// The comparison. The text is decoded for the view and the canonical
     /// diff runs on the decoded text, so the hunks match the shown lines.
     pub fn comparison(&self) -> Result<Comparison, String> {
-        let (l, r) = (
-            decode(self.left.raw(), self.left_encoding),
-            decode(self.right.raw(), self.right_encoding),
-        );
-        let label = |s: &Snapshot| match s.source() {
-            diffy_comparison::Source::File(p) | diffy_comparison::Source::Text(p) => p.clone(),
-            diffy_comparison::Source::GitObject(o) => o.clone(),
-        };
-        let mut c = compare(CompareInput {
-            base: l.text.clone(),
-            head: r.text.clone(),
-        })?;
-        c.sides = vec![
+        let (base, left) = decode_side(&self.left, self.left_encoding)?;
+        let (head, right) = decode_side(&self.right, self.right_encoding)?;
+        let mut comparison = compare(CompareInput { base, head })?;
+        comparison.sides = vec![left, right];
+        Ok(comparison)
+    }
+}
+
+fn decode_side(
+    snapshot: &Snapshot,
+    selected: Option<&'static Encoding>,
+) -> Result<(String, SideInfo), String> {
+    match snapshot.source() {
+        Source::Text(label) => Ok((
+            std::str::from_utf8(snapshot.raw())
+                .map_err(|e| format!("invalid UTF-8 in pasted text: {e}"))?
+                .to_owned(),
             SideInfo {
-                label: label(&self.left),
-                encoding: l.encoding.label().into(),
-                first_error: l.first_error,
+                label: label.clone(),
+                encoding: Detected::Utf8.label().into(),
+                encoding_override: None,
+                first_error: None,
             },
-            SideInfo {
-                label: label(&self.right),
-                encoding: r.encoding.label().into(),
-                first_error: r.first_error,
-            },
-        ];
-        Ok(c)
+        )),
+        Source::File(label) | Source::GitObject(label) => {
+            let decoded = decode(snapshot.raw(), selected);
+            Ok((
+                decoded.text,
+                SideInfo {
+                    label: label.clone(),
+                    encoding: decoded.encoding.label().into(),
+                    encoding_override: Some(
+                        selected.map_or_else(String::new, |encoding| {
+                            encoding.name().to_ascii_lowercase()
+                        }),
+                    ),
+                    first_error: decoded.first_error,
+                },
+            ))
+        }
     }
 }
 
@@ -379,11 +400,11 @@ pub fn open_text_session(input: CompareInput) -> Result<Session, String> {
     }
     Ok(Session::new(
         Snapshot::new(
-            diffy_comparison::Source::Text("Pasted text (base)".into()),
+            Source::Text("Pasted text (base)".into()),
             input.base.into_bytes(),
         ),
         Snapshot::new(
-            diffy_comparison::Source::Text("Pasted text (head)".into()),
+            Source::Text("Pasted text (head)".into()),
             input.head.into_bytes(),
         ),
     ))
@@ -626,6 +647,28 @@ mod tests {
             ("one\nTWO\n", "one\ntwo\n")
         );
         assert_eq!(c.sides[0].label, "Pasted text (head)");
+    }
+
+    #[test]
+    fn pasted_text_preserves_unicode_when_selecting_a_legacy_encoding() {
+        let mut session = open_text_session(CompareInput {
+            base: "žluť\n".into(),
+            head: "\u{feff}žluť\n".into(),
+        })
+        .unwrap();
+        session.set_encoding(Side::Left, "windows-1252").unwrap();
+        session.set_encoding(Side::Right, "windows-1252").unwrap();
+
+        let comparison = session.comparison().unwrap();
+        assert_eq!(comparison.base, "žluť\n");
+        assert_eq!(comparison.head, "\u{feff}žluť\n");
+        assert_eq!(comparison.hunks.len(), 1);
+        assert!(
+            comparison
+                .sides
+                .iter()
+                .all(|side| { side.encoding == "UTF-8" && side.encoding_override.is_none() })
+        );
     }
 
     #[test]

@@ -28,8 +28,8 @@ STUB = """
   const head = headLines.join("\\n") + "\\n";
   const data = {
     current_comparison: { base, head, sides: [
-      { label: "HEAD:src/main.rs", encoding: "UTF-8", first_error: null },
-      { label: "src/main.rs", encoding: "UTF-8", first_error: null }],
+      { label: "HEAD:src/main.rs", encoding: "UTF-8", encoding_override: "", first_error: null },
+      { label: "src/main.rs", encoding: "UTF-8", encoding_override: "", first_error: null }],
       hunks: [ { base: {start: 19, end: 20}, head: {start: 19, end: 20} },
                { base: {start: 33, end: 33}, head: {start: 33, end: 34} } ] },
     repository_files: { files: [
@@ -58,7 +58,7 @@ STUB = """
       }
       if (cmd === 'open_text') {
         const c = JSON.parse(JSON.stringify(data.current_comparison));
-        c.sides = [{ label: 'Pasted text (base)', encoding: 'UTF-8', first_error: null }, { label: 'Pasted text (head)', encoding: 'UTF-8', first_error: null }];
+        c.sides = [{ label: 'Pasted text (base)', encoding: 'UTF-8', encoding_override: null, first_error: null }, { label: 'Pasted text (head)', encoding: 'UTF-8', encoding_override: null, first_error: null }];
         return c;
       }
       if (cmd in data) return data[cmd];
