@@ -358,3 +358,30 @@ document.getElementById("collapse-mode")?.addEventListener("click", (event) => {
     `Context: ${collapseMode ? "collapsed" : "all lines"}`;
   if (last) show(last);
 });
+
+// Compare two pasted texts (C-02). Rust keeps them as the current comparison, so
+// the swap works as for files. The texts are plain strings: no file is named.
+const pasteDialog = document.getElementById("paste") as HTMLDialogElement | null;
+const pasteBase = document.getElementById("paste-base") as HTMLTextAreaElement | null;
+const pasteHead = document.getElementById("paste-head") as HTMLTextAreaElement | null;
+const pasteStatus = document.getElementById("paste-status");
+
+document.getElementById("paste-open")?.addEventListener("click", () => {
+  if (pasteStatus) pasteStatus.textContent = "";
+  pasteDialog?.showModal();
+  pasteBase?.focus();
+});
+document.getElementById("paste-cancel")?.addEventListener("click", () => pasteDialog?.close());
+document.getElementById("paste-form")?.addEventListener("submit", (event) => {
+  event.preventDefault();
+  invoke<Comparison>("open_text", {
+    input: { base: pasteBase?.value ?? "", head: pasteHead?.value ?? "" },
+  })
+    .then((c) => {
+      show(c);
+      pasteDialog?.close();
+    })
+    .catch((e: unknown) => {
+      if (pasteStatus) pasteStatus.textContent = String(e);
+    });
+});

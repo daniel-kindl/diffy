@@ -370,6 +370,36 @@ pub fn report_ui_error(message: String) {
     );
 }
 
+/// Open two pasted texts as the current comparison. The texts become snapshots
+/// with the sources "Pasted text (base)" and "Pasted text (head)", so the swap
+/// works as for files. The size limit of the IPC applies.
+pub fn open_text_session(input: CompareInput) -> Result<Session, String> {
+    if input.base.len() > MAX_SIDE_BYTES || input.head.len() > MAX_SIDE_BYTES {
+        return Err(format!("a side is larger than {MAX_SIDE_BYTES} bytes"));
+    }
+    Ok(Session::new(
+        Snapshot::new(
+            diffy_comparison::Source::Text("Pasted text (base)".into()),
+            input.base.into_bytes(),
+        ),
+        Snapshot::new(
+            diffy_comparison::Source::Text("Pasted text (head)".into()),
+            input.head.into_bytes(),
+        ),
+    ))
+}
+
+#[tauri::command]
+pub fn open_text(state: tauri::State<'_, Open>, input: CompareInput) -> Result<Comparison, String> {
+    let session = open_text_session(input)?;
+    let comparison = session.comparison()?;
+    *state
+        .0
+        .lock()
+        .map_err(|_| "the session is locked".to_owned())? = Some(session);
+    Ok(comparison)
+}
+
 #[tauri::command]
 pub fn compare_text(input: CompareInput) -> Result<Comparison, String> {
     compare(input)
@@ -576,5 +606,45 @@ mod tests {
         let path: Result<CompareInput, _> =
             serde_json::from_str(r#"{"base":"a","head":"b","path":"/etc/passwd"}"#);
         assert!(path.is_err());
+    }
+
+    #[test]
+    fn pasted_text_opens_as_a_session_with_text_sources_and_swaps() {
+        let mut s = open_text_session(CompareInput {
+            base: "one\ntwo\n".into(),
+            head: "one\nTWO\n".into(),
+        })
+        .unwrap();
+        let c = s.comparison().unwrap();
+        assert_eq!(c.hunks.len(), 1);
+        assert_eq!(c.sides[0].label, "Pasted text (base)");
+        assert_eq!(c.sides[1].label, "Pasted text (head)");
+        s.swap();
+        let c = s.comparison().unwrap();
+        assert_eq!(
+            (c.base.as_str(), c.head.as_str()),
+            ("one\nTWO\n", "one\ntwo\n")
+        );
+        assert_eq!(c.sides[0].label, "Pasted text (head)");
+    }
+
+    #[test]
+    fn pasted_text_over_the_limit_is_rejected_and_empty_text_is_fine() {
+        let big = "x".repeat(MAX_SIDE_BYTES + 1);
+        assert!(
+            open_text_session(CompareInput {
+                base: big,
+                head: String::new()
+            })
+            .is_err()
+        );
+        let c = open_text_session(CompareInput {
+            base: String::new(),
+            head: String::new(),
+        })
+        .unwrap()
+        .comparison()
+        .unwrap();
+        assert!(c.hunks.is_empty());
     }
 }

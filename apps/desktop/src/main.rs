@@ -166,6 +166,7 @@ fn run_app(launch: cli::Launch) {
         })
         .invoke_handler(tauri::generate_handler![
             ipc::compare_text,
+            ipc::open_text,
             ipc::report_ui_error,
             ipc::current_comparison,
             ipc::select_encoding,

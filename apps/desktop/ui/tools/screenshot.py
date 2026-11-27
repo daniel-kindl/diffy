@@ -56,6 +56,11 @@ STUB = """
           return c;
         }
       }
+      if (cmd === 'open_text') {
+        const c = JSON.parse(JSON.stringify(data.current_comparison));
+        c.sides = [{ label: 'Pasted text (base)', encoding: 'UTF-8', first_error: null }, { label: 'Pasted text (head)', encoding: 'UTF-8', first_error: null }];
+        return c;
+      }
       if (cmd in data) return data[cmd];
       if (cmd.startsWith("plugin:event")) return 0;
       return null;
