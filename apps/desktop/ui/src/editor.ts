@@ -10,7 +10,7 @@ import "monaco-editor/editor/contrib/clipboard/browser/clipboard.js";
 import "monaco-editor/editor/contrib/contextmenu/browser/contextmenu.js";
 import "monaco-editor/editor/contrib/readOnlyMessage/browser/contribution.js";
 import { asHex, buildTheme } from "./monacoTheme";
-import { decorations, nextHunkLine, type Hunk, type LineDecoration } from "./hunks";
+import { decorations, gaps, nextHunkLine, type Hunk, type LineDecoration } from "./hunks";
 import { actionFor } from "./keys";
 import { languageOf } from "./language";
 import { changeStarts, collapseUnchanged, lineLabel, nextStart, unifiedLines } from "./unified";
@@ -107,6 +107,29 @@ export function showComparison(
   const d = decorations(hunks);
   const l = left.createDecorationsCollection(toMonaco(d.left));
   const r = right.createDecorationsCollection(toMonaco(d.right));
+  // Blank space on the shorter side of each hunk, so unchanged lines are at the
+  // same height on both sides (C-05).
+  for (const g of gaps(hunks)) {
+    (g.side === "base" ? left : right).changeViewZones((accessor) => {
+      const node = document.createElement("div");
+      node.className = "diffy-gap";
+      accessor.addZone({ afterLineNumber: g.afterLine, heightInLines: g.lines, domNode: node });
+    });
+  }
+  // The two editors scroll together. The flag stops one from calling the other back.
+  let syncing = false;
+  const follow = (
+    from: monaco.editor.IStandaloneCodeEditor,
+    to: monaco.editor.IStandaloneCodeEditor,
+  ) =>
+    from.onDidScrollChange((e) => {
+      if (!e.scrollTopChanged || syncing) return;
+      syncing = true;
+      to.setScrollTop(e.scrollTop);
+      syncing = false;
+    });
+  const syncLeft = follow(left, right);
+  const syncRight = follow(right, left);
   let active = right;
   left.onDidFocusEditorText(() => (active = left));
   right.onDidFocusEditorText(() => (active = right));
@@ -148,6 +171,8 @@ export function showComparison(
     },
     dispose() {
       document.removeEventListener("keydown", onKey);
+      syncLeft.dispose();
+      syncRight.dispose();
       l.clear();
       r.clear();
       left.dispose();

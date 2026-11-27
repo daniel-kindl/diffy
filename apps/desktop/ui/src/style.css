@@ -185,3 +185,14 @@ input:focus-visible {
 .explorer:not([hidden]) ~ .unified:not([hidden]) {
   margin-left: 260px;
 }
+
+/* Blank space that aligns the two sides: a quiet hatch, not a change. */
+.diffy-gap {
+  background-image: repeating-linear-gradient(
+    135deg,
+    transparent 0,
+    transparent 6px,
+    color-mix(in srgb, var(--s-border) 35%, transparent) 6px,
+    color-mix(in srgb, var(--s-border) 35%, transparent) 7px
+  );
+}
