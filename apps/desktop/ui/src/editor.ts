@@ -9,6 +9,7 @@ import "monaco-editor/editor/standalone/browser/quickAccess/standaloneGotoLineQu
 import "monaco-editor/editor/contrib/clipboard/browser/clipboard.js";
 import "monaco-editor/editor/contrib/contextmenu/browser/contextmenu.js";
 import "monaco-editor/editor/contrib/readOnlyMessage/browser/contribution.js";
+import "./grammars";
 import { asHex, buildTheme } from "./monacoTheme";
 import { decorations, nextHunkLine, type Hunk, type LineDecoration } from "./hunks";
 import { actionFor } from "./keys";
