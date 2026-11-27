@@ -1,0 +1,116 @@
+/*
+ * Design tokens (spec section 15): primitive, then semantic, then component.
+ * A component uses only component tokens. A component token uses a semantic
+ * token. A semantic token uses a primitive. Contrast is tested in
+ * tokens.test.ts against WCAG 2.2 AA.
+ */
+
+/* Primitive: raw values. The light scale is the default. */
+:root {
+  --p-gray-0: #ffffff;
+  --p-gray-50: #f3f4f6;
+  --p-gray-300: #9ca3af;
+  --p-gray-600: #4b5563;
+  --p-gray-900: #111827;
+  --p-blue-600: #1d4ed8;
+  --p-blue-300: #93c5fd;
+  --p-green-100: #d1fae5;
+  --p-green-800: #065f46;
+  --p-red-100: #fee2e2;
+  --p-red-800: #991b1b;
+  --p-amber-100: #fef3c7;
+  --p-amber-800: #92400e;
+}
+
+/* Semantic: meaning, light theme. */
+:root {
+  color-scheme: light;
+  --s-surface: var(--p-gray-0);
+  --s-surface-raised: var(--p-gray-50);
+  --s-text: var(--p-gray-900);
+  --s-text-muted: var(--p-gray-600);
+  --s-border: var(--p-gray-600);
+  --s-focus: var(--p-blue-600);
+  --s-added-bg: var(--p-green-100);
+  --s-added-fg: var(--p-green-800);
+  --s-removed-bg: var(--p-red-100);
+  --s-removed-fg: var(--p-red-800);
+  --s-modified-bg: var(--p-amber-100);
+  --s-modified-fg: var(--p-amber-800);
+}
+
+/* Semantic: dark theme. The system theme applies unless the user chose light. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --s-surface: var(--p-gray-900);
+    --s-surface-raised: #1f2937;
+    --s-text: var(--p-gray-50);
+    --s-text-muted: #d1d5db;
+    --s-border: var(--p-gray-300);
+    --s-focus: var(--p-blue-300);
+    --s-added-bg: #064e3b;
+    --s-added-fg: #a7f3d0;
+    --s-removed-bg: #7f1d1d;
+    --s-removed-fg: #fecaca;
+    --s-modified-bg: #78350f;
+    --s-modified-fg: #fde68a;
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --s-surface: var(--p-gray-900);
+  --s-surface-raised: #1f2937;
+  --s-text: var(--p-gray-50);
+  --s-text-muted: #d1d5db;
+  --s-border: var(--p-gray-300);
+  --s-focus: var(--p-blue-300);
+  --s-added-bg: #064e3b;
+  --s-added-fg: #a7f3d0;
+  --s-removed-bg: #7f1d1d;
+  --s-removed-fg: #fecaca;
+  --s-modified-bg: #78350f;
+  --s-modified-fg: #fde68a;
+}
+
+/* Component: what a part of the UI uses. */
+:root {
+  --c-bar-bg: var(--s-surface-raised);
+  --c-bar-fg: var(--s-text);
+  --c-bar-border: var(--s-border);
+  --c-explorer-bg: var(--s-surface);
+  --c-explorer-fg: var(--s-text);
+  --c-explorer-muted: var(--s-text-muted);
+  --c-focus-ring: var(--s-focus);
+  --c-line-added-bg: var(--s-added-bg);
+  --c-line-removed-bg: var(--s-removed-bg);
+  --c-line-modified-bg: var(--s-modified-bg);
+  --c-line-collapsed-bg: var(--s-surface-raised);
+  --c-mark-added: var(--s-added-fg);
+  --c-mark-removed: var(--s-removed-fg);
+  --c-mark-modified: var(--s-modified-fg);
+}
+
+/*
+ * Forced colors: the system picks the colors. Line backgrounds are dropped,
+ * and the +, - and ~ marks in the gutter carry the meaning.
+ */
+@media (forced-colors: active) {
+  :root {
+    --c-bar-bg: Canvas;
+    --c-bar-fg: CanvasText;
+    --c-bar-border: CanvasText;
+    --c-explorer-bg: Canvas;
+    --c-explorer-fg: CanvasText;
+    --c-explorer-muted: CanvasText;
+    --c-focus-ring: Highlight;
+    --c-line-added-bg: transparent;
+    --c-line-removed-bg: transparent;
+    --c-line-modified-bg: transparent;
+    --c-line-collapsed-bg: transparent;
+    --c-mark-added: CanvasText;
+    --c-mark-removed: CanvasText;
+    --c-mark-modified: CanvasText;
+  }
+}

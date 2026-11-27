@@ -4,3 +4,4 @@ pub mod live;
 pub mod logging;
 pub mod publish;
 pub mod tabs;
+pub mod view_state;

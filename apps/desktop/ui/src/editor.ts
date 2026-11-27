@@ -12,6 +12,7 @@ import "monaco-editor/editor/contrib/readOnlyMessage/browser/contribution.js";
 import { decorations, nextHunkLine, type Hunk, type LineDecoration } from "./hunks";
 import { actionFor } from "./keys";
 import { languageOf } from "./language";
+import { changeStarts, collapseUnchanged, lineLabel, nextStart, unifiedLines } from "./unified";
 
 export const FONT_FAMILY = '"Cascadia Mono", Consolas, monospace';
 
@@ -38,6 +39,7 @@ function create(
     links: false,
     hover: { enabled: "off" },
     contextmenu: true,
+    lineDecorationsWidth: 18,
   });
   // The textarea keeps the readonly attribute for assistive technology (Q85).
   editor.getDomNode()?.querySelector("textarea")?.setAttribute("readonly", "readonly");
@@ -47,13 +49,26 @@ function create(
 function toMonaco(ds: LineDecoration[]): monaco.editor.IModelDeltaDecoration[] {
   return ds.map((d) => ({
     range: new monaco.Range(d.startLine, 1, d.endLine, 1),
-    options: { isWholeLine: true, className: `diffy-line-${d.kind}` },
+    options: {
+      isWholeLine: true,
+      className: `diffy-line-${d.kind}`,
+      // A mark in the gutter, so no change relies on color alone.
+      linesDecorationsClassName: `diffy-mark-${d.kind}`,
+    } satisfies monaco.editor.IModelDecorationOptions,
   }));
+}
+
+/** Follow the app theme: Monaco has its own light and dark themes. */
+export function setEditorTheme(dark: boolean): void {
+  monaco.editor.setTheme(dark ? "vs-dark" : "vs");
 }
 
 export interface ComparisonView {
   left: monaco.editor.IStandaloneCodeEditor;
   right: monaco.editor.IStandaloneCodeEditor;
+  /** The scroll position of the head side. */
+  scrollTop(): number;
+  setScrollTop(top: number): void;
   dispose(): void;
 }
 
@@ -105,12 +120,106 @@ export function showComparison(
   return {
     left,
     right,
+    scrollTop: () => right.getScrollTop(),
+    setScrollTop: (top: number) => {
+      left.setScrollTop(top);
+      right.setScrollTop(top);
+    },
     dispose() {
       document.removeEventListener("keydown", onKey);
       l.clear();
       r.clear();
       left.dispose();
       right.dispose();
+    },
+  };
+}
+
+export interface UnifiedView {
+  editor: monaco.editor.IStandaloneCodeEditor;
+  scrollTop(): number;
+  setScrollTop(top: number): void;
+  dispose(): void;
+}
+
+/** The unified view: one read-only editor with the removed lines before the added lines. */
+export function showUnified(
+  el: HTMLElement,
+  base: string,
+  head: string,
+  hunks: readonly Hunk[],
+  path = "",
+  collapse = true,
+): UnifiedView {
+  const all = unifiedLines(base, head, hunks);
+  // Unchanged runs collapse to a marker line by default (Q82). A change is never hidden.
+  const lines = collapse ? collapseUnchanged(all) : all;
+  const editor = create(el, lines.map((l) => l.text).join("\n"), "Unified comparison", path);
+  editor.updateOptions({
+    // The number column shows the base and the head number of each line.
+    lineNumbers: (n: number) => lineLabel(lines[n - 1]),
+    lineNumbersMinChars: 9,
+  });
+  const decorations = lines.flatMap((l, i) =>
+    l.kind === "context"
+      ? []
+      : [
+          {
+            range: new monaco.Range(i + 1, 1, i + 1, 1),
+            options:
+              l.kind === "collapsed"
+                ? ({
+                    isWholeLine: true,
+                    className: "diffy-line-collapsed",
+                  } satisfies monaco.editor.IModelDecorationOptions)
+                : ({
+                    isWholeLine: true,
+                    className: `diffy-line-${l.kind}`,
+                    linesDecorationsClassName: `diffy-mark-${l.kind}`,
+                  } satisfies monaco.editor.IModelDecorationOptions),
+          },
+        ],
+  );
+  const collection = editor.createDecorationsCollection(decorations);
+  const starts = changeStarts(lines);
+  const onKey = (e: KeyboardEvent) => {
+    const action = actionFor(e);
+    if (!action) return;
+    e.preventDefault();
+    switch (action) {
+      case "nextChange":
+      case "previousChange": {
+        const line = nextStart(
+          starts,
+          editor.getPosition()?.lineNumber ?? 1,
+          action === "nextChange" ? 1 : -1,
+        );
+        if (line !== undefined) {
+          editor.revealLineInCenter(line);
+          editor.setPosition({ lineNumber: line, column: 1 });
+          editor.focus();
+        }
+        break;
+      }
+      case "find":
+        void editor.getAction("actions.find")?.run();
+        break;
+      case "goToLine":
+        void editor.getAction("editor.action.gotoLine")?.run();
+        break;
+      case "switchSide":
+        break;
+    }
+  };
+  document.addEventListener("keydown", onKey);
+  return {
+    editor,
+    scrollTop: () => editor.getScrollTop(),
+    setScrollTop: (top: number) => editor.setScrollTop(top),
+    dispose() {
+      document.removeEventListener("keydown", onKey);
+      collection.clear();
+      editor.dispose();
     },
   };
 }

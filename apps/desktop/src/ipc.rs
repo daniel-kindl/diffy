@@ -201,6 +201,8 @@ pub struct RepoState {
     /// opens it again, isolated.
     pub root: std::path::PathBuf,
     pub files: Vec<ChangedFile>,
+    /// The database of the review state. `None` until the app sets it.
+    pub db: Option<std::path::PathBuf>,
 }
 
 impl RepoState {
@@ -232,6 +234,7 @@ impl RepoState {
         Ok(Self {
             root: path.to_owned(),
             files,
+            db: None,
         })
     }
 
@@ -264,6 +267,7 @@ pub struct FileDto {
     pub path: String,
     pub status: String,
     pub generated: bool,
+    pub reviewed: bool,
 }
 
 #[derive(Debug, Serialize, PartialEq, Eq)]
@@ -281,7 +285,11 @@ pub struct ListInput {
     pub show_generated: bool,
 }
 
-pub fn list_files(files: &[ChangedFile], input: &ListInput) -> Result<ListingDto, String> {
+pub fn list_files(
+    files: &[ChangedFile],
+    reviewed: &std::collections::HashSet<String>,
+    input: &ListInput,
+) -> Result<ListingDto, String> {
     let rules = GeneratedRules::new(&[]).map_err(|e| e.to_string())?;
     let filter = Filter {
         search: input.search.clone(),
@@ -297,6 +305,7 @@ pub fn list_files(files: &[ChangedFile], input: &ListInput) -> Result<ListingDto
                 path: f.path.clone(),
                 status: format!("{:?}", f.status).to_lowercase(),
                 generated: rules.is_generated(&f.path, f.generated_attribute),
+                reviewed: reviewed.contains(&f.path),
             })
             .collect(),
         total: l.counts.total,
@@ -319,7 +328,11 @@ pub fn repository_files(
         .map_err(|_| "the repository is locked".to_owned())?;
     guard
         .as_ref()
-        .map(|r| list_files(&r.files, &input))
+        .map(|r| {
+            // A review state that cannot load shows every file as not reviewed.
+            let reviewed = crate::review::reviewed_paths(r).unwrap_or_default();
+            list_files(&r.files, &reviewed, &input)
+        })
         .transpose()
 }
 
@@ -345,6 +358,16 @@ pub fn open_repository_file(
         .lock()
         .map_err(|_| "the session is locked".to_owned())? = Some(session);
     Ok(Some(comparison))
+}
+
+/// An error that the page reports. It goes to the standard error output, cut to
+/// a short length, so a page that fails to run leaves a trace.
+#[tauri::command]
+pub fn report_ui_error(message: String) {
+    eprintln!(
+        "diffy: ui error: {}",
+        message.chars().take(500).collect::<String>()
+    );
 }
 
 #[tauri::command]
@@ -484,8 +507,10 @@ mod tests {
     #[test]
     fn the_listing_hides_generated_files_but_counts_them() {
         let files = vec![file("src/a.rs"), file("Cargo.lock")];
+        let none = std::collections::HashSet::new();
         let l = list_files(
             &files,
+            &none,
             &ListInput {
                 search: String::new(),
                 show_generated: false,
@@ -498,6 +523,7 @@ mod tests {
         );
         let l = list_files(
             &files,
+            &none,
             &ListInput {
                 search: "cargo".into(),
                 show_generated: true,

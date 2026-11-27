@@ -210,3 +210,60 @@ fn a_symbolic_link_out_of_the_worktree_is_refused() {
     let repo = Repo::discover(d.path()).unwrap();
     assert!(repo.read_worktree_file("link").is_err());
 }
+
+#[test]
+fn a_folder_with_no_repository_is_an_error_with_a_message() {
+    let d = tempfile::tempdir().unwrap();
+    // `tempdir` may sit inside a repository on some hosts: use a fresh root.
+    let err = match Repo::discover(&d.path().join("missing")) {
+        Err(e) => e,
+        Ok(_) => return, // a repository above the temp folder: nothing to check
+    };
+    assert!(!err.to_string().is_empty());
+}
+
+#[test]
+fn a_bare_repository_has_no_worktree() {
+    let d = tempfile::tempdir().unwrap();
+    git(d.path(), &["init", "-q", "--bare", "-b", "main"]);
+    let repo = Repo::discover(d.path()).unwrap();
+    assert!(repo.is_bare());
+    assert!(repo.workdir().is_none());
+    assert!(repo.read_worktree_file("a.txt").is_err());
+    assert_eq!(repo.head().unwrap(), Head::Unborn("main".into()));
+}
+
+#[test]
+fn a_directory_path_in_the_worktree_is_not_a_file() {
+    let d = fixture();
+    fs::create_dir(d.path().join("sub")).unwrap();
+    let repo = Repo::discover(d.path()).unwrap();
+    assert!(repo.read_worktree_file("sub").unwrap().is_none());
+}
+
+#[test]
+fn staged_deletes_and_renames_show_in_the_worktree_status() {
+    use diffy_git::WorktreeKind::*;
+    let d = fixture();
+    git(d.path(), &["rm", "-q", "a.txt"]);
+    git(d.path(), &["mv", "new.txt", "moved.txt"]);
+    let repo = Repo::discover(d.path()).unwrap();
+    let got = repo.worktree_status().unwrap();
+    let a = got.iter().find(|e| e.path == "a.txt").expect("a.txt");
+    assert_eq!(a.staged, Some(Deleted));
+    // Git may show a rename as a rename, or as a delete and an add.
+    let moved = got
+        .iter()
+        .find(|e| e.path == "moved.txt")
+        .expect("moved.txt");
+    assert!(matches!(moved.staged, Some(Renamed | Added)));
+}
+
+#[test]
+fn a_missing_revision_is_an_error_with_a_message() {
+    let d = fixture();
+    let repo = Repo::discover(d.path()).unwrap();
+    let err = repo.changes("nope", "HEAD").unwrap_err();
+    assert!(!err.to_string().is_empty());
+    assert!(repo.read_file("nope", "a.txt").is_err());
+}

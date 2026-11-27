@@ -21,6 +21,12 @@ npm --prefix apps/desktop/ui run build
 cargo run -p diffy-desktop --features tauri/custom-protocol -- <left> <right>
 ```
 
+To build an AppImage (Linux), run this from `apps/desktop`. The result is in `target/release/bundle/appimage`. The first build downloads the bundler tools.
+
+```sh
+ui/node_modules/.bin/tauri build --bundles appimage --config '{"bundle":{"active":true,"targets":["appimage"]}}'
+```
+
 Without the `tauri/custom-protocol` feature, a debug build loads the development server instead of the built page.
 
 ## Use
@@ -50,6 +56,7 @@ Tab always moves the focus, so there is no keyboard trap.
 - Syntax highlighting is not active. No Monaco grammar is bundled yet.
 - `git difftool` passes two paths, so it should work with `diffy <local> <remote>`. This has not been tested.
 - A comparison opens only from the command line. There is no file dialog and no paste input yet.
+- The AppImage is about 113 MB and is not signed. It has no updater and no release channel yet.
 - The window has been built and started on Linux only. The Windows build compiles in CI, and nobody has run it.
 - The canonical diff matches `git diff --histogram`. On a large file with many scattered changes this algorithm is slow. See [the benchmarks](docs/benchmarks.md).
 

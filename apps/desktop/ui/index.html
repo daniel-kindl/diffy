@@ -12,6 +12,9 @@
         <select id="enc-left" data-side="left"></select
       ></label>
       <button id="swap" type="button">Swap sides</button>
+      <button id="view-mode" type="button" aria-live="polite">View: side by side</button>
+      <button id="collapse-mode" type="button" aria-live="polite" hidden>Context: collapsed</button>
+      <button id="theme" type="button" aria-live="polite">Theme: system</button>
       <label
         >Head encoding
         <select id="enc-right" data-side="right"></select
@@ -23,7 +26,45 @@
       <label><input id="generated" type="checkbox" /> Show generated files</label>
       <p id="counts" role="status"></p>
       <ul id="files"></ul>
+      <section id="review" aria-label="Review" hidden>
+        <h2>Review</h2>
+        <p id="selected" role="status">Select a file.</p>
+        <button id="mark-reviewed" type="button" disabled>Mark file reviewed</button>
+        <form id="finding-form">
+          <label
+            >Lines <input id="f-start" type="number" min="1" value="1" required /> to
+            <input id="f-end" type="number" min="1" value="1" required
+          /></label>
+          <label
+            >Severity
+            <select id="f-severity">
+              <option>blocker</option>
+              <option selected>major</option>
+              <option>minor</option>
+              <option>nit</option>
+            </select></label
+          >
+          <label
+            >Category
+            <select id="f-category">
+              <option>correctness</option>
+              <option>security</option>
+              <option>performance</option>
+              <option>design</option>
+              <option>tests</option>
+              <option>docs</option>
+              <option>style</option>
+            </select></label
+          >
+          <label>Notes <textarea id="f-notes" rows="3" required></textarea></label>
+          <button type="submit" id="f-add" disabled>Add finding</button>
+        </form>
+        <ul id="findings"></ul>
+        <button id="copy-findings" type="button">Copy unresolved findings as Markdown</button>
+        <p id="review-status" role="status"></p>
+      </section>
     </nav>
+    <div id="unified" class="unified" hidden aria-label="Unified comparison"></div>
     <div id="app" class="app">
       <section id="left" aria-label="Base"></section>
       <section id="right" aria-label="Head"></section>

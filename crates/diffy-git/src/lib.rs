@@ -100,6 +100,11 @@ impl Repo {
         })
     }
 
+    /// The commit id that `HEAD` points to, or `None` for an unborn branch.
+    pub fn head_commit(&self) -> Result<Option<String>, GitError> {
+        Ok(self.inner.head_id().ok().map(|id| id.to_string()))
+    }
+
     fn tree(&self, rev: &str) -> Result<gix::Tree<'_>, GitError> {
         self.inner
             .rev_parse_single(rev)
@@ -311,9 +316,4 @@ fn entry(map: &mut BTreeMap<String, WorktreeEntry>, path: String) -> &mut Worktr
         unstaged: None,
         untracked: false,
     })
-}
-
-/// A path as the bytes Git stores.
-pub fn path_bytes(p: &str) -> BString {
-    BString::from(p)
 }

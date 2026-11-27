@@ -1,22 +1,39 @@
-:root {
-  color-scheme: light dark;
-  --added: rgb(46 160 67 / 0.25);
-  --removed: rgb(248 81 73 / 0.25);
-  --modified: rgb(210 153 34 / 0.25);
+@import "./tokens.css";
+
+/* An author rule such as display: grid must not beat the hidden attribute. */
+[hidden] {
+  display: none !important;
 }
+
 html,
 body {
   margin: 0;
   height: 100%;
+  background: var(--s-surface);
+  color: var(--s-text);
 }
-.status {
-  margin: 0;
+.bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
   padding: 4px 8px;
   font:
     13px system-ui,
     sans-serif;
-  height: 24px;
+  height: 32px;
   box-sizing: border-box;
+  background: var(--c-bar-bg);
+  color: var(--c-bar-fg);
+  border-bottom: 1px solid var(--c-bar-border);
+}
+.status {
+  margin: 0;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .app {
   display: grid;
@@ -26,15 +43,51 @@ body {
 .app > section {
   min-width: 0;
 }
+button:focus-visible,
+select:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--c-focus-ring);
+  outline-offset: 2px;
+}
+
+/* A change shows a mark in the gutter as well as a color. */
 .diffy-line-added {
-  background: var(--added);
+  background: var(--c-line-added-bg);
 }
 .diffy-line-removed {
-  background: var(--removed);
+  background: var(--c-line-removed-bg);
 }
 .diffy-line-modified {
-  background: var(--modified);
+  background: var(--c-line-modified-bg);
 }
+.diffy-line-collapsed {
+  background: var(--c-line-collapsed-bg);
+  font-style: italic;
+}
+.diffy-mark-added::before,
+.diffy-mark-removed::before,
+.diffy-mark-modified::before {
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+  font:
+    bold 13px "Cascadia Mono",
+    Consolas,
+    monospace;
+}
+.diffy-mark-added::before {
+  content: "+";
+  color: var(--c-mark-added);
+}
+.diffy-mark-removed::before {
+  content: "-";
+  color: var(--c-mark-removed);
+}
+.diffy-mark-modified::before {
+  content: "~";
+  color: var(--c-mark-modified);
+}
+
 .explorer {
   position: fixed;
   top: 32px;
@@ -47,7 +100,9 @@ body {
   font:
     13px system-ui,
     sans-serif;
-  border-right: 1px solid color-mix(in srgb, currentColor 25%, transparent);
+  background: var(--c-explorer-bg);
+  color: var(--c-explorer-fg);
+  border-right: 1px solid var(--c-bar-border);
 }
 .explorer:not([hidden]) ~ .app {
   margin-left: 260px;
@@ -57,16 +112,76 @@ body {
   margin: 0;
   padding: 0;
 }
-.explorer button {
+.explorer #files button {
   display: block;
   width: 100%;
   text-align: left;
   font: inherit;
+  color: inherit;
   background: none;
   border: 0;
   padding: 2px 0;
   cursor: pointer;
 }
-.explorer button:focus-visible {
-  outline: 2px solid currentColor;
+/* The other buttons look like buttons: a border, a background and padding. */
+.explorer section button,
+.bar button {
+  font: inherit;
+  color: var(--c-explorer-fg);
+  background: var(--s-surface-raised);
+  border: 1px solid var(--s-border);
+  border-radius: 3px;
+  padding: 2px 8px;
+  cursor: pointer;
+}
+.explorer section button:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+.explorer #search {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 4px;
+}
+.explorer > label {
+  display: block;
+  margin-bottom: 4px;
+}
+.explorer #findings li {
+  margin: 4px 0;
+}
+
+.explorer h2 {
+  font-size: 13px;
+  margin: 12px 0 4px;
+}
+.explorer form label {
+  display: block;
+  margin: 4px 0;
+}
+.explorer textarea,
+.explorer select,
+.explorer input[type="number"] {
+  box-sizing: border-box;
+  font: inherit;
+  color: var(--s-text);
+  background: var(--s-surface);
+  border: 1px solid var(--s-border);
+}
+.explorer textarea {
+  width: 100%;
+}
+.explorer input[type="number"] {
+  width: 5em;
+}
+.explorer .reviewed::before {
+  content: "\2713  ";
+}
+
+.unified {
+  height: calc(100vh - 32px);
+}
+.explorer:not([hidden]) ~ .unified:not([hidden]) {
+  margin-left: 260px;
 }

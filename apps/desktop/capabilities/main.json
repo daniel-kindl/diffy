@@ -1,7 +1,7 @@
 {
   "$schema": "../gen/schemas/desktop-schema.json",
   "identifier": "main",
-  "description": "The main window. It has no plugin permission: no file system, no shell, no network. The window talks to Rust only through the app commands.",
+  "description": "The main window. It can listen to events from Rust, and nothing else: no file system, no shell, no network. The window talks to Rust through the app commands.",
   "windows": ["main"],
-  "permissions": []
+  "permissions": ["core:event:allow-listen", "core:event:allow-unlisten"]
 }
