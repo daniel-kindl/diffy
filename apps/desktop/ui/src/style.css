@@ -196,3 +196,40 @@ input:focus-visible {
     color-mix(in srgb, var(--s-border) 35%, transparent) 7px
   );
 }
+
+dialog {
+  color: var(--s-text);
+  background: var(--s-surface);
+  border: 1px solid var(--s-border);
+  font:
+    13px system-ui,
+    sans-serif;
+}
+dialog::backdrop {
+  background: rgb(0 0 0 / 0.5);
+}
+dialog label {
+  display: block;
+  margin: 8px 0;
+}
+dialog textarea {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  font:
+    13px "Cascadia Mono",
+    Consolas,
+    monospace;
+  color: var(--s-text);
+  background: var(--s-surface);
+  border: 1px solid var(--s-border);
+}
+dialog button {
+  font: inherit;
+  color: var(--c-explorer-fg);
+  background: var(--s-surface-raised);
+  border: 1px solid var(--s-border);
+  border-radius: 3px;
+  padding: 2px 12px;
+  cursor: pointer;
+}

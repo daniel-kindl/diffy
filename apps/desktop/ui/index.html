@@ -12,6 +12,7 @@
         <select id="enc-left" data-side="left"></select
       ></label>
       <button id="swap" type="button">Swap sides</button>
+      <button id="paste-open" type="button">Paste text</button>
       <button id="view-mode" type="button" aria-live="polite">View: side by side</button>
       <button id="collapse-mode" type="button" aria-live="polite" hidden>Context: collapsed</button>
       <button id="theme" type="button" aria-live="polite">Theme: system</button>
@@ -21,6 +22,16 @@
       ></label>
       <p id="status" class="status" role="status"></p>
     </header>
+    <dialog id="paste" aria-labelledby="paste-title">
+      <form method="dialog" id="paste-form">
+        <h2 id="paste-title">Compare pasted text</h2>
+        <label>Base text <textarea id="paste-base" rows="10" cols="60"></textarea></label>
+        <label>Head text <textarea id="paste-head" rows="10" cols="60"></textarea></label>
+        <p id="paste-status" role="status"></p>
+        <button type="submit" id="paste-compare" value="compare">Compare</button>
+        <button type="button" id="paste-cancel">Cancel</button>
+      </form>
+    </dialog>
     <nav id="explorer" class="explorer" aria-label="Changed files" hidden>
       <input id="search" type="search" placeholder="Search files" aria-label="Search files" />
       <label><input id="generated" type="checkbox" /> Show generated files</label>
