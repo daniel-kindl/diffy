@@ -53,3 +53,28 @@ export function nextHunkLine(
   }
   return [...starts].reverse().find((s) => s < currentHeadLine) ?? starts[starts.length - 1];
 }
+
+export interface Gap {
+  /** The editor that needs blank space: the side with fewer lines in the hunk. */
+  side: "base" | "head";
+  /** The 1-based line after which the blank space goes. 0 is above the first line. */
+  afterLine: number;
+  /** The height of the gap in lines. */
+  lines: number;
+}
+
+/**
+ * The blank space that aligns the two editors (C-05). A hunk with 2 removed
+ * and 5 added lines gives the base editor a gap of 3 lines after its last
+ * hunk line, so the next unchanged line is at the same height on both sides.
+ */
+export function gaps(hunks: readonly Hunk[]): Gap[] {
+  const out: Gap[] = [];
+  for (const h of hunks) {
+    const removed = h.base.end - h.base.start;
+    const added = h.head.end - h.head.start;
+    if (removed < added) out.push({ side: "base", afterLine: h.base.end, lines: added - removed });
+    if (added < removed) out.push({ side: "head", afterLine: h.head.end, lines: removed - added });
+  }
+  return out;
+}
