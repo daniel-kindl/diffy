@@ -6,3 +6,4 @@ declare module "monaco-editor/editor/editor.api.js" {
 }
 declare module "monaco-editor/editor/contrib/*";
 declare module "monaco-editor/editor/standalone/browser/quickAccess/*";
+declare module "monaco-editor/languages/definitions/*";
