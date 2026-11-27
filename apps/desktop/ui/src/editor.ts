@@ -9,6 +9,7 @@ import "monaco-editor/editor/standalone/browser/quickAccess/standaloneGotoLineQu
 import "monaco-editor/editor/contrib/clipboard/browser/clipboard.js";
 import "monaco-editor/editor/contrib/contextmenu/browser/contextmenu.js";
 import "monaco-editor/editor/contrib/readOnlyMessage/browser/contribution.js";
+import { asHex, buildTheme } from "./monacoTheme";
 import { decorations, nextHunkLine, type Hunk, type LineDecoration } from "./hunks";
 import { actionFor } from "./keys";
 import { languageOf } from "./language";
@@ -58,9 +59,29 @@ function toMonaco(ds: LineDecoration[]): monaco.editor.IModelDeltaDecoration[] {
   }));
 }
 
-/** Follow the app theme: Monaco has its own light and dark themes. */
+/**
+ * Follow the app theme. The syntax colors come from a theme that is built from
+ * the line backgrounds of the CSS tokens, so each color has enough contrast on
+ * every line (monacoTheme.ts). Call it after the theme attribute is set, so the
+ * tokens have their value for the new theme.
+ */
 export function setEditorTheme(dark: boolean): void {
-  monaco.editor.setTheme(dark ? "vs-dark" : "vs");
+  const css = getComputedStyle(document.documentElement);
+  const plain = asHex(css.getPropertyValue("--s-surface")) ?? (dark ? "#111827" : "#ffffff");
+  // A token that is not a plain color (forced colors) falls back to the surface.
+  const read = (name: string) => asHex(css.getPropertyValue(name)) ?? plain;
+  const name = dark ? "diffy-dark" : "diffy-light";
+  monaco.editor.defineTheme(
+    name,
+    buildTheme(dark, {
+      plain,
+      added: read("--c-line-added-bg"),
+      removed: read("--c-line-removed-bg"),
+      modified: read("--c-line-modified-bg"),
+      collapsed: read("--c-line-collapsed-bg"),
+    }),
+  );
+  monaco.editor.setTheme(name);
 }
 
 export interface ComparisonView {

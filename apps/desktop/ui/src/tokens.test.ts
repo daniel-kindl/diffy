@@ -1,46 +1,7 @@
-import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { contrast } from "./contrast";
 
-const css = readFileSync(new URL("./tokens.css", import.meta.url), "utf8");
-const style = readFileSync(new URL("./style.css", import.meta.url), "utf8");
-
-function declarations(block: string): Map<string, string> {
-  const out = new Map<string, string>();
-  for (const m of block.matchAll(/--([\w-]+):\s*([^;]+);/g))
-    out.set(m[1] ?? "", (m[2] ?? "").trim());
-  return out;
-}
-
-function blocks(re: RegExp): string[] {
-  return [...css.matchAll(re)].map((m) => m[1] ?? "");
-}
-
-// Top-level :root blocks (not indented), the dark blocks and nothing else.
-const light = new Map<string, string>();
-for (const b of blocks(/(?:^|\n):root\s*\{([^}]*)\}/g)) {
-  for (const [k, v] of declarations(b)) light.set(k, v);
-}
-const darkMedia = declarations(
-  blocks(
-    /@media \(prefers-color-scheme: dark\)\s*\{\s*:root:not\(\[data-theme="light"\]\)\s*\{([^}]*)\}/g,
-  )[0] ?? "",
-);
-const darkAttr = declarations(blocks(/:root\[data-theme="dark"\]\s*\{([^}]*)\}/g)[0] ?? "");
-
-function resolver(overrides: Map<string, string>) {
-  const all = new Map([...light, ...overrides]);
-  const resolve = (name: string, depth = 0): string => {
-    if (depth > 10) throw new Error(`token cycle at ${name}`);
-    const value = all.get(name);
-    if (value === undefined) throw new Error(`unknown token ${name}`);
-    const ref = /^var\(--([\w-]+)\)$/.exec(value);
-    return ref?.[1] ? resolve(ref[1], depth + 1) : value;
-  };
-  return resolve;
-}
-
-const themes = { light: resolver(new Map()), dark: resolver(darkMedia) };
+import { css, darkAttr, darkMedia, light, style, themes } from "./testing/tokensCss";
 
 // [foreground, background, minimum ratio]
 const TEXT: [string, string, number][] = [
